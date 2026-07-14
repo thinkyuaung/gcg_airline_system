@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.MaupinAirlineTicketSystem.entity.Airline;
+import com.example.MaupinAirlineTicketSystem.entity.Flight;
 import com.example.MaupinAirlineTicketSystem.repository.AdminFlightRepository;
 import com.example.MaupinAirlineTicketSystem.service.AdminFlightService;
 
@@ -16,16 +17,18 @@ public class AdminFlightServiceImpl implements AdminFlightService{
 	AdminFlightRepository adminFlightRepo;
 
 	@Override
-	public Airline saveFlight(Airline airline) {
-		// TODO Auto-generated method stub
-		return adminFlightRepo.save(airline);
+	public Flight saveFlight(Flight flight) {
+		
+		return adminFlightRepo.save(flight);
 	}
 
 	@Override
-	public List<Airline> getAllAirlines() {
+	public List<Flight> getAllFlights() {
 		// TODO Auto-generated method stub
-		return null;
+		return adminFlightRepo.findAll();
 	}
+
+	
 
 
 
