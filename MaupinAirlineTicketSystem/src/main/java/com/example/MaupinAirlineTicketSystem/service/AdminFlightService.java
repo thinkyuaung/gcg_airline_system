@@ -14,6 +14,10 @@ public interface AdminFlightService {
 
 	public List<Flight> getAllFlights();
 
+	public Flight getFlightById(int id);
+
+	public void deleteFlightById(int id);
+
 	
 
 }

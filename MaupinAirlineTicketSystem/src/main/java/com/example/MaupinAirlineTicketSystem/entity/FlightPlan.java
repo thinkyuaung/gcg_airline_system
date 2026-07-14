@@ -3,6 +3,8 @@ package com.example.MaupinAirlineTicketSystem.entity;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,10 +22,13 @@ public class FlightPlan {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int flightPlanId;
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private LocalDateTime departureTime;
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private LocalDateTime arrivalTime;
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date flight_date;
 
 	private int availableSeats;

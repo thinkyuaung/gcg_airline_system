@@ -116,48 +116,58 @@
       <div class="modal-content rounded-4">
         <div class="modal-header d-flex align-items-center">
           <h5 class="modal-title fw-bold">
-            <i class="bi bi-airplane-fill text-primary me-2"></i>Add New Flight
+            <i class="bi bi-airplane-fill text-primary me-2"></i>
+            <span th:text="${flight.flightId != 0} ? 'Edit Flight' : 'Add New Flight'">Flight</span>
           </h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <a th:href="@{/airline/admin/flights}" class="btn-close" aria-label="Close"></a>
         </div>
         
-        <form th:action="@{/airline/admin/flight}" th:object="${flight}" 
+        <form th:action="${flight.flightId != 0} ? @{/airline/admin/flight/update} : @{/airline/admin/flight}" 
+			th:object="${flight}" 
 			method="post"
 			enctype="multipart/form-data">
+          
+          <input type="hidden" th:if="${flight.flightId != 0}" th:field="*{flightId}" />
+          
           <div class="modal-body">
-            <!-- Airline Code -->
+            <!-- Flight Number -->
             <div class="mb-4">
               <label class="form-label text-uppercase fw-bold">Flight Number</label>
               <div class="input-group">
                 <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-hash"></i></span>
-                <input type="text" name="flightNumber" class="form-control border-start-0" placeholder="e.g., SN" required th:field="*{flightNumber}">
+                <input type="text" name="flightNumber" class="form-control border-start-0" placeholder="e.g., SN-101" required th:field="*{flightNumber}">
               </div>
             </div>
 
-            <!-- Total Seat -->
+            <!-- Total Seats -->
             <div class="mb-4">
               <label class="form-label text-uppercase fw-bold">Total Seats</label>
               <div class="input-group">
                 <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-tag"></i></span>
-                <input type="number" name="totalSeats" class="form-control border-start-0" placeholder="e.g., SkyNest Airways" required th:field="*{totalSeats}">
+                <input type="number" name="totalSeats" class="form-control border-start-0" placeholder="e.g., 180" required th:field="*{totalSeats}">
               </div>
             </div>
             
-             <!-- Airline-->
+             <!-- Airline -->
             <div class="mb-4">
               <label class="form-label text-uppercase fw-bold">Airline</label>
               <div class="input-group">
-						<select name="airlineId" class="form-select mt-4">
+						<select name="airlineId" class="form-select mt-4" required>
 							<option value="">Select Airline</option>
-							<option th:each="airline : ${airlines}" th:value="${airline.airlineId}" th:text="${airline.airlineName}"></option>
+							<option th:each="airline : ${airlines}" 
+									th:value="${airline.airlineId}" 
+									th:text="${airline.airlineName}"
+									th:selected="${flight.airline != null and flight.airline.airlineId == airline.airlineId}"></option>
 						</select>
               </div>
             </div>
 
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm">Save Airline</button>
+            <a th:href="@{/airline/admin/flights}" class="btn btn-light rounded-pill px-4">Cancel</a>
+            <button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm">
+              <span th:text="${flight.flightId != 0} ? 'Update Flight' : 'Save Flight'">Save</span>
+            </button>
           </div>
         </form>
       </div>

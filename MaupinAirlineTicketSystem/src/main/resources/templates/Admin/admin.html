@@ -123,7 +123,20 @@
 			   th:classappend="${activeTab == 'flights'} ? ' active' : ''">
 			    <i class="bi bi-airplane-engines"></i> Manage Flights
 			</a>
-          <a onclick="switchTab('bookings')" id="tab-bookings" class="admin-nav-link"><i class="bi bi-receipt"></i> View Bookings</a>
+
+			<a th:href="@{/airline/admin/flightPlans}"
+			   id="tab-flightPlans"
+			   class="admin-nav-link"
+			   th:classappend="${activeTab == 'flightPlans'} ? ' active' : ''">
+			    <i class="bi bi-calendar-range"></i> Flight Plans
+			</a>
+
+          <a 
+          th:href="@{/airline/admin/flights}"
+          onclick="switchTab('bookings')" 
+          id="tab-bookings" 
+          class="admin-nav-link"
+           th:classappend="${activeTab == 'bookings'} ? ' active' : ''"><i class="bi bi-receipt"></i> View Bookings</a>
           <a onclick="switchTab('airline')" id="tab-airline" class="admin-nav-link"><i class="bi bi-building"></i> AirLine</a>
           <a onclick="switchTab('airport')" id="tab-airport" class="admin-nav-link"><i class="bi bi-geo-alt-fill"></i> Air Port</a>
           
@@ -197,8 +210,8 @@
 		<td th:text="${f.totalSeats}"></td>
 		<td th:text="${f.status}"></td>
 		<td>
-                      <button class="btn btn-sm btn-outline-secondary py-0 px-2" ><i class="bi bi-pencil"></i></button>
-                      <button class="btn btn-sm btn-outline-danger py-0 px-2" ><i class="bi bi-x-circle"></i></button>
+			<a th:href="@{/airline/admin/flight/edit/{id}(id=${f.flightId})}" class="btn btn-sm btn-outline-secondary py-0 px-2"><i class="bi bi-pencil"></i></a>
+			<a th:href="@{/airline/admin/flight/delete/{id}(id=${f.flightId})}" class="btn btn-sm btn-outline-danger py-0 px-2" onclick="return confirm('Are you sure you want to delete this flight?')"><i class="bi bi-x-circle"></i></a>
          </td>
 	<!--
 	<td>
@@ -211,6 +224,60 @@
 				
 		</td>
 	  -->	
+	</tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+ 
+        <div id="section-flightPlans"
+     	th:classappend="${activeTab != 'flightPlans'} ? 'hidden-section'">
+     	
+          <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+            <h4 class="fw-bold m-0"><i class="bi bi-calendar-range-fill text-primary"></i> Flight Plan Operations</h4>
+            <a th:href="@{/airline/admin/flightPlanForm}"><button class="btn btn-primary btn-sm px-4 rounded-pill"><i class="bi bi-plus-circle"></i> Add New Flight Plan</button></a>
+          </div>
+          
+          <div class="content-card bg-white">
+            <div class="table-responsive">
+              <table class="table align-middle table-hover m-0">
+                <thead class="table-light">
+                  <tr class="text-muted small fw-bold">
+                    <th>FLIGHT</th>
+                    <th>DEPARTURE AIRPORT</th>
+                    <th>ARRIVAL AIRPORT</th>
+                    <th>DEPARTURE TIME</th>
+                    <th>ARRIVAL TIME</th>
+                    <th>DATE</th>
+                    <th>SEATS</th>
+                    <th>PRICE</th>
+                    <th>ACTIONS</th>
+                  </tr>
+                </thead>
+                <tbody>
+	<tr th:each="fp : ${flightPlans}">
+		<td>
+			<span th:if="${fp.flight != null}" th:text="${fp.flight.flightNumber}"></span>
+			<span th:unless="${fp.flight != null}">No Flight</span>
+		</td>
+		<td>
+			<span th:if="${fp.departureAirport != null}" th:text="${fp.departureAirport.airportName}"></span>
+			<span th:unless="${fp.departureAirport != null}">N/A</span>
+		</td>
+		<td>
+			<span th:if="${fp.arrivalAirport != null}" th:text="${fp.arrivalAirport.airportName}"></span>
+			<span th:unless="${fp.arrivalAirport != null}">N/A</span>
+		</td>
+		<td th:text="${#temporals.format(fp.departureTime, 'yyyy-MM-dd HH:mm')}"></td>
+		<td th:text="${#temporals.format(fp.arrivalTime, 'yyyy-MM-dd HH:mm')}"></td>
+		<td th:text="${#dates.format(fp.flight_date, 'yyyy-MM-dd')}"></td>
+		<td th:text="${fp.availableSeats}"></td>
+		<td th:text="'$' + ${#numbers.formatDecimal(fp.price, 1, 2)}"></td>
+		<td>
+			<a th:href="@{/airline/admin/flightPlan/edit/{id}(id=${fp.flightPlanId})}" class="btn btn-sm btn-outline-secondary py-0 px-2"><i class="bi bi-pencil"></i></a>
+			<a th:href="@{/airline/admin/flightPlan/delete/{id}(id=${fp.flightPlanId})}" class="btn btn-sm btn-outline-danger py-0 px-2" onclick="return confirm('Are you sure you want to delete this flight plan?')"><i class="bi bi-x-circle"></i></a>
+         </td>
 	</tr>
                 </tbody>
               </table>
@@ -377,6 +444,7 @@
       // Hide all sections
       document.getElementById('section-dashboard').classList.add('hidden-section');
       document.getElementById('section-flights').classList.add('hidden-section');
+      document.getElementById('section-flightPlans').classList.add('hidden-section');
       document.getElementById('section-bookings').classList.add('hidden-section');
       document.getElementById('section-airline').classList.add('hidden-section');
       document.getElementById('section-airport').classList.add('hidden-section');
@@ -386,6 +454,8 @@
         document.getElementById('section-dashboard').classList.remove('hidden-section');
       } else if (tabName === 'flights') {
         document.getElementById('section-flights').classList.remove('hidden-section');
+      } else if (tabName === 'flightPlans') {
+        document.getElementById('section-flightPlans').classList.remove('hidden-section');
       } else if (tabName === 'bookings') {
         document.getElementById('section-bookings').classList.remove('hidden-section');
       } else if (tabName === 'airline') {
