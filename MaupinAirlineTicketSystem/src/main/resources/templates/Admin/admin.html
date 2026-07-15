@@ -1,102 +1,108 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SkyNest Airline — Admin Dashboard</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
-  
-  <style>
-    body {
-      background-color: #f9f9f4;
-      color: #212529;
-      font-family: system-ui, -apple-system, sans-serif;
-      overflow-x: hidden;
-    }
-    
-    /* Layout Structure */
-    .stat-card {
-      background-color: #ffffff;
-      border: none;
-      border-radius: 12px;
-      padding: 1.5rem;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .stat-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
-    }
-    .content-card {
-      background-color: #ffffff;
-      border: none;
-      border-radius: 12px;
-      padding: 1.5rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    }
- 
-    /* Sidebar Layout Fixes */
-    .admin-sidebar {
-      background-color: #212529;
-      box-shadow: 4px 0 24px rgba(0, 0, 0, 0.05);
-      z-index: 100;
-    }
- 
-    @media (min-width: 768px) {
-      .admin-sidebar {
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        width: 20%;
-        min-height: 100vh;
-      }
-      
-      main {
-        margin-left: 20% !important;
-        width: 80%;
-      }
-    }
- 
-    @media (min-width: 1200px) {
-      .admin-sidebar {
-        width: 16.666667%;
-      }
-      main {
-        margin-left: 16.666667% !important;
-        width: 83.333333%;
-      }
-    }
- 
-    /* Navigation Links */
-    .admin-nav-link {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.8rem 1.25rem;
-      color: #cccccc;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .admin-nav-link:hover, .admin-nav-link.active {
-      background-color: #0d6efd;
-      color: #ffffff !important;
-      box-shadow: 0 4px 12px rgba(13, 110, 253, 0.25);
-    }
-    .admin-nav-link.text-danger:hover {
-      background-color: #dc3545 !important;
-      color: #ffffff !important;
-      box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
-    }
- 
-    .hidden-section {
-      display: none !important;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkyNest Airline — Admin Dashboard</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
+
+<style>
+body {
+	background-color: #f9f9f4;
+	color: #212529;
+	font-family: system-ui, -apple-system, sans-serif;
+	overflow-x: hidden;
+}
+
+/* Layout Structure */
+.stat-card {
+	background-color: #ffffff;
+	border: none;
+	border-radius: 12px;
+	padding: 1.5rem;
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+.content-card {
+	background-color: #ffffff;
+	border: none;
+	border-radius: 12px;
+	padding: 1.5rem;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+/* Sidebar Layout Fixes */
+.admin-sidebar {
+	background-color: #212529;
+	box-shadow: 4px 0 24px rgba(0, 0, 0, 0.05);
+	z-index: 100;
+}
+
+@media ( min-width : 768px) {
+	.admin-sidebar {
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		width: 20%;
+		min-height: 100vh;
+	}
+	main {
+		margin-left: 20% !important;
+		width: 80%;
+	}
+}
+
+@media ( min-width : 1200px) {
+	.admin-sidebar {
+		width: 16.666667%;
+	}
+	main {
+		margin-left: 16.666667% !important;
+		width: 83.333333%;
+	}
+}
+
+/* Navigation Links */
+.admin-nav-link {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 0.8rem 1.25rem;
+	color: #cccccc;
+	text-decoration: none;
+	border-radius: 8px;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.admin-nav-link:hover, .admin-nav-link.active {
+	background-color: #0d6efd;
+	color: #ffffff !important;
+	box-shadow: 0 4px 12px rgba(13, 110, 253, 0.25);
+}
+
+.admin-nav-link.text-danger:hover {
+	background-color: #dc3545 !important;
+	color: #ffffff !important;
+	box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+.hidden-section {
+	display: none !important;
+}
+</style>
 </head>
 <body>
  

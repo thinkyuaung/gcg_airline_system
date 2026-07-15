@@ -16,7 +16,7 @@ public class AdminFlightServiceImpl implements AdminFlightService{
 	
 	@Autowired
 	AdminFlightRepository adminFlightRepo;
-
+   
 	@Override
 	public Flight saveFlight(Flight flight) {
 		
