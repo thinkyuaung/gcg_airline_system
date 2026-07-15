@@ -23,8 +23,13 @@ public class AdminAirportServiceImpl implements AdminAirportService {
 
 	@Override
 	public Airport getAirportById(int id) {
-		Optional<Airport> optional = adminAirportRepo.findById(id);
-		return optional.orElse(null);
+		return adminAirportRepo.findById(id).get();
+	}
+
+	@Override
+	public Airport saveAirport(Airport airport) {
+		return adminAirportRepo.save(airport);
+		
 	}
 
 }

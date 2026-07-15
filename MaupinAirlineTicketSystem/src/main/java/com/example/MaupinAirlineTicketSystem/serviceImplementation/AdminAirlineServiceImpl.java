@@ -33,7 +33,7 @@ public class AdminAirlineServiceImpl implements AdminAirlineService{
 	@Override
 	public Airline getAirlineById(int aId) {
 		// TODO Auto-generated method stub
-		return repo.getById(aId);
+		return repo.findById(aId).get();
 	}
 
 }

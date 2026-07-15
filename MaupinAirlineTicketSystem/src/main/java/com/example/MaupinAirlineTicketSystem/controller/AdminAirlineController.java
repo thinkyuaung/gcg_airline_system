@@ -15,7 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.MaupinAirlineTicketSystem.entity.Airline;
 import com.example.MaupinAirlineTicketSystem.entity.Airport; 
-import com.example.MaupinAirlineTicketSystem.repository.AirportRepository; 
+import com.example.MaupinAirlineTicketSystem.repository.AirportRepository;
+import com.example.MaupinAirlineTicketSystem.service.AdminAirlineService;
+import com.example.MaupinAirlineTicketSystem.service.AdminAirportService;
 import com.example.MaupinAirlineTicketSystem.service.AdminFlightService;
 
 @Controller
@@ -23,12 +25,12 @@ import com.example.MaupinAirlineTicketSystem.service.AdminFlightService;
 public class AdminAirlineController {
 	
 	@Autowired
-	AdminFlightService adminFlightService; //
+	AdminAirlineService adminAirlineService;
 	
 	@Autowired
-	private AirportRepository airportRepository; 
+	private AdminAirportService adminAirportService;
 
-	// ===== ✈️ ORIGINAL AIRLINE METHODS =====
+	
 	@GetMapping("/admin/airlineForm")
 	public String create(Model model) { //
 		Airline a = new Airline(); //
@@ -55,7 +57,7 @@ public class AdminAirlineController {
 			airline.setLogo(fileName); //
 		}
 		
-		adminFlightService.saveFlight(airline); //
+		adminAirlineService.saveFlight(airline);
 		return "redirect:/airline/admin"; //
 	}
 	
@@ -72,7 +74,10 @@ public class AdminAirlineController {
 	
 	@PostMapping("/admin/airport")
 	public String saveAirport(@ModelAttribute("airport") Airport airport) {
-		airportRepository.save(airport); //
-		return "redirect:/airline/admin"; //
+		
+		
+		adminAirportService.saveAirport(airport);
+		
+		return "redirect:/airline/admin"; 
 	}
 }

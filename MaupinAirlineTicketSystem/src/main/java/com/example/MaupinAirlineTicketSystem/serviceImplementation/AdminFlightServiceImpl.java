@@ -30,8 +30,8 @@ public class AdminFlightServiceImpl implements AdminFlightService{
 
 	@Override
 	public Flight getFlightById(int id) {
-		Optional<Flight> optional = adminFlightRepo.findById(id);
-		return optional.orElse(null);
+
+		return adminFlightRepo.findById(id).get();
 	}
 
 	@Override
