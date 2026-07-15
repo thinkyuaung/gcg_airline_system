@@ -14,7 +14,7 @@ public class AdminFlightServiceImpl implements AdminFlightService{
 	
 	@Autowired
 	AdminFlightRepository adminFlightRepo;
-
+   
 	@Override
 	public Airline saveFlight(Airline airline) {
 		// TODO Auto-generated method stub

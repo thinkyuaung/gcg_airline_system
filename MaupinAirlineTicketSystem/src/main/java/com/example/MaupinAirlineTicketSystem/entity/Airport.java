@@ -9,7 +9,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "airport")
 public class Airport {
-
+   
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int airportId;

@@ -14,64 +14,65 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.MaupinAirlineTicketSystem.entity.Airline;
+import com.example.MaupinAirlineTicketSystem.entity.Airport; 
+import com.example.MaupinAirlineTicketSystem.repository.AirportRepository; 
 import com.example.MaupinAirlineTicketSystem.service.AdminFlightService;
 
 @Controller
-@RequestMapping("/airline")
+@RequestMapping("/airline") // Base Path
 public class AdminAirlineController {
 	
 	@Autowired
-	AdminFlightService adminFlightService;
-
-	@GetMapping("/admin/airlineForm")
-	public String create(Model model) {
-		// just to show form and empty student object
-
-		Airline a = new Airline();
-		model.addAttribute("airline", a);
-
-		return "Admin/AddAirline";
-	}
+	AdminFlightService adminFlightService; //
 	
-	//No photo
-//	@PostMapping("/students")
-//	public String saveStudents(@Valid @ModelAttribute("student") Student s,BindingResult result) {
-//		// @ModelAttr is to catch form data
-//		if(result.hasErrors()) {
-//			return "create_student";
-//		}
-//		studentService.saveStudent(s);
-//		return "redirect:/student/students";
-//	}
+	@Autowired
+	private AirportRepository airportRepository; 
+
+	// ===== ✈️ ORIGINAL AIRLINE METHODS =====
+	@GetMapping("/admin/airlineForm")
+	public String create(Model model) { //
+		Airline a = new Airline(); //
+		model.addAttribute("airline", a); //
+		return "Admin/AddAirline"; //
+	}
 	
 	@PostMapping("/admin/airline")
 	public String saveSAirline(@ModelAttribute("airline") Airline airline,
-			@RequestParam("photoFile") MultipartFile photoFile) throws IllegalStateException, IOException {
+			@RequestParam("photoFile") MultipartFile photoFile) throws IllegalStateException, IOException { //
 		
-		//////Photo saved in uploads but in db, only photoName
-		if(!photoFile.isEmpty()) {
+		if(!photoFile.isEmpty()) { //
+			String uploadDir = System.getProperty("user.dir")+File.separator+"uploads"+File.separator; //
+			File directory = new File(uploadDir); //
 			
-			String uploadDir = System.getProperty("user.dir")+File.separator+"uploads"+File.separator;
-			
-			//file created with uploadDir
-			File directory = new File(uploadDir);
-			
-			if(!directory.exists()) {
-				directory.mkdir();
+			if(!directory.exists()) { //
+				directory.mkdir(); //
 			}
 			
-			//create unique filename with timestamp
-			String fileName = System.currentTimeMillis()+"_"+photoFile.getOriginalFilename();
+			String fileName = System.currentTimeMillis()+"_"+photoFile.getOriginalFilename(); //
+			File destination = new File(directory,fileName); //
+			photoFile.transferTo(destination); //
 			
-			File destination = new File(directory,fileName);
-			photoFile.transferTo(destination); //save file
-			
-			airline.setLogo(fileName);
+			airline.setLogo(fileName); //
 		}
 		
-		/////
-		adminFlightService.saveFlight(airline);
-		
-		return "redirect:/airline/admin";
+		adminFlightService.saveFlight(airline); //
+		return "redirect:/airline/admin"; //
+	}
+	
+	//// Airport (add new button) form method///
+	
+	
+	@GetMapping("/admin/airportForm")
+	public String createAirport(Model model) {
+		Airport airport = new Airport(); //
+		model.addAttribute("airport", airport); //
+		return "Admin/AddAirport"; //
+	}
+	
+	
+	@PostMapping("/admin/airport")
+	public String saveAirport(@ModelAttribute("airport") Airport airport) {
+		airportRepository.save(airport); //
+		return "redirect:/airline/admin"; //
 	}
 }
