@@ -132,12 +132,18 @@ body {
 						onclick="switchTab('bookings')" id="tab-bookings"
 						class="admin-nav-link"
 						th:classappend="${activeTab == 'bookings'} ? ' active' : ''"><i
-						class="bi bi-receipt"></i> View Bookings</a> <a
+						class="bi bi-receipt"></i> View Bookings</a> 
+						
+						
+						<a th:href="@{/airline/admin/airlines}"
 						onclick="switchTab('airline')" id="tab-airline"
-						class="admin-nav-link"><i class="bi bi-building"></i> AirLine</a>
+						class="admin-nav-link"
+						th:classappend="${activeTab == 'airline'} ? ' active' : ''"><i
+						class="bi bi-receipt"></i>AirLine</a> 
+						
 					<a th:href="@{/airline/admin/airports}"
 					onclick="switchTab('airport')" id="tab-airport"
-						class="admin-nav-link"><i class="bi bi-geo-alt-fill"></i> Air
+						class="admin-nav-link"  th:classappend="${activeTab == 'airport'} ? ' active' : ''"><i class="bi bi-geo-alt-fill"></i> Air
 						Port</a>
 
 					<hr class="my-3 text-white">
@@ -282,7 +288,7 @@ body {
 										<td><span th:if="${fp.departureAirport != null}"
 											th:text="${fp.departureAirport.airportName}"></span> <span
 											th:unless="${fp.departureAirport != null}">N/A</span></td>
-										<td><span th:if="${fp.arrivalAirport != null}"
+										</td><span th:if="${fp.arrivalAirport != null}"
 											th:text="${fp.arrivalAirport.airportName}"></span> <span
 											th:unless="${fp.arrivalAirport != null}">N/A</span></td>
 										<td
@@ -353,7 +359,7 @@ body {
 					</div>
 				</div>
 
-				<div id="section-airline" class="hidden-section">
+				<div id="section-airline" th:classappend="${activeTab != 'airline'} ? 'hidden-section'">
 					<div
 						class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
 						<h4 class="fw-bold m-0">
@@ -371,22 +377,24 @@ body {
 							<table class="table align-middle table-hover m-0">
 								<thead class="table-light">
 									<tr class="text-muted small fw-bold">
-										<th>AIRLINE ID</th>
+										
 										<th>AIRLINE CODE</th>
 										<th>AIRLINE NAME</th>
 										<th>COUNTRY</th>
-										<th>LOGO PATH</th>
+										<!-- <th>LOGO PATH</th> -->
 										<th>ACTIONS</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>1</td>
+									<tr th:each="al : ${airline}">
+										
 										<td><span
-											class="badge bg-secondary-subtle text-secondary fw-bold">SN</span></td>
-										<td><strong>SkyNest Airways</strong></td>
-										<td>Myanmar</td>
-										<td><span class="text-muted small">/assets/logos/skynest.png</span></td>
+											class="badge bg-primary-subtle text-primary fw-bold"
+											th:text="${al.airlineCode}"></span></td>
+										<td><strong th:text="${al.airlineName}">
+												 </strong></td>
+										<td th:text="${al.country}"></td>
+										<!-- <td th:text="${al.logopath}"></td> -->
 										<td>
 											<button class="btn btn-sm btn-outline-secondary py-0 px-2">
 												<i class="bi bi-pencil"></i>

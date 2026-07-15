@@ -71,8 +71,17 @@ public class AdminAirlineController {
 		}
 
 		adminAirlineService.saveFlight(airline);
-		return "redirect:/airline/admin";
+		return "redirect:/airline/admin/airlines";
 	}
+	
+	@GetMapping("/admin/airlines")
+	public String getAllAirlines(Model model) {
+		List<Airline> airline =  adminAirlineService.getAllAirlines();
+		model.addAttribute("airline",airline);
+		model.addAttribute("activeTab", "airline");
+		return "Admin/admin";
+	}
+	
 
 	// ===== AIRPORT METHODS =====
 	@GetMapping("/admin/airportForm")
@@ -85,7 +94,7 @@ public class AdminAirlineController {
 	@PostMapping("/admin/airport")
 	public String saveAirport(@ModelAttribute("airport") Airport airport) {
 		adminAirportService.saveAirport(airport);
-		return "redirect:/airline/admin";
+		return "redirect:/airline/admin/airports";
 	}
 	
 	@GetMapping("/admin/airports")
@@ -101,4 +110,4 @@ public class AdminAirlineController {
 	
 	
 	
-}
+} 
