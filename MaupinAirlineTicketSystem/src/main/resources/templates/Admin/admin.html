@@ -105,121 +105,127 @@ body {
 </style>
 </head>
 <body>
- 
-  <div class="container-fluid">
-    <div class="row">
-      
-      <nav class="col-md-3 col-lg-2 d-md-block admin-sidebar px-3 py-4">
-        <div class="d-flex align-items-center gap-2 mb-4 px-2">
-          <i class="bi bi-shield-lock-fill text-primary fs-4"></i>
-          <span class="fw-bold fs-5 text-white">AirLine Admin</span>
-        </div>
-        <hr class="text-white">
-        <div class="d-flex flex-column gap-2">
-         <a th:href="@{/airline/admin}"
-			   id="tab-dashboard"
-			   class="admin-nav-link"
-			   th:classappend="${activeTab == null} ? ' active' : ''">
-			    <i class="bi bi-speedometer2"></i> Dashboard
-			</a>
 
-			<a th:href="@{/airline/admin/flights}"
-			   id="tab-flights"
-			   class="admin-nav-link"
-			   th:classappend="${activeTab == 'flights'} ? ' active' : ''">
-			    <i class="bi bi-airplane-engines"></i> Manage Flights
-			</a>
+	<div class="container-fluid">
+		<div class="row">
 
-			<a th:href="@{/airline/admin/flightPlans}"
-			   id="tab-flightPlans"
-			   class="admin-nav-link"
-			   th:classappend="${activeTab == 'flightPlans'} ? ' active' : ''">
-			    <i class="bi bi-calendar-range"></i> Flight Plans
-			</a>
+			<nav class="col-md-3 col-lg-2 d-md-block admin-sidebar px-3 py-4">
+				<div class="d-flex align-items-center gap-2 mb-4 px-2">
+					<i class="bi bi-shield-lock-fill text-primary fs-4"></i> <span
+						class="fw-bold fs-5 text-white">AirLine Admin</span>
+				</div>
+				<hr class="text-white">
+				<div class="d-flex flex-column gap-2">
+					<a th:href="@{/airline/admin}" id="tab-dashboard"
+						class="admin-nav-link"
+						th:classappend="${activeTab == null} ? ' active' : ''"> <i
+						class="bi bi-speedometer2"></i> Dashboard
+					</a> <a th:href="@{/airline/admin/flights}" id="tab-flights"
+						class="admin-nav-link"
+						th:classappend="${activeTab == 'flights'} ? ' active' : ''"> <i
+						class="bi bi-airplane-engines"></i> Manage Flights
+					</a> <a th:href="@{/airline/admin/flightPlans}" id="tab-flightPlans"
+						class="admin-nav-link"
+						th:classappend="${activeTab == 'flightPlans'} ? ' active' : ''">
+						<i class="bi bi-calendar-range"></i> Flight Plans
+					</a> <a th:href="@{/airline/admin/flights}"
+						onclick="switchTab('bookings')" id="tab-bookings"
+						class="admin-nav-link"
+						th:classappend="${activeTab == 'bookings'} ? ' active' : ''"><i
+						class="bi bi-receipt"></i> View Bookings</a> <a
+						onclick="switchTab('airline')" id="tab-airline"
+						class="admin-nav-link"><i class="bi bi-building"></i> AirLine</a>
+					<a th:href="@{/airline/admin/airports}"
+					onclick="switchTab('airport')" id="tab-airport"
+						class="admin-nav-link"><i class="bi bi-geo-alt-fill"></i> Air
+						Port</a>
 
-          <a 
-          th:href="@{/airline/admin/flights}"
-          onclick="switchTab('bookings')" 
-          id="tab-bookings" 
-          class="admin-nav-link"
-           th:classappend="${activeTab == 'bookings'} ? ' active' : ''"><i class="bi bi-receipt"></i> View Bookings</a>
-          <a onclick="switchTab('airline')" id="tab-airline" class="admin-nav-link"><i class="bi bi-building"></i> AirLine</a>
-          <a onclick="switchTab('airport')" id="tab-airport" class="admin-nav-link"><i class="bi bi-geo-alt-fill"></i> Air Port</a>
-          
-          <hr class="my-3 text-white">
-         
-          <a href="/Air-Line-System/index.html" class="admin-nav-link text-danger"><i class="bi bi-box-arrow-left"></i> Exit Portal</a>
-        </div>
-      </nav>
- 
-      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
-        
-      <div id="section-dashboard"
-    	 th:classappend="${activeTab != null} ? 'hidden-section' : ''">
-          <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
-            <h1 class="h2 fw-bold">Administrative Dashboard</h1>
-          </div>
-          <div class="row g-3 mb-4">
-            <div class="col-12 col-sm-6 col-xl-4">
-              <div class="stat-card">
-                <span class="text-muted small fw-bold text-uppercase">Total Bookings</span>
-                <h2 class="fw-bold mt-2 mb-0">2</h2>
-              </div>
-            </div>
-            <div class="col-12 col-sm-6 col-xl-4">
-              <div class="stat-card">
-                <span class="text-muted small fw-bold text-uppercase">Total Flights</span>
-                <h2 class="fw-bold mt-2 mb-0">3</h2>
-              </div>
-            </div>
-            <div class="col-12 col-sm-6 col-xl-4">
-              <div class="stat-card">
-                <span class="text-muted small fw-bold text-uppercase">Gross Revenue</span>
-                <h2 class="fw-bold text-success mt-2 mb-0">$1,450</h2>
-              </div>
-            </div>
-          </div>
-        </div>
- 
-        <div id="section-flights"
-     	th:classappend="${activeTab != 'flights'} ? 'hidden-section'">
-     	
-          <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-            <h4 class="fw-bold m-0"><i class="bi bi-airplane-fill text-primary"></i> Flight Scheduling Operations</h4>
-            <a th:href="@{/airline/admin/flightForm}"><button class="btn btn-primary btn-sm px-4 rounded-pill"><i class="bi bi-plus-circle"></i> Add New Flight</button></a>
-          </div>
-          
-          <div class="content-card bg-white">
-            <div class="table-responsive">
-              <table class="table align-middle table-hover m-0">
-                <thead class="table-light">
-                  <tr class="text-muted small fw-bold">
-                    <th>FLIGHT NUMBER</th>
-                    <th>AIRLINE</th>
-                    <th>Total Seats</th>
-                    <th>STATUS</th>
-                    <th>ACTIONS</th>
-                  </tr>
-                </thead>
-                <tbody>
-                <!-- Entity Attribute Name -->
-	<tr th:each="f: ${flights}">
-		<td th:text="${f.flightNumber}"></td>
-		<td>
-    <span th:if="${f.airline != null}"
-          th:text="${f.airline.airlineName}"></span>
+					<hr class="my-3 text-white">
 
-    <span th:unless="${f.airline != null}">
-        No Airline
-    </span>
-</td>
-		<td th:text="${f.totalSeats}"></td>
-		<td th:text="${f.status}"></td>
-		<td>
-			<a th:href="@{/airline/admin/flight/edit/{id}(id=${f.flightId})}" class="btn btn-sm btn-outline-secondary py-0 px-2"><i class="bi bi-pencil"></i></a>
-			<a th:href="@{/airline/admin/flight/delete/{id}(id=${f.flightId})}" class="btn btn-sm btn-outline-danger py-0 px-2" onclick="return confirm('Are you sure you want to delete this flight?')"><i class="bi bi-x-circle"></i></a>
-         </td>
-	<!--
+					<a href="/Air-Line-System/index.html"
+						class="admin-nav-link text-danger"><i
+						class="bi bi-box-arrow-left"></i> Exit Portal</a>
+				</div>
+			</nav>
+
+			<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+
+				<div id="section-dashboard"
+					th:classappend="${activeTab != null} ? 'hidden-section' : ''">
+					<div
+						class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+						<h1 class="h2 fw-bold">Administrative Dashboard</h1>
+					</div>
+					<div class="row g-3 mb-4">
+						<div class="col-12 col-sm-6 col-xl-4">
+							<div class="stat-card">
+								<span class="text-muted small fw-bold text-uppercase">Total
+									Bookings</span>
+								<h2 class="fw-bold mt-2 mb-0">2</h2>
+							</div>
+						</div>
+						<div class="col-12 col-sm-6 col-xl-4">
+							<div class="stat-card">
+								<span class="text-muted small fw-bold text-uppercase">Total
+									Flights</span>
+								<h2 class="fw-bold mt-2 mb-0">3</h2>
+							</div>
+						</div>
+						<div class="col-12 col-sm-6 col-xl-4">
+							<div class="stat-card">
+								<span class="text-muted small fw-bold text-uppercase">Gross
+									Revenue</span>
+								<h2 class="fw-bold text-success mt-2 mb-0">$1,450</h2>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="section-flights"
+					th:classappend="${activeTab != 'flights'} ? 'hidden-section'">
+
+					<div
+						class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+						<h4 class="fw-bold m-0">
+							<i class="bi bi-airplane-fill text-primary"></i> Flight
+							Scheduling Operations
+						</h4>
+						<a th:href="@{/airline/admin/flightForm}"><button
+								class="btn btn-primary btn-sm px-4 rounded-pill">
+								<i class="bi bi-plus-circle"></i> Add New Flight
+							</button></a>
+					</div>
+
+					<div class="content-card bg-white">
+						<div class="table-responsive">
+							<table class="table align-middle table-hover m-0">
+								<thead class="table-light">
+									<tr class="text-muted small fw-bold">
+										<th>FLIGHT NUMBER</th>
+										<th>AIRLINE</th>
+										<th>Total Seats</th>
+										<th>STATUS</th>
+										<th>ACTIONS</th>
+									</tr>
+								</thead>
+								<tbody>
+									<!-- Entity Attribute Name -->
+									<tr th:each="f: ${flights}">
+										<td th:text="${f.flightNumber}"></td>
+										<td><span th:if="${f.airline != null}"
+											th:text="${f.airline.airlineName}"></span> <span
+											th:unless="${f.airline != null}"> No Airline </span></td>
+										<td th:text="${f.totalSeats}"></td>
+										<td th:text="${f.status}"></td>
+										<td><a
+											th:href="@{/airline/admin/flight/edit/{id}(id=${f.flightId})}"
+											class="btn btn-sm btn-outline-secondary py-0 px-2"><i
+												class="bi bi-pencil"></i></a> <a
+											th:href="@{/airline/admin/flight/delete/{id}(id=${f.flightId})}"
+											class="btn btn-sm btn-outline-danger py-0 px-2"
+											onclick="return confirm('Are you sure you want to delete this flight?')"><i
+												class="bi bi-x-circle"></i></a></td>
+										<!--
 	<td>
 				<a th:if="${c.status == 1}" th:href="@{/student/courses/edit/{id}(id=${c.id})}"
 					class="btn btn-primary">Update</a>
@@ -229,224 +235,274 @@ body {
 				
 				
 		</td>
-	  -->	
-	</tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
- 
-        <div id="section-flightPlans"
-     	th:classappend="${activeTab != 'flightPlans'} ? 'hidden-section'">
-     	
-          <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-            <h4 class="fw-bold m-0"><i class="bi bi-calendar-range-fill text-primary"></i> Flight Plan Operations</h4>
-            <a th:href="@{/airline/admin/flightPlanForm}"><button class="btn btn-primary btn-sm px-4 rounded-pill"><i class="bi bi-plus-circle"></i> Add New Flight Plan</button></a>
-          </div>
-          
-          <div class="content-card bg-white">
-            <div class="table-responsive">
-              <table class="table align-middle table-hover m-0">
-                <thead class="table-light">
-                  <tr class="text-muted small fw-bold">
-                    <th>FLIGHT</th>
-                    <th>DEPARTURE AIRPORT</th>
-                    <th>ARRIVAL AIRPORT</th>
-                    <th>DEPARTURE TIME</th>
-                    <th>ARRIVAL TIME</th>
-                    <th>DATE</th>
-                    <th>SEATS</th>
-                    <th>PRICE</th>
-                    <th>ACTIONS</th>
-                  </tr>
-                </thead>
-                <tbody>
-	<tr th:each="fp : ${flightPlans}">
-		<td>
-			<span th:if="${fp.flight != null}" th:text="${fp.flight.flightNumber}"></span>
-			<span th:unless="${fp.flight != null}">No Flight</span>
-		</td>
-		<td>
-			<span th:if="${fp.departureAirport != null}" th:text="${fp.departureAirport.airportName}"></span>
-			<span th:unless="${fp.departureAirport != null}">N/A</span>
-		</td>
-		<td>
-			<span th:if="${fp.arrivalAirport != null}" th:text="${fp.arrivalAirport.airportName}"></span>
-			<span th:unless="${fp.arrivalAirport != null}">N/A</span>
-		</td>
-		<td th:text="${#temporals.format(fp.departureTime, 'yyyy-MM-dd HH:mm')}"></td>
-		<td th:text="${#temporals.format(fp.arrivalTime, 'yyyy-MM-dd HH:mm')}"></td>
-		<td th:text="${#dates.format(fp.flight_date, 'yyyy-MM-dd')}"></td>
-		<td th:text="${fp.availableSeats}"></td>
-		<td th:text="'$' + ${#numbers.formatDecimal(fp.price, 1, 2)}"></td>
-		<td>
-			<a th:href="@{/airline/admin/flightPlan/edit/{id}(id=${fp.flightPlanId})}" class="btn btn-sm btn-outline-secondary py-0 px-2"><i class="bi bi-pencil"></i></a>
-			<a th:href="@{/airline/admin/flightPlan/delete/{id}(id=${fp.flightPlanId})}" class="btn btn-sm btn-outline-danger py-0 px-2" onclick="return confirm('Are you sure you want to delete this flight plan?')"><i class="bi bi-x-circle"></i></a>
-         </td>
-	</tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
- 
-        <div id="section-bookings" class="hidden-section">
-          <h4 class="fw-bold mb-3"><i class="bi bi-receipt-cutoff text-primary"></i> Passenger Ticket Bookings</h4>
-          <div class="content-card bg-white">
-            <div class="table-responsive">
-              <table class="table align-middle table-hover m-0">
-                <thead class="table-light">
-                  <tr class="text-muted small fw-bold">
-                    <th>PASSENGER</th>
-                    <th>FLIGHT</th>
-                    <th>CLASS</th>
-                    <th>PAYMENT SS</th>
-                    <th>STATUS</th>
-                    <th>ACTION</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Mg Mg <span class="text-muted small">(mgmg@mail.com)</span></td>
-                    <td class="fw-bold text-primary">SN-101</td>
-                    <td>Business</td>
-                    <td><a href="#" class="small text-decoration-none"><i class="bi bi-image text-info"></i> Uploaded</a></td>
-                    <td><span class="badge bg-warning text-dark">Pending Approval</span></td>
-                    <td><button class="btn btn-sm btn-success py-0 px-2 shadow-sm" >Approve</button></td>
-                  </tr>
-                  <tr>
-                    <td>Su Su <span class="text-muted small">(susu@mail.com)</span></td>
-                    <td class="fw-bold text-primary">SN-304</td>
-                    <td>Economy</td>
-                    <td><a href="#" class="small text-decoration-none"><i class="bi bi-image text-info"></i> Uploaded</a></td>
-                    <td><span class="badge bg-success">Successful</span></td>
-                    <td><span class="text-success fw-bold small"><i class="bi bi-qr-code"></i> Issued</span></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
- 
-        <div id="section-airline" class="hidden-section">
-          <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-            <h4 class="fw-bold m-0"><i class="bi bi-building text-primary"></i> Airline Management</h4>
-            <button class="btn btn-primary btn-sm px-4 rounded-pill" data-bs-toggle="modal" data-bs-target="#addAirlineModal">
-              <a th:href="@{/airline/admin/airlineForm}" class="text-white"><i class="bi bi-plus-circle"></i> Add New Airline</a>
-            </button>
-          </div>
-          
-          <div class="content-card bg-white">
-            <div class="table-responsive">
-              <table class="table align-middle table-hover m-0">
-                <thead class="table-light">
-                  <tr class="text-muted small fw-bold">
-                    <th>AIRLINE ID</th>
-                    <th>AIRLINE CODE</th>
-                    <th>AIRLINE NAME</th>
-                    <th>COUNTRY</th>
-                    <th>LOGO PATH</th>
-                    <th>ACTIONS</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td><span class="badge bg-secondary-subtle text-secondary fw-bold">SN</span></td>
-                    <td><strong>SkyNest Airways</strong></td>
-                    <td>Myanmar</td>
-                    <td><span class="text-muted small">/assets/logos/skynest.png</span></td>
-                    <td>
-                      <button class="btn btn-sm btn-outline-secondary py-0 px-2"><i class="bi bi-pencil"></i></button>
-                      <button class="btn btn-sm btn-outline-danger py-0 px-2"><i class="bi bi-x-circle"></i></button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
- 
-        <div id="section-airport" class="hidden-section">
-          <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-            <h4 class="fw-bold m-0"><i class="bi bi-geo-alt-fill text-primary"></i> Airport Terminals</h4>
-            <a href="/airline/admin/airportForm"
+	  -->
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<div id="section-flightPlans"
+					th:classappend="${activeTab != 'flightPlans'} ? 'hidden-section'">
+
+					<div
+						class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+						<h4 class="fw-bold m-0">
+							<i class="bi bi-calendar-range-fill text-primary"></i> Flight
+							Plan Operations
+						</h4>
+						<a th:href="@{/airline/admin/flightPlanForm}"><button
+								class="btn btn-primary btn-sm px-4 rounded-pill">
+								<i class="bi bi-plus-circle"></i> Add New Flight Plan
+							</button></a>
+					</div>
+
+					<div class="content-card bg-white">
+						<div class="table-responsive">
+							<table class="table align-middle table-hover m-0">
+								<thead class="table-light">
+									<tr class="text-muted small fw-bold">
+										<th>FLIGHT</th>
+										<th>DEPARTURE AIRPORT</th>
+										<th>ARRIVAL AIRPORT</th>
+										<th>DEPARTURE TIME</th>
+										<th>ARRIVAL TIME</th>
+										<th>DATE</th>
+										<th>SEATS</th>
+										<th>PRICE</th>
+										<th>ACTIONS</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="fp : ${flightPlans}">
+										<td><span th:if="${fp.flight != null}"
+											th:text="${fp.flight.flightNumber}"></span> <span
+											th:unless="${fp.flight != null}">No Flight</span></td>
+										<td><span th:if="${fp.departureAirport != null}"
+											th:text="${fp.departureAirport.airportName}"></span> <span
+											th:unless="${fp.departureAirport != null}">N/A</span></td>
+										<td><span th:if="${fp.arrivalAirport != null}"
+											th:text="${fp.arrivalAirport.airportName}"></span> <span
+											th:unless="${fp.arrivalAirport != null}">N/A</span></td>
+										<td
+											th:text="${#temporals.format(fp.departureTime, 'yyyy-MM-dd HH:mm')}"></td>
+										<td
+											th:text="${#temporals.format(fp.arrivalTime, 'yyyy-MM-dd HH:mm')}"></td>
+										<td th:text="${#dates.format(fp.flight_date, 'yyyy-MM-dd')}"></td>
+										<td th:text="${fp.availableSeats}"></td>
+										<td th:text="'$' + ${#numbers.formatDecimal(fp.price, 1, 2)}"></td>
+										<td><a
+											th:href="@{/airline/admin/flightPlan/edit/{id}(id=${fp.flightPlanId})}"
+											class="btn btn-sm btn-outline-secondary py-0 px-2"><i
+												class="bi bi-pencil"></i></a> <a
+											th:href="@{/airline/admin/flightPlan/delete/{id}(id=${fp.flightPlanId})}"
+											class="btn btn-sm btn-outline-danger py-0 px-2"
+											onclick="return confirm('Are you sure you want to delete this flight plan?')"><i
+												class="bi bi-x-circle"></i></a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<div id="section-bookings" class="hidden-section">
+					<h4 class="fw-bold mb-3">
+						<i class="bi bi-receipt-cutoff text-primary"></i> Passenger Ticket
+						Bookings
+					</h4>
+					<div class="content-card bg-white">
+						<div class="table-responsive">
+							<table class="table align-middle table-hover m-0">
+								<thead class="table-light">
+									<tr class="text-muted small fw-bold">
+										<th>PASSENGER</th>
+										<th>FLIGHT</th>
+										<th>CLASS</th>
+										<th>PAYMENT SS</th>
+										<th>STATUS</th>
+										<th>ACTION</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Mg Mg <span class="text-muted small">(mgmg@mail.com)</span></td>
+										<td class="fw-bold text-primary">SN-101</td>
+										<td>Business</td>
+										<td><a href="#" class="small text-decoration-none"><i
+												class="bi bi-image text-info"></i> Uploaded</a></td>
+										<td><span class="badge bg-warning text-dark">Pending
+												Approval</span></td>
+										<td><button
+												class="btn btn-sm btn-success py-0 px-2 shadow-sm">Approve</button></td>
+									</tr>
+									<tr>
+										<td>Su Su <span class="text-muted small">(susu@mail.com)</span></td>
+										<td class="fw-bold text-primary">SN-304</td>
+										<td>Economy</td>
+										<td><a href="#" class="small text-decoration-none"><i
+												class="bi bi-image text-info"></i> Uploaded</a></td>
+										<td><span class="badge bg-success">Successful</span></td>
+										<td><span class="text-success fw-bold small"><i
+												class="bi bi-qr-code"></i> Issued</span></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<div id="section-airline" class="hidden-section">
+					<div
+						class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+						<h4 class="fw-bold m-0">
+							<i class="bi bi-building text-primary"></i> Airline Management
+						</h4>
+						<button class="btn btn-primary btn-sm px-4 rounded-pill"
+							data-bs-toggle="modal" data-bs-target="#addAirlineModal">
+							<a th:href="@{/airline/admin/airlineForm}" class="text-white"><i
+								class="bi bi-plus-circle"></i> Add New Airline</a>
+						</button>
+					</div>
+
+					<div class="content-card bg-white">
+						<div class="table-responsive">
+							<table class="table align-middle table-hover m-0">
+								<thead class="table-light">
+									<tr class="text-muted small fw-bold">
+										<th>AIRLINE ID</th>
+										<th>AIRLINE CODE</th>
+										<th>AIRLINE NAME</th>
+										<th>COUNTRY</th>
+										<th>LOGO PATH</th>
+										<th>ACTIONS</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>1</td>
+										<td><span
+											class="badge bg-secondary-subtle text-secondary fw-bold">SN</span></td>
+										<td><strong>SkyNest Airways</strong></td>
+										<td>Myanmar</td>
+										<td><span class="text-muted small">/assets/logos/skynest.png</span></td>
+										<td>
+											<button class="btn btn-sm btn-outline-secondary py-0 px-2">
+												<i class="bi bi-pencil"></i>
+											</button>
+											<button class="btn btn-sm btn-outline-danger py-0 px-2">
+												<i class="bi bi-x-circle"></i>
+											</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<div th:classappend="${activeTab != 'airport'} ? 'hidden-section'"  id="section-airport">
+					<div
+						class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+						<h4 class="fw-bold m-0">
+							<i class="bi bi-geo-alt-fill text-primary"></i> Airport Terminals
+						</h4>
+						<a href="/airline/admin/airportForm"
 							class="btn btn-primary btn-sm px-4 rounded-pill text-white text-decoration-none">
 							<i class="bi bi-plus-circle"></i> Add New Airport
-			</a>
-          </div>
-          
-          <div class="content-card bg-white">
-            <div class="table-responsive">
-              <table class="table align-middle table-hover m-0">
-                <thead class="table-light">
-                  <tr class="text-muted small fw-bold">
-                    <th>AIRPORT ID</th>
-                    <th>AIRPORT CODE</th>
-                    <th>AIRPORT NAME</th>
-                    <th>CITY</th>
-                    <th>ACTIONS</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td><span class="badge bg-primary-subtle text-primary fw-bold">RGN</span></td>
-                    <td><strong>Yangon International Airport</strong></td>
-                    <td>Yangon</td>
-                    <td>
-                      <button class="btn btn-sm btn-outline-secondary py-0 px-2"><i class="bi bi-pencil"></i></button>
-                      <button class="btn btn-sm btn-outline-danger py-0 px-2"><i class="bi bi-x-circle"></i></button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
- 
-      </main>
-    </div>
-  </div>
- 
- 
- 
- <!-- Add new Airline -->
-  <div class="modal fade" id="addAirportModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content rounded-3">
-        <div class="modal-header">
-          <h5 class="modal-title fw-bold">Register New Airport Terminal</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <form action="AddAirportServlet" method="POST">
-          <div class="modal-body">
-            <div class="mb-3">
-              <label class="form-label small fw-bold">Airport Code</label>
-              <input type="text" name="airport_code" class="form-control" placeholder="e.g., RGN" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label small fw-bold">Airport Name</label>
-              <input type="text" name="airport_name" class="form-control" placeholder="e.g., Yangon International Airport" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label small fw-bold">City Location</label>
-              <input type="text" name="city" class="form-control" placeholder="e.g., Yangon" required>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-primary rounded-pill px-4">Save Airport</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
- 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
- 
-  <script>
+						</a>
+					</div>
+
+					<div class="content-card bg-white">
+						<div class="table-responsive">
+							<table class="table align-middle table-hover m-0">
+								<thead class="table-light">
+									<tr class="text-muted small fw-bold">
+										
+										<th>AIRPORT CODE</th>
+										<th>AIRPORT NAME</th>
+										<th>CITY</th>
+										<th>ACTIONS</th>
+									</tr>
+								</thead>
+								<tbody>
+							
+									<tr th:each="ap : ${airport}">
+										
+										<td><span
+											class="badge bg-primary-subtle text-primary fw-bold"
+											th:text="${ap.airportCode}"></span></td>
+										<td><strong th:text="${ap.airportName}">
+												 </strong></td>
+										<td th:text="${ap.city}"></td>
+										<td>
+											<button class="btn btn-sm btn-outline-secondary py-0 px-2">
+												<i class="bi bi-pencil"></i>
+											</button>
+											<button class="btn btn-sm btn-outline-danger py-0 px-2">
+												<i class="bi bi-x-circle"></i>
+											</button>
+										</td>
+									</tr>
+								
+
+								</tbody>
+
+							</table>
+						</div>
+					</div>
+				</div>
+
+			</main>
+		</div>
+	</div>
+
+
+
+	<!-- Add new Airline -->
+	<div class="modal fade" id="addAirportModal" tabindex="-1"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content rounded-3">
+				<div class="modal-header">
+					<h5 class="modal-title fw-bold">Register New Airport Terminal</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<form action="AddAirportServlet" method="POST">
+					<div class="modal-body">
+						<div class="mb-3">
+							<label class="form-label small fw-bold">Airport Code</label> <input
+								type="text" name="airport_code" class="form-control"
+								placeholder="e.g., RGN" required>
+						</div>
+						<div class="mb-3">
+							<label class="form-label small fw-bold">Airport Name</label> <input
+								type="text" name="airport_name" class="form-control"
+								placeholder="e.g., Yangon International Airport" required>
+						</div>
+						<div class="mb-3">
+							<label class="form-label small fw-bold">City Location</label> <input
+								type="text" name="city" class="form-control"
+								placeholder="e.g., Yangon" required>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-light rounded-pill px-4"
+							data-bs-dismiss="modal">Cancel</button>
+						<button type="submit" class="btn btn-primary rounded-pill px-4">Save
+							Airport</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+	<script>
     function switchTab(tabName) {
       // Hide all sections
       document.getElementById('section-dashboard').classList.add('hidden-section');
