@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Booking Details</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+rel="stylesheet">
+
+<style>
+
+body{
+    background:#f4f7fb;
+    font-family:'Segoe UI',sans-serif;
+}
+
+.page-section{
+    padding:50px 0;
+}
+
+.page-card{
+    background:white;
+    border-radius:20px;
+    padding:35px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.flight-number{
+    font-size:30px;
+    font-weight:700;
+}
+
+.airline{
+    color:#6c757d;
+}
+
+.route{
+    font-size:24px;
+    font-weight:600;
+}
+
+.info-box{
+
+    background:#f8f9fa;
+
+    border-radius:15px;
+
+    padding:18px;
+
+    height:100%;
+
+}
+
+.info-title{
+
+    color:#6c757d;
+
+    font-size:14px;
+
+    margin-bottom:6px;
+
+}
+
+.info-value{
+
+    font-size:18px;
+
+    font-weight:600;
+
+}
+
+.feature-box{
+
+    display:flex;
+
+    gap:18px;
+
+    justify-content:flex-end;
+
+    flex-wrap:wrap;
+
+    font-size:28px;
+
+    color:#0d6efd;
+
+}
+
+.feature-box i{
+
+    background:#eef4ff;
+
+    padding:12px;
+
+    border-radius:50%;
+
+}
+
+.status{
+
+    padding:8px 18px;
+
+    border-radius:30px;
+
+    font-weight:600;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<section class="page-section">
+
+<div class="container">
+
+<div class="page-card">
+
+<div class="d-flex justify-content-between align-items-start flex-wrap">
+
+<div>
+
+<h2 class="flight-number">
+
+<i class="bi bi-airplane"></i>
+
+<span th:text="${booking.flightPlan.flight.flightNumber}"></span>
+
+</h2>
+
+<p class="airline mb-0">
+
+<span th:text="${booking.flightPlan.flight.airline.airlineName}"></span>
+
+</p>
+
+</div>
+
+<!-- Flight Features -->
+
+<div class="feature-box">
+
+<i class="bi bi-wifi"
+th:if="${booking.flightPlan.flight.wifi==1}"
+title="WiFi"></i>
+
+<i class="bi bi-cup-hot"
+th:if="${booking.flightPlan.flight.meal==1}"
+title="Meal"></i>
+
+<i class="bi bi-tv"
+th:if="${booking.flightPlan.flight.entertainment==1}"
+title="Entertainment"></i>
+
+<i class="bi bi-battery-charging"
+th:if="${booking.flightPlan.flight.charging==1}"
+title="Charging Port"></i>
+
+</div>
+
+</div>
+
+<hr>
+
+<div class="route mb-4">
+
+<span th:text="${booking.flightPlan.departureAirport.city}"></span>
+
+<i class="bi bi-arrow-right mx-2"></i>
+
+<span th:text="${booking.flightPlan.arrivalAirport.city}"></span>
+
+</div>
+
+<div class="row g-4">
+
+<div class="col-lg-4">
+
+<div class="info-box">
+
+<div class="info-title">
+
+<i class="bi bi-calendar-event"></i>
+
+Departure
+
+</div>
+
+<div class="info-value"
+th:text="${#temporals.format(booking.flightPlan.departureTime,'yyyy-MM-dd (HH:mm)')}">
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="info-box">
+
+<div class="info-title">
+
+<i class="bi bi-calendar-check"></i>
+
+Arrival
+
+</div>
+
+<div class="info-value"
+th:text="${#temporals.format(booking.flightPlan.arrivalTime,'yyyy-MM-dd (HH:mm)')}">
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="info-box">
+
+<div class="info-title">
+
+<i class="bi bi-people"></i>
+
+Passengers
+
+</div>
+
+<div class="info-value"
+th:text="${booking.passengers}">
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="info-box">
+
+<div class="info-title">
+
+<i class="bi bi-chair"></i>
+
+Seat Class
+
+</div>
+
+<div class="info-value"
+th:text="${booking.seatClass.className}">
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="info-box">
+
+<div class="info-title">
+
+<i class="bi bi-cash-stack"></i>
+
+Total Paid
+
+</div>
+
+<div class="info-value">
+
+$
+
+<span th:text="${booking.totalAmount}"></span>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="info-box">
+
+<div class="info-title">
+
+<i class="bi bi-patch-check"></i>
+
+Booking Status
+
+</div>
+
+<div>
+
+<span class="status bg-warning-subtle text-dark"
+
+th:if="${booking.status=='PENDING'}">
+
+Pending
+
+</span>
+
+<span class="status bg-success-subtle text-success"
+
+th:if="${booking.status=='CONFIRMED'}">
+
+Confirmed
+
+</span>
+
+<span class="status bg-secondary-subtle text-secondary"
+
+th:if="${booking.status=='CANCELLED'}">
+
+Cancelled
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<hr class="my-4">
+
+<div class="d-flex justify-content-between flex-wrap gap-2">
+
+<a th:href="@{/airline/history}"
+
+class="btn btn-outline-secondary">
+
+<i class="bi bi-arrow-left"></i>
+
+Back to My Trips
+
+</a>
+
+<a th:if="${booking.status!='CANCELLED'}"
+
+th:href="@{/airline/payment/{id}(id=${booking.payment.paymentId})}"
+
+class="btn btn-primary">
+
+<i class="bi bi-credit-card"></i>
+
+Payment
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</body>
+
+</html>
