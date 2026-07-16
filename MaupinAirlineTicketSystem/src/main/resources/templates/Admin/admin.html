@@ -145,11 +145,12 @@ body {
 			</a> -->
 
           <a 
-          th:href="@{/airline/admin/flights}"
+          th:href="@{/airline/admin/bookings}"
           onclick="switchTab('bookings')" 
           id="tab-bookings" 
           class="admin-nav-link"
            th:classappend="${activeTab == 'bookings'} ? ' active' : ''"><i class="bi bi-receipt"></i> View Bookings</a>
+           
           <a onclick="switchTab('airline')" id="tab-airline" class="admin-nav-link"><i class="bi bi-building"></i> AirLine</a>
           <a onclick="switchTab('airport')" id="tab-airport" class="admin-nav-link"><i class="bi bi-geo-alt-fill"></i> Air Port</a>
           
@@ -365,7 +366,9 @@ body {
         </div> -->
         
  <!-- Flight Features -->
-        <div id="section-bookings" class="hidden-section">
+ 
+ <!-- Bookings -->
+        <div id="section-bookings" th:classappend="${activeTab != 'bookings'} ? 'hidden-section'">
           <h4 class="fw-bold mb-3"><i class="bi bi-receipt-cutoff text-primary"></i> Passenger Ticket Bookings</h4>
           <div class="content-card bg-white">
             <div class="table-responsive">
@@ -375,27 +378,39 @@ body {
                     <th>PASSENGER</th>
                     <th>FLIGHT</th>
                     <th>CLASS</th>
+                    <th>SEAT NUMBER</th>
+                    <th>DEPARTURE</th>
                     <th>PAYMENT SS</th>
+                    <th>TOTAL AMOUNT</th>
                     <th>STATUS</th>
                     <th>ACTION</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Mg Mg <span class="text-muted small">(mgmg@mail.com)</span></td>
+                   <!--  <td>Mg Mg <span class="text-muted small">(mgmg@mail.com)</span></td> -->
+                   <td>Mg Mg</td>
                     <td class="fw-bold text-primary">SN-101</td>
                     <td>Business</td>
+                    <td>A-02</td>
+                    <td>Lashio</td>
+                    
                     <td><a href="#" class="small text-decoration-none"><i class="bi bi-image text-info"></i> Uploaded</a></td>
+                    <td>Business</td>
                     <td><span class="badge bg-warning text-dark">Pending Approval</span></td>
                     <td><button class="btn btn-sm btn-success py-0 px-2 shadow-sm" >Approve</button></td>
                   </tr>
                   <tr>
-                    <td>Su Su <span class="text-muted small">(susu@mail.com)</span></td>
-                    <td class="fw-bold text-primary">SN-304</td>
-                    <td>Economy</td>
+                    <td>Su Su</td>
+                    <td class="fw-bold text-primary">SN-101</td>
+                    <td>Business</td>
+                    <td>A-02</td>
+                    <td>Lashio</td>
+                    
                     <td><a href="#" class="small text-decoration-none"><i class="bi bi-image text-info"></i> Uploaded</a></td>
+                    <td>Business</td>
                     <td><span class="badge bg-success">Successful</span></td>
-                    <td><span class="text-success fw-bold small"><i class="bi bi-qr-code"></i> Issued</span></td>
+                    <td><span class="text-success fw-bold small"> <button class="btn btn-sm btn-info py-0 px-2 shadow-sm" ><i class="bi bi-qr-code"></i> Issue</button></span></td>
                   </tr>
                 </tbody>
               </table>
