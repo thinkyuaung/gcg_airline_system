@@ -125,6 +125,8 @@ public class BookingServiceImpl implements BookingService{
 
 	    booking.setPayment(payment);
 	    
+	    booking.setPassengers(passengers);
+	    
 
 	    return bookingRepository.save(booking);
 

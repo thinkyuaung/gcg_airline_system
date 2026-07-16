@@ -31,7 +31,7 @@ public class FlightSearchController {
 		  model.addAttribute("airports",
 		            airportRepository.findAll());
 		  
-		return "searchFlight";
+		return "userview/searchFlight";
 	}
 	
 	
@@ -59,6 +59,6 @@ public class FlightSearchController {
 		model.addAttribute("seatClass", seatClass);
  
  
-		return "searchResult";
+		return "userview/searchResult";
 	}
 }

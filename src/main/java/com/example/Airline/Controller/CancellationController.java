@@ -46,7 +46,7 @@ public String confirmPage(
     );
 
 
-    return "cancelConfirm";
+    return "userview/cancelConfirm";
 
 }
 
@@ -65,7 +65,7 @@ public String cancel(
 
         cancellationService.cancelBooking(id, reason);
 
-        return "cancelSuccess";
+        return "userview/cancelSuccess";
 
 
     } catch(RuntimeException e){
@@ -77,7 +77,7 @@ public String cancel(
         );
 
 
-        return "cancelError";
+        return "userview/cancelError";
 
     }
 

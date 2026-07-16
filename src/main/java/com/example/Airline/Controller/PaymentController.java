@@ -37,7 +37,7 @@ public class PaymentController {
 	            payment
 	    );
 
-	    return "payment";
+	    return "userview/payment";
 
 
 	}
@@ -60,7 +60,7 @@ public class PaymentController {
 		    );
 
 
-	    return "paymentSuccess";
+	    return "userview/paymentSuccess";
 
 	}
 }

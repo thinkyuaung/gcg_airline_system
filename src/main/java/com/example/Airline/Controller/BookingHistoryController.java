@@ -40,7 +40,7 @@ public class BookingHistoryController {
 	    );
 
 
-	    return "bookingHistory";
+	    return "userview/bookingHistory";
 
 	}
 
@@ -63,7 +63,7 @@ public class BookingHistoryController {
 	    );
 
 
-	    return "bookingHistory";
+	    return "userview/bookingHistory";
 
 	}
 
@@ -87,7 +87,7 @@ public class BookingHistoryController {
 	    );
 
 
-	    return "bookingHistory";
+	    return "userview/bookingHistory";
 
 	}
 

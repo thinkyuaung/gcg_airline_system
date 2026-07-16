@@ -375,7 +375,7 @@ Departure
 <br>
 
 
-<b th:text="${booking.flightPlan.departureTime}">
+<b th:text="${#temporals.format(booking.flightPlan.departureTime,'dd MMM yyyy (HH:mm)')}"></b>
 
 </b>
 

@@ -31,6 +31,8 @@ public class Booking {
 
 	    private String country;
 	    
+	    private int passengers;
+	    
 	    // Foreign Key -> User
 	    @ManyToOne
 	    @JoinColumn(name = "user_id")
@@ -52,7 +54,7 @@ public class Booking {
 	    private Payment payment;
 
 		public Booking(int bookingId, String bookingCode, String seatNumber, LocalDateTime bookingDate,
-				double totalAmount, String status, String country, User user, FlightPlan flightPlan,
+				double totalAmount, String status, String country, int passengers, User user, FlightPlan flightPlan,
 				SeatClass seatClass, Payment payment) {
 			super();
 			this.bookingId = bookingId;
@@ -62,6 +64,7 @@ public class Booking {
 			this.totalAmount = totalAmount;
 			this.status = status;
 			this.country = country;
+			this.passengers = passengers;
 			this.user = user;
 			this.flightPlan = flightPlan;
 			this.seatClass = seatClass;
@@ -127,6 +130,14 @@ public class Booking {
 
 		public void setCountry(String country) {
 			this.country = country;
+		}
+
+		public int getPassengers() {
+			return passengers;
+		}
+
+		public void setPassengers(int passengers) {
+			this.passengers = passengers;
 		}
 
 		public User getUser() {

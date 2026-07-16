@@ -40,7 +40,7 @@ public String bookingDetail(
     );
 
 
-    return "bookingDetail";
+    return "userView/bookingDetail";
 
 }
 
