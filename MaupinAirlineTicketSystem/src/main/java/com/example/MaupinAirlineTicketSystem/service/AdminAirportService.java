@@ -15,5 +15,7 @@ public interface AdminAirportService {
 	public Airport getAirportById(int id);
 
 	public Airport saveAirport(Airport airport);
+	
+	public void deleteAirportById(int id);
 
 }

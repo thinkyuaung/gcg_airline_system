@@ -132,19 +132,17 @@ body {
 						onclick="switchTab('bookings')" id="tab-bookings"
 						class="admin-nav-link"
 						th:classappend="${activeTab == 'bookings'} ? ' active' : ''"><i
-						class="bi bi-receipt"></i> View Bookings</a> 
-						
-						
-						<a th:href="@{/airline/admin/airlines}"
+						class="bi bi-receipt"></i> View Bookings</a> <a
+						th:href="@{/airline/admin/airlines}"
 						onclick="switchTab('airline')" id="tab-airline"
 						class="admin-nav-link"
 						th:classappend="${activeTab == 'airline'} ? ' active' : ''"><i
-						class="bi bi-receipt"></i>AirLine</a> 
-						
-					<a th:href="@{/airline/admin/airports}"
-					onclick="switchTab('airport')" id="tab-airport"
-						class="admin-nav-link"  th:classappend="${activeTab == 'airport'} ? ' active' : ''"><i class="bi bi-geo-alt-fill"></i> Air
-						Port</a>
+						class="bi bi-receipt"></i>AirLine</a> <a
+						th:href="@{/airline/admin/airports}"
+						onclick="switchTab('airport')" id="tab-airport"
+						class="admin-nav-link"
+						th:classappend="${activeTab == 'airport'} ? ' active' : ''"><i
+						class="bi bi-geo-alt-fill"></i> Air Port</a>
 
 					<hr class="my-3 text-white">
 
@@ -226,11 +224,11 @@ body {
 										<td><a
 											th:href="@{/airline/admin/flight/edit/{id}(id=${f.flightId})}"
 											class="btn btn-sm btn-outline-secondary py-0 px-2"><i
-												class="bi bi-pencil"></i></a> <a
+												class="bi bi-pencil"></i> Edit</a> <a
 											th:href="@{/airline/admin/flight/delete/{id}(id=${f.flightId})}"
 											class="btn btn-sm btn-outline-danger py-0 px-2"
 											onclick="return confirm('Are you sure you want to delete this flight?')"><i
-												class="bi bi-x-circle"></i></a></td>
+												class="bi bi-x-circle"></i> Delete</a></td>
 										<!--
 	<td>
 				<a th:if="${c.status == 1}" th:href="@{/student/courses/edit/{id}(id=${c.id})}"
@@ -285,12 +283,15 @@ body {
 										<td><span th:if="${fp.flight != null}"
 											th:text="${fp.flight.flightNumber}"></span> <span
 											th:unless="${fp.flight != null}">No Flight</span></td>
+
 										<td><span th:if="${fp.departureAirport != null}"
 											th:text="${fp.departureAirport.airportName}"></span> <span
 											th:unless="${fp.departureAirport != null}">N/A</span></td>
-										</td><span th:if="${fp.arrivalAirport != null}"
+
+										<td><span th:if="${fp.arrivalAirport != null}"
 											th:text="${fp.arrivalAirport.airportName}"></span> <span
 											th:unless="${fp.arrivalAirport != null}">N/A</span></td>
+
 										<td
 											th:text="${#temporals.format(fp.departureTime, 'yyyy-MM-dd HH:mm')}"></td>
 										<td
@@ -301,11 +302,11 @@ body {
 										<td><a
 											th:href="@{/airline/admin/flightPlan/edit/{id}(id=${fp.flightPlanId})}"
 											class="btn btn-sm btn-outline-secondary py-0 px-2"><i
-												class="bi bi-pencil"></i></a> <a
+												class="bi bi-pencil"></i> Edit</a> <a
 											th:href="@{/airline/admin/flightPlan/delete/{id}(id=${fp.flightPlanId})}"
 											class="btn btn-sm btn-outline-danger py-0 px-2"
 											onclick="return confirm('Are you sure you want to delete this flight plan?')"><i
-												class="bi bi-x-circle"></i></a></td>
+												class="bi bi-x-circle"></i> Delete</a></td>
 									</tr>
 								</tbody>
 							</table>
@@ -359,7 +360,8 @@ body {
 					</div>
 				</div>
 
-				<div id="section-airline" th:classappend="${activeTab != 'airline'} ? 'hidden-section'">
+				<div id="section-airline"
+					th:classappend="${activeTab != 'airline'} ? 'hidden-section'">
 					<div
 						class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
 						<h4 class="fw-bold m-0">
@@ -377,31 +379,36 @@ body {
 							<table class="table align-middle table-hover m-0">
 								<thead class="table-light">
 									<tr class="text-muted small fw-bold">
-										
+
 										<th>AIRLINE CODE</th>
 										<th>AIRLINE NAME</th>
 										<th>COUNTRY</th>
-										<!-- <th>LOGO PATH</th> -->
+										<th>LOGO PATH</th>
 										<th>ACTIONS</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr th:each="al : ${airline}">
-										
 										<td><span
 											class="badge bg-primary-subtle text-primary fw-bold"
 											th:text="${al.airlineCode}"></span></td>
-										<td><strong th:text="${al.airlineName}">
-												 </strong></td>
+										<td><strong th:text="${al.airlineName}"></strong></td>
 										<td th:text="${al.country}"></td>
-										<!-- <td th:text="${al.logopath}"></td> -->
-										<td>
-											<button class="btn btn-sm btn-outline-secondary py-0 px-2">
-												<i class="bi bi-pencil"></i>
-											</button>
-											<button class="btn btn-sm btn-outline-danger py-0 px-2">
+										<td><img th:if="${al.logo != null}" alt="Logo"
+											th:src="@{'/photos/'+${al.logo}}" width="50" height="40">
+										</td>
+
+										<td><a
+											th:href="@{/airline/admin/airline/edit/{id}(id=${al.airlineId})}"
+											class="btn btn-sm btn-outline-secondary py-0 px-2"><i class="bi bi-pencil"></i>
+												Edit
+										</a> 
+										   <!-- <a
+											th:href="@{/airline/admin/airline/delete/{id}(id=${al.airlineId})}"
+											class="btn btn-sm btn-outline-danger py-0 px-2"
+											onclick="return confirm('Are you sure you want to delete this airline?')">
 												<i class="bi bi-x-circle"></i>
-											</button>
+										  </a> -->
 										</td>
 									</tr>
 								</tbody>
@@ -410,7 +417,18 @@ body {
 					</div>
 				</div>
 
-				<div th:classappend="${activeTab != 'airport'} ? 'hidden-section'"  id="section-airport">
+				<!-- <td><a
+											th:href="@{/airline/admin/flightPlan/edit/{id}(id=${fp.flightPlanId})}"
+											class="btn btn-sm btn-outline-secondary py-0 px-2"><i
+												class="bi bi-pencil"></i></a> <a
+											th:href="@{/airline/admin/flightPlan/delete/{id}(id=${fp.flightPlanId})}"
+											class="btn btn-sm btn-outline-danger py-0 px-2"
+											onclick="return confirm('Are you sure you want to delete this flight plan?')"><i
+												class="bi bi-x-circle"></i></a></td>
+                                      -->
+
+				<div th:classappend="${activeTab != 'airport'} ? 'hidden-section'"
+					id="section-airport">
 					<div
 						class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
 						<h4 class="fw-bold m-0">
@@ -427,36 +445,38 @@ body {
 							<table class="table align-middle table-hover m-0">
 								<thead class="table-light">
 									<tr class="text-muted small fw-bold">
-										
+
 										<th>AIRPORT CODE</th>
 										<th>AIRPORT NAME</th>
 										<th>CITY</th>
 										<th>ACTIONS</th>
 									</tr>
 								</thead>
+
 								<tbody>
-							
 									<tr th:each="ap : ${airport}">
-										
 										<td><span
 											class="badge bg-primary-subtle text-primary fw-bold"
 											th:text="${ap.airportCode}"></span></td>
-										<td><strong th:text="${ap.airportName}">
-												 </strong></td>
+										<td><strong th:text="${ap.airportName}"></strong></td>
 										<td th:text="${ap.city}"></td>
+
 										<td>
-											<button class="btn btn-sm btn-outline-secondary py-0 px-2">
-												<i class="bi bi-pencil"></i>
-											</button>
-											<button class="btn btn-sm btn-outline-danger py-0 px-2">
+										<a
+											th:href="@{/airline/admin/airport/edit/{id}(id=${ap.airportId})}"
+											class="btn btn-sm btn-outline-secondary py-0 px-2"><i class="bi bi-pencil"></i>
+											 Edit
+											
+										</a>
+										<!--  <a
+											th:href="@{/airline/admin/airport/delete/{id}(id=${ap.airportId})}"
+											class="btn btn-sm btn-outline-danger py-0 px-2"
+											onclick="return confirm('Are you sure you want to delete this airport?')">
 												<i class="bi bi-x-circle"></i>
-											</button>
+										</a> -->
 										</td>
 									</tr>
-								
-
 								</tbody>
-
 							</table>
 						</div>
 					</div>

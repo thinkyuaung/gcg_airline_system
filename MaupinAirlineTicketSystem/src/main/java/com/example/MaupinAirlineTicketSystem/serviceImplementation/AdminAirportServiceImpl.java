@@ -32,4 +32,10 @@ public class AdminAirportServiceImpl implements AdminAirportService {
 		
 	}
 
+	@Override
+	public void deleteAirportById(int id) {
+		// TODO Auto-generated method stub
+		  adminAirportRepo.deleteById(id);
+	}
+
 }

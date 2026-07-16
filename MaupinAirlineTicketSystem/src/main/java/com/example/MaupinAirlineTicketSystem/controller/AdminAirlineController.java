@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.MaupinAirlineTicketSystem.entity.Airline;
 import com.example.MaupinAirlineTicketSystem.entity.Airport;
-import com.example.MaupinAirlineTicketSystem.entity.Flight;
 import com.example.MaupinAirlineTicketSystem.service.AdminAirlineService;
 import com.example.MaupinAirlineTicketSystem.service.AdminAirportService;
 
@@ -30,24 +30,12 @@ public class AdminAirlineController {
 	@Autowired
 	private AdminAirportService adminAirportService;
 
-	/*
-	 * // =====  DASHBOARD METHOD=====
-	 * 
-	 * @GetMapping("/admin") public String adminDashboard(Model model) { //
-	 * List<Airline> airlineList = adminAirlineService.viewAllFlight();
-	 * List<Airport> airportList = adminAirportService.getAllAirports();
-	 * 
-	 * //model.addAttribute("airlines", airlineList); model.addAttribute("airports",
-	 * airportList);
-	 * 
-	 * return "Admin/admin"; }
-	 */
-
-	// ===== ✈ AIRLINE METHODS =====
+	// =====  AIRLINE METHODS =====
+	
 	@GetMapping("/admin/airlineForm")
 	public String create(Model model) {
 		Airline a = new Airline();
-		model.addAttribute("airline", a);
+		model.addAttribute("airline", a); 
 		return "Admin/AddAirline";
 	}
 
@@ -60,7 +48,7 @@ public class AdminAirlineController {
 			File directory = new File(uploadDir);
 
 			if (!directory.exists()) {
-				directory.mkdir();
+				directory.mkdirs(); 
 			}
 
 			String fileName = System.currentTimeMillis() + "_" + photoFile.getOriginalFilename();
@@ -68,6 +56,13 @@ public class AdminAirlineController {
 			photoFile.transferTo(destination);
 
 			airline.setLogo(fileName);
+		} else {
+			if (airline.getAirlineId() != null && airline.getAirlineId() != 0) {
+				Airline existingAirline = adminAirlineService.getAirlineById(airline.getAirlineId());
+				if (existingAirline != null) {
+					airline.setLogo(existingAirline.getLogo());
+				}
+			}
 		}
 
 		adminAirlineService.saveFlight(airline);
@@ -77,17 +72,36 @@ public class AdminAirlineController {
 	@GetMapping("/admin/airlines")
 	public String getAllAirlines(Model model) {
 		List<Airline> airline =  adminAirlineService.getAllAirlines();
-		model.addAttribute("airline",airline);
+		model.addAttribute("airline", airline); 
 		model.addAttribute("activeTab", "airline");
 		return "Admin/admin";
 	}
 	
+	@GetMapping("/admin/airline/edit/{id}")
+	public String editAirline(@PathVariable("id") int id, Model model) {
+		Airline airline = adminAirlineService.getAirlineById(id);
+		model.addAttribute("airline", airline); 
+		return "Admin/AddAirline";
+	}
+
+	
+	@GetMapping("/admin/airline/delete/{id}")
+	public String deleteAirline(@PathVariable("id") int id) {
+		try {
+			
+			 adminAirlineService.deleteAirlineById(id);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/airline/admin/airlines";
+	}
 
 	// ===== AIRPORT METHODS =====
+	
 	@GetMapping("/admin/airportForm")
 	public String createAirport(Model model) {
 		Airport airport = new Airport();
-		model.addAttribute("airport", airport);
+		model.addAttribute("airport", airport); 
 		return "Admin/AddAirport";
 	}
 
@@ -99,15 +113,27 @@ public class AdminAirlineController {
 	
 	@GetMapping("/admin/airports")
 	public String getAllAirports(Model model) {
-
 		List<Airport> airport = adminAirportService.getAllAirports();
-		model.addAttribute("airport", airport);
+		model.addAttribute("airport", airport); 
 	    model.addAttribute("activeTab", "airport");
-
 		return "Admin/admin";
 	}
-	
-	
-	
-	
-} 
+
+	@GetMapping("/admin/airport/edit/{id}")
+	public String editAirport(@PathVariable("id") int id, Model model) {
+		Airport airport = adminAirportService.getAirportById(id);
+		model.addAttribute("airport", airport); 
+		return "Admin/AddAirport";
+	}
+
+	@GetMapping("/admin/airport/delete/{id}")
+	public String deleteAirport(@PathVariable("id") int id) {
+		try {
+			
+			// adminAirportService.deleteAirportById(id);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/airline/admin/airports";
+	}
+}
