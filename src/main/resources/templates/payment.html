@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<body>
+
+
+<h2>
+Payment
+</h2>
+
+
+<p>
+Please transfer payment using KPay
+</p>
+
+
+<form th:action="@{/airline/payment/upload}"
+method="post"
+enctype="multipart/form-data">
+
+
+<input type="hidden"
+name="paymentId"
+th:value="${paymentId}">
+
+
+
+<label>
+Upload KPay Screenshot
+</label>
+
+
+<input type="file"
+name="screenshot"
+accept="image/*"
+required>
+
+
+
+<button type="submit">
+
+Submit Payment
+
+</button>
+
+
+</form>
+
+
+</body>
+
+</html>

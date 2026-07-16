@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Payment Success</title>
+</head>
+
+<body>
+
+<h1>Payment Submitted Successfully</h1>
+
+<p>
+Your payment screenshot has been uploaded.
+</p>
+
+<p>
+Status: PENDING
+</p>
+
+<a th:href="@{/airline/history}">
+    <button type="button">
+        My Bookings
+    </button>
+</a>
+
+<a href="/airline/search">
+    Search More Flights
+</a>
+
+</body>
+
+</html>

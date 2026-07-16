@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+
+<div class="container">
+
+
+<h2>
+My Booking History
+</h2>
+
+
+
+<div th:each="booking:${bookings}"
+     class="card mb-3">
+
+
+<div class="card-body">
+
+
+<h4>
+
+Booking:
+
+<span th:text="${booking.bookingCode}">
+</span>
+
+</h4>
+
+
+
+<p>
+
+Flight:
+
+<span th:text="${booking.flightPlan.flight.flightNumber}">
+</span>
+
+</p>
+
+
+
+<p>
+
+Route:
+
+<span th:text="${booking.flightPlan.departureAirport.city}">
+</span>
+
+-
+
+<span th:text="${booking.flightPlan.arrivalAirport.city}">
+</span>
+
+</p>
+
+
+
+<p>
+
+Class:
+
+<span th:text="${booking.seatClass.className}">
+</span>
+
+</p>
+
+
+
+<p>
+
+Amount:
+
+<span th:text="${booking.totalAmount}">
+</span>
+
+</p>
+
+
+
+<p>
+
+Status:
+
+<span th:text="${booking.status}">
+</span>
+
+</p>
+
+
+<div th:if="${booking.status != 'CANCELLED'}">
+
+    <a th:href="@{/airline/cancel/{id}(id=${booking.bookingId})}"
+       class="btn btn-danger">
+        Cancel
+    </a>
+
+</div>
+
+<div th:if="${booking.status == 'CANCELLED'}">
+
+    <span class="badge bg-secondary">
+        Cancelled
+    </span>
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</body>
+</html>
