@@ -13,8 +13,8 @@ public interface BookingService {
 	    );
 
 	 Booking createBooking(
-	            int flightPlanId,
-	            int seatClassId,
-	            int passengers
-	    );
+		        int flightPlanId,
+		        String seatClass,
+		        int passengers
+		);
 }

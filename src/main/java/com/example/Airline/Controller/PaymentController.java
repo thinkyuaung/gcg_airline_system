@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.Airline.entity.Payment;
 import com.example.Airline.service.PaymentService;
 
 @Controller
@@ -27,11 +28,14 @@ public class PaymentController {
 	        Model model){
 
 
-	    model.addAttribute(
-	        "paymentId",
-	        id
-	    );
+		Payment payment =
+	            paymentService.getPayment(id);
 
+
+	    model.addAttribute(
+	            "payment",
+	            payment
+	    );
 
 	    return "payment";
 
@@ -43,13 +47,17 @@ public class PaymentController {
 	@PostMapping("/payment/upload")
 	public String uploadPayment(
 	        @RequestParam int paymentId,
-	        @RequestParam MultipartFile screenshot){
+	        @RequestParam MultipartFile screenshot,
+	        Model model){
 
+		Payment payment =
+		        paymentService.uploadScreenshot(paymentId, screenshot);
 
-	    paymentService.uploadScreenshot(
-	            paymentId,
-	            screenshot
-	    );
+		
+		model.addAttribute(
+		        "payment",
+		        payment
+		    );
 
 
 	    return "paymentSuccess";

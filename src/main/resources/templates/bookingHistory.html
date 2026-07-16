@@ -1,122 +1,505 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
+<head>
+
+<meta charset="UTF-8">
+
+<title>My Trips</title>
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+rel="stylesheet">
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+rel="stylesheet">
+
+
+<style>
+
+
+body{
+
+background:#f4f7fb;
+font-family:'Segoe UI',sans-serif;
+
+}
+
+
+.history-section{
+
+padding:50px 0;
+
+}
+
+
+
+.page-card{
+
+background:white;
+
+border-radius:20px;
+
+padding:35px;
+
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+}
+
+
+
+.nav-pills .nav-link{
+
+border-radius:30px;
+
+padding:10px 25px;
+
+font-weight:600;
+
+}
+
+
+
+.booking-card{
+
+border:1px solid #eee;
+
+border-radius:18px;
+
+padding:25px;
+
+margin-top:20px;
+
+transition:.3s;
+
+}
+
+
+
+.booking-card:hover{
+
+transform:translateY(-3px);
+
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+}
+
+
+
+.flight-number{
+
+font-size:22px;
+
+font-weight:700;
+
+}
+
+
+
+.route{
+
+font-size:18px;
+
+font-weight:600;
+
+}
+
+
+
+.status{
+
+padding:7px 15px;
+
+border-radius:20px;
+
+font-size:14px;
+
+font-weight:600;
+
+}
+
+.nav-pills .nav-link{
+    color:#0d6efd;
+    background:#eef4ff;
+    margin-right:10px;
+}
+
+
+.nav-pills .nav-link.active{
+
+    background:#0d6efd;
+    color:white;
+
+}
+
+
+.nav-pills .nav-link:hover{
+
+    background:#0b5ed7;
+    color:white;
+
+}
+
+</style>
+
+
+</head>
+
+
+
 <body>
+
+
+<section class="history-section">
 
 
 <div class="container">
 
 
-<h2>
-My Booking History
+<div class="page-card">
+
+
+
+<h2 class="mb-4">
+
+<i class="bi bi-ticket-perforated"></i>
+
+My Trips
+
 </h2>
 
 
 
+
+<!-- Category -->
+
+
+<ul class="nav nav-pills mb-4">
+
+
+<li class="nav-item">
+
+<a class="nav-link"
+th:classappend="${currentPage=='all'} ? 'active' : ''"
+th:href="@{/airline/history}">
+
+All Bookings
+
+</a>
+</li>
+
+
+
+<li class="nav-item">
+
+<a class="nav-link"
+th:classappend="${currentPage=='upcoming'} ? 'active' : ''"
+th:href="@{/airline/history/upcoming}">
+
+Upcoming Trips
+
+</a>
+
+</li>
+
+
+
+
+<li class="nav-item">
+
+<a class="nav-link"
+th:classappend="${currentPage=='cancelled'} ? 'active' : ''"
+th:href="@{/airline/history/cancelled}">
+
+Cancelled
+
+</a>
+</li>
+
+
+
+</ul>
+
+
+
+
+
+
+
+<div th:if="${#lists.isEmpty(bookings)}">
+
+
+<h5 class="text-muted text-center">
+
+No bookings found.
+
+</h5>
+
+
+</div>
+
+
+
+
+
+
+
 <div th:each="booking:${bookings}"
-     class="card mb-3">
 
-
-<div class="card-body">
-
-
-<h4>
-
-Booking:
-
-<span th:text="${booking.bookingCode}">
-</span>
-
-</h4>
+class="booking-card">
 
 
 
-<p>
 
-Flight:
+
+<div class="d-flex justify-content-between align-items-center">
+
+
+<div>
+
+
+<div class="flight-number">
+
+
+<i class="bi bi-airplane"></i>
+
 
 <span th:text="${booking.flightPlan.flight.flightNumber}">
+
 </span>
+
+
+</div>
+
+
+<p class="text-muted mb-0">
+
+
+Booking Code:
+
+<span th:text="${booking.bookingCode}"></span>
+
 
 </p>
 
 
+</div>
 
-<p>
 
-Route:
+
+
+
+<div>
+
+
+<span class="status bg-warning-subtle text-dark"
+
+th:if="${booking.status=='PENDING'}">
+
+Pending Payment
+
+</span>
+
+
+
+<span class="status bg-success-subtle text-success"
+
+th:if="${booking.status=='CONFIRMED'}">
+
+Confirmed
+
+</span>
+
+
+
+<span class="status bg-secondary-subtle text-secondary"
+
+th:if="${booking.status=='CANCELLED'}">
+
+Cancelled
+
+</span>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<hr>
+
+
+
+
+
+<div class="route">
+
 
 <span th:text="${booking.flightPlan.departureAirport.city}">
+
 </span>
 
--
+
+<i class="bi bi-arrow-right"></i>
+
 
 <span th:text="${booking.flightPlan.arrivalAirport.city}">
+
 </span>
 
-</p>
 
+</div>
+
+
+
+
+
+
+<div class="row mt-3">
+
+
+<div class="col-md-4">
 
 
 <p>
 
-Class:
+<i class="bi bi-calendar-event"></i>
 
-<span th:text="${booking.seatClass.className}">
-</span>
+Departure
+
+<br>
+
+
+<b th:text="${booking.flightPlan.departureTime}">
+
+</b>
+
 
 </p>
 
 
+</div>
+
+
+
+
+<div class="col-md-4">
+
 
 <p>
 
-Amount:
+Seat Class
+
+<br>
+
+
+<b th:text="${booking.seatClass.className}">
+
+</b>
+
+
+</p>
+
+
+</div>
+
+
+
+
+
+<div class="col-md-4">
+
+
+<p>
+
+Total
+
+<br>
+
+
+<b>
+
+$
 
 <span th:text="${booking.totalAmount}">
+
 </span>
+
+
+</b>
+
 
 </p>
 
 
-
-<p>
-
-Status:
-
-<span th:text="${booking.status}">
-</span>
-
-</p>
-
-
-<div th:if="${booking.status != 'CANCELLED'}">
-
-    <a th:href="@{/airline/cancel/{id}(id=${booking.bookingId})}"
-       class="btn btn-danger">
-        Cancel
-    </a>
-
-</div>
-
-<div th:if="${booking.status == 'CANCELLED'}">
-
-    <span class="badge bg-secondary">
-        Cancelled
-    </span>
-
-</div>
-
-
-
 </div>
 
 
 </div>
 
 
+
+
+
+<div class="mt-3">
+
+
+<a th:href="@{/airline/booking/{id}(id=${booking.bookingId})}"
+
+class="btn btn-primary">
+
+
+<i class="bi bi-eye"></i>
+
+View Details
+
+
+</a>
+
+
+
+
+
+<a th:if="${booking.status!='CANCELLED'}"
+
+th:href="@{/airline/cancel/confirm/{id}(id=${booking.bookingId})}"
+
+class="btn btn-outline-danger ms-2">
+
+<i class="bi bi-x-circle"></i>
+
+Cancel
+
+</a>
+
+
+
 </div>
+
+
+
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+</div>
+
+
+</section>
 
 
 </body>
+
 </html>

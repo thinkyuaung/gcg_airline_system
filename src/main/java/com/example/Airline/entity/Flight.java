@@ -20,28 +20,32 @@ public class Flight {
     private String flightNumber;
     private int totalSeats;
     private String status;
+    private int wifi;
+    private int meal;
+    private int entertainment;
+    private int charging;
     
     @ManyToOne
     @JoinColumn(name="airline_id")
     private Airline airline;
 
-	public Flight(int flightId, String flightNumber, int totalSeats, String status,
-			Airline airline) {
+	public Flight(int flightId, String flightNumber, int totalSeats, String status, int wifi, int meal,
+			int entertainment, int charging, Airline airline) {
 		super();
 		this.flightId = flightId;
 		this.flightNumber = flightNumber;
 		this.totalSeats = totalSeats;
 		this.status = status;
+		this.wifi = wifi;
+		this.meal = meal;
+		this.entertainment = entertainment;
+		this.charging = charging;
 		this.airline = airline;
 	}
 
 	public Flight() {
 		super();
 		// TODO Auto-generated constructor stub
-	}
-	
-	public Flight(int flightId) {
-	    this.flightId = flightId;
 	}
 
 	public int getFlightId() {
@@ -76,6 +80,38 @@ public class Flight {
 		this.status = status;
 	}
 
+	public int getWifi() {
+		return wifi;
+	}
+
+	public void setWifi(int wifi) {
+		this.wifi = wifi;
+	}
+
+	public int getMeal() {
+		return meal;
+	}
+
+	public void setMeal(int meal) {
+		this.meal = meal;
+	}
+
+	public int getEntertainment() {
+		return entertainment;
+	}
+
+	public void setEntertainment(int entertainment) {
+		this.entertainment = entertainment;
+	}
+
+	public int getCharging() {
+		return charging;
+	}
+
+	public void setCharging(int charging) {
+		this.charging = charging;
+	}
+
 	public Airline getAirline() {
 		return airline;
 	}
@@ -83,4 +119,6 @@ public class Flight {
 	public void setAirline(Airline airline) {
 		this.airline = airline;
 	}
+
+	
 }

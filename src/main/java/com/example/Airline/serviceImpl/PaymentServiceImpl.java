@@ -89,4 +89,12 @@ public class PaymentServiceImpl implements PaymentService{
 
 	}
 
+	@Override
+	public Payment getPayment(int paymentId) {
+		// TODO Auto-generated method stub
+		return paymentRepository
+	            .findById(paymentId)
+	            .orElseThrow();
+	}
+
 }

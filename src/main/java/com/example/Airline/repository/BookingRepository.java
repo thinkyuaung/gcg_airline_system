@@ -9,6 +9,9 @@ import com.example.Airline.entity.User;
 
 public interface BookingRepository extends JpaRepository<Booking, Integer>{
 
-	 List<Booking> findByUser(User user);
 	 
+	 List<Booking> findByStatus(String status);
+
+
+	 List<Booking> findByStatusNot(String status);
 }

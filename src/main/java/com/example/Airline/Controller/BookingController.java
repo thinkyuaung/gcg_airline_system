@@ -21,14 +21,15 @@ public class BookingController {
     @PostMapping("/booking")
     public String booking(
             @RequestParam int flightPlanId,
-            @RequestParam int seatClassId,
-            @RequestParam int passengers){
+            @RequestParam int passengers,
+
+            @RequestParam String seatClass){
 
 
         Booking booking =
                 bookingService.createBooking(
                         flightPlanId,
-                        seatClassId,
+                        seatClass,
                         passengers
                 );
 

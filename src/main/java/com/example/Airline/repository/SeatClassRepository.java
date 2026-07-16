@@ -6,4 +6,6 @@ import com.example.Airline.entity.SeatClass;
 
 public interface SeatClassRepository extends JpaRepository<SeatClass, Integer>{
 
+	SeatClass findByClassName(String className);
+	
 }

@@ -9,27 +9,21 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.Airline.entity.Booking;
 import com.example.Airline.repository.BookingRepository;
-import com.example.Airline.service.CancellationService;
 
 
 
 @Controller
 @RequestMapping("/airline")
-public class CancellationController {
+public class BookingDetailController {
 
 
 @Autowired
 private BookingRepository bookingRepository;
 
 
-@Autowired
-private CancellationService cancellationService;
 
-
-
-
-@GetMapping("/cancel/confirm/{id}")
-public String confirmPage(
+@GetMapping("/booking/{id}")
+public String bookingDetail(
         @PathVariable int id,
         Model model){
 
@@ -46,42 +40,9 @@ public String confirmPage(
     );
 
 
-    return "cancelConfirm";
+    return "bookingDetail";
 
 }
 
-
-
-
-@PostMapping("/cancel/{id}")
-public String cancel(
-        @PathVariable int id,
-        @RequestParam String reason,
-        Model model){
-
-
-
-	try {
-
-        cancellationService.cancelBooking(id, reason);
-
-        return "cancelSuccess";
-
-
-    } catch(RuntimeException e){
-
-
-        model.addAttribute(
-            "message",
-            e.getMessage()
-        );
-
-
-        return "cancelError";
-
-    }
-
-
-}
 
 }

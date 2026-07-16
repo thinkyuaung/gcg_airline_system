@@ -6,6 +6,8 @@ import com.example.Airline.entity.Payment;
 
 public interface PaymentService {
 
+	Payment getPayment(int paymentId);
+	
 	 Payment uploadScreenshot(
 	            int paymentId,
 	            MultipartFile file

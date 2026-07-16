@@ -24,14 +24,42 @@ public class BookingHistoryServiceImpl implements BookingHistoryService
 
 	
 	@Override
-	public List<Booking> getBookingHistory(int userId) {
-		// TODO Auto-generated method stub
-		 User user =
-			        userRepository.findById(userId)
-			        .orElseThrow();
+	public List<Booking> getAllBookings(){
+
+	    return bookingRepository.findAll();
+
+	}
 
 
-			    return bookingRepository.findByUser(user);
+
+	@Override
+	public List<Booking> getUpcomingBookings(){
+
+	    return bookingRepository
+	            .findByStatusNot("CANCELLED");
+
+	}
+
+
+
+
+	@Override
+	public List<Booking> getCancelledBookings(){
+
+	    return bookingRepository
+	            .findByStatus("CANCELLED");
+
+	}
+
+
+
+	@Override
+	public Booking getBookingDetail(int id){
+
+	    return bookingRepository
+	            .findById(id)
+	            .orElseThrow();
+
 	}
 
 }

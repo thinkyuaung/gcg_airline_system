@@ -53,100 +53,80 @@ public class BookingServiceImpl implements BookingService{
 
 
 	@Override
-	 @Transactional
-	public Booking createBooking(int flightPlanId, int seatClassId, int passengers) {
-		// TODO Auto-generated method stub
-		
-		User user =
-                userRepository.findById(1)
-                .orElseThrow();
+	@Transactional
+	public Booking createBooking(
+	        int flightPlanId,
+	        String seatClass,
+	        int passengers) {
+
+
+	    FlightPlan flightPlan =
+	            flightPlanRepository
+	            .findById(flightPlanId)
+	            .orElseThrow();
+
+
+	    // Convert String -> SeatClass Entity
+
+	    SeatClass seatClassEntity =
+	            seatClassRepository
+	            .findByClassName(seatClass);
 
 
 
-        FlightPlan flightPlan =
-                flightPlanRepository.findById(flightPlanId)
-                .orElseThrow();
+	    if(seatClassEntity == null){
+
+	        throw new RuntimeException(
+	            "Seat class not found"
+	        );
+
+	    }
 
 
 
-        SeatClass seatClass =
-                seatClassRepository.findById(seatClassId)
-                .orElseThrow();
+	    Booking booking = new Booking();
+
+
+	    booking.setFlightPlan(flightPlan);
+
+
+	    booking.setSeatClass(seatClassEntity);
+
+
+	    booking.setBookingDate(
+	            LocalDateTime.now()
+	    );
+
+
+	    booking.setStatus("PENDING");
 
 
 
-        double total =
-                calculateTotalPrice(
-                        flightPlan,
-                        seatClass,
-                        passengers
-                );
+	    double totalAmount =
+	            flightPlan.getPrice()
+	            * seatClassEntity.getPriceMultiplier()
+	            * passengers;
 
 
 
-        Booking booking = new Booking();
+	    booking.setTotalAmount(totalAmount);
+
+	    Payment payment = new Payment();
+
+	    payment.setAmount(totalAmount);
+
+	    payment.setPaymentStatus("WAITING");
+
+	    payment.setBooking(booking);
 
 
-        booking.setBookingCode(
-                "BK-" + UUID.randomUUID()
-                .toString()
-                .substring(0,8)
-        );
+	    paymentRepository.save(payment);
 
 
-        booking.setBookingDate(
-                LocalDateTime.now()
-        );
+	    booking.setPayment(payment);
+	    
 
-
-        booking.setTotalAmount(total);
-
-
-        booking.setStatus("CONFIRMED");
-
-
-        booking.setUser(user);
-
-
-        booking.setFlightPlan(flightPlan);
-
-
-        booking.setSeatClass(seatClass);
-
-
-
-        // reduce available seats
-
-        flightPlan.setAvailableSeats(
-                flightPlan.getAvailableSeats() - passengers
-        );
-
-
-        flightPlanRepository.save(flightPlan);
-
-        Booking savedBooking =
-                bookingRepository.save(booking);
-
-
-
-        Payment payment = new Payment();
-
-        payment.setPaymentMethod("KPay");
-
-        payment.setAmount(savedBooking.getTotalAmount());
-
-        payment.setPaymentStatus("PENDING");
-
-        payment.setPaymentDate(LocalDateTime.now());
-
-        payment.setBooking(savedBooking);
-
-        paymentRepository.save(payment);
-
-
-        savedBooking.setPayment(payment);
-
-        return savedBooking;
+	    return bookingRepository.save(booking);
 
 	}
 }
