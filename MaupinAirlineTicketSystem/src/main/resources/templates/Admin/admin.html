@@ -9,7 +9,7 @@
 	rel="stylesheet">
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
- 
+
 <style>
 body {
 	background-color: #f9f9f4;
@@ -17,7 +17,7 @@ body {
 	font-family: system-ui, -apple-system, sans-serif;
 	overflow-x: hidden;
 }
- 
+
 /* Layout Structure */
 .stat-card {
 	background-color: #ffffff;
@@ -27,12 +27,12 @@ body {
 	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
 	transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
- 
+
 .stat-card:hover {
 	transform: translateY(-2px);
 	box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
 }
- 
+
 .content-card {
 	background-color: #ffffff;
 	border: none;
@@ -40,14 +40,14 @@ body {
 	padding: 1.5rem;
 	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
- 
+
 /* Sidebar Layout Fixes */
 .admin-sidebar {
 	background-color: #212529;
 	box-shadow: 4px 0 24px rgba(0, 0, 0, 0.05);
 	z-index: 100;
 }
- 
+
 @media ( min-width : 768px) {
 	.admin-sidebar {
 		position: fixed;
@@ -62,7 +62,7 @@ body {
 		width: 80%;
 	}
 }
- 
+
 @media ( min-width : 1200px) {
 	.admin-sidebar {
 		width: 16.666667%;
@@ -72,7 +72,7 @@ body {
 		width: 83.333333%;
 	}
 }
- 
+
 /* Navigation Links */
 .admin-nav-link {
 	display: flex;
@@ -86,29 +86,117 @@ body {
 	cursor: pointer;
 	transition: all 0.2s ease;
 }
- 
+
 .admin-nav-link:hover, .admin-nav-link.active {
 	background-color: #0d6efd;
 	color: #ffffff !important;
 	box-shadow: 0 4px 12px rgba(13, 110, 253, 0.25);
 }
- 
+
 .admin-nav-link.text-danger:hover {
 	background-color: #dc3545 !important;
 	color: #ffffff !important;
 	box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
 }
- 
+
 .hidden-section {
 	display: none !important;
+}
+
+.custom-premium-table tbody tr {
+	border-bottom: 1px solid #edf2f7;
+	transition: background-color 0.2s ease;
+}
+
+.custom-premium-table tbody tr:last-child {
+	border-bottom: none;
+}
+
+.custom-premium-table tbody tr:hover {
+	background-color: #f8fafc !important;
+}
+
+.fw-mono {
+	font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+		"Courier New", monospace;
+}
+
+.custom-flight-table tbody tr {
+	border-bottom: 1px solid #edf2f7;
+}
+
+.custom-flight-table tbody tr:last-child {
+	border-bottom: none;
+}
+
+.flat-btn, .flat-btn:focus, .flat-btn:active {
+	box-shadow: none !important;
+	outline: none !important;
+	transition: all 0.2s ease;
+}
+.custom-flightplan-table tbody tr {
+	border-bottom: 1px solid #edf2f7;
+	transition: background-color 0.15s ease;
+}
+
+.custom-flightplan-table tbody tr:last-child {
+	border-bottom: none;
+}
+
+.custom-flightplan-table tbody tr:hover {
+	background-color: #f8fafc !important;
+}
+/* Flat Buttons Focus Reset */
+.flat-btn, .flat-btn:focus, .flat-btn:active {
+	box-shadow: none !important;
+	outline: none !important;
+	transition: all 0.2s ease;
+}
+
+.custom-airline-table tbody tr {
+    border-bottom: 1px solid #edf2f7;
+    transition: background-color 0.15s ease;
+}
+.custom-airline-table tbody tr:last-child {
+    border-bottom: none;
+}
+.custom-airline-table tbody tr:hover {
+    background-color: #f8fafc !important;
+}
+/* Logo Frame size fixing */
+.airline-logo-frame {
+    width: 60px;
+    height: 45px;
+}
+/* Flat Buttons Focus Reset */
+.flat-btn, .flat-btn:focus, .flat-btn:active {
+    box-shadow: none !important;
+    outline: none !important;
+    transition: all 0.2s ease;
+}
+.custom-airport-table tbody tr {
+    border-bottom: 1px solid #edf2f7;
+    transition: background-color 0.15s ease;
+}
+.custom-airport-table tbody tr:last-child {
+    border-bottom: none;
+}
+.custom-airport-table tbody tr:hover {
+    background-color: #f8fafc !important;
+}
+/* Flat Buttons Focus Reset */
+.flat-btn, .flat-btn:focus, .flat-btn:active {
+    box-shadow: none !important;
+    outline: none !important;
+    transition: all 0.2s ease;
 }
 </style>
 </head>
 <body>
- 
+
 	<div class="container-fluid">
 		<div class="row">
- 
+
 			<nav class="col-md-3 col-lg-2 d-md-block admin-sidebar px-3 py-4">
 				<div class="d-flex align-items-center gap-2 mb-4 px-2">
 					<i class="bi bi-shield-lock-fill text-primary fs-4"></i> <span
@@ -143,17 +231,17 @@ body {
 						class="admin-nav-link"
 						th:classappend="${activeTab == 'airport'} ? ' active' : ''"><i
 						class="bi bi-geo-alt-fill"></i> Air Port</a>
- 
+
 					<hr class="my-3 text-white">
- 
+
 					<a href="/Air-Line-System/index.html"
 						class="admin-nav-link text-danger"><i
 						class="bi bi-box-arrow-left"></i> Exit Portal</a>
 				</div>
 			</nav>
- 
+
 			<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
- 
+
 				<div id="section-dashboard"
 					th:classappend="${activeTab != null} ? 'hidden-section' : ''">
 					<div
@@ -184,10 +272,10 @@ body {
 						</div>
 					</div>
 				</div>
- 
+
 				<div id="section-flights"
 					th:classappend="${activeTab != 'flights'} ? 'hidden-section'">
- 
+
 					<div
 						class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
 						<h4 class="fw-bold m-0">
@@ -199,57 +287,73 @@ body {
 								<i class="bi bi-plus-circle"></i> Add New Flight
 							</button></a>
 					</div>
- 
-					<div class="content-card bg-white">
+
+					<!--   MANAGE FLIGHT TABLE -->
+					<div class="card border rounded-4 bg-white overflow-hidden">
 						<div class="table-responsive">
-							<table class="table align-middle table-hover m-0">
-								<thead class="table-light">
-									<tr class="text-muted small fw-bold">
-										<th>FLIGHT NUMBER</th>
-										<th>AIRLINE</th>
-										<th>Total Seats</th>
-										<th>STATUS</th>
-										<th>ACTIONS</th>
+							<table
+								class="table align-middle table-hover m-0 custom-flight-table">
+								<thead class="bg-light border-bottom border-2">
+									<tr class="text-secondary small fw-bold text-uppercase"
+										style="letter-spacing: 0.5px;">
+										<th class="ps-4 py-3">Flight Number</th>
+										<th class="py-3">Airline</th>
+										<th class="py-3">Total Seats</th>
+										<th class="py-3">Status</th>
+										<th class="pe-4 py-3 text-end">Actions</th>
 									</tr>
 								</thead>
+
 								<tbody>
-									<!-- Entity Attribute Name -->
 									<tr th:each="f: ${flights}">
-										<td th:text="${f.flightNumber}"></td>
-										<td><span th:if="${f.airline != null}"
+										<td class="ps-4 py-3"><span
+											class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded-2"
+											th:text="${f.flightNumber}"></span></td>
+
+										<td class="py-3 fw-semibold text-dark"><span
+											th:if="${f.airline != null}"
 											th:text="${f.airline.airlineName}"></span> <span
-											th:unless="${f.airline != null}"> No Airline </span></td>
-										<td th:text="${f.totalSeats}"></td>
-										<td th:text="${f.status}"></td>
-										<td><a
-											th:href="@{/airline/admin/flight/edit/{id}(id=${f.flightId})}"
-											class="btn btn-sm btn-outline-secondary py-0 px-2"><i
-												class="bi bi-pencil"></i> Edit</a> <a
-											th:href="@{/airline/admin/flight/delete/{id}(id=${f.flightId})}"
-											class="btn btn-sm btn-outline-danger py-0 px-2"
-											onclick="return confirm('Are you sure you want to delete this flight?')"><i
-												class="bi bi-x-circle"></i> Delete</a></td>
-										<!--
-	<td>
-				<a th:if="${c.status == 1}" th:href="@{/student/courses/edit/{id}(id=${c.id})}"
-					class="btn btn-primary">Update</a>
-				<a th:if="${c.status == 1}" th:href="@{/student/courses/delete/{id}(id=${c.id})}" class="btn btn-danger">Delete</a>
-				
-				<a th:if="${c.status == 0}" th:href="@{/student/courses/resign/{id}(id=${c.id})}" class="btn btn-danger">Active</a>
-				
-				
-		</td>
-	  -->
+											th:unless="${f.airline != null}"
+											class="text-muted small italic">No Airline</span></td>
+
+										<td class="py-3 text-secondary fw-bold"
+											th:text="${f.totalSeats + ' Seats'}"></td>
+
+										<td class="py-3"><span
+											class="badge fw-bold px-2 py-1.5 rounded-pill border"
+											th:text="${f.status}"
+											th:classappend="${f.status == 'Active' || f.status == 'Scheduled'} ? 'bg-success-subtle text-success border-success-subtle' : 
+                                             (${f.status == 'Delayed' || f.status == 'Pending'} ? 'bg-warning-subtle text-warning border-warning-subtle' : 'bg-danger-subtle text-danger border-danger-subtle')">
+										</span></td>
+
+										<td class="pe-4 py-3 text-end">
+											<div class="d-inline-flex gap-2">
+
+												<a
+													th:href="@{/airline/admin/flight/edit/{id}(id=${f.flightId})}"
+													class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
+													<i class="bi bi-pencil-square"></i> Edit
+												</a> <a
+													th:href="@{/airline/admin/flight/delete/{id}(id=${f.flightId})}"
+													class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn"
+													onclick="return confirm('Are you sure you want to delete this flight?')">
+													<i class="bi bi-trash3"></i> Delete
+												</a>
+
+											</div>
+										</td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
 					</div>
+
+
 				</div>
- 
+
 				<div id="section-flightPlans"
 					th:classappend="${activeTab != 'flightPlans'} ? 'hidden-section'">
- 
+
 					<div
 						class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
 						<h4 class="fw-bold m-0">
@@ -261,117 +365,178 @@ body {
 								<i class="bi bi-plus-circle"></i> Add New Flight Plan
 							</button></a>
 					</div>
- 
-					<div class="content-card bg-white">
+					<!-- flight plan table -->
+					<div class="card border rounded-4 bg-white overflow-hidden">
 						<div class="table-responsive">
-							<table class="table align-middle table-hover m-0">
-								<thead class="table-light">
-									<tr class="text-muted small fw-bold">
-										<th>FLIGHT</th>
-										<th>DEPARTURE AIRPORT</th>
-										<th>ARRIVAL AIRPORT</th>
-										<th>DEPARTURE TIME</th>
-										<th>ARRIVAL TIME</th>
-										<th>DATE</th>
-										<th>SEATS</th>
-										<th>PRICE</th>
-										<th>ACTIONS</th>
+							<table
+								class="table align-middle table-hover m-0 custom-flightplan-table">
+								<thead class="bg-light border-bottom border-2">
+									<tr class="text-secondary small fw-bold text-uppercase"
+										style="letter-spacing: 0.5px;">
+										<th class="ps-4 py-3">Flight</th>
+										<th class="py-3">Departure Airport</th>
+										<th class="py-3">Arrival Airport</th>
+										<th class="py-3">Departure Time</th>
+										<th class="py-3">Arrival Time</th>
+										<th class="py-3">Date</th>
+										<th class="py-3">Seats</th>
+										<th class="py-3">Price</th>
+										<th class="pe-4 py-3 text-end">Actions</th>
 									</tr>
 								</thead>
+
 								<tbody>
 									<tr th:each="fp : ${flightPlans}">
-										<td><span th:if="${fp.flight != null}"
+										<td class="ps-4 py-3"><span th:if="${fp.flight != null}"
+											class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded-2"
 											th:text="${fp.flight.flightNumber}"></span> <span
-											th:unless="${fp.flight != null}">No Flight</span></td>
- 
-										<td><span th:if="${fp.departureAirport != null}"
+											th:unless="${fp.flight != null}"
+											class="badge bg-danger-subtle text-danger fw-bold px-2 py-1 rounded-2">No
+												Flight</span></td>
+
+										<td class="py-3 fw-semibold text-dark"><span
+											th:if="${fp.departureAirport != null}"
 											th:text="${fp.departureAirport.airportName}"></span> <span
-											th:unless="${fp.departureAirport != null}">N/A</span></td>
- 
-										<td><span th:if="${fp.arrivalAirport != null}"
+											th:unless="${fp.departureAirport != null}"
+											class="text-muted small italic">N/A</span></td>
+
+										<td class="py-3 fw-semibold text-dark"><span
+											th:if="${fp.arrivalAirport != null}"
 											th:text="${fp.arrivalAirport.airportName}"></span> <span
-											th:unless="${fp.arrivalAirport != null}">N/A</span></td>
- 
-										<td
-											th:text="${#temporals.format(fp.departureTime, 'yyyy-MM-dd HH:mm')}"></td>
-										<td
-											th:text="${#temporals.format(fp.arrivalTime, 'yyyy-MM-dd HH:mm')}"></td>
-										<td th:text="${#dates.format(fp.flight_date, 'yyyy-MM-dd')}"></td>
-										<td th:text="${fp.availableSeats}"></td>
-										<td th:text="'$' + ${#numbers.formatDecimal(fp.price, 1, 2)}"></td>
-										<td><a
-											th:href="@{/airline/admin/flightPlan/edit/{id}(id=${fp.flightPlanId})}"
-											class="btn btn-sm btn-outline-secondary py-0 px-2"><i
-												class="bi bi-pencil"></i> Edit</a> <a
-											th:href="@{/airline/admin/flightPlan/delete/{id}(id=${fp.flightPlanId})}"
-											class="btn btn-sm btn-outline-danger py-0 px-2"
-											onclick="return confirm('Are you sure you want to delete this flight plan?')"><i
-												class="bi bi-x-circle"></i> Delete</a></td>
+											th:unless="${fp.arrivalAirport != null}"
+											class="text-muted small italic">N/A</span></td>
+
+										<td class="py-3 text-secondary small"><span
+											class="d-inline-flex align-items-center gap-1"> <i
+												class="bi bi-clock text-muted"></i> <span
+												th:text="${#temporals.format(fp.departureTime, 'yyyy-MM-dd HH:mm')}"></span>
+										</span></td>
+
+										<td class="py-3 text-secondary small"><span
+											class="d-inline-flex align-items-center gap-1"> <i
+												class="bi bi-clock-fill text-muted"></i> <span
+												th:text="${#temporals.format(fp.arrivalTime, 'yyyy-MM-dd HH:mm')}"></span>
+										</span></td>
+
+										<td class="py-3 text-dark fw-medium"
+											th:text="${#dates.format(fp.flight_date, 'yyyy-MM-dd')}"></td>
+
+										<td class="py-3"><span
+											class="badge bg-dark-subtle text-dark-emphasis border fw-bold px-2 py-1 rounded-pill"
+											th:text="${fp.availableSeats + ' Available'}"></span></td>
+
+										<td class="py-3 fw-bold text-dark"
+											th:text="'$' + ${#numbers.formatDecimal(fp.price, 1, 2)}"></td>
+
+										<td class="pe-4 py-3 text-end">
+											<div class="d-inline-flex gap-2">
+												<a
+													th:href="@{/airline/admin/flightPlan/edit/{id}(id=${fp.flightPlanId})}"
+													class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
+													<i class="bi bi-pencil-square"></i> Edit
+												</a> <a
+													th:href="@{/airline/admin/flightPlan/delete/{id}(id=${fp.flightPlanId})}"
+													class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn"
+													onclick="return confirm('Are you sure you want to delete this flight plan?')">
+													<i class="bi bi-trash3"></i> Delete
+												</a>
+											</div>
+										</td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
 					</div>
+
+					
+
 				</div>
- 
-				 <!-- Bookings -->
-        <div id="section-bookings" th:classappend="${activeTab != 'bookings'} ? 'hidden-section'">
-					<h4 class="fw-bold mb-3">
-						<i class="bi bi-receipt-cutoff text-primary"></i> Passenger Ticket
-						Bookings
-					</h4>
-					<div class="content-card bg-white">
+
+				<!-- Bookings -->
+				<div id="section-bookings"
+					th:classappend="${activeTab != 'bookings'} ? 'hidden-section'">
+					<h5 class="fw-bold mb-4 text-dark d-flex align-items-center gap-2">
+						<i class="bi bi-receipt-cutoff text-primary fs-5"></i> <span>Passenger
+							Ticket Bookings</span>
+					</h5>
+
+					<div class="card border rounded-4 bg-white overflow-hidden">
 						<div class="table-responsive">
-							<table class="table align-middle table-hover m-0">
-								<thead class="table-light">
-									<tr class="text-muted small fw-bold">
-										<th>PASSENGER</th>
-										<th>FLIGHT</th>
-										<th>CLASS</th>
-										 <th>SEAT NUMBER</th>
-					                    <th>DEPARTURE</th>
-					                    <th>PAYMENT SS</th>
-					                    <th>TOTAL AMOUNT</th>
-										<th>STATUS</th>
-										<th>ACTION</th>
+							<table
+								class="table align-middle table-hover m-0 custom-premium-table">
+								<thead class="bg-light border-bottom border-2">
+									<tr class="text-secondary small fw-bold text-uppercase"
+										style="letter-spacing: 0.5px;">
+										<th class="ps-4 py-3">Passenger</th>
+										<th class="py-3">Flight</th>
+										<th class="py-3">Class</th>
+										<th class="py-3">Seat Number</th>
+										<th class="py-3">Departure</th>
+										<th class="py-3">Payment SS</th>
+										<th class="py-3">Total Amount</th>
+										<th class="py-3">Status</th>
+										<th class="pe-4 py-3 text-end">Action</th>
 									</tr>
 								</thead>
+
 								<tbody>
 									<tr>
-										<!-- <td>Mg Mg <span class="text-muted small">(mgmg@mail.com)</span></td> -->
-										<td>Mg Mg</td>
-										<td class="fw-bold text-primary">SN-101</td>
-										<td>Business</td>
-										   <td>A-02</td>
-                   						 <td>Lashio</td>
-										<td><a href="#" class="small text-decoration-none"><i
-												class="bi bi-image text-info"></i> Uploaded</a></td>
-										<td>100000</td>
-										<td><span class="badge bg-warning text-dark">Pending
-												Approval</span></td>
-										<td><button
-												class="btn btn-sm btn-primary py-0 px-2 shadow-sm"><i class="bi bi-boxes"></i> Approve</button></td>
+										<td class="ps-4 py-3 fw-semibold text-dark">Mg Mg</td>
+										<td class="py-3"><span
+											class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded-2">SN-101</span></td>
+										<td class="py-3 text-muted">Business</td>
+										<td class="py-3 fw-mono text-dark">A-02</td>
+										<td class="py-3 text-dark">Lashio</td>
+										<td class="py-3"><a href="#"
+											class="btn btn-sm btn-link text-decoration-none text-info fw-semibold p-0 d-inline-flex align-items-center gap-1">
+												<i class="bi bi-image"></i> View SS
+										</a></td>
+										<td class="py-3 fw-bold text-dark">100,000 MMK</td>
+										<td class="py-3"><span
+											class="badge bg-warning-subtle text-warning fw-bold px-2 py-1.5 rounded-pill border border-warning-subtle">
+												<i class="bi bi-clock-history me-1"></i> Pending
+										</span></td>
+										<td class="pe-4 py-3 text-end">
+											<button
+												class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold">
+												<i class="bi bi-check-circle me-1"></i> Approve
+											</button>
+										</td>
 									</tr>
+
 									<tr>
-										<td>Su Su</td>
-										<td class="fw-bold text-primary">SN-304</td>
-										<td>Economy</td>
-										 <td>A-02</td>
-                   						 <td>Lashio</td>
-										<td><a href="#" class="small text-decoration-none"><i
-												class="bi bi-image text-info"></i> Uploaded</a></td>
-										<td>200000</td>
-										<td><span class="badge bg-success">Successful</span></td>
-										<td><span class="text-success fw-bold small"><button
-												class="btn btn-sm btn-danger py-0 px-2 shadow-sm"><i
-												class="bi bi-qr-code"></i>  Issued</button></span></td>
+										<td class="ps-4 py-3 fw-semibold text-dark">Su Su</td>
+										<td class="py-3"><span
+											class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded-2">SN-304</span></td>
+										<td class="py-3 text-muted">Economy</td>
+										<td class="py-3 fw-mono text-dark">A-02</td>
+										<td class="py-3 text-dark">Lashio</td>
+										<td class="py-3"><a href="#"
+											class="btn btn-sm btn-link text-decoration-none text-info fw-semibold p-0 d-inline-flex align-items-center gap-1">
+												<i class="bi bi-image"></i> View SS
+										</a></td>
+										<td class="py-3 fw-bold text-dark">200,000 MMK</td>
+										<td class="py-3"><span
+											class="badge bg-success-subtle text-success fw-bold px-2 py-1.5 rounded-pill border border-success-subtle">
+												<i class="bi bi-check2-all me-1"></i> Successful
+										</span></td>
+										<td class="pe-4 py-3 text-end">
+											<button
+												class="btn btn-sm btn-danger rounded-pill px-3 py-1 fw-semibold">
+												<i class="bi bi-qr-code me-1"></i> Issued
+											</button>
+										</td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
 					</div>
 				</div>
- 
+
+
+
+
+
 				<div id="section-airline"
 					th:classappend="${activeTab != 'airline'} ? 'hidden-section'">
 					<div
@@ -385,50 +550,66 @@ body {
 								class="bi bi-plus-circle"></i> Add New Airline</a>
 						</button>
 					</div>
- 
-					<div class="content-card bg-white">
-						<div class="table-responsive">
-							<table class="table align-middle table-hover m-0">
-								<thead class="table-light">
-									<tr class="text-muted small fw-bold">
- 
-										<th>AIRLINE CODE</th>
-										<th>AIRLINE NAME</th>
-										<th>COUNTRY</th>
-										<th>LOGO PATH</th>
-										<th>ACTIONS</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr th:each="al : ${airline}">
-										<td><span
-											class="badge bg-primary-subtle text-primary fw-bold"
-											th:text="${al.airlineCode}"></span></td>
-										<td><strong th:text="${al.airlineName}"></strong></td>
-										<td th:text="${al.country}"></td>
-										<td><img th:if="${al.logo != null}" alt="Logo"
-											th:src="@{'/photos/'+${al.logo}}" width="50" height="40">
-										</td>
- 
-										<td><a
-											th:href="@{/airline/admin/airline/edit/{id}(id=${al.airlineId})}"
-											class="btn btn-sm btn-outline-secondary py-0 px-2"><i class="bi bi-pencil"></i>
-												Edit
-										</a>
-										   <!-- <a
-											th:href="@{/airline/admin/airline/delete/{id}(id=${al.airlineId})}"
-											class="btn btn-sm btn-outline-danger py-0 px-2"
-											onclick="return confirm('Are you sure you want to delete this airline?')">
-												<i class="bi bi-x-circle"></i>
-										  </a> -->
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
+                   <!-- AIRLINE TABLE -->
+				      <!-- 🗂️ Clean Flat Container (No Shadow, Pure Minimalist) -->
+<div class="card border rounded-4 bg-white overflow-hidden">
+    <div class="table-responsive">
+        <table class="table align-middle table-hover m-0 custom-airline-table">
+            <!-- <thead>: Modern Soft Neutral Header -->
+            <thead class="bg-light border-bottom border-2">
+                <tr class="text-secondary small fw-bold text-uppercase" style="letter-spacing: 0.5px;">
+                    <th class="ps-4 py-3">Airline Code</th>
+                    <th class="py-3">Airline Name</th>
+                    <th class="py-3">Country</th>
+                    <th class="py-3">Logo</th>
+                    <th class="pe-4 py-3 text-end">Actions</th>
+                </tr>
+            </thead>
+            
+            <!-- <tbody>: Dynamic Airline Rows -->
+            <tbody>
+                <tr th:each="al : ${airline}">
+                    <!-- 🆔 Airline Code Badge -->
+                    <td class="ps-4 py-3">
+                        <span class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded-2" th:text="${al.airlineCode}"></span>
+                    </td>
+                    
+                    <!-- 🏢 Airline Name -->
+                    <td class="py-3">
+                        <span class="fw-semibold text-dark" th:text="${al.airlineName}"></span>
+                    </td>
+                    
+                    <!-- 🌍 Country -->
+                    <td class="py-3 text-secondary" th:text="${al.country}"></td>
+                    
+                    <!-- 🖼️ Logo Style with Frame -->
+                    <td class="py-3">
+                        <div th:if="${al.logo != null}" class="airline-logo-frame bg-light border rounded p-1 d-inline-flex align-items-center justify-content-center">
+                            <img alt="Logo" th:src="@{'/photos/'+${al.logo}}" width="50" height="35" style="object-fit: contain;">
+                        </div>
+                        <span th:unless="${al.logo != null}" class="text-muted small italic">No Logo</span>
+                    </td>
+                    
+                    <!-- 🛠️ Actions: Flat Outline Button with Icon (No Shadow) -->
+                    <td class="pe-4 py-3 text-end">
+                        <div class="d-inline-flex gap-2">
+                            <!-- Edit Button -->
+                            <a th:href="@{/airline/admin/airline/edit/{id}(id=${al.airlineId})}"
+                               class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
 				</div>
- 
+
 				<!-- <td><a
 											th:href="@{/airline/admin/flightPlan/edit/{id}(id=${fp.flightPlanId})}"
 											class="btn btn-sm btn-outline-secondary py-0 px-2"><i
@@ -438,7 +619,7 @@ body {
 											onclick="return confirm('Are you sure you want to delete this flight plan?')"><i
 												class="bi bi-x-circle"></i></a></td>
                                       -->
- 
+
 				<div th:classappend="${activeTab != 'airport'} ? 'hidden-section'"
 					id="section-airport">
 					<div
@@ -451,55 +632,61 @@ body {
 							<i class="bi bi-plus-circle"></i> Add New Airport
 						</a>
 					</div>
- 
-					<div class="content-card bg-white">
-						<div class="table-responsive">
-							<table class="table align-middle table-hover m-0">
-								<thead class="table-light">
-									<tr class="text-muted small fw-bold">
- 
-										<th>AIRPORT CODE</th>
-										<th>AIRPORT NAME</th>
-										<th>CITY</th>
-										<th>ACTIONS</th>
-									</tr>
-								</thead>
- 
-								<tbody>
-									<tr th:each="ap : ${airport}">
-										<td><span
-											class="badge bg-primary-subtle text-primary fw-bold"
-											th:text="${ap.airportCode}"></span></td>
-										<td><strong th:text="${ap.airportName}"></strong></td>
-										<td th:text="${ap.city}"></td>
- 
-										<td>
-										<a
-											th:href="@{/airline/admin/airport/edit/{id}(id=${ap.airportId})}"
-											class="btn btn-sm btn-outline-secondary py-0 px-2"><i class="bi bi-pencil"></i>
-											 Edit
-											
-										</a>
-										<!--  <a
-											th:href="@{/airline/admin/airport/delete/{id}(id=${ap.airportId})}"
-											class="btn btn-sm btn-outline-danger py-0 px-2"
-											onclick="return confirm('Are you sure you want to delete this airport?')">
-												<i class="bi bi-x-circle"></i>
-										</a> -->
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
+                    <!-- AIRPORT TBALE -->
+					<!-- 🗂️ Clean Flat Container (No Shadow, Pure Minimalist) -->
+<div class="card border rounded-4 bg-white overflow-hidden">
+    <div class="table-responsive">
+        <table class="table align-middle table-hover m-0 custom-airport-table">
+            <!-- <thead>: Modern Soft Neutral Header -->
+            <thead class="bg-light border-bottom border-2">
+                <tr class="text-secondary small fw-bold text-uppercase" style="letter-spacing: 0.5px;">
+                    <th class="ps-4 py-3">Airport Code</th>
+                    <th class="py-3">Airport Name</th>
+                    <th class="py-3">City</th>
+                    <th class="pe-4 py-3 text-end">Actions</th>
+                </tr>
+            </thead>
+            
+            <!-- <tbody>: Dynamic Airport Rows -->
+            <tbody>
+                <tr th:each="ap : ${airport}">
+                    <!-- 🆔 Airport Code Badge -->
+                    <td class="ps-4 py-3">
+                        <span class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded-2" th:text="${ap.airportCode}"></span>
+                    </td>
+                    
+                    <!-- 🏢 Airport Name -->
+                    <td class="py-3">
+                        <span class="fw-semibold text-dark" th:text="${ap.airportName}"></span>
+                    </td>
+                    
+                    <!-- 📍 City -->
+                    <td class="py-3 text-secondary" th:text="${ap.city}"></td>
+                    
+                    <!-- 🛠️ Actions: Flat Outline Button with Icon (No Shadow) -->
+                    <td class="pe-4 py-3 text-end">
+                        <div class="d-inline-flex gap-2">
+                            <!-- Edit Button -->
+                            <a th:href="@{/airline/admin/airport/edit/{id}(id=${ap.airportId})}"
+                               class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
 				</div>
- 
+
 			</main>
 		</div>
 	</div>
- 
- 
- 
+
+
+
 	<!-- Add new Airline -->
 	<div class="modal fade" id="addAirportModal" tabindex="-1"
 		aria-hidden="true">
@@ -538,10 +725,10 @@ body {
 			</div>
 		</div>
 	</div>
- 
+
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
- 
+
 	<script>
     function switchTab(tabName) {
       // Hide all sections

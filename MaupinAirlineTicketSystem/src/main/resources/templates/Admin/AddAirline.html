@@ -101,7 +101,9 @@
       border-top: 1px solid #edf2f7;
       background-color: #fafbfc;
       padding: 1.25rem 1.5rem;
+      
     }
+    
   </style>
 </head>
 <body>
@@ -109,7 +111,7 @@
   <div>
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content rounded-4">
-        <div class="modal-header d-flex align-items-center">
+        <div class="modal-header d-flex align-items-center login-bar">
           <h5 class="modal-title fw-bold">
             <i class="bi bi-airplane-fill text-primary me-2"></i>
             <span th:text="${airline.airlineId != 0} ? 'Update Airline Profile' : 'Add New Airline Profile'">Add New Airline Profile</span>
