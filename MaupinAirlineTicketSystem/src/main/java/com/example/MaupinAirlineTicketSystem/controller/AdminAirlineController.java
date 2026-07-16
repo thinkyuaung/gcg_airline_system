@@ -32,33 +32,33 @@ public class AdminAirlineController {
 
 	
 	@GetMapping("/admin/airlineForm")
-	public String create(Model model) { //
-		Airline a = new Airline(); //
-		model.addAttribute("airline", a); //
-		return "Admin/AddAirline"; //
+	public String create(Model model) {
+		Airline a = new Airline(); 
+		model.addAttribute("airline", a); 
+		return "Admin/AddAirline";
 	}
 	
 	@PostMapping("/admin/airline")
 	public String saveSAirline(@ModelAttribute("airline") Airline airline,
 			@RequestParam("photoFile") MultipartFile photoFile) throws IllegalStateException, IOException { //
 		
-		if(!photoFile.isEmpty()) { //
+		if(!photoFile.isEmpty()) {
 			String uploadDir = System.getProperty("user.dir")+File.separator+"uploads"+File.separator; //
-			File directory = new File(uploadDir); //
+			File directory = new File(uploadDir); 
 			
-			if(!directory.exists()) { //
-				directory.mkdir(); //
+			if(!directory.exists()) { 
+				directory.mkdir(); 
 			}
 			
 			String fileName = System.currentTimeMillis()+"_"+photoFile.getOriginalFilename(); //
-			File destination = new File(directory,fileName); //
-			photoFile.transferTo(destination); //
+			File destination = new File(directory,fileName); 
+			photoFile.transferTo(destination); 
 			
-			airline.setLogo(fileName); //
+			airline.setLogo(fileName); 
 		}
 		
 		adminAirlineService.saveFlight(airline);
-		return "redirect:/airline/admin"; //
+		return "redirect:/airline/admin"; 
 	}
 	
 	//// Airport (add new button) form method///
@@ -66,9 +66,9 @@ public class AdminAirlineController {
 	
 	@GetMapping("/admin/airportForm")
 	public String createAirport(Model model) {
-		Airport airport = new Airport(); //
-		model.addAttribute("airport", airport); //
-		return "Admin/AddAirport"; //
+		Airport airport = new Airport(); 
+		model.addAttribute("airport", airport); 
+		return "Admin/AddAirport"; 
 	}
 	
 	

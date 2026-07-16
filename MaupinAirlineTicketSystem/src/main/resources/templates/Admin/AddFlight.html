@@ -157,9 +157,25 @@
 							<option th:each="airline : ${airlines}" 
 									th:value="${airline.airlineId}" 
 									th:text="${airline.airlineName}"
-									th:selected="${flight.airline != null and flight.airline.airlineId == airline.airlineId}"></option>
+									></option>
 						</select>
               </div>
+            </div>
+            
+            <!-- Features -->
+            <div class="mb-4">
+              <label class="form-label text-uppercase fw-bold">Flight Features</label>
+              <div class="input-group">
+						<select name="airlineId" class="form-select mt-4" required>
+							<option value="">Select Features</option>
+							<option th:each="airline : ${features}" 
+									th:value="${airline.featureId}" 
+									th:text="${airline.featureName}"
+									></option>
+						</select>
+              </div>
+            </div>
+            
             </div>
 
 
