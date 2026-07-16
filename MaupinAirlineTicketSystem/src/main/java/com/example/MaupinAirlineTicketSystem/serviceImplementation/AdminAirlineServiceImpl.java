@@ -36,4 +36,10 @@ public class AdminAirlineServiceImpl implements AdminAirlineService{
 		return repo.findById(aId).get();
 	}
 
+	@Override
+	public void deleteAirlineById(int aId) {
+		// TODO Auto-generated method stub
+		  repo.deleteById(aId);
+	} 
+
 }

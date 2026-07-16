@@ -12,7 +12,7 @@ public interface AdminFlightService {
 
 	public Flight saveFlight(Flight flight);
 
-	public List<Flight> getAllFlights();
+	public List<Flight> getAllFlights();  
 
 	public Flight getFlightById(int id);
 

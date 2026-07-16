@@ -2,82 +2,138 @@ package com.example.MaupinAirlineTicketSystem.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List; 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.MaupinAirlineTicketSystem.entity.Airline;
-import com.example.MaupinAirlineTicketSystem.entity.Airport; 
-import com.example.MaupinAirlineTicketSystem.repository.AirportRepository;
+import com.example.MaupinAirlineTicketSystem.entity.Airport;
 import com.example.MaupinAirlineTicketSystem.service.AdminAirlineService;
 import com.example.MaupinAirlineTicketSystem.service.AdminAirportService;
-import com.example.MaupinAirlineTicketSystem.service.AdminFlightService;
 
 @Controller
 @RequestMapping("/airline") // Base Path
 public class AdminAirlineController {
-	
+
 	@Autowired
-	AdminAirlineService adminAirlineService;
-	
+	private AdminAirlineService adminAirlineService;
+
 	@Autowired
 	private AdminAirportService adminAirportService;
 
+	// =====  AIRLINE METHODS =====
 	
 	@GetMapping("/admin/airlineForm")
 	public String create(Model model) {
-		Airline a = new Airline(); 
+		Airline a = new Airline();
 		model.addAttribute("airline", a); 
 		return "Admin/AddAirline";
 	}
-	
+
 	@PostMapping("/admin/airline")
 	public String saveSAirline(@ModelAttribute("airline") Airline airline,
-			@RequestParam("photoFile") MultipartFile photoFile) throws IllegalStateException, IOException { //
-		
-		if(!photoFile.isEmpty()) {
-			String uploadDir = System.getProperty("user.dir")+File.separator+"uploads"+File.separator; //
-			File directory = new File(uploadDir); 
-			
-			if(!directory.exists()) { 
-				directory.mkdir(); 
+			@RequestParam("photoFile") MultipartFile photoFile) throws IllegalStateException, IOException {
+
+		if (!photoFile.isEmpty()) {
+			String uploadDir = System.getProperty("user.dir") + File.separator + "uploads" + File.separator;
+			File directory = new File(uploadDir);
+
+			if (!directory.exists()) {
+				directory.mkdirs(); 
 			}
-			
-			String fileName = System.currentTimeMillis()+"_"+photoFile.getOriginalFilename(); //
-			File destination = new File(directory,fileName); 
-			photoFile.transferTo(destination); 
-			
-			airline.setLogo(fileName); 
+
+			String fileName = System.currentTimeMillis() + "_" + photoFile.getOriginalFilename();
+			File destination = new File(directory, fileName);
+			photoFile.transferTo(destination);
+
+			airline.setLogo(fileName);
+		} else {
+			if (airline.getAirlineId() != null && airline.getAirlineId() != 0) {
+				Airline existingAirline = adminAirlineService.getAirlineById(airline.getAirlineId());
+				if (existingAirline != null) {
+					airline.setLogo(existingAirline.getLogo());
+				}
+			}
 		}
-		
+
 		adminAirlineService.saveFlight(airline);
-		return "redirect:/airline/admin"; 
+		return "redirect:/airline/admin/airlines";
 	}
 	
-	//// Airport (add new button) form method///
+	@GetMapping("/admin/airlines")
+	public String getAllAirlines(Model model) {
+		List<Airline> airline =  adminAirlineService.getAllAirlines();
+		model.addAttribute("airline", airline); 
+		model.addAttribute("activeTab", "airline");
+		return "Admin/admin";
+	}
 	
+	@GetMapping("/admin/airline/edit/{id}")
+	public String editAirline(@PathVariable("id") int id, Model model) {
+		Airline airline = adminAirlineService.getAirlineById(id);
+		model.addAttribute("airline", airline); 
+		return "Admin/AddAirline";
+	}
+
+	
+	@GetMapping("/admin/airline/delete/{id}")
+	public String deleteAirline(@PathVariable("id") int id) {
+		try {
+			
+			 adminAirlineService.deleteAirlineById(id);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/airline/admin/airlines";
+	}
+
+	// ===== AIRPORT METHODS =====
 	
 	@GetMapping("/admin/airportForm")
 	public String createAirport(Model model) {
-		Airport airport = new Airport(); 
+		Airport airport = new Airport();
 		model.addAttribute("airport", airport); 
-		return "Admin/AddAirport"; 
+		return "Admin/AddAirport";
 	}
-	
-	
+
 	@PostMapping("/admin/airport")
 	public String saveAirport(@ModelAttribute("airport") Airport airport) {
-		
-		
 		adminAirportService.saveAirport(airport);
-		
-		return "redirect:/airline/admin"; 
+		return "redirect:/airline/admin/airports";
+	}
+	
+	@GetMapping("/admin/airports")
+	public String getAllAirports(Model model) {
+		List<Airport> airport = adminAirportService.getAllAirports();
+		model.addAttribute("airport", airport); 
+	    model.addAttribute("activeTab", "airport");
+		return "Admin/admin";
+	}
+
+	@GetMapping("/admin/airport/edit/{id}")
+	public String editAirport(@PathVariable("id") int id, Model model) {
+		Airport airport = adminAirportService.getAirportById(id);
+		model.addAttribute("airport", airport); 
+		return "Admin/AddAirport";
+	}
+
+	@GetMapping("/admin/airport/delete/{id}")
+	public String deleteAirport(@PathVariable("id") int id) {
+		try {
+			
+			// adminAirportService.deleteAirportById(id);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/airline/admin/airports";
 	}
 }

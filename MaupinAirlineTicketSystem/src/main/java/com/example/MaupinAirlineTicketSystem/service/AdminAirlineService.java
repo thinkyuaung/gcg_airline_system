@@ -15,5 +15,7 @@ public interface AdminAirlineService{
 	public List<Airline> getAllAirlines() ;
 
 	public Airline getAirlineById(int aId);
+	
+	public void deleteAirlineById(int aId);
 
 }
