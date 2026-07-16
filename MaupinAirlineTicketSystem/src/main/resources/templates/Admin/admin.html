@@ -407,14 +407,14 @@ body {
 											class="text-muted small italic">N/A</span></td>
 
 										<td class="py-3 text-secondary small"><span
-											class="d-inline-flex align-items-center gap-1"> <i
-												class="bi bi-clock text-muted"></i> <span
+											class="d-inline-flex align-items-center gap-1"><!--  <i
+												class="bi bi-clock text-muted"></i> --> <span
 												th:text="${#temporals.format(fp.departureTime, 'yyyy-MM-dd HH:mm')}"></span>
 										</span></td>
 
 										<td class="py-3 text-secondary small"><span
-											class="d-inline-flex align-items-center gap-1"> <i
-												class="bi bi-clock-fill text-muted"></i> <span
+											class="d-inline-flex align-items-center gap-1"> <!-- <i
+												class="bi bi-clock-fill text-muted"></i> --> <span
 												th:text="${#temporals.format(fp.arrivalTime, 'yyyy-MM-dd HH:mm')}"></span>
 										</span></td>
 
@@ -425,9 +425,7 @@ body {
 											class="badge bg-dark-subtle text-dark-emphasis border fw-bold px-2 py-1 rounded-pill"
 											th:text="${fp.availableSeats + ' Available'}"></span></td>
 
-										<td class="py-3 fw-bold text-dark"
-											th:text="'$' + ${#numbers.formatDecimal(fp.price, 1, 2)}"></td>
-
+										<td class="py-3 fw-bold text-dark" th:text="${#numbers.formatDecimal(fp.price, 1, 2)}"></td>
 										<td class="pe-4 py-3 text-end">
 											<div class="d-inline-flex gap-2">
 												<a

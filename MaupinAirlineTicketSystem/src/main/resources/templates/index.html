@@ -53,7 +53,6 @@
 	box-shadow: none !important;
 	transition: border-color 0.2s ease;
 }
-
 </style>
 <body>
 
@@ -93,15 +92,13 @@
 					</div>
 
 
-					<button class="btn btn-outline-primary px-3 fw-bold rounded-pill"
-						onclick="window.location.href='login.html?tab=login'">
+					<a th:href="@{/airline/login(tab='login')}"
+						class="btn btn-outline-primary px-4 py-2 fw-bold rounded-pill d-inline-flex align-items-center gap-2 flat-btn">
 						<i class="bi bi-person"></i> Login
-					</button>
-
-					<button class="btn-signup px-3"
-						onclick="window.location.href='login.html?tab=signup'">
+					</a> <a th:href="@{/airline/login(tab='signup')}"
+						class="btn btn-primary text-white px-4 py-2 fw-bold rounded-pill d-inline-flex align-items-center gap-2 flat-btn">
 						<i class="bi bi-person-plus-fill"></i> Sign up
-					</button>
+					</a>
 				</div>
 			</div>
 	</nav>
@@ -414,7 +411,7 @@
 
 					</div>
 				</div>
-				
+
 
 				<!-- Search button -->
 				<div class="d-flex justify-content-end mt-4">
@@ -873,7 +870,7 @@
 
 				<!-- Text -->
 				<div class="col-lg-6">
-					<p class="about-body">At SkyNest Travels, we believe travel
+					<p class="about-body">At Maubin AirLine Travels, we believe travel
 						isn't just about visiting places — it's about creating
 						unforgettable experiences. From sun-kissed beaches to iconic
 						landmarks, we design seamless journeys tailored to your dreams.</p>
@@ -914,7 +911,7 @@
 							</div>
 							<div>
 								<div class="about-badge-title">Trusted Agency</div>
-								<div class="about-badge-sub">Since 2010</div>
+								<div class="about-badge-sub">Since 1999</div>
 							</div>
 						</div>
 					</div>
@@ -930,7 +927,7 @@
 	<section id="testimonials">
 		<div class="container">
 			<div class="text-center mb-5">
-				<h2 class="section-title">Maubin AirL Clients</h2>
+				<h2 class="section-title">Maubin AirLine Clients</h2>
 				<div class="divider"></div>
 				<p class="section-sub mt-3">What our travelers say about us</p>
 			</div>
@@ -1040,22 +1037,22 @@
 				<div class="col-lg-2 col-6">
 					<div class="footer-col-title">Company</div>
 					<ul class="footer-links">
-						<li><a th:href="@{/about}">About Us</a></li>
-						<li><a th:href="@{/about#careers}">Careers</a></li>
-						<li><a th:href="@{/about#press}">Press</a></li>
-						<li><a th:href="@{/about#blog}">Blog</a></li>
-						<li><a th:href="@{/about#partners}">Partners</a></li>
+						<li><a th:href="@{/airline/about}">About Us</a></li>
+						<li><a th:href="@{/airline/about#careers}">Careers</a></li>
+						<li><a th:href="@{/airline/about#press}">Press</a></li>
+						<li><a th:href="@{/airline/about#blog}">Blog</a></li>
+						<li><a th:href="@{/airline/about#partners}">Partners</a></li>
 					</ul>
 				</div>
 
 				<div class="col-lg-2 col-6">
 					<div class="footer-col-title">Extra Links</div>
 					<ul class="footer-links">
-						<li><a th:href="@{/terms}">Privacy Policy</a></li>
-						<li><a th:href="@{/terms#conditions}">Terms of Service</a></li>
-						<li><a th:href="@{/terms#cookies}">Cookie Settings</a></li>
-						<li><a th:href="@{/terms#faq}">Support</a></li>
-						<li><a th:href="@{/about#contact}">Contact</a></li>
+						<li><a th:href="@{/airline/terms}">Privacy Policy</a></li>
+						<li><a th:href="@{/airline/terms#conditions}">Terms of Service</a></li>
+						<li><a th:href="@{/airline/terms#cookies}">Cookie Settings</a></li>
+						<li><a th:href="@{/airline/terms#faq}">Support</a></li>
+						<li><a th:href="@{/airline/about#contact}">Contact</a></li>
 					</ul>
 				</div>
 
