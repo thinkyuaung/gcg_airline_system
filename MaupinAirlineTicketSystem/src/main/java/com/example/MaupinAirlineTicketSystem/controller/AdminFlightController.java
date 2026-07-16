@@ -54,7 +54,7 @@ public class AdminFlightController {
 
 	// No photo
 	@PostMapping("/admin/flight")
-	public String saveFlights(@ModelAttribute("flight") Flight flight, @RequestParam("airlineId") int aId) {
+	public String saveFlights (@ModelAttribute("flight") Flight flight, @RequestParam("airlineId") int aId) {
 		flight.setStatus("active");
 
 		// Course c = courseService.getCourseById(cId);

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Terms & Privacy — Maubin AirLine</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-dark bg-light shadow-sm sticky-top z-3" style="position: relative;">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-dark d-flex align-items-center gap-2" th:href="@{/}">
+            <i class="bi bi-airplane-fill text-primary"></i>
+            <span>Maubin AirLine</span>
+        </a>
+        
+        <a th:href="@{/}" class="btn btn-outline-primary btn-sm rounded-pill text-dark">Back to Home</a>
+    </div>
+</nav>
+
+    <div class="container my-5 bg-white p-5 rounded shadow-sm">
+        <section id="privacy" class="mb-5">
+            <h2 class="text-primary fw-bold mb-3">Privacy Policy</h2>
+            <p>Your privacy is important to us. We securely store and protect your personal information, ticket history, and payment configurations.</p>
+        </section>
+
+        <section id="conditions" class="mb-5 pt-3 border-top">
+            <h3 class="text-secondary fw-bold mb-3">Terms of Service</h3>
+            <p>By booking a ticket with Maubin AirLine, you agree to comply with our international flight regulations and ticket cancellation guidelines.</p>
+        </section>
+
+        <section id="cookies" class="mb-5 pt-3 border-top">
+            <h3 class="text-secondary fw-bold mb-3">Cookie Settings</h3>
+            <p>We use essential cookies to make our site work properly and performance cookies to improve your user experience. You can modify your preferences at any time.</p>
+            <button class="btn btn-sm btn-outline-secondary rounded-pill">Manage Preferences</button>
+        </section>
+
+        <section id="faq" class="pt-3 border-top">
+            <h3 class="text-secondary fw-bold mb-3">Support & FAQ</h3>
+            <p><strong>Q: How do I change my flight date?</strong><br>A: You can modify your schedule through the booking dashboard up to 24 hours prior to departure.</p>
+        </section>
+    </div>
+</body>
+</html>
