@@ -207,6 +207,7 @@ body {
 									<tr class="text-muted small fw-bold">
 										<th>FLIGHT NUMBER</th>
 										<th>AIRLINE</th>
+										<th>FLIGHT FEATURES</th>
 										<th>Total Seats</th>
 										<th>STATUS</th>
 										<th>ACTIONS</th>
@@ -219,7 +220,26 @@ body {
 										<td><span th:if="${f.airline != null}"
 											th:text="${f.airline.airlineName}"></span> <span
 											th:unless="${f.airline != null}"> No Airline </span></td>
-										<td th:text="${f.totalSeats}"></td>
+										
+					<td>
+					    <i class="bi bi-wifi text-primary me-2"
+					       title="WiFi"
+					       th:if="${f.wifi == 1}"></i>
+					
+					    <i class="bi bi-cup-hot-fill text-warning me-2"
+					       title="Meal"
+					       th:if="${f.meal == 1}"></i>
+					
+					    <i class="bi bi-battery-charging text-success me-2"
+					       title="Charging"
+					       th:if="${f.charging == 1}"></i>
+					
+					    <i class="bi bi-tv-fill text-danger"
+					       title="Entertainment"
+					       th:if="${f.entertainment == 1}"></i>
+					</td>
+					<td th:text="${f.totalSeats}"></td>
+										
 										<td th:text="${f.status}"></td>
 										<td><a
 											th:href="@{/airline/admin/flight/edit/{id}(id=${f.flightId})}"

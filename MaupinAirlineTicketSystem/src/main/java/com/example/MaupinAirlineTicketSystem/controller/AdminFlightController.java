@@ -1,5 +1,7 @@
 package com.example.MaupinAirlineTicketSystem.controller;
 
+import java.io.IOException;
+
 import java.util.List;
 
 
@@ -7,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +23,8 @@ import com.example.MaupinAirlineTicketSystem.repository.AdminSeatRepository;
 import com.example.MaupinAirlineTicketSystem.service.AdminAirlineService;
 
 import com.example.MaupinAirlineTicketSystem.service.AdminFlightService;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/airline")
@@ -54,16 +59,28 @@ public class AdminFlightController {
 
 	// No photo
 	@PostMapping("/admin/flight")
-	public String saveFlights(@ModelAttribute("flight") Flight flight, @RequestParam("airlineId") int aId) {
-		flight.setStatus("active");
+	public String saveFlights(
+	        @Valid @ModelAttribute("flight") Flight flight,
+	        BindingResult result,
+	        @RequestParam("airlineId") int aId,Model model) {
+		
+		//if validation error, send airlines
+		 List<Airline> airlines = adminAirlineService.getAllAirlines();
+		    model.addAttribute("airlines", airlines);
 
-		// Course c = courseService.getCourseById(cId);
-		Airline a = adminAirlineService.getAirlineById(aId);
+	    if(result.hasErrors()) {
+	        return "Admin/AddFlight";
+	    }
 
-		flight.setAirline(a);
+	    flight.setStatus("active");
 
-		adminFlightService.saveFlight(flight);
-		return "redirect:/airline/admin/flights";
+	    Airline a = adminAirlineService.getAirlineById(aId);
+	    flight.setAirline(a);
+	    
+
+	    adminFlightService.saveFlight(flight);
+
+	    return "redirect:/airline/admin/flights";
 	}
 
 	@GetMapping("/admin/flights")
@@ -92,6 +109,8 @@ public class AdminFlightController {
 	public String updateFlight(@ModelAttribute("flight") Flight flight, @RequestParam("airlineId") int aId) {
 		Airline a = adminAirlineService.getAirlineById(aId);
 		flight.setAirline(a);
+		
+		System.out.println("***********"+flight.getStatus());
 
 		adminFlightService.saveFlight(flight);
 		return "redirect:/airline/admin/flights";
