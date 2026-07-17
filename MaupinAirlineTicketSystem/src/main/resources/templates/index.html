@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -75,35 +75,26 @@
 				<span class="navbar-toggler-icon"></span>
 			</button>
 
-			<!-- Links -->
-			<div class="collapse navbar-collapse" id="navMenu">
-				<ul class="navbar-nav mx-auto gap-lg-4 gap-2 mt-3 mt-lg-0">
-					<li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
-					<li class="nav-item"><a class="nav-link" href="#destinations">Flights</a></li>
-					<li class="nav-item"><a class="nav-link" href="#deals">Package</a></li>
-					<li class="nav-item"><a class="nav-link" href="#about">Support</a></li>
-				</ul>
+      <!-- Right -->
+   <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
+        <div class="nav-search d-none d-md-flex me-1">
+          <i class="bi bi-search text-secondary"></i>
+          <input type="text" placeholder="Search..." />
+        </div>
+        
+        <!-- Login  -->
+<a th:href="@{/airline/login}" class="btn btn-outline-primary px-3 fw-bold rounded-pill">
+ <i class="bi bi-person"></i> Login
+</a>
+	  	<!-- Sign up  -->
+<a th:href="@{/airline/signup}" class="btn-signup px-3 text-decoration-none">
+  <i class="bi bi-person-plus-fill"></i> Sign Up
+</a>
+      </div>
+  </div> 
+</nav>
 
-				<!-- Right -->
-				<div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
-					<div class="nav-search d-none d-md-flex me-1">
-						<i class="bi bi-search text-secondary"></i> <input type="text"
-							placeholder="Search..." />
-					</div>
-
-
-					<a th:href="@{/airline/login(tab='login')}"
-						class="btn btn-outline-primary px-4 py-2 fw-bold rounded-pill d-inline-flex align-items-center gap-2 flat-btn">
-						<i class="bi bi-person"></i> Login
-					</a> <a th:href="@{/airline/login(tab='signup')}"
-						class="btn btn-primary text-white px-4 py-2 fw-bold rounded-pill d-inline-flex align-items-center gap-2 flat-btn">
-						<i class="bi bi-person-plus-fill"></i> Sign up
-					</a>
-				</div>
-			</div>
-	</nav>
-
-
+  
 
 	<!-- HERO SECTION -->
 	<section id="hero" data-aos="fade-right"
