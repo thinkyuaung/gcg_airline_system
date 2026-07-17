@@ -30,12 +30,12 @@ public class Controller {
  
 	@GetMapping("/")
 	public String index() {
-		return "home";
+		return "index";
 	}
  
-	@GetMapping("/home")
+	@GetMapping("/index")
 	public String home() {
-		return "home";
+		return "index";
 	}
  
 	////////////// Login //////////////
@@ -68,7 +68,7 @@ public class Controller {
  
 		userRepository.save(user);
  
-		return "redirect:/airline/home";
+		return "redirect:/airline/index";
 	}
  
 	////////////// User Profile //////////////
