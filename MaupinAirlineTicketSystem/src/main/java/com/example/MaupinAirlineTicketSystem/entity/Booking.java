@@ -47,6 +47,11 @@ public class Booking {
 	    @JoinColumn(name = "class_id")
 	    private SeatClass seatClass;
 
+	    // Foreign Key -> Promotion
+	    @ManyToOne
+	    @JoinColumn(name = "promotion_id")
+	    private Promotion promotion;
+
 
 		public Booking(int bookingId, String bookingCode, String seatNumber, LocalDateTime bookingDate,
 				double totalAmount, String status, String country, User user, FlightPlan flightPlan,
@@ -168,6 +173,14 @@ public class Booking {
 
 		public void setSeatClass(SeatClass seatClass) {
 			this.seatClass = seatClass;
+		}
+
+		public Promotion getPromotion() {
+			return promotion;
+		}
+
+		public void setPromotion(Promotion promotion) {
+			this.promotion = promotion;
 		}
 
 	    
