@@ -132,7 +132,14 @@ body {
 						onclick="switchTab('bookings')" id="tab-bookings"
 						class="admin-nav-link"
 						th:classappend="${activeTab == 'bookings'} ? ' active' : ''"><i
-						class="bi bi-receipt"></i> View Bookings</a> <a
+						class="bi bi-receipt"></i> View Bookings</a> 
+					 <a th:href="@{/airline/admin/promotions}"
+						onclick="switchTab('promotions')" id="tab-promotions"
+						class="admin-nav-link"
+						th:classappend="${activeTab == 'promotions'} ? ' active' : ''"><i
+						class="bi bi-receipt"></i> View Promotions
+					</a>
+					<a
 						th:href="@{/airline/admin/airlines}"
 						onclick="switchTab('airline')" id="tab-airline"
 						class="admin-nav-link"
@@ -146,7 +153,7 @@ body {
  
 					<hr class="my-3 text-white">
  
-					<a href="/Air-Line-System/index.html"
+					<a th:href="@{/airline/logout}"
 						class="admin-nav-link text-danger"><i
 						class="bi bi-box-arrow-left"></i> Exit Portal</a>
 				</div>
@@ -392,6 +399,72 @@ body {
 					</div>
 				</div>
  
+ <!-- Promotions -->
+ 
+  <div id="section-promotions" th:classappend="${activeTab != 'promotions'} ? 'hidden-section'">
+					<div
+						class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+						<h4 class="fw-bold m-0">
+							<i class="bi bi-airplane-fill text-primary"></i> Flight
+							Promotions
+						</h4>
+						<a th:href="@{/airline/admin/promotionForm}"><button
+								class="btn btn-primary btn-sm px-4 rounded-pill">
+								<i class="bi bi-plus-circle"></i> Add New Promotion Plan
+							</button></a>
+					</div>
+					<div class="content-card bg-white">
+						<div class="table-responsive">
+							<table class="table align-middle table-hover m-0">
+								<thead class="table-light">
+									<tr class="text-muted small fw-bold">
+										<th>PASSENGER</th>
+										<th>FLIGHT</th>
+										<th>CLASS</th>
+										 <th>SEAT NUMBER</th>
+					                    <th>DEPARTURE</th>
+					                    <th>PAYMENT SS</th>
+					                    <th>TOTAL AMOUNT</th>
+										<th>STATUS</th>
+										<th>ACTION</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<!-- <td>Mg Mg <span class="text-muted small">(mgmg@mail.com)</span></td> -->
+										<td>Mg Mg</td>
+										<td class="fw-bold text-primary">SN-101</td>
+										<td>Business</td>
+										   <td>A-02</td>
+                   						 <td>Lashio</td>
+										<td><a href="#" class="small text-decoration-none"><i
+												class="bi bi-image text-info"></i> Uploaded</a></td>
+										<td>100000</td>
+										<td><span class="badge bg-warning text-dark">Pending
+												Approval</span></td>
+										<td><button
+												class="btn btn-sm btn-primary py-0 px-2 shadow-sm"><i class="bi bi-boxes"></i> Approve</button></td>
+									</tr>
+									<tr>
+										<td>Su Su</td>
+										<td class="fw-bold text-primary">SN-304</td>
+										<td>Economy</td>
+										 <td>A-02</td>
+                   						 <td>Lashio</td>
+										<td><a href="#" class="small text-decoration-none"><i
+												class="bi bi-image text-info"></i> Uploaded</a></td>
+										<td>200000</td>
+										<td><span class="badge bg-success">Successful</span></td>
+										<td><span class="text-success fw-bold small"><button
+												class="btn btn-sm btn-danger py-0 px-2 shadow-sm"><i
+												class="bi bi-qr-code"></i>  Issued</button></span></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+ 
 				<div id="section-airline"
 					th:classappend="${activeTab != 'airline'} ? 'hidden-section'">
 					<div
@@ -559,6 +632,9 @@ body {
 		</div>
 	</div>
  
+ <!-- Add new Airline -->
+ 
+ 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
  
@@ -569,8 +645,10 @@ body {
       document.getElementById('section-flights').classList.add('hidden-section');
       document.getElementById('section-flightPlans').classList.add('hidden-section');
       document.getElementById('section-bookings').classList.add('hidden-section');
+      document.getElementById('section-promotions').classList.add('hidden-section');
       document.getElementById('section-airline').classList.add('hidden-section');
       document.getElementById('section-airport').classList.add('hidden-section');
+     
       
       // Show selected section
       if (tabName === 'dashboard') {
@@ -581,11 +659,15 @@ body {
         document.getElementById('section-flightPlans').classList.remove('hidden-section');
       } else if (tabName === 'bookings') {
         document.getElementById('section-bookings').classList.remove('hidden-section');
-      } else if (tabName === 'airline') {
+      } else if (tabName === 'promotions') {
+          document.getElementById('section-promotions').classList.remove('hidden-section');
+      }
+      else if (tabName === 'airline') {
         document.getElementById('section-airline').classList.remove('hidden-section');
       } else if (tabName === 'airport') {
         document.getElementById('section-airport').classList.remove('hidden-section');
       }
+      
  
       // Sidebar Tab active states toggle
       document.querySelectorAll('.admin-nav-link').forEach(link => link.classList.remove('active'));
