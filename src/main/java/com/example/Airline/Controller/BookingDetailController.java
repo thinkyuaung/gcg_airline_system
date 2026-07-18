@@ -1,0 +1,48 @@
+package com.example.Airline.Controller;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+
+import com.example.Airline.entity.Booking;
+import com.example.Airline.repository.BookingRepository;
+
+
+
+@Controller
+@RequestMapping("/airline")
+public class BookingDetailController {
+
+
+@Autowired
+private BookingRepository bookingRepository;
+
+
+
+@GetMapping("/booking/{id}")
+public String bookingDetail(
+        @PathVariable int id,
+        Model model){
+
+
+    Booking booking =
+            bookingRepository.findById(id)
+            .orElseThrow();
+
+
+
+    model.addAttribute(
+            "booking",
+            booking
+    );
+
+
+    return "userView/bookingDetail";
+
+}
+
+
+}
