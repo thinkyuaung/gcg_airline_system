@@ -174,13 +174,13 @@
 			    <label class="form-label text-uppercase fw-bold">Flight Features</label>
 			
 			    <div class="form-check">
-			        
+			         
 			        <input class="form-check-input" type="checkbox" name="wifi" value="1" id="wifi">
 			        <label class="form-check-label" for="wifi">WiFi</label>
 			    </div>
 			
 			    <div class="form-check">
-			        
+			         
 			        <input class="form-check-input" type="checkbox" name="meal" value="1" id="meal">
 			        <label class="form-check-label" for="meal">Meal</label>
 			    </div>
@@ -223,7 +223,7 @@
               <span th:text="${flight.flightId != 0} ? 'Update Flight' : 'Save Flight'">Save</span>
             </button>
           </div>
-           <input type="text" name="status" class="form-control border-start-0" placeholder="e.g., 180" th:field="*{status}" value="${flight.status}">
+           <input type="hidden" name="status" class="form-control border-start-0" placeholder="e.g., 180" th:field="*{status}" value="${flight.status}">
         </form>
       </div>
     </div>
