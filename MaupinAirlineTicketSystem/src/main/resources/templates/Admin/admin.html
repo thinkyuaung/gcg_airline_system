@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SkyNest Airline — Admin Dashboard</title>
+<title>Maubin Airline — Admin Dashboard</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -146,12 +146,6 @@ body {
 .custom-flightplan-table tbody tr:hover {
 	background-color: #f8fafc !important;
 }
-/* Flat Buttons Focus Reset */
-.flat-btn, .flat-btn:focus, .flat-btn:active {
-	box-shadow: none !important;
-	outline: none !important;
-	transition: all 0.2s ease;
-}
 
 .custom-airline-table tbody tr {
     border-bottom: 1px solid #edf2f7;
@@ -163,17 +157,12 @@ body {
 .custom-airline-table tbody tr:hover {
     background-color: #f8fafc !important;
 }
-/* Logo Frame size fixing */
+
 .airline-logo-frame {
     width: 60px;
     height: 45px;
 }
-/* Flat Buttons Focus Reset */
-.flat-btn, .flat-btn:focus, .flat-btn:active {
-    box-shadow: none !important;
-    outline: none !important;
-    transition: all 0.2s ease;
-}
+
 .custom-airport-table tbody tr {
     border-bottom: 1px solid #edf2f7;
     transition: background-color 0.15s ease;
@@ -183,12 +172,6 @@ body {
 }
 .custom-airport-table tbody tr:hover {
     background-color: #f8fafc !important;
-}
-/* Flat Buttons Focus Reset */
-.flat-btn, .flat-btn:focus, .flat-btn:active {
-    box-shadow: none !important;
-    outline: none !important;
-    transition: all 0.2s ease;
 }
 </style>
 </head>
@@ -242,37 +225,176 @@ body {
 
 			<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
 
-				<div id="section-dashboard"
-					th:classappend="${activeTab != null} ? 'hidden-section' : ''">
-					<div
-						class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
-						<h1 class="h2 fw-bold">Administrative Dashboard</h1>
-					</div>
-					<div class="row g-3 mb-4">
-						<div class="col-12 col-sm-6 col-xl-4">
-							<div class="stat-card">
-								<span class="text-muted small fw-bold text-uppercase">Total
-									Bookings</span>
-								<h2 class="fw-bold mt-2 mb-0">2</h2>
-							</div>
-						</div>
-						<div class="col-12 col-sm-6 col-xl-4">
-							<div class="stat-card">
-								<span class="text-muted small fw-bold text-uppercase">Total
-									Flights</span>
-								<h2 class="fw-bold mt-2 mb-0">3</h2>
-							</div>
-						</div>
-						<div class="col-12 col-sm-6 col-xl-4">
-							<div class="stat-card">
-								<span class="text-muted small fw-bold text-uppercase">Gross
-									Revenue</span>
-								<h2 class="fw-bold text-success mt-2 mb-0">$1,450</h2>
-							</div>
-						</div>
-					</div>
-				</div>
+			
+<div id="section-dashboard" th:classappend="${activeTab != null} ? 'hidden-section' : ''">
+    
+    <!-- 🚀 Premium Card Styles Core Injection -->
+    <style>
+        .premium-card {
+            position: relative;
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(165, 163, 153, 0.06);
+            padding: 24px 20px;
+            margin-top: 25px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .premium-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            border-color: rgba(13, 110, 253, 0.1);
+        }
+        .glow-icon-box {
+            position: absolute;
+            top: -20px;
+            left: 24px;
+            width: 60px;
+            height: 60px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 26px;
+            transition: transform 0.3s ease;
+        }
+        .premium-card:hover .glow-icon-box {
+            transform: scale(1.1) rotate(5deg);
+        }
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #ffc107;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7);
+            animation: pulse 1.6s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(255, 193, 7, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 193, 7, 0); }
+        }
+              .premium-chart-wrapper {
+            position: relative; 
+            height: 360px; 
+            width: 100%;
+            padding-bottom: 25px;
+        }
+    </style>
 
+    <!-- Page Header Title -->
+    <!-- <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+        <div>
+            <h1 class="h2 fw-bold text-dark mb-1">Administrative Dashboard</h1>
+            <small class="text-muted">Real-time Flight Operations & Analytics Panel</small>
+        </div>
+    </div> -->
+    
+    <!-- Summary Cards -->
+    <div class="row g-4 mb-5">
+        <!-- Card 1 -->
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="premium-card">
+                <div class="glow-icon-box bg-dark">
+                    <i class="bi bi-building"></i>
+                </div>
+                <div class="text-end">
+                    <span class="text-secondary small fw-medium">Available Airlines</span>
+                    <h2 class="fw-bold m-0 mt-1 text-dark" th:text="${availableAirlines != null ? availableAirlines : '4'}">4</h2>
+                </div>
+                <div class="mt-4 pt-2 border-top d-flex justify-content-between align-items-center">
+                    <span class="text-muted small"><span class="text-success fw-bold">AirIndia</span> lastly added</span>
+                    <i class="bi bi-chevron-right text-muted small"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="premium-card">
+                <div class="glow-icon-box bg-success">
+                    <i class="bi bi-airplane-fill"></i>
+                </div>
+                <div class="text-end">
+                    <span class="text-secondary small fw-medium">Available Flights</span>
+                    <h2 class="fw-bold m-0 mt-1 text-dark" th:text="${availableFlights != null ? availableFlights : '8'}">8</h2>
+                </div>
+                <div class="mt-4 pt-2 border-top d-flex justify-content-between align-items-center">
+                    <span class="text-muted small">Flight No : <span class="text-success fw-bold">108</span> lastly added</span>
+                    <i class="bi bi-chevron-right text-muted small"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="premium-card">
+                <div class="glow-icon-box" style="background: linear-gradient(135deg, #800040, #ad1457);">
+                    <i class="bi bi-ticket-perforated-fill"></i>
+                </div>
+                <div class="text-end">
+                    <span class="text-secondary small fw-medium">Total Bookings</span>
+                    <h2 class="fw-bold m-0 mt-1 text-dark" th:text="${totalBookings != null ? totalBookings : '40'}">40</h2>
+                </div>
+                <div class="mt-4 pt-2 border-top d-flex justify-content-between align-items-center">
+                    <span class="text-muted small">From <span class="text-primary fw-bold">20</span> Registrations</span>
+                    <i class="bi bi-chevron-right text-muted small"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 4 (Fixed Currency to INR Uniformity) -->
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="premium-card">
+                <div class="glow-icon-box bg-primary">
+                    <i class="bi bi-currency-exchange"></i>
+                </div>
+                <div class="text-end">
+                    <span class="text-secondary small fw-medium">Total Earnings</span>
+                   
+                    <h2 class="fw-bold m-0 mt-1 text-primary">$ 236,968</h2>
+                </div>
+                <div class="mt-4 pt-2 border-top d-flex justify-content-between align-items-center">
+                    <span class="text-muted small">Today: <span class="text-success fw-bold">$ 18,010</span></span>
+                    <span class="badge bg-success-subtle text-success rounded-pill px-2 py-0.5" style="font-size: 0.75rem;">+12%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!--  ၂။ Advanced Premium Charts Section (Layout Fixed) -->
+    <div class="premium-card p-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="text-dark fw-bold m-0">System Overview Charts</h3>
+            <div class="d-flex align-items-center gap-2">
+                <span class="pulse-dot"></span>
+                <span class="text-muted small fw-medium">Live Server Telemetry</span>
+            </div>
+        </div>
+        <div class="row g-5">
+            <!-- Left Column: Flights Status -->
+            <div class="col-lg-6 border-end pe-lg-4">
+                <h5 class="text-center fw-bold text-secondary mb-3">Flights Status Breakdown</h5>
+                <div class="premium-chart-wrapper">
+                    <canvas id="flightsStatusChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Right Column: Flights per Airline -->
+            <div class="col-lg-6 ps-lg-4">
+                <h5 class="text-center fw-bold text-secondary mb-3">Operational Fleet Distribution</h5>
+                <div class="premium-chart-wrapper">
+                    <canvas id="flightsPerAirlineChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+				<!-- Manage Flights -->
 				<div id="section-flights"
 					th:classappend="${activeTab != 'flights'} ? 'hidden-section'">
 
@@ -288,7 +410,6 @@ body {
 							</button></a>
 					</div>
 
-					<!--   MANAGE FLIGHT TABLE -->
 					<div class="card border rounded-4 bg-white overflow-hidden">
 						<div class="table-responsive">
 							<table class="table align-middle table-hover m-0">
@@ -321,15 +442,15 @@ body {
 					
 					    <i class="bi bi-cup-hot-fill text-warning me-2"
 					       title="Meal"
-					       th:if="${f.meal == 1}"></i>
+					       th:if="${f.wifi == 1}"></i>
 					
 					    <i class="bi bi-battery-charging text-success me-2"
 					       title="Charging"
-					       th:if="${f.charging == 1}"></i>
+					       th:if="${f.wifi == 1}"></i>
 					
 					    <i class="bi bi-tv-fill text-danger"
 					       title="Entertainment"
-					       th:if="${f.entertainment == 1}"></i>
+					       th:if="${f.wifi == 1}"></i>
 					</td>
 					<td th:text="${f.totalSeats}"></td>
 										
@@ -342,26 +463,14 @@ body {
 											class="btn btn-sm btn-outline-danger py-0 px-2"
 											onclick="return confirm('Are you sure you want to delete this flight?')"><i
 												class="bi bi-x-circle"></i> Delete</a></td>
-										<!--
-	<td>
-				<a th:if="${c.status == 1}" th:href="@{/student/courses/edit/{id}(id=${c.id})}"
-					class="btn btn-primary">Update</a>
-				<a th:if="${c.status == 1}" th:href="@{/student/courses/delete/{id}(id=${c.id})}" class="btn btn-danger">Delete</a>
-				
-				<a th:if="${c.status == 0}" th:href="@{/student/courses/resign/{id}(id=${c.id})}" class="btn btn-danger">Active</a>
-				
-				
-		</td>
-	  -->
 									</tr>
 								</tbody>
 							</table>
 						</div>
 					</div>
-
-
 				</div>
 
+				<!-- Flight Plans -->
 				<div id="section-flightPlans"
 					th:classappend="${activeTab != 'flightPlans'} ? 'hidden-section'">
 
@@ -376,7 +485,6 @@ body {
 								<i class="bi bi-plus-circle"></i> Add New Flight Plan
 							</button></a>
 					</div>
-					<!-- flight plan table -->
 					<div class="card border rounded-4 bg-white overflow-hidden">
 						<div class="table-responsive">
 							<table
@@ -418,14 +526,12 @@ body {
 											class="text-muted small italic">N/A</span></td>
 
 										<td class="py-3 text-secondary small"><span
-											class="d-inline-flex align-items-center gap-1"><!--  <i
-												class="bi bi-clock text-muted"></i> --> <span
+											class="d-inline-flex align-items-center gap-1"><span
 												th:text="${#temporals.format(fp.departureTime, 'yyyy-MM-dd HH:mm')}"></span>
 										</span></td>
 
 										<td class="py-3 text-secondary small"><span
-											class="d-inline-flex align-items-center gap-1"> <!-- <i
-												class="bi bi-clock-fill text-muted"></i> --> <span
+											class="d-inline-flex align-items-center gap-1"> <span
 												th:text="${#temporals.format(fp.arrivalTime, 'yyyy-MM-dd HH:mm')}"></span>
 										</span></td>
 
@@ -456,9 +562,6 @@ body {
 							</table>
 						</div>
 					</div>
-
-					
-
 				</div>
 
 				<!-- Bookings -->
@@ -542,10 +645,7 @@ body {
 					</div>
 				</div>
 
-
-
-
-
+				<!-- Airline Management -->
 				<div id="section-airline"
 					th:classappend="${activeTab != 'airline'} ? 'hidden-section'">
 					<div
@@ -555,80 +655,55 @@ body {
 						</h4>
 						<button class="btn btn-primary btn-sm px-4 rounded-pill"
 							data-bs-toggle="modal" data-bs-target="#addAirlineModal">
-							<a th:href="@{/airline/admin/airlineForm}" class="text-white"><i
+							<a th:href="@{/airline/admin/airlineForm}" class="text-white text-decoration-none"><i
 								class="bi bi-plus-circle"></i> Add New Airline</a>
 						</button>
 					</div>
-                   <!-- AIRLINE TABLE -->
-				      <!-- 🗂️ Clean Flat Container (No Shadow, Pure Minimalist) -->
-<div class="card border rounded-4 bg-white overflow-hidden">
-    <div class="table-responsive">
-        <table class="table align-middle table-hover m-0 custom-airline-table">
-            <!-- <thead>: Modern Soft Neutral Header -->
-            <thead class="bg-light border-bottom border-2">
-                <tr class="text-secondary small fw-bold text-uppercase" style="letter-spacing: 0.5px;">
-                    <th class="ps-4 py-3">Airline Code</th>
-                    <th class="py-3">Airline Name</th>
-                    <th class="py-3">Country</th>
-                    <th class="py-3">Logo</th>
-                    <th class="pe-4 py-3 text-end">Actions</th>
-                </tr>
-            </thead>
-            
-            <!-- <tbody>: Dynamic Airline Rows -->
-            <tbody>
-                <tr th:each="al : ${airline}">
-                    <!-- 🆔 Airline Code Badge -->
-                    <td class="ps-4 py-3">
-                        <span class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded-2" th:text="${al.airlineCode}"></span>
-                    </td>
-                    
-                    <!-- 🏢 Airline Name -->
-                    <td class="py-3">
-                        <span class="fw-semibold text-dark" th:text="${al.airlineName}"></span>
-                    </td>
-                    
-                    <!-- 🌍 Country -->
-                    <td class="py-3 text-secondary" th:text="${al.country}"></td>
-                    
-                    <!-- 🖼️ Logo Style with Frame -->
-                    <td class="py-3">
-                        <div th:if="${al.logo != null}" class="airline-logo-frame bg-light border rounded p-1 d-inline-flex align-items-center justify-content-center">
-                            <img alt="Logo" th:src="@{'/photos/'+${al.logo}}" width="50" height="35" style="object-fit: contain;">
-                        </div>
-                        <span th:unless="${al.logo != null}" class="text-muted small italic">No Logo</span>
-                    </td>
-                    
-                    <!-- 🛠️ Actions: Flat Outline Button with Icon (No Shadow) -->
-                    <td class="pe-4 py-3 text-end">
-                        <div class="d-inline-flex gap-2">
-                            <!-- Edit Button -->
-                            <a th:href="@{/airline/admin/airline/edit/{id}(id=${al.airlineId})}"
-                               class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
-                                <i class="bi bi-pencil-square"></i> Edit
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
 
-
-
+					<div class="card border rounded-4 bg-white overflow-hidden">
+						<div class="table-responsive">
+							<table class="table align-middle table-hover m-0 custom-airline-table">
+								<thead class="bg-light border-bottom border-2">
+									<tr class="text-secondary small fw-bold text-uppercase" style="letter-spacing: 0.5px;">
+										<th class="ps-4 py-3">Airline Code</th>
+										<th class="py-3">Airline Name</th>
+										<th class="py-3">Country</th>
+										<th class="py-3">Logo</th>
+										<th class="pe-4 py-3 text-end">Actions</th>
+									</tr>
+								</thead>
+								
+								<tbody>
+									<tr th:each="al : ${airline}">
+										<td class="ps-4 py-3">
+											<span class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded-2" th:text="${al.airlineCode}"></span>
+										</td>
+										<td class="py-3">
+											<span class="fw-semibold text-dark" th:text="${al.airlineName}"></span>
+										</td>
+										<td class="py-3 text-secondary" th:text="${al.country}"></td>
+										<td class="py-3">
+											<div th:if="${al.logo != null}" class="airline-logo-frame bg-light border rounded p-1 d-inline-flex align-items-center justify-content-center">
+												<img alt="Logo" th:src="@{'/photos/'+${al.logo}}" width="50" height="35" style="object-fit: contain;">
+											</div>
+											<span th:unless="${al.logo != null}" class="text-muted small italic">No Logo</span>
+										</td>
+										<td class="pe-4 py-3 text-end">
+											<div class="d-inline-flex gap-2">
+												<a th:href="@{/airline/admin/airline/edit/{id}(id=${al.airlineId})}"
+												   class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
+													<i class="bi bi-pencil-square"></i> Edit
+												</a>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
 				</div>
 
-				<!-- <td><a
-											th:href="@{/airline/admin/flightPlan/edit/{id}(id=${fp.flightPlanId})}"
-											class="btn btn-sm btn-outline-secondary py-0 px-2"><i
-												class="bi bi-pencil"></i></a> <a
-											th:href="@{/airline/admin/flightPlan/delete/{id}(id=${fp.flightPlanId})}"
-											class="btn btn-sm btn-outline-danger py-0 px-2"
-											onclick="return confirm('Are you sure you want to delete this flight plan?')"><i
-												class="bi bi-x-circle"></i></a></td>
-                                      -->
-
+				<!-- Airport Terminals -->
 				<div th:classappend="${activeTab != 'airport'} ? 'hidden-section'"
 					id="section-airport">
 					<div
@@ -641,62 +716,48 @@ body {
 							<i class="bi bi-plus-circle"></i> Add New Airport
 						</a>
 					</div>
-                    <!-- AIRPORT TBALE -->
-					<!-- 🗂️ Clean Flat Container (No Shadow, Pure Minimalist) -->
-<div class="card border rounded-4 bg-white overflow-hidden">
-    <div class="table-responsive">
-        <table class="table align-middle table-hover m-0 custom-airport-table">
-            <!-- <thead>: Modern Soft Neutral Header -->
-            <thead class="bg-light border-bottom border-2">
-                <tr class="text-secondary small fw-bold text-uppercase" style="letter-spacing: 0.5px;">
-                    <th class="ps-4 py-3">Airport Code</th>
-                    <th class="py-3">Airport Name</th>
-                    <th class="py-3">City</th>
-                    <th class="pe-4 py-3 text-end">Actions</th>
-                </tr>
-            </thead>
-            
-            <!-- <tbody>: Dynamic Airport Rows -->
-            <tbody>
-                <tr th:each="ap : ${airport}">
-                    <!-- 🆔 Airport Code Badge -->
-                    <td class="ps-4 py-3">
-                        <span class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded-2" th:text="${ap.airportCode}"></span>
-                    </td>
-                    
-                    <!-- 🏢 Airport Name -->
-                    <td class="py-3">
-                        <span class="fw-semibold text-dark" th:text="${ap.airportName}"></span>
-                    </td>
-                    
-                    <!-- 📍 City -->
-                    <td class="py-3 text-secondary" th:text="${ap.city}"></td>
-                    
-                    <!-- 🛠️ Actions: Flat Outline Button with Icon (No Shadow) -->
-                    <td class="pe-4 py-3 text-end">
-                        <div class="d-inline-flex gap-2">
-                            <!-- Edit Button -->
-                            <a th:href="@{/airline/admin/airport/edit/{id}(id=${ap.airportId})}"
-                               class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
-                                <i class="bi bi-pencil-square"></i> Edit
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-
+					
+					<div class="card border rounded-4 bg-white overflow-hidden">
+						<div class="table-responsive">
+							<table class="table align-middle table-hover m-0 custom-airport-table">
+								<thead class="bg-light border-bottom border-2">
+									<tr class="text-secondary small fw-bold text-uppercase" style="letter-spacing: 0.5px;">
+										<th class="ps-4 py-3">Airport Code</th>
+										<th class="py-3">Airport Name</th>
+										<th class="py-3">City</th>
+										<th class="pe-4 py-3 text-end">Actions</th>
+									</tr>
+								</thead>
+								
+								<tbody>
+									<tr th:each="ap : ${airport}">
+										<td class="ps-4 py-3">
+											<span class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded-2" th:text="${ap.airportCode}"></span>
+										</td>
+										<td class="py-3">
+											<span class="fw-semibold text-dark" th:text="${ap.airportName}"></span>
+										</td>
+										<td class="py-3 text-secondary" th:text="${ap.city}"></td>
+										<td class="pe-4 py-3 text-end">
+											<div class="d-inline-flex gap-2">
+												<a th:href="@{/airline/admin/airport/edit/{id}(id=${ap.airportId})}"
+												   class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
+													<i class="bi bi-pencil-square"></i> Edit
+												</a>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
 				</div>
 
 			</main>
 		</div>
 	</div>
 
-
-
-	<!-- Add new Airline -->
+	<!-- Add new Airport Modal -->
 	<div class="modal fade" id="addAirportModal" tabindex="-1"
 		aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
@@ -740,7 +801,6 @@ body {
 
 	<script>
     function switchTab(tabName) {
-      // Hide all sections
       document.getElementById('section-dashboard').classList.add('hidden-section');
       document.getElementById('section-flights').classList.add('hidden-section');
       document.getElementById('section-flightPlans').classList.add('hidden-section');
@@ -748,7 +808,6 @@ body {
       document.getElementById('section-airline').classList.add('hidden-section');
       document.getElementById('section-airport').classList.add('hidden-section');
       
-      // Show selected section
       if (tabName === 'dashboard') {
         document.getElementById('section-dashboard').classList.remove('hidden-section');
       } else if (tabName === 'flights') {
@@ -763,10 +822,104 @@ body {
         document.getElementById('section-airport').classList.remove('hidden-section');
       }
  
-      // Sidebar Tab active states toggle
       document.querySelectorAll('.admin-nav-link').forEach(link => link.classList.remove('active'));
       document.getElementById(`tab-${tabName}`).classList.add('active');
     }
   </script>
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        
+        // Flights Status - Advanced Bar Chart
+        const barCanvas = document.getElementById('flightsStatusChart');
+        if (barCanvas) {
+            new Chart(barCanvas.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Cancelled', 'Delayed', 'Scheduled'],
+                    datasets: [{
+                        data: [3, 1, 37], 
+                        backgroundColor: [
+                            'rgba(239, 83, 80, 0.85)',  
+                            'rgba(255, 167, 38, 0.85)', 
+                            'rgba(30, 136, 229, 0.85)'  
+                        ],
+                        borderColor: ['#ef5350', '#ffa726', '#1e88e5'],
+                        borderWidth: 1.5,
+                        borderRadius: 6,
+                        barPercentage: 0.35
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: {
+                        // 🔴 အောက်ခြေ X-Axis စာသားများ အပြည့်အဝပေါ်စေရန် Padding ချန်ခြင်း
+                        padding: {
+                            bottom: 15,
+                            top: 10
+                        }
+                    },
+                    plugins: { 
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: { 
+                            grid: { display: false }, 
+                            ticks: { font: { weight: '600', size: 12 } } 
+                        },
+                        y: { 
+                            beginAtZero: true, 
+                            max: 40,
+                            ticks: { stepSize: 10, font: { weight: '500' } },
+                            grid: { display: true, color: 'rgba(0, 0, 0, 0.04)' },
+                            title: { display: true, text: 'No of Flights', font: { size: 13, weight: 'bold' } } 
+                        }
+                    }
+                }
+            });
+        }
+
+        // 🍕 (၂) Operational Fleet Distribution - Styled Pie Chart
+        const pieCanvas = document.getElementById('flightsPerAirlineChart');
+        if (pieCanvas) {
+            new Chart(pieCanvas.getContext('2d'), {
+                type: 'pie',
+                data: {
+                    labels: ['AirAsia (1 Flight)', 'AirIndia (2 Flights)', 'IndiGo (2 Flights)', 'Emirates (2 Flights)'],
+                    datasets: [{
+                        data: [1, 2, 2, 2],
+                        backgroundColor: ['#66bb6a', '#26c6da', '#ab47bc', '#42a5f5'],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: {
+                        // 🔴 Pie Chart ဝိုင်း မပြတ်တောက်စေရန် ချိန်ညှိခြင်း
+                        padding: {
+                            bottom: 15,
+                            top: 10
+                        }
+                    },
+                    plugins: {
+                        legend: { 
+                            position: 'left',
+                            labels: {
+                                boxWidth: 12,
+                                usePointStyle: true,
+                                font: { size: 12, weight: '500' },
+                                padding: 15
+                            } 
+                        }
+                    }
+                }
+            });
+        }
+    });
+</script>
 </body>
 </html>
