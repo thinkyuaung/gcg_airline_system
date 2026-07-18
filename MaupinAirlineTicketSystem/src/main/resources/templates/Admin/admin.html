@@ -355,43 +355,71 @@ body {
 										<th>PASSENGER</th>
 										<th>FLIGHT</th>
 										<th>CLASS</th>
-										 <th>SEAT NUMBER</th>
-					                    <th>DEPARTURE</th>
-					                    <th>PAYMENT SS</th>
-					                    <th>TOTAL AMOUNT</th>
+										<th>SEAT NUMBER</th>
+										<th>DEPARTURE</th>
+										<th>PAYMENT SS</th>
+										<th>TOTAL AMOUNT</th>
 										<th>STATUS</th>
 										<th>ACTION</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<!-- <td>Mg Mg <span class="text-muted small">(mgmg@mail.com)</span></td> -->
-										<td>Mg Mg</td>
-										<td class="fw-bold text-primary">SN-101</td>
-										<td>Business</td>
-										   <td>A-02</td>
-                   						 <td>Lashio</td>
-										<td><a href="#" class="small text-decoration-none"><i
-												class="bi bi-image text-info"></i> Uploaded</a></td>
-										<td>100000</td>
-										<td><span class="badge bg-warning text-dark">Pending
-												Approval</span></td>
-										<td><button
-												class="btn btn-sm btn-primary py-0 px-2 shadow-sm"><i class="bi bi-boxes"></i> Approve</button></td>
-									</tr>
-									<tr>
-										<td>Su Su</td>
-										<td class="fw-bold text-primary">SN-304</td>
-										<td>Economy</td>
-										 <td>A-02</td>
-                   						 <td>Lashio</td>
-										<td><a href="#" class="small text-decoration-none"><i
-												class="bi bi-image text-info"></i> Uploaded</a></td>
-										<td>200000</td>
-										<td><span class="badge bg-success">Successful</span></td>
-										<td><span class="text-success fw-bold small"><button
+									<tr th:each="b : ${bookings}">
+										<td>
+											<span th:if="${b.user != null}" th:text="${b.user.firstName} + ' ' + ${b.user.lastName}"></span>
+											<span th:unless="${b.user != null}">N/A</span>
+										</td>
+										<td>
+											<span th:if="${b.flightPlan != null and b.flightPlan.flight != null}" 
+												class="fw-bold text-primary" 
+												th:text="${b.flightPlan.flight.flightNumber}"></span>
+											<span th:unless="${b.flightPlan != null and b.flightPlan.flight != null}">N/A</span>
+										</td>
+										<td>
+											<span th:if="${b.seatClass != null}" th:text="${b.seatClass.className}"></span>
+											<span th:unless="${b.seatClass != null}">N/A</span>
+										</td>
+										<td th:text="${b.seatNumber}"></td>
+										<td>
+											<span th:if="${b.flightPlan != null and b.flightPlan.departureAirport != null}" 
+												th:text="${b.flightPlan.departureAirport.airportName}"></span>
+											<span th:unless="${b.flightPlan != null and b.flightPlan.departureAirport != null}">N/A</span>
+										</td>
+										<td>
+											<span th:if="${b.payment != null and b.payment.paymentScreenshot != null}" 
+												class="small text-decoration-none">
+												<i class="bi bi-image text-info"></i> Uploaded
+											</span>
+											<span th:unless="${b.payment != null and b.payment.paymentScreenshot != null}" 
+												class="text-muted small">
+												<i class="bi bi-image"></i> None
+											</span>
+										</td>
+										<td th:text="${b.totalAmount}"></td>
+										<td>
+											<span class="badge" 
+												th:classappend="${b.status == 'Pending'} ? 'bg-warning text-dark' : (${b.status == 'Successful'} ? 'bg-success' : (${b.status == 'Issued'} ? 'bg-primary' : 'bg-secondary'))"
+												th:text="${b.status}"></span>
+										</td>
+										<td>
+										
+											<a th:if="${b.status == 'PENDING'}"
+												th:href="@{/airline/admin/booking/approve/{id}(id=${b.bookingId})}"
+												class="">
+												<button
+												class="btn btn-sm btn-primary py-0 px-2 shadow-sm"><i class="bi bi-boxes"></i> Approve</button>
+											</a>
+											<a th:if="${b.status == 'PENDING'}"
+												th:href="@{/airline/admin/booking/issue/{id}(id=${b.bookingId})}"
+												class="">
+												<button
 												class="btn btn-sm btn-danger py-0 px-2 shadow-sm"><i
-												class="bi bi-qr-code"></i>  Issued</button></span></td>
+												class="bi bi-qr-code"></i>  Issued</button>
+											</a>
+										</td>
+									</tr>
+									<tr th:if="${#lists.isEmpty(bookings)}">
+										<td colspan="9" class="text-center text-muted py-4">No bookings found.</td>
 									</tr>
 								</tbody>
 							</table>
