@@ -1,179 +1,222 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Airline Administration</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-  
-  <style>
-    body {
-      background-color: #f4f7f6;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Airline Administration</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
-    /* Modal Custom Styling */
-    .modal-content {
-      border: none;
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-      background-color: #ffffff;
-    }
+<style>
+body {
+	background-color: #f4f7f6;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 
-    .modal-header {
-      border-bottom: 1px solid #edf2f7;
-      background-color: #fafbfc;
-      padding: 1.5rem;
-    }
+/* Modal Custom Styling */
+.modal-content {
+	border: none;
+	box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+	background-color: #ffffff;
+}
 
-    .modal-title {
-      color: #1a202c;
-      font-size: 1.25rem;
-    }
+.modal-header {
+	border-bottom: 1px solid #edf2f7;
+	background-color: #fafbfc;
+	padding: 1.5rem;
+}
 
-    .modal-body {
-      padding: 2rem 1.5rem;
-    }
+.modal-title {
+	color: #1a202c;
+	font-size: 1.25rem;
+}
 
-    /* Form Design Details */
-    .form-label {
-      color: #4a5568;
-      margin-bottom: 0.5rem;
-      font-size: 0.85rem;
-      letter-spacing: 0.3px;
-    }
+.modal-body {
+	padding: 2rem 1.5rem;
+}
 
-    .form-control {
-      border: 1.5px solid #e2e8f0;
-      padding: 0.75rem 1rem;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      color: #2d3748;
-      transition: all 0.2s ease-in-out;
-    }
+/* Form Design Details */
+.form-label {
+	color: #4a5568;
+	margin-bottom: 0.5rem;
+	font-size: 0.85rem;
+	letter-spacing: 0.3px;
+}
 
-    .form-control:focus {
-      border-color: #3182ce;
-      box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.15);
-      background-color: #fff;
-    }
+.form-control, .form-select {
+	border: 1.5px solid #e2e8f0;
+	padding: 0.75rem 1rem;
+	border-radius: 8px;
+	font-size: 0.95rem;
+	color: #2d3748;
+	transition: all 0.2s ease-in-out;
+}
 
-    .form-control::placeholder {
-      color: #a0aec0;
-      font-size: 0.9rem;
-    }
+.form-control:focus, .form-select:focus {
+	border-color: #3182ce;
+	box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.15);
+	background-color: #fff;
+}
 
-    /* File upload field specific styling */
-    .form-control[type="file"] {
-      padding: 0.6rem 0.75rem;
-    }
+.form-control::placeholder {
+	color: #a0aec0;
+	font-size: 0.9rem;
+}
 
-    /* Custom Button Styles */
-    .btn-primary {
-      background-color: #3182ce;
-      border: none;
-      font-weight: 500;
-      transition: all 0.2s ease;
-    }
+.form-control[type="file"] {
+	padding: 0.6rem 0.75rem;
+}
 
-    .btn-primary:hover {
-      background-color: #2b6cb0;
-      transform: translateY(-1px);
-    }
+/* Custom Button Styles */
+.btn-primary {
+	background-color: #3182ce;
+	border: none;
+	font-weight: 500;
+	transition: all 0.2s ease;
+}
 
-    .btn-light {
-      background-color: #edf2f7;
-      color: #4a5568;
-      border: none;
-      font-weight: 500;
-    }
+.btn-primary:hover {
+	background-color: #2b6cb0;
+	transform: translateY(-1px);
+}
 
-    .btn-light:hover {
-      background-color: #e2e8f0;
-      color: #2d3748;
-    }
+.btn-light {
+	background-color: #edf2f7;
+	color: #4a5568;
+	border: none;
+	font-weight: 500;
+}
 
-    .modal-footer {
-      border-top: 1px solid #edf2f7;
-      background-color: #fafbfc;
-      padding: 1.25rem 1.5rem;
-      
-    }
-    
-  </style>
+.btn-light:hover {
+	background-color: #e2e8f0;
+	color: #2d3748;
+}
+
+.modal-footer {
+	border-top: 1px solid #edf2f7;
+	background-color: #fafbfc;
+	padding: 1.25rem 1.5rem;
+}
+</style>
 </head>
 <body>
 
-  <div>
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content rounded-4">
-        <div class="modal-header d-flex align-items-center login-bar">
-          <h5 class="modal-title fw-bold">
-            <i class="bi bi-airplane-fill text-primary me-2"></i>
-            <span th:text="${airline.airlineId != 0} ? 'Update Airline Profile' : 'Add New Airline Profile'">Add New Airline Profile</span>
-          </h5>
-          <a th:href="@{/airline/admin/airlines}" class="btn-close" aria-label="Close"></a>
-        </div>
-        
-        <form th:action="@{/airline/admin/airline}" th:object="${airline}" 
-			method="post"
-			enctype="multipart/form-data">
-			<input type="hidden" th:field="*{airlineId}" />
-          <div class="modal-body">
-            
-            
+	<div>
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content rounded-4">
+				<div class="modal-header d-flex align-items-center login-bar">
+					<h5 class="modal-title fw-bold">
+						<i class="bi bi-airplane-fill text-primary me-2"></i> 
+						<span th:text="${airline.airlineId != 0} ? 'Update Airline Profile' : 'Add New Airline Profile'">Add New Airline Profile</span>
+					</h5>
+					<a th:href="@{/airline/admin/airlines}" class="btn-close" aria-label="Close"></a>
+				</div>
 
-            <div class="mb-4">
-              <label class="form-label text-uppercase fw-bold">Airline Code</label>
-              <div class="input-group">
-                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-hash"></i></span>
-                <input type="text" name="airlineCode" class="form-control border-start-0" placeholder="e.g., SN" required th:field="*{airlineCode}">
-              </div>
-            </div>
+				<form th:action="@{/airline/admin/airline}" th:object="${airline}" method="post" enctype="multipart/form-data">
+					<input type="hidden" th:field="*{airlineId}" />
+					<div class="modal-body">
 
-            <div class="mb-4">
-              <label class="form-label text-uppercase fw-bold">Airline Name</label>
-              <div class="input-group">
-                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-tag"></i></span>
-                <input type="text" name="airlineName" class="form-control border-start-0" placeholder="e.g., SkyNest Airways" required th:field="*{airlineName}">
-              </div>
-            </div>
+						<!-- 1. Airline Code Selection Dropdown -->
+						<div class="mb-3">
+							<label class="form-label small fw-bold">Airline Code</label> 
+							<select th:field="*{airlineCode}" class="form-select" required>
+								<option value="" selected disabled>-- Select Airline Code --</option>
+								<option value="MNA">MNA (Myanmar National Airlines)</option>
+								<option value="MAI">MAI (Myanmar Airways International)</option>
+								<option value="EK">EK (Emirates)</option>
+								<option value="AK">AK (AirAsia)</option>
+								<option value="AI">AI (Air India)</option>
+								<option value="SQ">SQ (Singapore Airlines)</option>
+								<option value="TG">TG (Thai Airways)</option>
+								<option value="QR">QR (Qatar Airways)</option>
+								<option value="PG">PG (Bangkok Airways)</option>
+								<option value="MH">MH (Malaysia Airlines)</option>
+								<option value="NH">NH (All Nippon Airways - ANA)</option>
+								<option value="JL">JL (Japan Airlines)</option>
+								<option value="CX">CX (Cathay Pacific)</option>
+								<option value="CZ">CZ (China Southern Airlines)</option>
+								<option value="KE">KE (Korean Air)</option>
+							</select>
+						</div>
 
-            <div class="mb-4">
-              <label class="form-label text-uppercase fw-bold">Country</label>
-              <div class="input-group">
-                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-globe2"></i></span>
-                <input type="text" name="country" class="form-control border-start-0" placeholder="e.g., Myanmar" required th:field="*{country}">
-              </div>
-            </div>
+						<!-- 2. Airline Name Selection Dropdown -->
+						<div class="mb-3">
+							<label class="form-label small fw-bold">Airline Name</label> 
+							<select th:field="*{airlineName}" class="form-select" required>
+								<option value="" selected disabled>-- Select Airline Name --</option>
+								<option value="Myanmar National Airlines">Myanmar National Airlines</option>
+								<option value="Myanmar Airways International">Myanmar Airways International</option>
+								<option value="Emirates">Emirates</option>
+								<option value="AirAsia">AirAsia</option>
+								<option value="Air India">Air India</option>
+								<option value="Singapore Airlines">Singapore Airlines</option>
+								<option value="Thai Airways">Thai Airways</option>
+								<option value="Qatar Airways">Qatar Airways</option>
+								<option value="Bangkok Airways">Bangkok Airways</option>
+								<option value="Malaysia Airlines">Malaysia Airlines</option>
+								<option value="All Nippon Airways">All Nippon Airways</option>
+								<option value="Japan Airlines">Japan Airlines</option>
+								<option value="Cathay Pacific">Cathay Pacific</option>
+								<option value="China Southern Airlines">China Southern Airlines</option>
+								<option value="Korean Air">Korean Air</option>
+							</select>
+						</div>
 
-            <div class="mb-2">
-              <label class="form-label text-uppercase fw-bold">Airline Logo</label>
-              <div class="input-group">
-                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-image"></i></span>
-                <input type="file" name="photoFile" class="form-control border-start-0" accept="image/*">
-              </div>
-              <div class="form-text mt-1 text-muted small">PNG or JPG preferred. Max size 2MB.</div>
-              
-              <div th:if="${airline.logo != null}" class="mt-2">
-              	<span class="small text-muted">Current Logo: </span>
-              	<img th:src="@{'/photos/'+${airline.logo}}" width="40" height="30" class="rounded border" />
-              </div>
-            </div>
-          </div>
+						<!-- 3. Country Selection Dropdown (UPDATED) -->
+						<div class="mb-4">
+							<label class="form-label text-uppercase fw-bold">Country</label>
+							<div class="input-group">
+								<span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-globe2"></i></span> 
+								<select th:field="*{country}" class="form-select border-start-0" required>
+									<option value="" selected disabled>-- Select Country --</option>
+									<option value="Myanmar">Myanmar</option>
+									<option value="Thailand">Thailand</option>
+									<option value="Singapore">Singapore</option>
+									<option value="Malaysia">Malaysia</option>
+									<option value="United Arab Emirates">United Arab Emirates</option>
+									<option value="Qatar">Qatar</option>
+									<option value="India">India</option>
+									<option value="Japan">Japan</option>
+									<option value="South Korea">South Korea</option>
+									<option value="China">China</option>
+									<option value="Hong Kong">Hong Kong</option>
+									<option value="Vietnam">Vietnam</option>
+									<option value="Indonesia">Indonesia</option>
+									<option value="United States">United States</option>
+									<option value="United Kingdom">United Kingdom</option>
+								</select>
+							</div>
+						</div>
 
-          <div class="modal-footer">
-            <a th:href="@{/airline/admin/airlines}" class="btn btn-light rounded-pill px-4">Cancel</a>
-            <button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm" th:text="${airline.airlineId != 0} ? 'Update Airline' : 'Save Airline'">Save Airline</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+						<!-- 4. Airline Logo File Input -->
+						<div class="mb-2">
+							<label class="form-label text-uppercase fw-bold">Airline Logo</label>
+							<div class="input-group">
+								<span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-image"></i></span> 
+								<input type="file" name="photoFile" class="form-control border-start-0" accept="image/*">
+							</div>
+							<div class="form-text mt-1 text-muted small">PNG or JPG preferred. Max size 2MB.</div>
+
+							<div th:if="${airline.logo != null}" class="mt-2">
+								<span class="small text-muted">Current Logo: </span> 
+								<img th:src="@{'/photos/'+${airline.logo}}" width="40" height="30" class="rounded border" />
+							</div>
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<a th:href="@{/airline/admin/airlines}" class="btn btn-light rounded-pill px-4">Cancel</a>
+						<button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm"
+							th:text="${airline.airlineId != 0} ? 'Update Airline' : 'Save Airline'">Save Airline</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
