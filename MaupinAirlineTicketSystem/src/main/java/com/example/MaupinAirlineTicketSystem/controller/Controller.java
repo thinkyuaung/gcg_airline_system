@@ -37,7 +37,21 @@ public class Controller {
 	public String home() {
 		return "index";
 	}
- 
+
+	@GetMapping("/flights")
+	public String flights() {
+		return "flights";
+	}
+	
+	@GetMapping("/about")
+	public String about() {
+		return "about";
+	}
+      
+	@GetMapping("/support")
+	public String  support(){
+		return "support";
+	}
 	////////////// Login //////////////
  
 	@GetMapping("/login")

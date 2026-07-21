@@ -27,7 +27,7 @@ body {
 	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
 	transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-
+  
 .stat-card:hover {
 	transform: translateY(-2px);
 	box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
@@ -107,6 +107,7 @@ body {
 .table-bordered th, .table-bordered td {
 	border: 1px solid #dee2e6 !important;
 	padding: 0.75rem 1rem !important;
+	
 }
 
 .table thead th {
@@ -155,11 +156,12 @@ body {
 	width: 50px;
 	height: 50px;
 	border-radius: 50% !important; 
-	overflow: hidden; 
+	 overflow: hidden;  
 	border: 2px solid #0d6efd; 
-	display: inline-flex;
-	align-items: center;
-	justify-content: justify-content;
+	 display:inline-flex; 
+	
+   align-items: center; 
+	 justify-content:center; 
 	background-color: #f8fafc;
 }
 
@@ -167,7 +169,7 @@ body {
 	width: 100% !important;
 	height: 100% !important;
 	object-fit: cover !important;
-	/* ပုံမရှုံ့သွားဘဲ စက်ဝိုင်းထဲ ကွက်တိဝင်စေရန် */
+	
 	border-radius: 50% !important;
 }
 /* Premium Card Styles Core Injection */
@@ -462,7 +464,7 @@ body {
 											th:unless="${f.airline != null}" class="text-muted small">No
 												Airline</span></td>
 
-										<!-- 3. Dynamic Features Icons Column (Admin ရွေးချယ်ထားသော Icons များ) -->
+										
 										<td>
 											<div class="d-inline-flex align-items-center gap-2">
 												<!-- WiFi Icon -->
@@ -721,11 +723,14 @@ body {
 								<thead>
 									<tr class="text-secondary small fw-bold text-uppercase"
 										style="letter-spacing: 0.5px;">
-										<th>Airline Code</th>
+										<th class="ps-3">Airline Code</th>
 										<th>Airline Name</th>
 										<th>Country</th>
-										<th>Logo</th>
-										<th class="text-end">Actions</th>
+										
+										   <th class="text-center">Logo</th>
+										
+										
+										<th>Actions</th>
 									</tr>
 								</thead>
 
@@ -737,14 +742,14 @@ body {
 										<td><span class="fw-semibold text-dark"
 											th:text="${al.airlineName}"></span></td>
 										<td class="text-secondary" th:text="${al.country}"></td>
-										<td class="py-3">
+										<td class="text-center">
 
 											<div th:if="${al.logo != null}" class="circle-logo-container">
 												<img alt="Airline Logo" th:src="@{'/photos/' + ${al.logo}}">
 											</div> <span th:unless="${al.logo != null}"
 											class="text-muted small italic">No Logo</span>
 										</td>
-										<td class="text-end">
+										<td class="text-center">
 											<div class="d-inline-flex gap-2">
 												<a
 													th:href="@{/airline/admin/airline/edit/{id}(id=${al.airlineId})}"
