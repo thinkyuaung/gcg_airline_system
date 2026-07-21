@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+    <!-- 🌐 Dynamic Common Navigation Bar -->
+    <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
+        <div class="container">
+            
+            <!--  Brand Logo -->
+            <a class="navbar-brand d-flex align-items-center gap-2" th:href="@{/airline/index}">
+              <div class="brand-icon">
+					<i class="bi bi-airplane-fill"></i>
+				</div> Maubin International AirLine
+                 </a>
+            
+            <!-- Mobile Toggle Button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-1 gap-lg-3 fw-semibold">
+                    
+                    <!--  Home Navigation Link -->
+                    <li class="nav-item">
+                        <a class="nav-link px-3" 
+                           th:classappend="${activePage == 'home'} ? 'active border-bottom border-primary border-3 text-primary' : ''" 
+                           th:href="@{/airline/index}">Home</a>
+                    </li>
+
+                    <!-- ✈️ Flights Link -->
+                    <li class="nav-item">
+                        <a class="nav-link px-3" 
+                           th:classappend="${activePage == 'flights'} ? 'active border-bottom border-primary border-3 text-primary' : ''" 
+                           th:href="@{/airline/flights}">Flights</a>
+                    </li>
+
+                    <!--  Packages Link -->
+                    <li class="nav-item">
+                        <a class="nav-link px-3" 
+                           th:classappend="${activePage == 'packages'} ? 'active border-bottom border-primary border-3 text-primary' : ''" 
+                           th:href="@{/airline/packages}">Packages</a>
+                    </li>
+
+                    <!--  Support Link -->
+                    <li class="nav-item">
+                        <a class="nav-link px-3" 
+                           th:classappend="${activePage == 'support'} ? 'active border-bottom border-primary border-3 text-primary' : ''" 
+                           th:href="@{/airline/support}">Support</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+</body>
+</html>
