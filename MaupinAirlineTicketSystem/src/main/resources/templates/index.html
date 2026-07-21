@@ -1,5 +1,9 @@
 <!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -236,77 +240,393 @@
      FLIGHT BOOKING WIDGET
      ============================================================ -->
 <section id="booking" data-aos="fade-up">
-  <div class="container">
-    <div class="booking-card">
 
-      <!-- Top row: pills + trip type -->
-      <div class="d-flex flex-wrap align-items-center gap-3 mb-4 pb-3 border-bottom">
-        <button class="widget-pill"><i class="bi bi-airplane"></i> Flights <i class="bi bi-chevron-down"></i></button>
-        <button class="widget-pill"><i class="bi bi-people"></i> Adult <i class="bi bi-chevron-down"></i></button>
-        <button class="widget-pill"><i class="bi bi-seat"></i> Economy <i class="bi bi-chevron-down"></i></button>
+<div class="container">
 
-        <div class="d-flex gap-4 ms-auto trip-radio flex-wrap">
-          <label>
-            <input type="radio" name="tripType" value="two-way" checked>
-            Two Way
-          </label>
-          <label>
-            <input type="radio" name="tripType" value="one-way">
-            One Way
-          </label>
-        </div>
-      </div>
+<div class="booking-card">
 
-      <!-- Input pickers grid -->
-      <div class="row g-3">
-        <div class="col-6 col-md-3">
-          <div class="input-picker">
-            <label><i class="bi bi-geo-alt-fill"></i> Destinations +</label>
-            <input id="flightDestination" type="text" placeholder="Where to?" />
-          </div>
-        </div>
-        <div class="col-6 col-md-3">
-          <div class="input-picker">
-            <label><i class="bi bi-calendar-event"></i> Check In</label>
-            <input id="flightCheckIn" type="text" placeholder="Add date" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" />
-          </div>
-        </div>
-        <div class="col-6 col-md-3">
-          <div class="input-picker">
-            <label><i class="bi bi-calendar-check"></i> Check Out</label>
-            <input id="flightCheckOut" type="text" placeholder="Add date" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" />
-          </div>
-        </div>
-        <div class="col-6 col-md-3">
-          <div class="input-picker">
-            <label><i class="bi bi-person-check"></i> Guests +</label>
-            <input id="flightGuests" type="text" placeholder="Add guests" />
-          </div>
-        </div>
-      </div>
 
-      <!-- Search button -->
-      <div class="d-flex justify-content-end mt-4">
-        <button class="btn-search-flights" id="searchFlightsBtn">
-          <i class="bi bi-search"></i> Search Flights
-        </button>
-      </div>
+<form th:action="@{/airline/search}" method="post">
 
-      <div class="flight-results d-none" id="flightResults">
-        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
-          <div>
-            <div class="flight-results-eyebrow">Available flight plans</div>
-            <h3 class="flight-results-title" id="flightResultsTitle">Choose your flight</h3>
-          </div>
-          <span class="flight-results-count" id="flightResultsCount">0 results</span>
-        </div>
-        <div class="row g-3" id="flightCards"></div>
-      </div>
 
-    </div>
-  </div>
+<!-- Top row -->
+
+<div class="d-flex flex-wrap align-items-center gap-3 mb-4 pb-3 border-bottom">
+
+
+<button type="button" class="widget-pill">
+
+<i class="bi bi-airplane"></i>
+
+Flights
+
+<i class="bi bi-chevron-down"></i>
+
+</button>
+
+
+
+<button type="button" class="widget-pill">
+
+<i class="bi bi-people"></i>
+
+Travelers
+
+<i class="bi bi-chevron-down"></i>
+
+</button>
+
+
+
+<button type="button" class="widget-pill">
+
+<i class="bi bi-seat"></i>
+
+Seat Class
+
+<i class="bi bi-chevron-down"></i>
+
+</button>
+
+
+
+
+<div class="d-flex gap-4 ms-auto trip-radio">
+
+
+<label>
+
+<input type="radio"
+name="tripType"
+value="two-way"
+checked>
+
+Two Way
+
+</label>
+
+
+
+<label>
+
+<input type="radio"
+name="tripType"
+value="one-way">
+
+One Way
+
+</label>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<!-- Search Inputs -->
+
+<div class="row g-3">
+
+
+
+
+
+<!-- Departure -->
+
+<div class="col-6 col-md-3">
+
+
+<div class="input-picker">
+
+
+<label>
+
+<i class="bi bi-geo-alt-fill"></i>
+
+From
+
+</label>
+
+
+
+<select name="departureCity"
+class="form-select"
+required>
+
+
+<option value="">
+Select departure
+</option>
+
+
+<option th:each="airport:${airports}"
+
+        th:value="${airport.city}"
+
+        th:text="${airport.city + ' (' + airport.airportCode + ')'}">
+
+
+</option>
+
+
+</select>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- Arrival -->
+
+
+<div class="col-6 col-md-3">
+
+
+<div class="input-picker">
+
+
+<label>
+
+<i class="bi bi-geo-alt-fill"></i>
+
+To
+
+</label>
+
+
+
+<select name="arrivalCity"
+class="form-select"
+required>
+
+
+<option value="">
+Select destination
+</option>
+
+
+
+<option th:each="airport:${airports}"
+
+        th:value="${airport.city}"
+
+        th:text="${airport.city + ' (' + airport.airportCode + ')'}">
+
+
+</option>
+
+
+</select>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- Departure Date -->
+
+
+<div class="col-6 col-md-3">
+
+
+<div class="input-picker">
+
+
+<label>
+
+<i class="bi bi-calendar-event"></i>
+
+Departure
+
+</label>
+
+
+
+<input type="date"
+
+name="departureDate"
+
+required>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- Passengers -->
+
+
+<div class="col-6 col-md-3">
+
+
+<div class="input-picker">
+
+
+<label>
+
+<i class="bi bi-person-check"></i>
+
+Passengers
+
+</label>
+
+
+
+<input type="number"
+
+name="passengers"
+
+value="1"
+
+min="1"
+
+max="50"
+
+required>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<!-- Seat Class -->
+
+
+<div class="col-6 col-md-3">
+
+
+<div class="input-picker">
+
+
+<label>
+
+<i class="bi bi-chair"></i>
+
+Seat Class
+
+</label>
+
+
+
+<select name="seatClass"
+class="form-select">
+
+
+
+<option value="Economy">
+
+Economy
+
+</option>
+
+<option value="Business">
+
+Business
+
+</option>
+
+
+
+<option value="First">
+
+First Class
+
+</option>
+
+
+
+</select>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- Search Button -->
+
+
+<div class="d-flex justify-content-end mt-4">
+
+
+<button type="submit"
+
+class="btn-search-flights">
+
+
+<i class="bi bi-search"></i>
+
+Search Flights
+
+
+</button>
+
+
+
+</div>
+
+
+
+
+</form>
+
+
+
+</div>
+
+
+</div>
+
+
 </section>
-
 
 
      <!-- EXCLUSIVE DEALS -->
