@@ -1,3 +1,5 @@
-2026/07/14-09:57:08.732 7bb4 Reusing MANIFEST C:\Users\W24122-User\Documents\GIC\IT\Java and PHP\MaupinAirlineTicketSystem\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Site Characteristics Database/MANIFEST-000001
-2026/07/14-09:57:08.734 7bb4 Recovering log #3
-2026/07/14-09:57:08.735 7bb4 Reusing old log C:\Users\W24122-User\Documents\GIC\IT\Java and PHP\MaupinAirlineTicketSystem\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Site Characteristics Database/000003.log 
+2026/07/17-10:53:26.749 db4 Log #3: 1 ops saved to Table #4 OK
+2026/07/17-10:53:26.758 db4 Archiving C:\Users\GIC-T-09-user\OneDrive\Documents\GitHub\gcg_airline_system\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Site Characteristics Database/000003.log: OK
+2026/07/17-10:53:26.759 db4 Table #4: 1 entries OK
+2026/07/17-10:53:26.766 db4 Archiving C:\Users\GIC-T-09-user\OneDrive\Documents\GitHub\gcg_airline_system\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Site Characteristics Database/MANIFEST-000001: OK
+2026/07/17-10:53:26.774 db4 **** Repaired leveldb C:\Users\GIC-T-09-user\OneDrive\Documents\GitHub\gcg_airline_system\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Site Characteristics Database; recovered 1 files; 130 bytes. Some data may have been lost. ****

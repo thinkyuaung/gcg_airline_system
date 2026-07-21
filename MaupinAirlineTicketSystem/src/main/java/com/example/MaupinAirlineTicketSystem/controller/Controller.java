@@ -18,7 +18,7 @@ import com.example.MaupinAirlineTicketSystem.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 
 @org.springframework.stereotype.Controller
-@RequestMapping("/airline")
+@RequestMapping("/airline") 
 public class Controller {
 
 	@Autowired
@@ -61,8 +61,8 @@ public class Controller {
 	public String loginPage(Model model) {
 
 		model.addAttribute("user", new User());
-
-		return "Login/login";
+ 
+		return "Login/loginPage";
 	}
 
 	////////////// Signup //////////////
