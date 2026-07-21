@@ -1,5 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -75,19 +79,19 @@
           <input type="text" placeholder="Search..." />
         </div>
         
-        
-        <button class="btn btn-outline-primary px-3 fw-bold rounded-pill" onclick="window.location.href='login.html?tab=login'">
-          <i class="bi bi-person"></i> Login
-        </button>
-
-        <button class="btn-signup px-3" onclick="window.location.href='login.html?tab=signup'">
-          <i class="bi bi-person-plus-fill"></i> Sign up
-        </button>
+        <!-- Login  -->
+<a th:href="@{/airline/login}" class="btn btn-outline-primary px-3 fw-bold rounded-pill">
+ <i class="bi bi-person"></i> Login
+</a>
+	  	<!-- Sign up  -->
+<a th:href="@{/airline/signup}" class="btn-signup px-3 text-decoration-none">
+  <i class="bi bi-person-plus-fill"></i> Sign Up
+</a>
       </div>
   </div> 
 </nav>
 
-
+  
 
      <!-- HERO SECTION -->
  <section id="hero" data-aos="fade-right" class="position-relative overflow-hidden py-5">
@@ -548,11 +552,6 @@ class="form-select">
 
 Economy
 
-</option>
-
-<option value="Economy">
-
-window seat 
 </option>
 
 <option value="Business">

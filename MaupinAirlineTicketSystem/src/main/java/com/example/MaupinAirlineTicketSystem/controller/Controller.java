@@ -34,6 +34,7 @@ public class Controller {
 
 	
 	@GetMapping("/")
+
 	public String home(Model model){
 
 	    model.addAttribute(
@@ -45,6 +46,15 @@ public class Controller {
 	}
 	  
 	 
+	public String index() {
+		return "index";
+	}
+ 
+	@GetMapping("/index")
+	public String home() {
+		return "index";
+	}
+ 
 	////////////// Login //////////////
 
 	@GetMapping("/login")
@@ -75,7 +85,8 @@ public class Controller {
 
 		userRepository.save(user);
 
-		return "redirect:/airline/home";
+		return "redirect:/airline/index";
+
 	}
 
 	////////////// User Profile //////////////
