@@ -12,20 +12,25 @@ public class Airport {
    
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int airportId;
+    private Integer airportId;
 
     private String airportName;
 
     private String airportCode;
 
     private String city;
+    
+    private String image;
 
-	public Airport(int airportId, String airportName, String airportCode, String city) {
+	
+
+	public Airport(int airportId, String airportName, String airportCode, String city, String image) {
 		super();
 		this.airportId = airportId;
 		this.airportName = airportName;
 		this.airportCode = airportCode;
 		this.city = city;
+		this.image = image;
 	}
 
 	public Airport() {
@@ -33,11 +38,11 @@ public class Airport {
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getAirportId() {
+	public Integer getAirportId() {
 		return airportId;
 	}
 
-	public void setAirportId(int airportId) {
+	public void setAirportId(Integer airportId) {
 		this.airportId = airportId;
 	}
 
@@ -63,6 +68,14 @@ public class Airport {
 
 	public void setCity(String city) {
 		this.city = city;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
     
     

@@ -154,12 +154,12 @@ body {
 .circle-logo-container {
 	width: 50px;
 	height: 50px;
-	border-radius: 50% !important; 
-	overflow: hidden; 
-	border: 2px solid #0d6efd; 
+	border-radius: 50% !important;
+	overflow: hidden;
+	border: 2px solid #0d6efd;
 	display: inline-flex;
 	align-items: center;
-	justify-content: justify-content;
+	justify-content: center;   /* fixed */
 	background-color: #f8fafc;
 }
 
@@ -167,7 +167,6 @@ body {
 	width: 100% !important;
 	height: 100% !important;
 	object-fit: cover !important;
-	/* ပုံမရှုံ့သွားဘဲ စက်ဝိုင်းထဲ ကွက်တိဝင်စေရန် */
 	border-radius: 50% !important;
 }
 /* Premium Card Styles Core Injection */
@@ -781,38 +780,39 @@ body {
 								class="bi bi-plus-circle"></i> Add New Airline</a>
 						</button>
 					</div>
-
-					<div class="card border rounded-4 bg-white overflow-hidden">
+				<div class="card border rounded-4 bg-white overflow-hidden">
 						<div class="table-responsive">
-
+ 
 							<table
 								class="table table-bordered align-middle table-hover m-0 custom-airline-table">
 								<thead>
 									<tr class="text-secondary small fw-bold text-uppercase"
 										style="letter-spacing: 0.5px;">
+										<th class="text-center">Logo</th>
 										<th>Airline Code</th>
 										<th>Airline Name</th>
 										<th>Country</th>
-										<th>Logo</th>
+										
 										<th class="text-end">Actions</th>
 									</tr>
 								</thead>
-
+ 
 								<tbody>
 									<tr th:each="al : ${airline}">
+										<td class="text-center">
+ 
+											<div th:if="${al.logo != null}" class="circle-logo-container">
+												<img alt="Airline Logo" th:src="@{'/photos/' + ${al.logo}}">
+											</div> <span th:unless="${al.logo != null}"
+											class="text-muted small italic">No Logo</span>
+										</td>
 										<td><span
 											class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded-2"
 											th:text="${al.airlineCode}"></span></td>
 										<td><span class="fw-semibold text-dark"
 											th:text="${al.airlineName}"></span></td>
 										<td class="text-secondary" th:text="${al.country}"></td>
-										<td class="py-3">
-
-											<div th:if="${al.logo != null}" class="circle-logo-container">
-												<img alt="Airline Logo" th:src="@{'/photos/' + ${al.logo}}">
-											</div> <span th:unless="${al.logo != null}"
-											class="text-muted small italic">No Logo</span>
-										</td>
+									
 										<td class="text-end">
 											<div class="d-inline-flex gap-2">
 												<a
@@ -828,6 +828,7 @@ body {
 						</div>
 					</div>
 				</div>
+				<!-- Airline -->
 
 				<!-- Airport Terminals -->
 				<div th:classappend="${activeTab != 'airport'} ? 'hidden-section'"
@@ -845,21 +846,35 @@ body {
 
 					<div class="card border rounded-4 bg-white overflow-hidden">
 						<div class="table-responsive">
+
 							
 							<table
 								class="table table-bordered align-middle table-hover m-0 custom-airport-table">
 								<thead>
 									<tr class="text-secondary small fw-bold text-uppercase"
 										style="letter-spacing: 0.5px;">
+										<th class="text-center">Image</th>
 										<th>Airport Code</th>
 										<th>Airport Name</th>
 										<th>City</th>
 										<th class="text-end">Actions</th>
+
+							
 									</tr>
 								</thead>
 
 								<tbody>
 									<tr th:each="ap : ${airport}">
+										<!-- <td class="py-3">
+ 
+											<div th:if="${al.logo != null}" class="circle-logo-container">
+												<img alt="Airport Image" th:src="@{'/photos/' + ${al.logo}}">
+											</div> <span th:unless="${al.logo != null}"
+											class="text-muted small italic">No Logo</span>
+										</td> -->
+									<td class="text-center"><img th:if="${ap.image != null}" alt="Logo" class="circle-logo-container"
+											th:src="@{'/photos/'+${ap.image}}" >
+										</td>
 										<td><span
 											class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded-2"
 											th:text="${ap.airportCode}"></span></td>

@@ -98,6 +98,7 @@ body {
 </head>
 <body>
 
+
 	<div class="w-100" style="max-width: 500px;">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content rounded-4">
@@ -108,15 +109,21 @@ body {
 					</h5>
 					<a th:href="@{/airline/admin/airports}" class="btn-close" aria-label="Close"></a>
 				</div>
-
-				<form th:action="@{/airline/admin/airport}" th:object="${airport}" method="post">
-					<input type="hidden" th:field="*{airportId}" />
-					<div class="modal-body">
+        
+        <form 
+        th:action="@{/airline/admin/airport}" 
+        th:object="${airport}" 
+        method="post"
+        enctype="multipart/form-data">
+        
+         <input type="hidden" th:field="*{airportId}" />
+          <div class="modal-body">
 
 						<!-- 1. Airport Code Selection Dropdown -->
 						<div class="mb-3">
 							<label class="form-label small fw-bold">Airport Code</label> 
-							<select th:field="*{airportCode}" class="form-select" required>
+							<input type="text" name="airportCode" class="form-control border-start-0" placeholder="e.g., RGN" required th:field="*{airportCode}">
+							<!-- <select th:field="*{airportCode}" class="form-select" required>
 								<option value="" selected disabled>-- Select Airport Code --</option>
 								<option value="RGN">RGN (Yangon)</option>
 								<option value="MDL">MDL (Mandalay)</option>
@@ -133,13 +140,15 @@ body {
 								<option value="ICN">ICN (Seoul Incheon)</option>
 								<option value="HKG">HKG (Hong Kong)</option>
 								<option value="DEL">DEL (New Delhi Indira Gandhi)</option>
-							</select>
+							</select> -->
 						</div>
+
 
 						<!-- 2. Airport Name Selection Dropdown -->
 						<div class="mb-3">
 							<label class="form-label small fw-bold">Airport Name</label> 
-							<select th:field="*{airportName}" class="form-select" required>
+							<input type="text" name="airportName" class="form-control border-start-0" placeholder="e.g., Yangon International Airport" required th:field="*{airportName}">
+							<!-- <select th:field="*{airportName}" class="form-select" required>
 								<option value="" selected disabled>-- Select Airport Name --</option>
 								<option value="Yangon International Airport">Yangon International Airport</option>
 								<option value="Mandalay International Airport">Mandalay International Airport</option>
@@ -156,46 +165,46 @@ body {
 								<option value="Incheon International Airport">Incheon International Airport</option>
 								<option value="Hong Kong International Airport">Hong Kong International Airport</option>
 								<option value="Indira Gandhi International Airport">Indira Gandhi International Airport</option>
-							</select>
+							</select> -->
 						</div>
 
-						<!-- 3. City Location Selection Dropdown (UPDATED) -->
-						<div class="mb-4">
-							<label class="form-label text-uppercase fw-bold">City Location</label>
-							<div class="input-group">
-								<span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-geo-alt"></i></span> 
-								<select th:field="*{city}" class="form-select border-start-0" required>
-									<option value="" selected disabled>-- Select City Location --</option>
-									<option value="Yangon">Yangon</option>
-									<option value="Mandalay">Mandalay</option>
-									<option value="Naypyidaw">Naypyidaw</option>
-									<option value="Heho">Heho</option>
-									<option value="Nyaung-U">Nyaung-U</option>
-									<option value="Singapore">Singapore</option>
-									<option value="Bangkok">Bangkok</option>
-									<option value="Kuala Lumpur">Kuala Lumpur</option>
-									<option value="Dubai">Dubai</option>
-									<option value="Tokyo">Tokyo</option>
-									<option value="Seoul">Seoul</option>
-									<option value="Hong Kong">Hong Kong</option>
-									<option value="New Delhi">New Delhi</option>
-									<option value="Hanoi">Hanoi</option>
-									<option value="Jakarta">Jakarta</option>
-								</select>
-							</div>
-						</div>
+						
+            <div class="mb-4">
+              <label class="form-label text-uppercase fw-bold">City Location</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-geo-alt"></i></span>
+                <input type="text" name="city" class="form-control border-start-0" placeholder="e.g., Yangon" required th:field="*{city}">
+              </div>
+            </div>
+            
+            <!-- Airport Image -->
+           <div class="mb-4">
+              <label class="form-label text-uppercase fw-bold">Airport Image</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-image"></i></span>
+                <input type="file" name="photoFile" class="form-control border-start-0" accept="image/*">
+              </div>
+              <div class="form-text mt-1 text-muted small">PNG or JPG preferred. Max size 2MB.</div>
+              
+              <div th:if="${airport.image != null}" class="mt-2">
+              	<span class="small text-muted">Current Image: </span>
+              	<img th:src="@{'/photos/'+${airport.image}}" width="40" height="30" class="rounded border" />
+              </div>
+            </div>
 
-					</div>
+          </div>
+          
+          
 
-					<div class="modal-footer">
-						<a th:href="@{/airline/admin/airports}" class="btn btn-light rounded-pill px-4">Cancel</a>
-						<button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm"
-							th:text="${airport.airportId != 0} ? 'Update Airport' : 'Save Airport'">Save Airport</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+          <div class="modal-footer">
+            <a th:href="@{/airline/admin/airports}" class="btn btn-light rounded-pill px-4">Cancel</a>
+            <button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm" th:text="${airport.airportId != null} ? 'Update Airport' : 'Save Airport'">Save Airport</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
