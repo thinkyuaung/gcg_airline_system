@@ -50,6 +50,11 @@ public class Booking {
 	    @JoinColumn(name = "class_id")
 	    private SeatClass seatClass;
 
+	    // Foreign Key -> Promotion
+	    @ManyToOne
+	    @JoinColumn(name = "promotion_id")
+	    private Promotion promotion;
+
 	    @OneToOne(mappedBy = "booking")
 	    private Payment payment;
 
@@ -164,6 +169,15 @@ public class Booking {
 			this.seatClass = seatClass;
 		}
 
+		public Promotion getPromotion() {
+			return promotion;
+		}
+
+		public void setPromotion(Promotion promotion) {
+			this.promotion = promotion;
+		}
+
+	    
 		public Payment getPayment() {
 			return payment;
 		}

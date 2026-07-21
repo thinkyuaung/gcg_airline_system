@@ -7,6 +7,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name="flight")
@@ -17,8 +20,12 @@ public class Flight {
 	
 	private int flightId;
 
+	@NotBlank(message = "Flight name cannot be blank")
     private String flightNumber;
+	
+	@Min(value = 10, message = "Seats must be at least 10 seats.")
     private int totalSeats;
+	
     private String status;
     
    
@@ -30,6 +37,8 @@ public class Flight {
     
     @ManyToOne
     @JoinColumn(name="airline_id")
+    //For object -> not null
+//    @NotNull(message = "Choose Airline")
     private Airline airline;
 
 	
