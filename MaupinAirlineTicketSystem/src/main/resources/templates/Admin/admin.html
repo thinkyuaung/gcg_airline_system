@@ -448,6 +448,9 @@ body {
 										<th>FLIGHT NUMBER</th>
 										<th>AIRLINE</th>
 										<th>FLIGHT FEATURES</th>
+										<th>ECONOMY</th>
+										<th>BUSINESS</th>
+										<th>FIRST CLASS</th>
 										<th>Total Seats</th>
 										<th>STATUS</th>
 										<th>ACTIONS</th>
@@ -499,7 +502,16 @@ body {
 											</div>
 										</td>
 
-										<!-- 4. Total Seats -->
+										<!-- 4. Economy Seats -->
+										<td th:text="${f.ecomonySeats}"></td>
+
+										<!-- 5. Business Seats -->
+										<td th:text="${f.businessSeats}"></td>
+
+										<!-- 6. First Class Seats -->
+										<td th:text="${f.firseClassSeats}"></td>
+
+										<!-- 7. Total Seats -->
 										<td th:text="${f.totalSeats}"></td>
 
 										<!-- 5. Flight Status Dynamic Badge -->
