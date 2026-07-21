@@ -11,7 +11,7 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
-    <!-- Custom Main CSS File (Thymeleaf Syntax) -->
+    <!-- Custom Main CSS File -->
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
@@ -19,26 +19,27 @@
    <!-- Include Shared Header Fragment -->
    <div th:replace="~{Fragments/homeHeader :: navbar}"></div>
 
-  <!-- ✈️ HIGH-QUALITY AIR FLIGHT HERO BANNER SECTION -->
-<section id="flight-hero" class="d-flex align-items-center justify-content-center text-center text-white position-relative overflow-hidden">
-    
-    <!-- 📝 Hero Content -->
-    <div class="container hero-content py-5">
-        <h1 class="fw-bold display-4 text-white mb-3 text-drop-shadow">
-            About Maubin AirLine<br>International
-        </h1>
-        <p class="lead hero-subtitle fw-semibold m-0">
-            Connecting Myanmar to the World with Comfort & Safety
-        </p>
-    </div>
+   <!-- ✈️ HIGH-QUALITY AIR FLIGHT HERO BANNER SECTION -->
+   <section id="flight-hero" class="d-flex align-items-center justify-content-center text-center text-white position-relative overflow-hidden">
+       
+       <!-- 📝 Hero Content -->
+       <div class="container hero-content py-5">
+           <h1 class="fw-bold display-4 text-white mb-3 text-drop-shadow">
+               About Maubin AirLine<br>International
+           </h1>
+           <p class="lead hero-subtitle fw-semibold m-0">
+               Connecting Myanmar to the World with Comfort & Safety
+           </p>
+       </div>
 
-    <!-- ☁️ Cloud Bottom Curve Overlay -->
-    <div class="cloud-overlay">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
-            <path fill="#ffffff" fill-opacity="1" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,250.7C960,235,1056,181,1152,165.3C1248,149,1344,171,1392,181.3L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-        </svg>
-    </div>
-</section>
+       <!-- ☁️ Cloud Bottom Curve Overlay -->
+       <div class="cloud-overlay">
+           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
+               <path fill="#ffffff" fill-opacity="1" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,250.7C960,235,1056,181,1152,165.3C1248,149,1344,171,1392,181.3L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+           </svg>
+       </div>
+   </section>
+
    <!-- 📖 OUR STORY SECTION -->
    <section class="py-5 bg-white">
        <div class="container py-4">
@@ -94,37 +95,32 @@
        </div>
    </section>
 
-   <!-- 📊 KEY STATS SECTION -->
-   <section class="py-5 bg-light">
-       <div class="container">
-           <div class="row g-4 text-center">
-               <div class="col-md-3 col-6">
-                   <div class="p-4 bg-white rounded-4 shadow-sm h-100">
-                       <h2 class="display-5 fw-bold text-sky mb-1">50+</h2>
-                       <p class="text-muted fw-semibold m-0">Destinations</p>
-                   </div>
-               </div>
-               <div class="col-md-3 col-6">
-                   <div class="p-4 bg-white rounded-4 shadow-sm h-100">
-                       <h2 class="display-5 fw-bold text-sky mb-1">1M+</h2>
-                       <p class="text-muted fw-semibold m-0">Happy Passengers</p>
-                   </div>
-               </div>
-               <div class="col-md-3 col-6">
-                   <div class="p-4 bg-white rounded-4 shadow-sm h-100">
-                       <h2 class="display-5 fw-bold text-sky mb-1">25+</h2>
-                       <p class="text-muted fw-semibold m-0">Modern Aircrafts</p>
-                   </div>
-               </div>
-               <div class="col-md-3 col-6">
-                   <div class="p-4 bg-white rounded-4 shadow-sm h-100">
-                       <h2 class="display-5 fw-bold text-sky mb-1">99.8%</h2>
-                       <p class="text-muted fw-semibold m-0">On-Time Rate</p>
-                   </div>
-               </div>
-           </div>
-       </div>
-   </section>
+   <!-- ✈️ CONTINUOUS INFINITE BRAND LOGO SLIDER -->
+<section class="brand-slider-section py-4 bg-light border-top border-bottom overflow-hidden">
+    <div class="container text-center mb-3">
+        <span class="text-uppercase fw-bold text-muted small tracking-wider">Trusted Global Partners</span>
+    </div>
+
+    <div class="slider">
+        <div class="slide-track">
+            <!-- 🔹 FIRST SET OF LOGOS -->
+            <div class="slide"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google"></div>
+            <div class="slide"><img src="https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg" alt="Microsoft"></div>
+            <div class="slide"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon"></div>
+            <div class="slide"><img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Spotify_logo_with_text.svg" alt="Spotify"></div>
+            <div class="slide"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg" alt="Nike"></div>
+            <div class="slide"><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" alt="IBM"></div>
+
+            <!-- 🔹 SECOND SET OF LOGOS (Duplicate for seamless loop) -->
+            <div class="slide"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google"></div>
+            <div class="slide"><img src="https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg" alt="Microsoft"></div>
+            <div class="slide"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon"></div>
+            <div class="slide"><img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Spotify_logo_with_text.svg" alt="Spotify"></div>
+            <div class="slide"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg" alt="Nike"></div>
+            <div class="slide"><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" alt="IBM"></div>
+        </div>
+    </div>
+</section>
 
    <!-- 🌟 CORE VALUES SECTION -->
    <section class="py-5 bg-white">
@@ -162,149 +158,58 @@
            </div>
        </div>
    </section>
-   
-   <!-- ABOUT US -->
-	<section id="about" data-aos="zoom-in">
-		<div class="container">
-			<div class="text-center mb-5">
-				<h2 class="section-title">About Us</h2>
-				<div class="divider"></div>
-			</div>
-
-			<div class="row align-items-center gy-5">
-
-				<!-- Text -->
-				<div class="col-lg-6">
-					<p class="about-body">At Maubin Airline, we believe travel
-						isn't just about visiting places — it's about creating
-						unforgettable experiences. From sun-kissed beaches to iconic
-						landmarks, we design seamless journeys tailored to your dreams.</p>
-					<p class="about-body">With decades of expertise and an
-						unwavering commitment to luxury, our mission is to make travel
-						planning effortless and exciting. Whether it's an adventurous
-						expedition, a romantic getaway, or a spiritual escape, we're here
-						to fly you away with style and simplicity.</p>
-					<p class="about-body mb-4">Let us take you places you've always
-						dreamed of — the world is waiting.</p>
-
-					<!-- Stats -->
-					<div class="row g-4 text-center mt-1">
-						<div class="col-4">
-							<div class="about-stat-value">12K+</div>
-							<div class="about-stat-label">Happy Travelers</div>
-						</div>
-						<div class="col-4">
-							<div class="about-stat-value">180+</div>
-							<div class="about-stat-label">Destinations</div>
-						</div>
-						<div class="col-4">
-							<div class="about-stat-value">98%</div>
-							<div class="about-stat-label">Satisfaction Rate</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Image -->
-				<div class="col-lg-6">
-					<div class="about-img-frame">
-						<img
-							src="https://images.pexels.com/photos/358319/pexels-photo-358319.jpeg?auto=compress&cs=tinysrgb&w=900"
-							alt="Private Jet" />
-						<div class="about-badge">
-							<div class="about-badge-icon">
-								<i class="bi bi-patch-check-fill"></i>
-							</div>
-							<div>
-								<div class="about-badge-title">Trusted Agency</div>
-								<div class="about-badge-sub">Since 2010</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-			</div>
-		</div>
-	</section>
 
    <!-- 🌐 Dark Navy Footer -->
-<footer class="text-white pt-5 pb-4 mt-auto" style="background-color: #0a0f1d;">
-    <div class="container pt-3">
-        <div class="row g-4">
-            <!-- Col 1: Brand & Socials -->
-            <div class="col-lg-4 col-md-6">
-                <div class="d-flex align-items-center gap-2 mb-3">
-                    <span class="bg-info text-white p-2 rounded-3 d-inline-flex align-items-center justify-content-center" style="width: 36px; height: 36px; background-color: #0ea5e9 !important;">
-                        <i class="bi bi-airplane-fill fs-6"></i>
-                    </span>
-                    <h4 class="m-0 fw-bold text-white">Maubin AirLine</h4>
-                </div>
-                <p class="text-secondary small pe-lg-4" style="color: #94a3b8 !important;">
-                    Crafting extraordinary journeys for extraordinary people. Your dream destination awaits.
-                </p>
-                <!-- Social Icons -->
-                <div class="d-flex gap-2 mt-3">
-                    <a href="#" class="btn btn-dark btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; background-color: #1e293b; border: none;">
-                        <i class="bi bi-twitter-x text-white"></i>
-                    </a>
-                    <a href="#" class="btn btn-dark btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; background-color: #1e293b; border: none;">
-                        <i class="bi bi-instagram text-white"></i>
-                    </a>
-                    <a href="#" class="btn btn-dark btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; background-color: #1e293b; border: none;">
-                        <i class="bi bi-youtube text-white"></i>
-                    </a>
-                    <a href="#" class="btn btn-dark btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; background-color: #1e293b; border: none;">
-                        <i class="bi bi-facebook text-white"></i>
-                    </a>
-                </div>
-            </div>
+   <footer class="text-white pt-5 pb-4 mt-auto" style="background-color: #0a0f1d;">
+       <div class="container pt-3">
+           <div class="row g-4">
+               <div class="col-lg-4 col-md-6">
+                   <div class="d-flex align-items-center gap-2 mb-3">
+                       <span class="bg-sky text-white p-2 rounded-3 d-inline-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                           <i class="bi bi-airplane-fill fs-6"></i>
+                       </span>
+                       <h4 class="m-0 fw-bold text-white">Maubin AirLine</h4>
+                   </div>
+                   <p class="text-secondary small pe-lg-4" style="color: #94a3b8 !important;">
+                       Crafting extraordinary journeys for extraordinary people. Your dream destination awaits.
+                   </p>
+               </div>
 
-            <!-- Col 2: TRAVEL -->
-            <div class="col-lg-2 col-md-6 col-6">
-                <h6 class="text-uppercase fw-bold mb-3 small tracking-wider" style="letter-spacing: 1px; color: #cbd5e1;">TRAVEL</h6>
-                <ul class="list-unstyled d-flex flex-column gap-2 small">
-                    <li><a th:href="@{/airline/flights}" class="text-decoration-none" style="color: #94a3b8;">Flights</a></li>
-                    <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Hotels</a></li>
-                    <li><a th:href="@{/airline/packages}" class="text-decoration-none" style="color: #94a3b8;">Packages</a></li>
-                    <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Cruises</a></li>
-                    <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Car Rentals</a></li>
-                </ul>
-            </div>
+               <div class="col-lg-2 col-md-6 col-6">
+                   <h6 class="text-uppercase fw-bold mb-3 small tracking-wider" style="letter-spacing: 1px; color: #cbd5e1;">TRAVEL</h6>
+                   <ul class="list-unstyled d-flex flex-column gap-2 small">
+                       <li><a th:href="@{/airline/flights}" class="text-decoration-none" style="color: #94a3b8;">Flights</a></li>
+                       <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Hotels</a></li>
+                       <li><a th:href="@{/airline/packages}" class="text-decoration-none" style="color: #94a3b8;">Packages</a></li>
+                   </ul>
+               </div>
 
-            <!-- Col 3: COMPANY -->
-            <div class="col-lg-2 col-md-6 col-6">
-                <h6 class="text-uppercase fw-bold mb-3 small tracking-wider" style="letter-spacing: 1px; color: #cbd5e1;">COMPANY</h6>
-                <ul class="list-unstyled d-flex flex-column gap-2 small">
-                    <li><a th:href="@{/airline/about}" class="text-decoration-none" style="color: #94a3b8;">About Us</a></li>
-                    <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Careers</a></li>
-                    <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Press</a></li>
-                    <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Blog</a></li>
-                    <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Partners</a></li>
-                </ul>
-            </div>
+               <div class="col-lg-2 col-md-6 col-6">
+                   <h6 class="text-uppercase fw-bold mb-3 small tracking-wider" style="letter-spacing: 1px; color: #cbd5e1;">COMPANY</h6>
+                   <ul class="list-unstyled d-flex flex-column gap-2 small">
+                       <li><a th:href="@{/airline/about}" class="text-decoration-none" style="color: #94a3b8;">About Us</a></li>
+                       <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Careers</a></li>
+                   </ul>
+               </div>
 
-            <!-- Col 4: EXTRA LINKS -->
-            <div class="col-lg-3 col-md-6">
-                <h6 class="text-uppercase fw-bold mb-3 small tracking-wider" style="letter-spacing: 1px; color: #cbd5e1;">EXTRA LINKS</h6>
-                <ul class="list-unstyled d-flex flex-column gap-2 small">
-                    <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Privacy Policy</a></li>
-                    <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Terms of Service</a></li>
-                    <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Cookie Settings</a></li>
-                    <li><a th:href="@{/airline/support}" class="text-decoration-none" style="color: #94a3b8;">Support</a></li>
-                    <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Contact</a></li>
-                </ul>
-            </div>
-        </div>
+               <div class="col-lg-4 col-md-6">
+                   <h6 class="text-uppercase fw-bold mb-3 small tracking-wider" style="letter-spacing: 1px; color: #cbd5e1;">EXTRA LINKS</h6>
+                   <ul class="list-unstyled d-flex flex-column gap-2 small">
+                       <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Privacy Policy</a></li>
+                       <li><a th:href="@{/airline/support}" class="text-decoration-none" style="color: #94a3b8;">Support</a></li>
+                   </ul>
+               </div>
+           </div>
 
-        <hr class="my-4" style="border-color: #1e293b;">
+           <hr class="my-4" style="border-color: #1e293b;">
 
-        <!-- Bottom Copyright & Tagline -->
-        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center small" style="color: #64748b;">
-            <p class="m-0">&copy; 2026 AirLine. All rights reserved.</p>
-            <p class="m-0 fw-semibold italic" style="color: #0ea5e9; font-style: italic;">Fly Far. Pay Less. Travel Better.</p>
-        </div>
-    </div>
-</footer>
+           <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center small" style="color: #64748b;">
+               <p class="m-0">&copy; 2026 Maubin AirLine. All rights reserved.</p>
+               <p class="m-0 fw-semibold italic" style="color: #0ea5e9; font-style: italic;">Fly Far. Pay Less. Travel Better.</p>
+           </div>
+       </div>
+   </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
