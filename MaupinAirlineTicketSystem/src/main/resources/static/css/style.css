@@ -1,6 +1,5 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-
+ 
 /* ── TOKENS ── */
 :root {
   --sky:        #0ea5e9;
@@ -26,24 +25,24 @@
   --shadow-xl:  0 20px 60px rgba(14,165,233,.2);
   --transition: .2s ease;
 }
-
+ 
 *, *::before, *::after { box-sizing: border-box; }
-
+ 
 html { scroll-behavior: smooth; }
-
+ 
 body {
   font-family: 'Inter', system-ui, sans-serif;
   color: var(--gray-800);
   background: var(--white);
   -webkit-font-smoothing: antialiased;
 }
-
+ 
 /* ── UTILITIES ── */
 .text-sky    { color: var(--sky) !important; }
 .bg-sky      { background-color: var(--sky) !important; }
 .border-sky  { border-color: var(--sky) !important; }
-
-
+ 
+ 
 /* navbar */
 #mainNav {
   background: rgba(255,255,255,.97);
@@ -54,7 +53,7 @@ body {
   transition: box-shadow var(--transition);
 }
 #mainNav.scrolled { box-shadow: var(--shadow-md); }
-
+ 
 .navbar-brand {
   font-weight: 800;
   font-size: 1.35rem;
@@ -71,7 +70,7 @@ body {
   font-size: .95rem;
   flex-shrink: 0;
 }
-
+ 
 .nav-link {
   font-size: .875rem;
   font-weight: 500;
@@ -95,7 +94,7 @@ body {
 .nav-link:hover::after, .nav-link.active::after {
   transform: scaleX(1);
 }
-
+ 
 .nav-search {
   background: var(--gray-100);
   border: 1.5px solid var(--gray-200);
@@ -113,7 +112,7 @@ body {
   width: 120px;
 }
 .nav-search input::placeholder { color: var(--gray-400); }
-
+ 
 .btn-signup {
   background: var(--sky);
   color: #fff;
@@ -132,8 +131,8 @@ body {
   transform: translateY(-1px);
   color: #fff;
 }
-
-
+ 
+ 
    /* HERO */
   
 #hero {
@@ -144,7 +143,7 @@ body {
   display: flex; align-items: center;
   padding-top: 72px;
 }
-
+ 
 /* Dot grid */
 #hero::before {
   content: '';
@@ -153,7 +152,7 @@ body {
   background-size: 40px 40px;
   pointer-events: none;
 }
-
+ 
 /* Colour blobs */
 .hero-blob {
   position: absolute;
@@ -164,9 +163,9 @@ body {
 }
 .hero-blob-1 { width: 500px; height: 500px; background: rgba(14,165,233,.18); top: -120px; right: -100px; }
 .hero-blob-2 { width: 300px; height: 300px; background: rgba(56,189,248,.12); bottom: 80px; left: -80px; }
-
+ 
 .hero-content { position: relative; z-index: 2; }
-
+ 
 .hero-heading {
   font-size: clamp(2.8rem, 6vw, 5.5rem);
   font-weight: 900;
@@ -176,14 +175,14 @@ body {
   text-transform: uppercase;
 }
 .hero-heading span { color: var(--sky); }
-
+ 
 .hero-sub {
   font-size: 1.05rem;
   color: var(--gray-600);
   font-weight: 500;
   margin-top: .75rem;
 }
-
+ 
 /* Thumbnails */
 .dest-thumbs img {
   width: 48px; height: 48px;
@@ -196,7 +195,7 @@ body {
 }
 .dest-thumbs img:first-child { margin-left: 0; }
 .dest-thumbs img:hover { transform: translateY(-4px) scale(1.08); }
-
+ 
 .btn-book {
   background: var(--sky);
   color: #fff;
@@ -217,7 +216,7 @@ body {
 }
 .btn-book i { font-size: .8rem; transition: transform var(--transition); }
 .btn-book:hover i { transform: translateX(3px); }
-
+ 
 /* Airplane image */
 .hero-plane-wrap {
   position: relative;
@@ -231,7 +230,7 @@ body {
   display: block;
   margin-left: auto;
 }
-
+ 
 /* Social icons column */
 .social-stack {
   position: absolute;
@@ -256,7 +255,7 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(14,165,233,.35);
 }
-
+ 
 /* ============================================================
    BOOKING WIDGET
    ============================================================ */
@@ -266,7 +265,7 @@ body {
   margin-top: -72px;
   padding: 0 1rem 3rem;
 }
-
+ 
 .booking-card {
   background: #fff;
   border-radius: var(--radius-xl);
@@ -274,7 +273,7 @@ body {
   border: 1px solid var(--gray-100);
   padding: 1.75rem 2rem;
 }
-
+ 
 /* Pill dropdowns */
 .widget-pill {
   display: inline-flex; align-items: center; gap: .45rem;
@@ -292,7 +291,7 @@ body {
 .widget-pill i { color: var(--sky); font-size: .8rem; }
 .widget-pill:hover { background: var(--sky); color: #fff; border-color: var(--sky); }
 .widget-pill:hover i { color: #fff; }
-
+ 
 /* Radio trip type */
 .trip-radio label {
   display: flex; align-items: center; gap: .4rem;
@@ -300,7 +299,7 @@ body {
   cursor: pointer;
 }
 .trip-radio input[type="radio"] { accent-color: var(--sky); }
-
+ 
 /* Input pickers */
 .input-picker {
   background: var(--gray-50);
@@ -330,7 +329,7 @@ body {
   width: 100%;
 }
 .input-picker input::placeholder { color: var(--gray-400); font-weight: 400; }
-
+ 
 .btn-search-flights {
   background: var(--sky);
   color: #fff; border: none;
@@ -347,7 +346,7 @@ body {
   transform: translateY(-1px);
   color: #fff;
 }
-
+ 
 .flight-results {
   margin-top: 1.75rem;
   padding-top: 1.5rem;
@@ -503,13 +502,13 @@ body {
   padding: 1.25rem;
   text-align: center;
 }
-
+ 
 /* ============================================================
    EXCLUSIVE DEALS
    ============================================================ */
 #deals { padding: 5rem 0; background: #fff; }
-
-
+ 
+ 
 .section-title {
   font-size: clamp(1.8rem, 4vw, 2.5rem);
   font-weight: 800;
@@ -521,7 +520,7 @@ body {
   font-size: .95rem;
   margin-top: .4rem;
 }
-
+ 
 .deal-card {
   border-radius: var(--radius-xl) !important;
   border: 1px solid var(--gray-100) !important;
@@ -533,7 +532,7 @@ body {
   box-shadow: var(--shadow-lg);
   transform: translateY(-4px);
 }
-
+ 
 .deal-img-wrap {
   position: relative; overflow: hidden; height: 200px;
 }
@@ -553,7 +552,7 @@ body {
   background: linear-gradient(to top, rgba(0,0,0,.45) 0%, transparent 55%);
 }
 .deal-img-wrap .deal-city { z-index: 1; }
-
+ 
 /* Package radio rows */
 .pkg-option {
   display: flex; align-items: center; justify-content: space-between;
@@ -595,7 +594,7 @@ body {
   font-size: .83rem; font-weight: 700; color: var(--gray-500);
 }
 .pkg-option.selected .pkg-price { color: var(--sky); }
-
+ 
 .selected-price-display {
   font-size: 1.5rem;
   font-weight: 800;
@@ -606,7 +605,7 @@ body {
   color: var(--gray-500);
   font-weight: 500;
 }
-
+ 
 .btn-learn-more {
   background: var(--sky);
   color: #fff; border: none;
@@ -626,12 +625,12 @@ body {
 }
 .btn-learn-more i { font-size: .75rem; transition: transform var(--transition); }
 .btn-learn-more:hover i { transform: translateX(3px); }
-
+ 
 /* ============================================================
    POPULAR DESTINATIONS
    ============================================================ */
 #destinations { padding: 5rem 0; background: var(--gray-50); }
-
+ 
 .dest-carousel-track { overflow: hidden; }
 .dest-carousel-inner {
   display: flex; gap: 1.25rem;
@@ -661,7 +660,7 @@ body {
 }
 .dest-card-name { color: #fff; font-weight: 700; font-size: 1rem; line-height: 1.2; }
 .dest-card-country { color: rgba(255,255,255,.75); font-size: .75rem; margin-top: .15rem; }
-
+ 
 .dest-nav-btn {
   width: 44px; height: 44px;
   border-radius: 50%;
@@ -681,7 +680,7 @@ body {
   box-shadow: 0 4px 14px rgba(14,165,233,.35);
 }
 .dest-nav-btn:disabled { opacity: .35; cursor: not-allowed; }
-
+ 
 .dest-dots { display: flex; gap: .4rem; justify-content: center; margin-top: 2rem; }
 .dest-dot {
   height: 8px; width: 8px;
@@ -693,19 +692,19 @@ body {
   transition: all .25s ease;
 }
 .dest-dot.active { width: 24px; background: var(--sky); }
-
+ 
 @media (max-width: 991px) {
   .dest-card { flex: 0 0 calc(50% - .625rem); }
 }
 @media (max-width: 575px) {
   .dest-card { flex: 0 0 80%; }
 }
-
+ 
 /* ============================================================
    ABOUT US
    ============================================================ */
 #about { padding: 5rem 0; background: #fff; }
-
+ 
 .about-body {
   color: var(--gray-600);
   line-height: 1.8;
@@ -718,7 +717,7 @@ body {
   line-height: 1;
 }
 .about-stat-label { font-size: .75rem; color: var(--gray-500); font-weight: 500; margin-top: .25rem; }
-
+ 
 .about-img-frame {
   position: relative;
 }
@@ -738,7 +737,7 @@ body {
   z-index: 0;
 }
 .about-img-frame img { position: relative; z-index: 1; }
-
+ 
 .about-badge {
   position: absolute;
   bottom: -1.2rem; left: -1.2rem;
@@ -760,7 +759,7 @@ body {
 }
 .about-badge-title { font-size: .83rem; font-weight: 700; color: var(--gray-800); }
 .about-badge-sub   { font-size: .72rem; color: var(--gray-500); }
-
+ 
 /* ============================================================
    TESTIMONIALS
    ============================================================ */
@@ -768,7 +767,7 @@ body {
   padding: 5rem 0;
   background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
 }
-
+ 
 .testi-card {
   background: #fff;
   border-radius: var(--radius-xl);
@@ -783,7 +782,7 @@ body {
   box-shadow: var(--shadow-lg);
   transform: translateY(-4px);
 }
-
+ 
 .testi-stars { color: #f59e0b; font-size: .85rem; letter-spacing: .05em; }
 .testi-text {
   font-size: .875rem;
@@ -801,7 +800,7 @@ body {
 }
 .testi-name  { font-size: .85rem; font-weight: 700; color: var(--gray-800); }
 .testi-role  { font-size: .72rem; color: var(--gray-500); }
-
+ 
 /* ============================================================
    FOOTER
    ============================================================ */
@@ -863,7 +862,7 @@ body {
   display: inline-block;
 }
 .footer-links a:hover { color: #fff; transform: translateX(3px); }
-
+ 
 .footer-bottom {
   border-top: 1px solid #1e293b;
   padding: 1.25rem 0;
@@ -873,12 +872,12 @@ body {
 }
 .footer-copy { font-size: .78rem; color: #64748b; }
 .footer-slogan { font-size: .85rem; font-weight: 600; color: var(--sky); font-style: italic; letter-spacing: .02em; }
-
+ 
 /* ============================================================
    MISC / RESPONSIVE
    ============================================================ */
 .divider { width: 48px; height: 4px; background: var(--sky); border-radius: 99px; margin: .75rem auto 0; }
-
+ 
 @media (max-width: 991px) {
   .social-stack { display: none; }
   .hero-plane-wrap { margin-top: 2rem; }
@@ -892,127 +891,4 @@ body {
 @media (max-width: 575px) {
   .hero-heading { font-size: 2.4rem; }
   .dest-card { flex: 0 0 80%; }
-}
-/* ── AIR FLIGHT HERO SECTION ── */
-/* ── HIGH QUALITY AIR FLIGHT HERO SECTION ── */
-#flight-hero {
-  min-height: 50vh;
-  position: relative;
-  margin-top: 60px;
-  
-  /* Dark Overlay + 4K High-Res Airplane Wing Background Image */
-  background: 
-    
-    url('https://i.pinimg.com/736x/b2/6c/b3/b26cb30b1cb84889d8dae4c43a0f3958.jpg') center/cover no-repeat;
-  
-  /* CSS Image Sharpening & High Quality Rendering */
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
-}
-
-/* Text Container Position */
-.hero-content {
-  position: relative;
-  z-index: 2;
-}
-
-/* Text Drop Shadow to make text pop over background */
-.text-drop-shadow {
-  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.7);
-}
-
-/* Sky Blue Subtitle Highlight */
-.hero-subtitle {
-  color: #38bdf8;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
-}
-
-/* Cloud Bottom SVG Wave */
-.cloud-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  overflow: hidden;
-  line-height: 0;
-  z-index: 1;
-}
-
-.cloud-overlay svg {
-  position: relative;
-  display: block;
-  width: calc(100% + 1.3px);
-  height: 60px;
-}
-/* ── BRAND LOGO SLIDER SECTION ── */
-.brand-slider-section {
-  padding: 3rem 0;
-  background-color: var(--gray-50);
-  border-top: 1px solid var(--gray-200);
-  border-bottom: 1px solid var(--gray-200);
-  overflow: hidden;
-}
-
-/* ── CONTINUOUS NON-STOP LOGO SLIDER ── */
-.slider {
-  width: 100%;
-  overflow: hidden;
-  position: relative;
-  background: transparent;
-  padding: 1rem 0;
-}
-
-.slider::before,
-.slider::after {
-  content: "";
-  height: 100%;
-  position: absolute;
-  width: 120px;
-  z-index: 2;
-  pointer-events: none;
-}
-
-.slider::before {
-  left: 0;
-  top: 0;
-  background: linear-gradient(to right, #f8fafc 0%, transparent 100%);
-}
-
-.slider::after {
-  right: 0;
-  top: 0;
-  background: linear-gradient(to left, #f8fafc 0%, transparent 100%);
-}
-
-/* Track container width strategy */
-.slide-track {
-  display: flex;
-  width: max-content; /* Dynamically spans the full width of all slides */
-  animation: continuousScroll 15s linear infinite;
-}
-
-/* Single Slide Styling */
-.slide {
-  width: 180px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 1.5rem;
-}
-
-.slide img {
-  width: auto;
-  max-width: 110px;
-  height: 40px;
-  object-fit: contain;
-}
-
-
-@keyframes continuousScroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%); 
-  }
 }

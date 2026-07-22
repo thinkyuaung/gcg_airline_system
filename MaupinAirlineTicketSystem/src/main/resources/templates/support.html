@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maubin International AirLine</title>
+    <title>Support Center - Maubin International Airline</title>
 
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -13,48 +13,90 @@
 
     <!-- Custom Main CSS File (Thymeleaf Syntax) -->
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/support.css}">
 </head>
-<body>
+<body class="bg-light d-flex flex-column min-vh-100">
 
 <!-- Include Shared Header Fragment -->
 <div th:replace="~{Fragments/homeHeader :: navbar}"></div>
-<!-- 🚀 Unique Support Content -->
-    <div class="hero-banner text-center">
-        <div class="container">
-            <h1 class="fw-bold">How Can We Help You?</h1>
-            <p class="lead">24/7 Customer Service & Help Center</p>
-        </div>
-    </div>
 
-    <div class="container my-5">
-        <div class="row g-4 mb-5">
-            <div class="col-md-4">
-                <div class="card support-card shadow-sm">
-                    <i class="bi bi-headset text-primary fs-1 mb-3"></i>
-                    <h5 class="fw-bold">24/7 Call Support</h5>
-                    <p class="text-muted small">Talk with our support agents anytime.</p>
-                    <a href="tel:+95912345678" class="btn btn-outline-primary rounded-pill btn-sm">+95 9 123 456 78</a>
+<!-- 🚀 Dynamic & Modern Hero Banner -->
+<section class="support-hero-banner text-center">
+    <div class="container">
+        <span class="badge bg-white text-primary px-3 py-2 rounded-pill mb-3 fw-bold text-uppercase small shadow-sm">Help & Support</span>
+        <h1 class="fw-bold display-5 mb-2">How Can We Help You Today?</h1>
+        <p class="lead opacity-90">24/7 Dedicated Customer Care & Flight Assistance</p>
+        
+        <!-- Quick Search Bar -->
+        <div class="support-search-wrapper">
+            <i class="bi bi-search support-search-icon"></i>
+            <input type="text" class="form-control form-control-lg support-search-input" placeholder="Search for flight status, baggage, refund policy...">
+        </div>
+    </div>
+</section>
+
+<!-- 🌐 Upgraded Modern Support Cards Container -->
+<main class="container my-5 py-3">
+    <div class="row g-4 justify-content-center text-center">
+        
+        <!-- 1. 24/7 Call Support -->
+        <div class="col-lg-4 col-md-6">
+            <div class="modern-support-card d-flex flex-column justify-content-between">
+                <div>
+                    <div class="support-icon-box icon-box-call">
+                        <i class="bi bi-headset"></i>
+                    </div>
+                    <h5 class="fw-bold text-dark mb-2">24/7 Phone Support</h5>
+                    <p class="text-muted small mb-4">Direct interaction with our senior flight agents anytime, day or night.</p>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card support-card shadow-sm">
-                    <i class="bi bi-envelope-at text-success fs-1 mb-3"></i>
-                    <h5 class="fw-bold">Email Helpdesk</h5>
-                    <p class="text-muted small">Send us your inquiry via email.</p>
-                    <a href="mailto:support@skynest.com" class="btn btn-outline-success rounded-pill btn-sm">support@skynest.com</a>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card support-card shadow-sm">
-                    <i class="bi bi-chat-dots text-warning fs-1 mb-3"></i>
-                    <h5 class="fw-bold">Live Chat</h5>
-                    <p class="text-muted small">Instant messaging with online staff.</p>
-                    <button class="btn btn-outline-warning rounded-pill btn-sm text-dark">Start Chat</button>
+                <div>
+                    <a href="tel:+95912345678" class="btn btn-outline-primary btn-support-action w-100">
+                        <i class="bi bi-telephone-fill me-1"></i> +95 9 123 456 78
+                    </a>
                 </div>
             </div>
         </div>
+
+        <!-- 2. Email Helpdesk -->
+        <div class="col-lg-4 col-md-6">
+            <div class="modern-support-card d-flex flex-column justify-content-between">
+                <div>
+                    <div class="support-icon-box icon-box-email">
+                        <i class="bi bi-envelope-at-fill"></i>
+                    </div>
+                    <h5 class="fw-bold text-dark mb-2">Email Helpdesk</h5>
+                    <p class="text-muted small mb-4">Send us detailed inquiries or booking management requests via email.</p>
+                </div>
+                <div>
+                    <a href="mailto:support@skynest.com" class="btn btn-outline-success btn-support-action w-100">
+                        <i class="bi bi-send-fill me-1"></i> support@skynest.com
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Live Chat Support -->
+        <div class="col-lg-4 col-md-6">
+            <div class="modern-support-card d-flex flex-column justify-content-between">
+                <div>
+                    <div class="support-icon-box icon-box-chat">
+                        <i class="bi bi-chat-dots-fill"></i>
+                    </div>
+                    <h5 class="fw-bold text-dark mb-2">Instant Live Chat</h5>
+                    <p class="text-muted small mb-4">Chat instantly with our online support representatives for quick fixes.</p>
+                </div>
+                <div>
+                    <button class="btn btn-warning text-white btn-support-action w-100">
+                        <i class="bi bi-chat-fill me-1"></i> Start Live Chat
+                    </button>
+                </div>
+            </div>
+        </div>
+
     </div>
-    <!-- 🌐 Dark Navy Footer -->
+</main>
+
+<!-- 🌐 Dark Navy Footer (Preserved) -->
 <footer class="text-white pt-5 pb-4 mt-auto" style="background-color: #0a0f1d;">
     <div class="container pt-3">
         <div class="row g-4">
@@ -132,6 +174,7 @@
         </div>
     </div>
 </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
