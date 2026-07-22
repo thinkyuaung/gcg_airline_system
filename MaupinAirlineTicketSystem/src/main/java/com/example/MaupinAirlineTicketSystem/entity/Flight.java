@@ -18,13 +18,19 @@ public class Flight {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 	
-	private int flightId;
+	private Integer flightId;
 
 	@NotBlank(message = "Flight name cannot be blank")
     private String flightNumber;
 	
 	@Min(value = 10, message = "Seats must be at least 10 seats.")
     private int totalSeats;
+	
+	private int ecomonySeats;
+	
+	private int businessSeats;
+	
+	private int firseClassSeats;
 	
     private String status;
     
@@ -41,14 +47,18 @@ public class Flight {
 //    @NotNull(message = "Choose Airline")
     private Airline airline;
 
-	
 
-	public Flight(int flightId, String flightNumber, int totalSeats, String status, int wifi, int meal,
-			int entertainment, int charging, Airline airline) {
+	public Flight(int flightId, @NotBlank(message = "Flight name cannot be blank") String flightNumber,
+			@Min(value = 10, message = "Seats must be at least 10 seats.") int totalSeats, int ecomonySeats,
+			int businessSeats, int firseClassSeats, String status, int wifi, int meal, int entertainment, int charging,
+			Airline airline) {
 		super();
 		this.flightId = flightId;
 		this.flightNumber = flightNumber;
 		this.totalSeats = totalSeats;
+		this.ecomonySeats = ecomonySeats;
+		this.businessSeats = businessSeats;
+		this.firseClassSeats = firseClassSeats;
 		this.status = status;
 		this.wifi = wifi;
 		this.meal = meal;
@@ -62,11 +72,11 @@ public class Flight {
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getFlightId() {
+	public Integer getFlightId() {
 		return flightId;
 	}
 
-	public void setFlightId(int flightId) {
+	public void setFlightId(Integer flightId) {
 		this.flightId = flightId;
 	}
 
@@ -132,6 +142,30 @@ public class Flight {
 
 		public void setCharging(int charging) {
 			this.charging = charging;
+		}
+
+		public int getEcomonySeats() {
+			return ecomonySeats;
+		}
+
+		public void setEcomonySeats(int ecomonySeats) {
+			this.ecomonySeats = ecomonySeats;
+		}
+
+		public int getBusinessSeats() {
+			return businessSeats;
+		}
+
+		public void setBusinessSeats(int businessSeats) {
+			this.businessSeats = businessSeats;
+		}
+
+		public int getFirseClassSeats() {
+			return firseClassSeats;
+		}
+
+		public void setFirseClassSeats(int firseClassSeats) {
+			this.firseClassSeats = firseClassSeats;
 		}
     
     

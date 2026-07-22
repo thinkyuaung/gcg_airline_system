@@ -117,17 +117,16 @@
         <div class="modal-header d-flex align-items-center">
           <h5 class="modal-title fw-bold">
             <i class="bi bi-airplane-fill text-primary me-2"></i>
-            <span th:text="${flight.flightId != 0} ? 'Edit Flight' : 'Add New Flight'">Flight</span>
+            <span th:text="${flight.flightId != null} ? 'Edit Flight' : 'Add New Flight'">Flight</span>
           </h5>
           <a th:href="@{/airline/admin/flights}" class="btn-close" aria-label="Close"></a>
         </div>
         
-        <form th:action="${flight.flightId != 0} ? @{/airline/admin/flight/update} : @{/airline/admin/flight}" 
+        <form th:action="${flight.flightId != null} ? @{/airline/admin/flight/update} : @{/airline/admin/flight}" 
 			th:object="${flight}" 
-			method="post"
-			enctype="multipart/form-data">
+			method="post">
           
-          <input type="hidden" th:if="${flight.flightId != 0}" th:field="*{flightId}" />
+          <input type="hidden" th:if="${flight.flightId != null}" th:field="*{flightId}" />
           
           <div class="modal-body">
             <!-- Flight Number -->
@@ -142,13 +141,39 @@
 					th:errors="*{flightNumber}"></span>
             </div>
 
-            <!-- Total Seats -->
+            <!-- Economy Seats -->
+            <div class="mb-4">
+              <label class="form-label text-uppercase fw-bold">Economy Seats</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-person"></i></span>
+                <input type="number" name="ecomonySeats" class="form-control border-start-0 seat-input" placeholder="e.g., 120" th:field="*{ecomonySeats}" min="0">
+              </div>
+            </div>
+
+            <!-- Business Seats -->
+            <div class="mb-4">
+              <label class="form-label text-uppercase fw-bold">Business Seats</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-person-fill"></i></span>
+                <input type="number" name="businessSeats" class="form-control border-start-0 seat-input" placeholder="e.g., 40" th:field="*{businessSeats}" min="0">
+              </div>
+            </div>
+
+            <!-- First Class Seats -->
+            <div class="mb-4">
+              <label class="form-label text-uppercase fw-bold">First Class Seats</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-person-workspace"></i></span>
+                <input type="number" name="firseClassSeats" class="form-control border-start-0 seat-input" placeholder="e.g., 20" th:field="*{firseClassSeats}" min="0">
+              </div>
+            </div>
+
+            <!-- Total Seats (Auto-calculated) -->
             <div class="mb-4">
               <label class="form-label text-uppercase fw-bold">Total Seats</label>
               <div class="input-group">
                 <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-tag"></i></span>
-                <input type="number" name="totalSeats" class="form-control border-start-0" placeholder="e.g., 180" th:field="*{totalSeats}">
-                 
+                <input type="number" id="totalSeats" name="totalSeats" class="form-control border-start-0 bg-light" placeholder="Auto-calculated" th:field="*{totalSeats}" readonly>
               </div>
               <span class="text-danger" th:if="${#fields.hasErrors('totalSeats')}"
 					th:errors="*{totalSeats}"></span>
@@ -174,28 +199,48 @@
 			    <label class="form-label text-uppercase fw-bold">Flight Features</label>
 			
 			    <div class="form-check">
-			         
-			        <input class="form-check-input" type="checkbox" name="wifi" value="1" id="wifi">
-			        <label class="form-check-label" for="wifi">WiFi</label>
-			    </div>
+				    <input class="form-check-input"
+				           type="checkbox"
+				           id="wifi"
+				           name="wifi"
+				           value="1"
+				           th:checked="${flight.wifi == 1}">
+				    <input type="hidden" name="wifi" value="0">
+				    <label class="form-check-label" for="wifi">WiFi</label>
+				</div>
 			
 			    <div class="form-check">
-			         
-			        <input class="form-check-input" type="checkbox" name="meal" value="1" id="meal">
-			        <label class="form-check-label" for="meal">Meal</label>
-			    </div>
+				    <input class="form-check-input"
+				           type="checkbox"
+				           id="meal"
+				           name="meal"
+				           value="1"
+				           th:checked="${flight.meal == 1}">
+				    <input type="hidden" name="meal" value="0">
+				    <label class="form-check-label" for="meal">Meal</label>
+				</div>
 			
 			    <div class="form-check">
-			        
-			        <input class="form-check-input" type="checkbox" name="charging" value="1" id="charging">
-			        <label class="form-check-label" for="charging">Charging</label>
-			    </div>
+				    <input class="form-check-input"
+				           type="checkbox"
+				           id="entertainment"
+				           name="entertainment"
+				           value="1"
+				           th:checked="${flight.entertainment == 1}">
+				    <input type="hidden" name="entertainment" value="0">
+				    <label class="form-check-label" for="entertainment">Entertainment</label>
+				</div>
 			
 			    <div class="form-check">
-			       
-			        <input class="form-check-input" type="checkbox" name="entertainment" value="1" id="entertainment">
-			        <label class="form-check-label" for="entertainment">Entertainment</label>
-			    </div>
+				    <input class="form-check-input"
+				           type="checkbox"
+				           id="charging"
+				           name="charging"
+				           value="1"
+				           th:checked="${flight.charging == 1}">
+				    <input type="hidden" name="charging" value="0">
+				    <label class="form-check-label" for="charging">Charging Port</label>
+				</div>
 			</div>
             
            
@@ -220,7 +265,7 @@
           <div class="modal-footer">
             <a th:href="@{/airline/admin/flights}" class="btn btn-light rounded-pill px-4">Cancel</a>
             <button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm">
-              <span th:text="${flight.flightId != 0} ? 'Update Flight' : 'Save Flight'">Save</span>
+              <span th:text="${flight.flightId != null} ? 'Update Flight' : 'Save Flight'">Save</span>
             </button>
           </div>
            <input type="hidden" name="status" class="form-control border-start-0" placeholder="e.g., 180" th:field="*{status}" value="${flight.status}">
@@ -229,5 +274,16 @@
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.querySelectorAll('.seat-input').forEach(function(input) {
+      input.addEventListener('input', calculateTotal);
+    });
+    function calculateTotal() {
+      var economy = parseInt(document.querySelector('input[name="ecomonySeats"]').value) || 0;
+      var business = parseInt(document.querySelector('input[name="businessSeats"]').value) || 0;
+      var firstClass = parseInt(document.querySelector('input[name="firseClassSeats"]').value) || 0;
+      document.getElementById('totalSeats').value = economy + business + firstClass;
+    }
+  </script>
 </body>
 </html>

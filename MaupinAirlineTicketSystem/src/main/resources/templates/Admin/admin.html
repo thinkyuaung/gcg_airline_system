@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SkyNest Airline — Admin Dashboard</title>
+<title>Maubin Airline — Admin Dashboard</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
 	rel="stylesheet">
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
- 
+
 <style>
 body {
 	background-color: #f9f9f4;
@@ -17,7 +17,7 @@ body {
 	font-family: system-ui, -apple-system, sans-serif;
 	overflow-x: hidden;
 }
- 
+
 /* Layout Structure */
 .stat-card {
 	background-color: #ffffff;
@@ -27,12 +27,12 @@ body {
 	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
 	transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
- 
+
 .stat-card:hover {
 	transform: translateY(-2px);
 	box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
 }
- 
+
 .content-card {
 	background-color: #ffffff;
 	border: none;
@@ -40,14 +40,14 @@ body {
 	padding: 1.5rem;
 	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
- 
+
 /* Sidebar Layout Fixes */
 .admin-sidebar {
 	background-color: #212529;
 	box-shadow: 4px 0 24px rgba(0, 0, 0, 0.05);
 	z-index: 100;
 }
- 
+
 @media ( min-width : 768px) {
 	.admin-sidebar {
 		position: fixed;
@@ -62,7 +62,7 @@ body {
 		width: 80%;
 	}
 }
- 
+
 @media ( min-width : 1200px) {
 	.admin-sidebar {
 		width: 16.666667%;
@@ -72,7 +72,7 @@ body {
 		width: 83.333333%;
 	}
 }
- 
+
 /* Navigation Links */
 .admin-nav-link {
 	display: flex;
@@ -86,29 +86,165 @@ body {
 	cursor: pointer;
 	transition: all 0.2s ease;
 }
- 
+
 .admin-nav-link:hover, .admin-nav-link.active {
 	background-color: #0d6efd;
 	color: #ffffff !important;
 	box-shadow: 0 4px 12px rgba(13, 110, 253, 0.25);
 }
- 
+
 .admin-nav-link.text-danger:hover {
 	background-color: #dc3545 !important;
 	color: #ffffff !important;
 	box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
 }
- 
+
 .hidden-section {
 	display: none !important;
+}
+
+/* Cell borders & styling enhancement */
+.table-bordered th, .table-bordered td {
+	border: 1px solid #dee2e6 !important;
+	padding: 0.75rem 1rem !important;
+}
+
+.table thead th {
+	background-color: #f1f5f9 !important;
+	border-bottom: 2px solid #cbd5e1 !important;
+}
+
+.custom-premium-table tbody tr, .custom-flightplan-table tbody tr,
+	.custom-airline-table tbody tr, .custom-airport-table tbody tr {
+	transition: background-color 0.15s ease;
+}
+
+.custom-premium-table tbody tr:hover, .custom-flightplan-table tbody tr:hover,
+	.custom-airline-table tbody tr:hover, .custom-airport-table tbody tr:hover
+	{
+	background-color: #f8fafc !important;
+}
+
+.fw-mono {
+	font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+		"Courier New", monospace;
+}
+
+.flat-btn, .flat-btn:focus, .flat-btn:active {
+	box-shadow: none !important;
+	outline: none !important;
+	transition: all 0.2s ease;
+}
+
+.airline-logo-frame {
+	width: 45px;
+	height: 45px;
+	border-radius: 50% !important;
+	overflow: hidden;
+	padding: 0 !important;
+}
+
+.airline-logo-frame img {
+	width: 100%;
+	height: 100%;
+	border-radius: 50% !important;
+	object-fit: cover;
+}
+
+.circle-logo-container {
+	width: 50px;
+	height: 50px;
+	border-radius: 50% !important;
+	overflow: hidden;
+	border: 2px solid #0d6efd;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;   /* fixed */
+	background-color: #f8fafc;
+}
+
+.circle-logo-container img {
+	width: 100% !important;
+	height: 100% !important;
+	object-fit: cover !important;
+	border-radius: 50% !important;
+}
+/* Premium Card Styles Core Injection */
+.premium-card {
+	position: relative;
+	background: #ffffff;
+	border: 1px solid rgba(0, 0, 0, 0.03);
+	border-radius: 16px;
+	box-shadow: 0 10px 30px rgba(165, 163, 153, 0.06);
+	padding: 24px 20px;
+	margin-top: 25px;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.premium-card:hover {
+	transform: translateY(-6px);
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+	border-color: rgba(13, 110, 253, 0.1);
+}
+
+.glow-icon-box {
+	position: absolute;
+	top: -20px;
+	left: 24px;
+	width: 60px;
+	height: 60px;
+	border-radius: 14px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: white;
+	font-size: 26px;
+	transition: transform 0.3s ease;
+}
+
+.premium-card:hover .glow-icon-box {
+	transform: scale(1.1) rotate(5deg);
+}
+
+.pulse-dot {
+	width: 8px;
+	height: 8px;
+	background-color: #ffc107;
+	border-radius: 50%;
+	display: inline-block;
+	box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7);
+	animation: pulse 1.6s infinite;
+}
+
+/* Keyframe animation fixed */
+@keyframes pulse {
+	0% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7);
+	}
+	70% {
+		transform: scale(1);
+		box-shadow: 0 0 0 8px rgba(255, 193, 7, 0);
+	}
+	100% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(255, 193, 7, 0);
+	}
+}
+
+.premium-chart-wrapper {
+	position: relative;
+	height: 360px;
+	width: 100%;
+	padding-bottom: 25px;
 }
 </style>
 </head>
 <body>
- 
+
 	<div class="container-fluid">
 		<div class="row">
- 
+
 			<nav class="col-md-3 col-lg-2 d-md-block admin-sidebar px-3 py-4">
 				<div class="d-flex align-items-center gap-2 mb-4 px-2">
 					<i class="bi bi-shield-lock-fill text-primary fs-4"></i> <span
@@ -150,7 +286,7 @@ body {
 						class="admin-nav-link"
 						th:classappend="${activeTab == 'airport'} ? ' active' : ''"><i
 						class="bi bi-geo-alt-fill"></i> Air Port</a>
- 
+
 					<hr class="my-3 text-white">
  
 					<a th:href="@{/airline/logout}"
@@ -158,43 +294,139 @@ body {
 						class="bi bi-box-arrow-left"></i> Exit Portal</a>
 				</div>
 			</nav>
- 
+
 			<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
- 
+
+
 				<div id="section-dashboard"
 					th:classappend="${activeTab != null} ? 'hidden-section' : ''">
-					<div
-						class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
-						<h1 class="h2 fw-bold">Administrative Dashboard</h1>
+
+
+					<!-- Summary Cards -->
+					<div class="row g-4 mb-5">
+						<!-- Card 1 -->
+						<div class="col-12 col-sm-6 col-xl-3">
+							<div class="premium-card">
+								<div class="glow-icon-box bg-dark">
+									<i class="bi bi-building"></i>
+								</div>
+								<div class="text-end">
+									<span class="text-secondary small fw-medium">Available
+										Airlines</span>
+									<h2 class="fw-bold m-0 mt-1 text-dark"
+										th:text="${availableAirlines != null ? availableAirlines : '4'}">4</h2>
+								</div>
+								<div
+									class="mt-4 pt-2 border-top d-flex justify-content-between align-items-center">
+									<span class="text-muted small"><span
+										class="text-success fw-bold">AirIndia</span> lastly added</span> <i
+										class="bi bi-chevron-right text-muted small"></i>
+								</div>
+							</div>
+						</div>
+
+						<!-- Card 2 -->
+						<div class="col-12 col-sm-6 col-xl-3">
+							<div class="premium-card">
+								<div class="glow-icon-box bg-success">
+									<i class="bi bi-airplane-fill"></i>
+								</div>
+								<div class="text-end">
+									<span class="text-secondary small fw-medium">Available
+										Flights</span>
+									<h2 class="fw-bold m-0 mt-1 text-dark"
+										th:text="${availableFlights != null ? availableFlights : '8'}">8</h2>
+								</div>
+								<div
+									class="mt-4 pt-2 border-top d-flex justify-content-between align-items-center">
+									<span class="text-muted small">Flight No : <span
+										class="text-success fw-bold">108</span> lastly added
+									</span> <i class="bi bi-chevron-right text-muted small"></i>
+								</div>
+							</div>
+						</div>
+
+						<!-- Card 3 -->
+						<div class="col-12 col-sm-6 col-xl-3">
+							<div class="premium-card">
+								<div class="glow-icon-box"
+									style="background: linear-gradient(135deg, #800040, #ad1457);">
+									<i class="bi bi-ticket-perforated-fill"></i>
+								</div>
+								<div class="text-end">
+									<span class="text-secondary small fw-medium">Total
+										Bookings</span>
+									<h2 class="fw-bold m-0 mt-1 text-dark"
+										th:text="${totalBookings != null ? totalBookings : '40'}">40</h2>
+								</div>
+								<div
+									class="mt-4 pt-2 border-top d-flex justify-content-between align-items-center">
+									<span class="text-muted small">From <span
+										class="text-primary fw-bold">20</span> Registrations
+									</span> <i class="bi bi-chevron-right text-muted small"></i>
+								</div>
+							</div>
+						</div>
+
+						<!-- Card 4 -->
+						<div class="col-12 col-sm-6 col-xl-3">
+							<div class="premium-card">
+								<div class="glow-icon-box bg-primary">
+									<i class="bi bi-currency-exchange"></i>
+								</div>
+								<div class="text-end">
+									<span class="text-secondary small fw-medium">Total
+										Earnings</span>
+									<h2 class="fw-bold m-0 mt-1 text-primary">$ 236,968</h2>
+								</div>
+								<div
+									class="mt-4 pt-2 border-top d-flex justify-content-between align-items-center">
+									<span class="text-muted small">Today: <span
+										class="text-success fw-bold">$ 18,010</span></span> <span
+										class="badge bg-success-subtle text-success rounded-pill px-2 py-0.5"
+										style="font-size: 0.75rem;">+12%</span>
+								</div>
+							</div>
+						</div>
 					</div>
-					<div class="row g-3 mb-4">
-						<div class="col-12 col-sm-6 col-xl-4">
-							<div class="stat-card">
-								<span class="text-muted small fw-bold text-uppercase">Total
-									Bookings</span>
-								<h2 class="fw-bold mt-2 mb-0">2</h2>
+
+					<!-- Advanced Premium Charts Section -->
+					<div class="premium-card p-4">
+						<div
+							class="d-flex justify-content-between align-items-center mb-4">
+							<h3 class="text-dark fw-bold m-0">System Overview Charts</h3>
+							<div class="d-flex align-items-center gap-2">
+								<span class="pulse-dot"></span> <span
+									class="text-muted small fw-medium">Live Server Telemetry</span>
 							</div>
 						</div>
-						<div class="col-12 col-sm-6 col-xl-4">
-							<div class="stat-card">
-								<span class="text-muted small fw-bold text-uppercase">Total
-									Flights</span>
-								<h2 class="fw-bold mt-2 mb-0">3</h2>
+						<div class="row g-5">
+							<!-- Left Column: Flights Status -->
+							<div class="col-lg-6 border-end pe-lg-4">
+								<h5 class="text-center fw-bold text-secondary mb-3">Flights
+									Status Breakdown</h5>
+								<div class="premium-chart-wrapper">
+									<canvas id="flightsStatusChart"></canvas>
+								</div>
 							</div>
-						</div>
-						<div class="col-12 col-sm-6 col-xl-4">
-							<div class="stat-card">
-								<span class="text-muted small fw-bold text-uppercase">Gross
-									Revenue</span>
-								<h2 class="fw-bold text-success mt-2 mb-0">$1,450</h2>
+
+							<!-- Right Column: Flights per Airline -->
+							<div class="col-lg-6 ps-lg-4">
+								<h5 class="text-center fw-bold text-secondary mb-3">Operational
+									Fleet Distribution</h5>
+								<div class="premium-chart-wrapper">
+									<canvas id="flightsPerAirlineChart"></canvas>
+								</div>
 							</div>
 						</div>
 					</div>
+
 				</div>
- 
+
+				<!-- Manage Flights -->
 				<div id="section-flights"
 					th:classappend="${activeTab != 'flights'} ? 'hidden-section'">
- 
+
 					<div
 						class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
 						<h4 class="fw-bold m-0">
@@ -206,77 +438,109 @@ body {
 								<i class="bi bi-plus-circle"></i> Add New Flight
 							</button></a>
 					</div>
- 
-					<div class="content-card bg-white">
+
+					<div class="card border rounded-4 bg-white overflow-hidden">
 						<div class="table-responsive">
-							<table class="table align-middle table-hover m-0">
-								<thead class="table-light">
+
+							<table class="table table-bordered align-middle table-hover m-0">
+								<thead>
 									<tr class="text-muted small fw-bold">
 										<th>FLIGHT NUMBER</th>
 										<th>AIRLINE</th>
 										<th>FLIGHT FEATURES</th>
+										<th>ECONOMY</th>
+										<th>BUSINESS</th>
+										<th>FIRST CLASS</th>
 										<th>Total Seats</th>
 										<th>STATUS</th>
 										<th>ACTIONS</th>
 									</tr>
 								</thead>
+
 								<tbody>
-									<!-- Entity Attribute Name -->
 									<tr th:each="f: ${flights}">
-										<td th:text="${f.flightNumber}"></td>
-										<td><span th:if="${f.airline != null}"
+										<!-- 1. Flight Number -->
+										<td><span
+											class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded-2"
+											th:text="${f.flightNumber}"></span></td>
+
+										<!-- 2. Airline Name -->
+										<td class="fw-semibold text-dark"><span
+											th:if="${f.airline != null}"
 											th:text="${f.airline.airlineName}"></span> <span
-											th:unless="${f.airline != null}"> No Airline </span></td>
-										
-					<td>
-					    <i class="bi bi-wifi text-primary me-2"
-					       title="WiFi"
-					       th:if="${f.wifi == 1}"></i>
-					
-					    <i class="bi bi-cup-hot-fill text-warning me-2"
-					       title="Meal"
-					       th:if="${f.meal == 1}"></i>
-					
-					    <i class="bi bi-battery-charging text-success me-2"
-					       title="Charging"
-					       th:if="${f.charging == 1}"></i>
-					
-					    <i class="bi bi-tv-fill text-danger"
-					       title="Entertainment"
-					       th:if="${f.entertainment == 1}"></i>
-					</td>
-					<td th:text="${f.totalSeats}"></td>
-										
-										<td th:text="${f.status}"></td>
+											th:unless="${f.airline != null}" class="text-muted small">No
+												Airline</span></td>
+
+										<!-- 3. Dynamic Features Icons Column (Admin ရွေးချယ်ထားသော Icons များ) -->
+										<td>
+											<div class="d-inline-flex align-items-center gap-2">
+												<!-- WiFi Icon -->
+												<i class="bi bi-wifi text-primary fs-5" title="WiFi"
+													data-bs-toggle="tooltip"
+													th:if="${f.wifi == 1 or f.wifi == true}"></i>
+
+												<!-- Meal Icon -->
+												<i class="bi bi-cup-hot-fill text-warning fs-5" title="Meal"
+													data-bs-toggle="tooltip"
+													th:if="${f.meal == 1 or f.meal == true}"></i>
+
+												<!-- Charging Icon -->
+												<i class="bi bi-battery-charging text-success fs-5"
+													title="Charging" data-bs-toggle="tooltip"
+													th:if="${f.charging == 1 or f.charging == true}"></i>
+
+												<!-- Entertainment Icon -->
+												<i class="bi bi-tv-fill text-danger fs-5"
+													title="Entertainment" data-bs-toggle="tooltip"
+													th:if="${f.entertainment == 1 or f.entertainment == true}"></i>
+
+												<!-- Default Badge when no features selected -->
+												<span
+													th:if="${(f.wifi == 0 or f.wifi == null) and (f.meal == 0 or f.meal == null) and (f.charging == 0 or f.charging == null) and (f.entertainment == 0 or f.entertainment == null)}"
+													class="badge bg-secondary-subtle text-secondary px-2 py-1 small">
+													No Features </span>
+											</div>
+										</td>
+
+										<!-- 4. Economy Seats -->
+										<td th:text="${f.ecomonySeats}"></td>
+
+										<!-- 5. Business Seats -->
+										<td th:text="${f.businessSeats}"></td>
+
+										<!-- 6. First Class Seats -->
+										<td th:text="${f.firseClassSeats}"></td>
+
+										<!-- 7. Total Seats -->
+										<td th:text="${f.totalSeats}"></td>
+
+										<!-- 5. Flight Status Dynamic Badge -->
+										<td><span class="badge"
+											th:classappend="${f.status == 'Active' ? 'bg-success-subtle text-success' : 'bg-success-subtle text-success'}"
+											th:text="${f.status != null ? f.status : 'N/A'}"> </span></td>
+
+										<!-- 6. Action Buttons -->
 										<td><a
 											th:href="@{/airline/admin/flight/edit/{id}(id=${f.flightId})}"
-											class="btn btn-sm btn-outline-secondary py-0 px-2"><i
-												class="bi bi-pencil"></i> Edit</a> <a
+											class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
+												<i class="bi bi-pencil"></i> Edit
+										</a> <a
 											th:href="@{/airline/admin/flight/delete/{id}(id=${f.flightId})}"
-											class="btn btn-sm btn-outline-danger py-0 px-2"
-											onclick="return confirm('Are you sure you want to delete this flight?')"><i
-												class="bi bi-x-circle"></i> Delete</a></td>
-										<!--
-	<td>
-				<a th:if="${c.status == 1}" th:href="@{/student/courses/edit/{id}(id=${c.id})}"
-					class="btn btn-primary">Update</a>
-				<a th:if="${c.status == 1}" th:href="@{/student/courses/delete/{id}(id=${c.id})}" class="btn btn-danger">Delete</a>
-				
-				<a th:if="${c.status == 0}" th:href="@{/student/courses/resign/{id}(id=${c.id})}" class="btn btn-danger">Active</a>
-				
-				
-		</td>
-	  -->
+											class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn"
+											onclick="return confirm('Are me sure you want to delete this flight?')">
+												<i class="bi bi-x-circle"></i> Delete
+										</a></td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
 					</div>
 				</div>
- 
+
+				<!-- Flight Plans -->
 				<div id="section-flightPlans"
 					th:classappend="${activeTab != 'flightPlans'} ? 'hidden-section'">
- 
+
 					<div
 						class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
 						<h4 class="fw-bold m-0">
@@ -288,81 +552,115 @@ body {
 								<i class="bi bi-plus-circle"></i> Add New Flight Plan
 							</button></a>
 					</div>
- 
-					<div class="content-card bg-white">
+					<div class="card border rounded-4 bg-white overflow-hidden">
 						<div class="table-responsive">
-							<table class="table align-middle table-hover m-0">
-								<thead class="table-light">
-									<tr class="text-muted small fw-bold">
-										<th>FLIGHT</th>
-										<th>DEPARTURE AIRPORT</th>
-										<th>ARRIVAL AIRPORT</th>
-										<th>DEPARTURE TIME</th>
-										<th>ARRIVAL TIME</th>
-										<th>DATE</th>
-										<th>SEATS</th>
-										<th>PRICE</th>
-										<th>ACTIONS</th>
+
+							<table
+								class="table table-bordered align-middle table-hover m-0 custom-flightplan-table">
+								<thead>
+									<tr class="text-secondary small fw-bold text-uppercase"
+										style="letter-spacing: 0.5px;">
+										<th>Flight</th>
+										<th>Departure Airport</th>
+										<th>Arrival Airport</th>
+										<th>Departure Time</th>
+										<th>Arrival Time</th>
+										<th>Date</th>
+										<th>Seats</th>
+										<th>Price</th>
+										<th class="text-end">Actions</th>
 									</tr>
 								</thead>
+
 								<tbody>
 									<tr th:each="fp : ${flightPlans}">
 										<td><span th:if="${fp.flight != null}"
+											class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded-2"
 											th:text="${fp.flight.flightNumber}"></span> <span
-											th:unless="${fp.flight != null}">No Flight</span></td>
- 
-										<td><span th:if="${fp.departureAirport != null}"
+											th:unless="${fp.flight != null}"
+											class="badge bg-danger-subtle text-danger fw-bold px-2 py-1 rounded-2">No
+												Flight</span></td>
+
+										<td class="fw-semibold text-dark"><span
+											th:if="${fp.departureAirport != null}"
 											th:text="${fp.departureAirport.airportName}"></span> <span
-											th:unless="${fp.departureAirport != null}">N/A</span></td>
- 
-										<td><span th:if="${fp.arrivalAirport != null}"
+											th:unless="${fp.departureAirport != null}"
+											class="text-muted small italic">N/A</span></td>
+
+										<td class="fw-semibold text-dark"><span
+											th:if="${fp.arrivalAirport != null}"
 											th:text="${fp.arrivalAirport.airportName}"></span> <span
-											th:unless="${fp.arrivalAirport != null}">N/A</span></td>
- 
-										<td
-											th:text="${#temporals.format(fp.departureTime, 'yyyy-MM-dd HH:mm')}"></td>
-										<td
-											th:text="${#temporals.format(fp.arrivalTime, 'yyyy-MM-dd HH:mm')}"></td>
-										<td th:text="${#dates.format(fp.flight_date, 'yyyy-MM-dd')}"></td>
-										<td th:text="${fp.availableSeats}"></td>
-										<td th:text="'$' + ${#numbers.formatDecimal(fp.price, 1, 2)}"></td>
-										<td><a
-											th:href="@{/airline/admin/flightPlan/edit/{id}(id=${fp.flightPlanId})}"
-											class="btn btn-sm btn-outline-secondary py-0 px-2"><i
-												class="bi bi-pencil"></i> Edit</a> <a
-											th:href="@{/airline/admin/flightPlan/delete/{id}(id=${fp.flightPlanId})}"
-											class="btn btn-sm btn-outline-danger py-0 px-2"
-											onclick="return confirm('Are you sure you want to delete this flight plan?')"><i
-												class="bi bi-x-circle"></i> Delete</a></td>
+											th:unless="${fp.arrivalAirport != null}"
+											class="text-muted small italic">N/A</span></td>
+
+										<td class="text-secondary small"><span
+											class="d-inline-flex align-items-center gap-1"><span
+												th:text="${#temporals.format(fp.departureTime, 'yyyy-MM-dd HH:mm')}"></span>
+										</span></td>
+
+										<td class="text-secondary small"><span
+											class="d-inline-flex align-items-center gap-1"> <span
+												th:text="${#temporals.format(fp.arrivalTime, 'yyyy-MM-dd HH:mm')}"></span>
+										</span></td>
+
+										<td class="text-dark fw-medium"
+											th:text="${#dates.format(fp.flight_date, 'yyyy-MM-dd')}"></td>
+
+										<td><span
+											class="badge bg-dark-subtle text-dark-emphasis border fw-bold px-2 py-1 rounded-pill"
+											th:text="${fp.availableSeats + ' Available'}"></span></td>
+
+										<td class="fw-bold text-dark"
+											th:text="${#numbers.formatDecimal(fp.price, 1, 2)}"></td>
+										<td class="text-end">
+											<div class="d-inline-flex gap-2">
+												<a
+													th:href="@{/airline/admin/flightPlan/edit/{id}(id=${fp.flightPlanId})}"
+													class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
+													<i class="bi bi-pencil-square"></i> Edit
+												</a> <a
+													th:href="@{/airline/admin/flightPlan/delete/{id}(id=${fp.flightPlanId})}"
+													class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn"
+													onclick="return confirm('Are you sure you want to delete this flight plan?')">
+													<i class="bi bi-trash3"></i> Delete
+												</a>
+											</div>
+										</td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
 					</div>
 				</div>
- 
-				 <!-- Bookings -->
-        <div id="section-bookings" th:classappend="${activeTab != 'bookings'} ? 'hidden-section'">
-					<h4 class="fw-bold mb-3">
-						<i class="bi bi-receipt-cutoff text-primary"></i> Passenger Ticket
-						Bookings
-					</h4>
-					<div class="content-card bg-white">
+
+				<!-- Bookings -->
+				<div id="section-bookings"
+					th:classappend="${activeTab != 'bookings'} ? 'hidden-section'">
+					<h5 class="fw-bold mb-4 text-dark d-flex align-items-center gap-2">
+						<i class="bi bi-receipt-cutoff text-primary fs-5"></i> <span>Passenger
+							Ticket Bookings</span>
+					</h5>
+
+					<div class="card border rounded-4 bg-white overflow-hidden">
 						<div class="table-responsive">
-							<table class="table align-middle table-hover m-0">
-								<thead class="table-light">
-									<tr class="text-muted small fw-bold">
-										<th>PASSENGER</th>
-										<th>FLIGHT</th>
-										<th>CLASS</th>
-										<th>SEAT NUMBER</th>
-										<th>DEPARTURE</th>
-										<th>PAYMENT SS</th>
-										<th>TOTAL AMOUNT</th>
-										<th>STATUS</th>
-										<th>ACTION</th>
+
+							<table
+								class="table table-bordered align-middle table-hover m-0 custom-premium-table">
+								<thead>
+									<tr class="text-secondary small fw-bold text-uppercase"
+										style="letter-spacing: 0.5px;">
+										<th>Passenger</th>
+										<th>Flight</th>
+										<th>Class</th>
+										<th>Seat Number</th>
+										<th>Departure</th>
+										<th>Payment SS</th>
+										<th>Total Amount</th>
+										<th>Status</th>
+										<th class="text-end">Action</th>
 									</tr>
 								</thead>
+
 								<tbody>
 									<tr th:each="b : ${bookings}">
 										<td>
@@ -478,7 +776,8 @@ body {
 						</div>
 					</div>
 				</div>
- 
+
+				<!-- Airline Management -->
 				<div id="section-airline"
 					th:classappend="${activeTab != 'airline'} ? 'hidden-section'">
 					<div
@@ -488,46 +787,52 @@ body {
 						</h4>
 						<button class="btn btn-primary btn-sm px-4 rounded-pill"
 							data-bs-toggle="modal" data-bs-target="#addAirlineModal">
-							<a th:href="@{/airline/admin/airlineForm}" class="text-white"><i
+							<a th:href="@{/airline/admin/airlineForm}"
+								class="text-white text-decoration-none"><i
 								class="bi bi-plus-circle"></i> Add New Airline</a>
 						</button>
 					</div>
- 
-					<div class="content-card bg-white">
+				<div class="card border rounded-4 bg-white overflow-hidden">
 						<div class="table-responsive">
-							<table class="table align-middle table-hover m-0">
-								<thead class="table-light">
-									<tr class="text-muted small fw-bold">
  
-										<th>AIRLINE CODE</th>
-										<th>AIRLINE NAME</th>
-										<th>COUNTRY</th>
-										<th>LOGO PATH</th>
-										<th>ACTIONS</th>
+							<table
+								class="table table-bordered align-middle table-hover m-0 custom-airline-table">
+								<thead>
+									<tr class="text-secondary small fw-bold text-uppercase"
+										style="letter-spacing: 0.5px;">
+										<th class="text-center">Logo</th>
+										<th>Airline Code</th>
+										<th>Airline Name</th>
+										<th>Country</th>
+										
+										<th class="text-end">Actions</th>
 									</tr>
 								</thead>
+ 
 								<tbody>
 									<tr th:each="al : ${airline}">
-										<td><span
-											class="badge bg-primary-subtle text-primary fw-bold"
-											th:text="${al.airlineCode}"></span></td>
-										<td><strong th:text="${al.airlineName}"></strong></td>
-										<td th:text="${al.country}"></td>
-										<td><img th:if="${al.logo != null}" alt="Logo"
-											th:src="@{'/photos/'+${al.logo}}" width="50" height="40">
-										</td>
+										<td class="text-center">
  
-										<td><a
-											th:href="@{/airline/admin/airline/edit/{id}(id=${al.airlineId})}"
-											class="btn btn-sm btn-outline-secondary py-0 px-2"><i class="bi bi-pencil"></i>
-												Edit
-										</a>
-										   <!-- <a
-											th:href="@{/airline/admin/airline/delete/{id}(id=${al.airlineId})}"
-											class="btn btn-sm btn-outline-danger py-0 px-2"
-											onclick="return confirm('Are you sure you want to delete this airline?')">
-												<i class="bi bi-x-circle"></i>
-										  </a> -->
+											<div th:if="${al.logo != null}" class="circle-logo-container">
+												<img alt="Airline Logo" th:src="@{'/photos/' + ${al.logo}}">
+											</div> <span th:unless="${al.logo != null}"
+											class="text-muted small italic">No Logo</span>
+										</td>
+										<td><span
+											class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded-2"
+											th:text="${al.airlineCode}"></span></td>
+										<td><span class="fw-semibold text-dark"
+											th:text="${al.airlineName}"></span></td>
+										<td class="text-secondary" th:text="${al.country}"></td>
+									
+										<td class="text-end">
+											<div class="d-inline-flex gap-2">
+												<a
+													th:href="@{/airline/admin/airline/edit/{id}(id=${al.airlineId})}"
+													class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
+													<i class="bi bi-pencil-square"></i> Edit
+												</a>
+											</div>
 										</td>
 									</tr>
 								</tbody>
@@ -535,17 +840,9 @@ body {
 						</div>
 					</div>
 				</div>
- 
-				<!-- <td><a
-											th:href="@{/airline/admin/flightPlan/edit/{id}(id=${fp.flightPlanId})}"
-											class="btn btn-sm btn-outline-secondary py-0 px-2"><i
-												class="bi bi-pencil"></i></a> <a
-											th:href="@{/airline/admin/flightPlan/delete/{id}(id=${fp.flightPlanId})}"
-											class="btn btn-sm btn-outline-danger py-0 px-2"
-											onclick="return confirm('Are you sure you want to delete this flight plan?')"><i
-												class="bi bi-x-circle"></i></a></td>
-                                      -->
- 
+				<!-- Airline -->
+
+				<!-- Airport Terminals -->
 				<div th:classappend="${activeTab != 'airport'} ? 'hidden-section'"
 					id="section-airport">
 					<div
@@ -558,41 +855,52 @@ body {
 							<i class="bi bi-plus-circle"></i> Add New Airport
 						</a>
 					</div>
- 
-					<div class="content-card bg-white">
+
+					<div class="card border rounded-4 bg-white overflow-hidden">
 						<div class="table-responsive">
-							<table class="table align-middle table-hover m-0">
-								<thead class="table-light">
-									<tr class="text-muted small fw-bold">
- 
-										<th>AIRPORT CODE</th>
-										<th>AIRPORT NAME</th>
-										<th>CITY</th>
-										<th>ACTIONS</th>
+
+							
+							<table
+								class="table table-bordered align-middle table-hover m-0 custom-airport-table">
+								<thead>
+									<tr class="text-secondary small fw-bold text-uppercase"
+										style="letter-spacing: 0.5px;">
+										<th class="text-center">Image</th>
+										<th>Airport Code</th>
+										<th>Airport Name</th>
+										<th>City</th>
+										<th class="text-end">Actions</th>
+
+							
 									</tr>
 								</thead>
- 
+
 								<tbody>
 									<tr th:each="ap : ${airport}">
-										<td><span
-											class="badge bg-primary-subtle text-primary fw-bold"
-											th:text="${ap.airportCode}"></span></td>
-										<td><strong th:text="${ap.airportName}"></strong></td>
-										<td th:text="${ap.city}"></td>
+										<!-- <td class="py-3">
  
-										<td>
-										<a
-											th:href="@{/airline/admin/airport/edit/{id}(id=${ap.airportId})}"
-											class="btn btn-sm btn-outline-secondary py-0 px-2"><i class="bi bi-pencil"></i>
-											 Edit
-											
-										</a>
-										<!--  <a
-											th:href="@{/airline/admin/airport/delete/{id}(id=${ap.airportId})}"
-											class="btn btn-sm btn-outline-danger py-0 px-2"
-											onclick="return confirm('Are you sure you want to delete this airport?')">
-												<i class="bi bi-x-circle"></i>
-										</a> -->
+											<div th:if="${al.logo != null}" class="circle-logo-container">
+												<img alt="Airport Image" th:src="@{'/photos/' + ${al.logo}}">
+											</div> <span th:unless="${al.logo != null}"
+											class="text-muted small italic">No Logo</span>
+										</td> -->
+									<td class="text-center"><img th:if="${ap.image != null}" alt="Logo" class="circle-logo-container"
+											th:src="@{'/photos/'+${ap.image}}" >
+										</td>
+										<td><span
+											class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded-2"
+											th:text="${ap.airportCode}"></span></td>
+										<td><span class="fw-semibold text-dark"
+											th:text="${ap.airportName}"></span></td>
+										<td class="text-secondary" th:text="${ap.city}"></td>
+										<td class="text-end">
+											<div class="d-inline-flex gap-2">
+												<a
+													th:href="@{/airline/admin/airport/edit/{id}(id=${ap.airportId})}"
+													class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
+													<i class="bi bi-pencil-square"></i> Edit
+												</a>
+											</div>
 										</td>
 									</tr>
 								</tbody>
@@ -600,14 +908,12 @@ body {
 						</div>
 					</div>
 				</div>
- 
+
 			</main>
 		</div>
 	</div>
- 
- 
- 
-	<!-- Add new Airline -->
+
+	<!-- Add new Airport Modal -->
 	<div class="modal fade" id="addAirportModal" tabindex="-1"
 		aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
@@ -645,16 +951,11 @@ body {
 			</div>
 		</div>
 	</div>
- 
- <!-- Add new Airline -->
- 
- 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
- 
+
 	<script>
     function switchTab(tabName) {
-      // Hide all sections
       document.getElementById('section-dashboard').classList.add('hidden-section');
       document.getElementById('section-flights').classList.add('hidden-section');
       document.getElementById('section-flightPlans').classList.add('hidden-section');
@@ -664,7 +965,6 @@ body {
       document.getElementById('section-airport').classList.add('hidden-section');
      
       
-      // Show selected section
       if (tabName === 'dashboard') {
         document.getElementById('section-dashboard').classList.remove('hidden-section');
       } else if (tabName === 'flights') {
@@ -683,10 +983,103 @@ body {
       }
       
  
-      // Sidebar Tab active states toggle
       document.querySelectorAll('.admin-nav-link').forEach(link => link.classList.remove('active'));
       document.getElementById(`tab-${tabName}`).classList.add('active');
     }
   </script>
+
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+	<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        
+        // Flights Status - Advanced Bar Chart
+        const barCanvas = document.getElementById('flightsStatusChart');
+        if (barCanvas) {
+            new Chart(barCanvas.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Cancelled', 'Delayed', 'Scheduled'],
+                    datasets: [{
+                        data: [3, 1, 37], 
+                        backgroundColor: [
+                            'rgba(239, 83, 80, 0.85)',  
+                            'rgba(255, 167, 38, 0.85)', 
+                            'rgba(30, 136, 229, 0.85)'  
+                        ],
+                        borderColor: ['#ef5350', '#ffa726', '#1e88e5'],
+                        borderWidth: 1.5,
+                        borderRadius: 6,
+                        barPercentage: 0.35
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            bottom: 15,
+                            top: 10
+                        }
+                    },
+                    plugins: { 
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: { 
+                            grid: { display: false }, 
+                            ticks: { font: { weight: '600', size: 12 } } 
+                        },
+                        y: { 
+                            beginAtZero: true, 
+                            max: 40,
+                            ticks: { stepSize: 10, font: { weight: '500' } },
+                            grid: { display: true, color: 'rgba(0, 0, 0, 0.04)' },
+                            title: { display: true, text: 'No of Flights', font: { size: 13, weight: 'bold' } } 
+                        }
+                    }
+                }
+            });
+        }
+
+        // Operational Fleet Distribution - Styled Pie Chart
+        const pieCanvas = document.getElementById('flightsPerAirlineChart');
+        if (pieCanvas) {
+            new Chart(pieCanvas.getContext('2d'), {
+                type: 'pie',
+                data: {
+                    labels: ['AirAsia (1 Flight)', 'AirIndia (2 Flights)', 'IndiGo (2 Flights)', 'Emirates (2 Flights)'],
+                    datasets: [{
+                        data: [1, 2, 2, 2],
+                        backgroundColor: ['#66bb6a', '#26c6da', '#ab47bc', '#42a5f5'],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            bottom: 15,
+                            top: 10
+                        }
+                    },
+                    plugins: {
+                        legend: { 
+                            position: 'left',
+                            labels: {
+                                boxWidth: 12,
+                                usePointStyle: true,
+                                font: { size: 12, weight: '500' },
+                                padding: 15
+                            } 
+                        }
+                    }
+                }
+            });
+        }
+    });
+</script>
 </body>
 </html>
