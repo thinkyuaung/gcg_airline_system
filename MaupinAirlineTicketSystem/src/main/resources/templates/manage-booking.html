@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Booking - Maubin AirLine</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    body { background: linear-gradient(135deg, #e8f0fe 0%, #f8f9fa 100%); min-height: 100vh; padding-top: 100px; }
+    .lookup-card { max-width: 500px; margin: auto; border: none; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); }
+    .lookup-card .card-header { background: linear-gradient(135deg, #3182ce, #2b6cb0); color: white; border-radius: 16px 16px 0 0; padding: 25px; }
+    .lookup-card .form-control { border: 1.5px solid #e2e8f0; padding: 12px 16px; border-radius: 10px; font-size: 1rem; }
+    .lookup-card .form-control:focus { border-color: #3182ce; box-shadow: 0 0 0 3px rgba(49,130,206,0.15); }
+    .ticket-card { max-width: 700px; margin: auto; border: none; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); overflow: hidden; }
+    .ticket-header { background: linear-gradient(135deg, #3182ce, #2b6cb0); color: white; padding: 25px; text-align: center; }
+    .ticket-body { padding: 25px; }
+    .ticket-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #edf2f7; }
+    .ticket-row:last-child { border-bottom: none; }
+    .ticket-label { font-weight: 600; color: #4a5568; font-size: 0.9rem; }
+    .ticket-value { color: #1a202c; font-weight: 500; }
+    .serial-code { background: #ebf8ff; color: #2b6cb0; font-size: 22px; font-weight: 700; letter-spacing: 2px; padding: 8px 20px; border-radius: 8px; display: inline-block; margin: 10px 0; }
+    .badge-status { font-size: 0.85rem; padding: 6px 14px; border-radius: 20px; }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav id="mainNav" class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" th:href="@{/airline/index}">
+        <div class="brand-icon"><i class="bi bi-airplane-fill"></i></div>
+        Maubin International AirLine
+      </a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav mx-auto gap-lg-4 gap-2 mt-3 mt-lg-0">
+          <li class="nav-item"><a class="nav-link" th:href="@{/airline/index}">Home</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/airline/flights}">Flights</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/airline/packages}">Package</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/airline/support}">Support</a></li>
+          <li class="nav-item"><a class="nav-link active" th:href="@{/airline/manage-booking}">Manage Booking</a></li>
+        </ul>
+      </div>
+      <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
+        <a th:href="@{/airline/login}" class="btn btn-outline-primary px-3 fw-bold rounded-pill">
+          <i class="bi bi-person"></i> Login
+        </a>
+        <a th:href="@{/airline/signup}" class="btn-signup px-3 text-decoration-none">
+          <i class="bi bi-person-plus-fill"></i> Sign Up
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-4">
+
+    <!-- Search Form (show when no booking found or first visit) -->
+    <div class="card lookup-card" th:unless="${booking != null}">
+      <div class="card-header text-center">
+        <h4 class="mb-1 fw-bold"><i class="bi bi-search-ticket"></i> Manage Your Booking</h4>
+        <p class="mb-0 opacity-75">Enter your serial code and last name to view your ticket</p>
+      </div>
+      <div class="card-body p-4">
+        <!-- Error message -->
+        <div class="alert alert-danger d-flex align-items-center gap-2" th:if="${error}">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          <span th:text="${error}"></span>
+        </div>
+
+        <form th:action="@{/airline/manage-booking}" method="post">
+          <div class="mb-3">
+            <label class="form-label fw-bold text-muted">Serial Code</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light"><i class="bi bi-qr-code"></i></span>
+              <input type="text" name="serialCode" class="form-control" placeholder="e.g., TKT-A1B2C3D4" required>
+            </div>
+          </div>
+          <div class="mb-4">
+            <label class="form-label fw-bold text-muted">Last Name</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light"><i class="bi bi-person"></i></span>
+              <input type="text" name="lastName" class="form-control" placeholder="Enter your last name" required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold">
+            <i class="bi bi-search me-2"></i>Find My Booking
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Ticket Result (show when booking found) -->
+    <div th:if="${booking != null}">
+      <div class="ticket-card">
+        <div class="ticket-header">
+          <h4 class="mb-1 fw-bold">✈  Maubin International AirLine Ticket Information</h4>
+          <p class="mb-0 opacity-75">Present this ticket at the airport</p>
+        </div>
+        <div class="ticket-body">
+          <!-- Serial Code -->
+          <div class="text-center mb-4">
+            <div class="text-muted small fw-bold text-uppercase">Serial Code</div>
+            <div class="serial-code" th:text="${booking.bookingCode}"></div>
+          </div>
+
+          <!-- Passenger -->
+          <div class="ticket-row">
+            <div><span class="ticket-label"><i class="bi bi-person me-2"></i>Passenger</span></div>
+            <div class="ticket-value" th:text="${booking.user.firstName} + ' ' + ${booking.user.lastName}"></div>
+          </div>
+
+          <!-- Flight -->
+          <div class="ticket-row">
+            <div><span class="ticket-label"><i class="bi bi-airplane me-2"></i>Flight</span></div>
+            <div class="ticket-value">
+              <span th:text="${booking.flightPlan.flight.flightNumber}"></span>
+              <span class="text-muted"> - </span>
+              <span th:text="${booking.flightPlan.flight.airline.airlineName}"></span>
+            </div>
+          </div>
+
+          <!-- From / To -->
+          <div class="ticket-row">
+            <div><span class="ticket-label"><i class="bi bi-geo-alt me-2"></i>From</span></div>
+            <div class="ticket-value" th:text="${booking.flightPlan.departureAirport.airportName} + ' (' + ${booking.flightPlan.departureAirport.airportCode} + ')'"></div>
+          </div>
+          <div class="ticket-row">
+            <div><span class="ticket-label"><i class="bi bi-geo-alt-fill me-2"></i>To</span></div>
+            <div class="ticket-value" th:text="${booking.flightPlan.arrivalAirport.airportName} + ' (' + ${booking.flightPlan.arrivalAirport.airportCode} + ')'"></div>
+          </div>
+
+          <!-- Departure -->
+          <div class="ticket-row">
+            <div><span class="ticket-label"><i class="bi bi-calendar-event me-2"></i>Departure</span></div>
+            <div class="ticket-value" th:text="${#temporals.format(booking.flightPlan.departureTime, 'dd MMM yyyy, hh:mm a')}"></div>
+          </div>
+
+          <!-- Arrival -->
+          <div class="ticket-row">
+            <div><span class="ticket-label"><i class="bi bi-calendar-check me-2"></i>Arrival</span></div>
+            <div class="ticket-value" th:text="${#temporals.format(booking.flightPlan.arrivalTime, 'dd MMM yyyy, hh:mm a')}"></div>
+          </div>
+
+          <!-- Class -->
+          <div class="ticket-row">
+            <div><span class="ticket-label"><i class="bi bi-star me-2"></i>Class</span></div>
+            <div class="ticket-value" th:text="${booking.seatClass.className}"></div>
+          </div>
+
+          <!-- Seat -->
+          <div class="ticket-row">
+            <div><span class="ticket-label"><i class="bi bi-grid-3x3 me-2"></i>Seat</span></div>
+            <div class="ticket-value" th:text="${booking.seatNumber != null ? booking.seatNumber : 'N/A'}"></div>
+          </div>
+
+          <!-- Passengers -->
+          <div class="ticket-row">
+            <div><span class="ticket-label"><i class="bi bi-people me-2"></i>Passengers</span></div>
+            <div class="ticket-value" th:text="${booking.passengers}"></div>
+          </div>
+
+          <!-- Total -->
+          <div class="ticket-row">
+            <div><span class="ticket-label"><i class="bi bi-cash me-2"></i>Total Amount</span></div>
+            <div class="ticket-value fw-bold" th:text="'$' + ${#numbers.formatDecimal(booking.totalAmount, 1, 2)}"></div>
+          </div>
+
+          <!-- Status -->
+          <div class="ticket-row">
+            <div><span class="ticket-label"><i class="bi bi-info-circle me-2"></i>Status</span></div>
+            <div>
+              <span class="badge badge-status"
+                th:classappend="${booking.status == 'Successful' ? 'bg-success' : (booking.status == 'Issued' ? 'bg-primary' : 'bg-warning text-dark')}"
+                th:text="${booking.status}"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search Another -->
+      <div class="text-center mt-4">
+        <a th:href="@{/airline/manage-booking}" class="btn btn-outline-primary rounded-pill px-4">
+          <i class="bi bi-arrow-left me-2"></i>Search Another Booking
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

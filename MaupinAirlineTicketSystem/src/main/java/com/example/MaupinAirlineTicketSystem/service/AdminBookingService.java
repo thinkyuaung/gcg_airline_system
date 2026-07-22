@@ -15,4 +15,6 @@ public interface AdminBookingService {
 
 	public Booking saveBooking(Booking booking);
 
+	public Booking findByBookingCodeAndUserLastName(String bookingCode, String lastName);
+
 }
