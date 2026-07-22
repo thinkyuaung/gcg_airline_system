@@ -1,9 +1,12 @@
 package com.example.MaupinAirlineTicketSystem.serviceImplementation;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -40,10 +43,17 @@ public class EmailServiceImpl implements EmailService {
 
 		String htmlBody = "<div style='font-family:Arial,sans-serif;max-width:600px;margin:auto;border:1px solid #e0e0e0;border-radius:10px;overflow:hidden'>"
 				+ "<div style='background:#3182ce;color:white;padding:20px;text-align:center'>"
-				+ "<h1 style='margin:0;font-size:22px'>✈ Maubin AirLine - eTicket</h1></div>"
+				+ "<h1 style='margin:0;font-size:22px'>Maubin AirLine - eTicket</h1></div>"
 				+ "<div style='padding:25px'>"
 				+ "<p style='font-size:16px'>Dear <strong>" + name + "</strong>,</p>"
 				+ "<p>Your flight has been confirmed. Here are your ticket details:</p>"
+
+				// QR Code
+				+ "<div style='text-align:center;margin:20px 0'>"
+				+ "<img src='cid:qrCodeImage' alt='QR Code' style='width:180px;height:180px;border:2px solid #e2e8f0;border-radius:10px' />"
+				+ "<p style='color:#666;font-size:12px;margin-top:5px'>Scan to view booking</p>"
+				+ "</div>"
+
 				+ "<table style='width:100%;border-collapse:collapse;margin:15px 0'>"
 				+ "<tr style='background:#f8f9fa'><td style='padding:10px;font-weight:bold;border:1px solid #dee2e6'>Serial Code</td><td style='padding:10px;border:1px solid #dee2e6;color:#3182ce;font-weight:bold;font-size:18px'>" + serialCode + "</td></tr>"
 				+ "<tr><td style='padding:10px;font-weight:bold;border:1px solid #dee2e6'>Airline</td><td style='padding:10px;border:1px solid #dee2e6'>" + airline + "</td></tr>"
@@ -64,23 +74,26 @@ public class EmailServiceImpl implements EmailService {
 				+ "http://localhost:8080/airline/manage-booking"
 				+ "</a>"
 				+ "</p>"
-				
+
 				+ "</div>"
 				+ "<div style='background:#f8f9fa;padding:15px;text-align:center;font-size:12px;color:#999'>© 2026 Maubin AirLine. All rights reserved.</div>"
 				+ "</div>";
 
 		try {
+			Path qrPath = Paths.get("uploads", "qrCodeBooking.png");
+			FileSystemResource qrImage = new FileSystemResource(qrPath.toFile());
+
 			MimeMessage message = mailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(message, true);
 			helper.setFrom("thinkyuaung.tka@gmail.com", "Maubin AirLine");
 			helper.setTo(toEmail);
 			helper.setSubject(subject);
 			helper.setText(htmlBody, true);
+			helper.addInline("qrCodeImage", qrImage);
 			mailSender.send(message);
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
