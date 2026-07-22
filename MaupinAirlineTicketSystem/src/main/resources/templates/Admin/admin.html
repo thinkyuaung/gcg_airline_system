@@ -748,6 +748,7 @@ body {
 										<th>END DATE</th>
 										<th>STATUS</th>
 										<th>DESCRIPTION</th>
+										<th>PERCENTAGE</th>
 										<th>ACTIONS</th>
 									</tr>
 								</thead>
@@ -761,6 +762,7 @@ body {
 												th:text="${p.status}"></span>
 										</td>
 										<td th:text="${p.description}"></td>
+										<td th:text="${p.percentage}"></td>
 										<td>
 											<a th:href="@{/airline/admin/promotion/edit/{id}(id=${p.promotionId})}"
 												class="btn btn-sm btn-outline-secondary py-0 px-2"><i
