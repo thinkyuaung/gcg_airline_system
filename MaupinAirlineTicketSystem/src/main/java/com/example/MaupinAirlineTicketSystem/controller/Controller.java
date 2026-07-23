@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.MaupinAirlineTicketSystem.repository.AirportRepository;
+import com.example.MaupinAirlineTicketSystem.repository.SeatClassRepository;
 import com.example.MaupinAirlineTicketSystem.entity.User;
 import com.example.MaupinAirlineTicketSystem.repository.UserRepository;
 
@@ -30,6 +31,9 @@ public class Controller {
 	 @Autowired
 	    private AirportRepository airportRepository;
 	 
+	 @Autowired
+	 private SeatClassRepository seatClassRepository;
+	 
 	////////////// Home //////////////
 
 	
@@ -41,6 +45,11 @@ public class Controller {
 	        "airports",
 	        airportRepository.findAll()
 	    );
+	    
+	    model.addAttribute(
+		        "seatClasses",
+		        seatClassRepository.findAll()
+		    );
 
 	    return "index";
 	}
