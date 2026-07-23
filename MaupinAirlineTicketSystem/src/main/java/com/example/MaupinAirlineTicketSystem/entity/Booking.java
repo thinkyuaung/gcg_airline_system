@@ -29,6 +29,8 @@ public class Booking {
 
 	    private String status;
 
+	    private String description;
+
 	    private String country;
 	    
 	    private int passengers;
@@ -119,6 +121,14 @@ public class Booking {
 
 		public void setStatus(String status) {
 			this.status = status;
+		}
+
+		public String getDescription() {
+			return description;
+		}
+
+		public void setDescription(String description) {
+			this.description = description;
 		}
 
 		public String getCountry() {

@@ -8,7 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.MaupinAirlineTicketSystem.entity.Booking;
 import com.example.MaupinAirlineTicketSystem.service.AdminBookingService;
@@ -49,11 +51,13 @@ public class AdminBookingController {
 		return "redirect:/airline/admin/bookings";
 	}
 
-	@GetMapping("/admin/booking/issue/{id}")
-	public String issueBooking(@PathVariable("id") int id) {
+	@PostMapping("/admin/booking/issue")
+	public String issueBooking(@RequestParam("bookingId") int id,
+			@RequestParam(value = "description", required = false) String description) {
 		Booking booking = adminBookingService.getBookingById(id);
 		if (booking != null) {
 			booking.setStatus("Issued");
+			booking.setDescription(description);
 			adminBookingService.saveBooking(booking);
 		}
 		return "redirect:/airline/admin/bookings";
