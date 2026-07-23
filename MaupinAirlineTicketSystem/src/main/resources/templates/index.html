@@ -147,9 +147,9 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
 
                     <div class="d-flex align-items-center gap-3 mt-4 flex-wrap">
                         <div class="dest-thumbs d-flex">
-                            <img src="https://images.pexels.com/photos/1534411/pexels-photo-1534411.jpeg?auto=compress&cs=tinysrgb&w=120" alt="Dubai" title="Dubai">
-                            <img src="https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=120" alt="London" title="London">
-                            <img src="https://i.pinimg.com/1200x/2a/0f/c5/2a0fc56c63ed836b7a4e2151179c2edf.jpg" alt="Thailand" title="Thailand">
+                            <img th:src="@{/images/uae.avif}" alt="Dubai" title="Dubai">
+                            <img th:src="@{/images/UK.jpg}" alt="London" title="London">
+                            <img th:src="@{/images/Thai.jpg}" alt="Thailand" title="Thailand">
                         </div>
 
                         <a href="#booking" class="btn-book text-decoration-none">
@@ -173,7 +173,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
 
                         <div class="carousel-inner" style="height: 450px;">
                             <div class="carousel-item active h-100" data-bs-interval="4000">
-                                <img src="https://i.pinimg.com/1200x/9b/5c/d9/9b5cd9b6019ef4555a699637d7a4eca2.jpg" class="d-block w-100 h-100" style="object-fit: cover;" alt="SkyNest Flight">
+                                <img th:src="@{/images/AirPlane.jpg}" class="d-block w-100 h-100" style="object-fit: cover;" alt="SkyNest Flight">
                                 <div class="carousel-caption d-none d-md-block text-start p-3 rounded-4 hero-slider-glass">
                                     <h6 class="fw-bold text-warning m-0"><i class="bi bi-geo-alt-fill"></i> Maubin AirFlight</h6>
                                     <p class="small text-white-50 m-0">Fly with high comfort and safe modern aviation standard.</p>
@@ -181,7 +181,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                             </div>
 
                             <div class="carousel-item h-100" data-bs-interval="4000">
-                                <img src="https://i.pinimg.com/1200x/40/0e/d2/400ed2604ca9e37b2072dbc744511e1f.jpg" class="d-block w-100 h-100" style="object-fit: cover;" alt="Thailand">
+                                <img th:src="@{/images/Thailand.jpg}" class="d-block w-100 h-100" style="object-fit: cover;" alt="Thailand">
                                 <div class="carousel-caption d-none d-md-block text-start p-3 rounded-4 hero-slider-glass">
                                     <h6 class="fw-bold text-success m-0"><i class="bi bi-geo-alt-fill"></i> Phi Phi Island, Thailand</h6>
                                     <p class="small text-white-50 m-0">Discover historic landmarks and beautiful classic streets.</p>
@@ -189,15 +189,15 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                             </div>
 
                             <div class="carousel-item h-100" data-bs-interval="4000">
-                                <img src="https://i.pinimg.com/1200x/81/92/e5/8192e5a33fd457bead006f17c02cfb2b.jpg" class="d-block w-100 h-100" style="object-fit: cover;" alt="London">
+                                <img th:src="@{/images/UK.jpg}" class="d-block w-100 h-100" style="object-fit: cover;" alt="London">
                                 <div class="carousel-caption d-none d-md-block text-start p-3 rounded-4 hero-slider-glass">
                                     <h6 class="fw-bold text-warning m-0"><i class="bi bi-geo-alt-fill"></i> London, United Kingdom</h6>
                                     <p class="small text-white-50 m-0">Discover historic landmarks and beautiful classic streets.</p>
                                 </div>
-                            </div>
+                             </div>
 
                             <div class="carousel-item h-100" data-bs-interval="4000">
-                                <img src="https://i.pinimg.com/736x/c0/9f/c2/c09fc2d7c58de95e8d5a24f5517acf5f.jpg" class="d-block w-100 h-100" style="object-fit: cover;" alt="Dubai">
+                                <img th:src="@{/images/Dubai.jpg}" class="d-block w-100 h-100" style="object-fit: cover;" alt="Dubai">
                                 <div class="carousel-caption d-none d-md-block text-start p-3 rounded-4 hero-slider-glass">
                                     <h6 class="fw-bold text-info m-0"><i class="bi bi-geo-alt-fill"></i> Tropical Paradise, Dubai</h6>
                                     <p class="small text-white-50 m-0">Unwind on crystal-clear beaches and golden sunsets.</p>
@@ -205,7 +205,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                             </div>
 
                             <div class="carousel-item h-100" data-bs-interval="4000">
-                                <img src="https://i.pinimg.com/736x/ba/f2/b9/baf2b9e5f25873aa6d0227b3a10f87bc.jpg" class="d-block w-100 h-100" style="object-fit: cover;" alt="Cambodia">
+                                <img th:src="@{/images/Cambodia.jpg}" class="d-block w-100 h-100" style="object-fit: cover;" alt="Cambodia">
                                 <div class="carousel-caption d-none d-md-block text-start p-3 rounded-4 hero-slider-glass">
                                     <h6 class="fw-bold text-info m-0"><i class="bi bi-geo-alt-fill"></i> Angkor Wat, Cambodia</h6>
                                     <p class="small text-white-50 m-0">Unwind on crystal-clear beaches and golden sunsets.</p>
@@ -213,7 +213,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                             </div>
 
                             <div class="carousel-item h-100" data-bs-interval="4000">
-                                <img src="https://i.pinimg.com/1200x/54/ed/ef/54edef55a3548d92d99095425d6795d1.jpg" class="d-block w-100 h-100" style="object-fit: cover;" alt="Myanmar">
+                                <img th:src="@{/images/Bagan.jpg}" class="d-block w-100 h-100" style="object-fit: cover;" alt="Myanmar">
                                 <div class="carousel-caption d-none d-md-block text-start p-3 rounded-4 hero-slider-glass">
                                     <h6 class="fw-bold text-warning m-0"><i class="bi bi-geo-alt-fill"></i> Bagan, Myanmar</h6>
                                     <p class="small text-white-50 m-0">Unwind on crystal-clear beaches and golden sunsets.</p>
@@ -221,7 +221,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                             </div>
 
                             <div class="carousel-item h-100" data-bs-interval="4000">
-                                <img src="https://i.pinimg.com/1200x/51/5d/8c/515d8c9924a9787186b947ce7e9361dd.jpg" class="d-block w-100 h-100" style="object-fit: cover;" alt="Japan">
+                                <img th:src="@{/images/Japan.jpg}" class="d-block w-100 h-100" style="object-fit: cover;" alt="Japan">
                                 <div class="carousel-caption d-none d-md-block text-start p-3 rounded-4 hero-slider-glass">
                                     <h6 class="fw-bold text-info m-0"><i class="bi bi-geo-alt-fill"></i> Miyazaki, Japan</h6>
                                     <p class="small text-white-50 m-0">Unwind on crystal-clear beaches and golden sunsets.</p>
@@ -484,7 +484,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                 <div class="col-md-4">
                     <div class="card deal-card border-0 h-100">
                         <div class="deal-img-wrap">
-                            <img src="https://i.pinimg.com/1200x/b5/b9/50/b5b9508f565c91e781714445beca26e4.jpg" alt="Dubai">
+                            <img th:src="@{/images/dubaiNight.jpg}" alt="Dubai">
                             <span class="deal-city">Yangon ⇌ Dubai</span>
                         </div>
                         <div class="card-body p-4">
@@ -524,7 +524,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                 <div class="col-md-4">
                     <div class="card deal-card border-0 h-100">
                         <div class="deal-img-wrap">
-                            <img src="https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=600" alt="London">
+                            <img th:src="@{/images/London.avif}" alt="London">
                             <span class="deal-city">Yangon ⇌ London</span>
                         </div>
                         <div class="card-body p-4">
@@ -564,7 +564,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                 <div class="col-md-4">
                     <div class="card deal-card border-0 h-100">
                         <div class="deal-img-wrap">
-                            <img src="https://i.pinimg.com/1200x/2a/0f/c5/2a0fc56c63ed836b7a4e2151179c2edf.jpg" alt="Thailand">
+                            <img th:src="@{/images/Thai.jpg}" alt="Thailand">
                             <span class="deal-city">Yangon ⇌ Bangkok</span>
                         </div>
                         <div class="card-body p-4">
@@ -604,7 +604,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                 <div class="col-md-4">
                     <div class="card deal-card border-0 h-100">
                         <div class="deal-img-wrap">
-                            <img src="https://i.pinimg.com/1200x/47/b5/5e/47b55ebbba5bd93897a1445c5b7bfee7.jpg" alt="Singapore">
+                            <img th:src="@{/images/Singpore.jpg}" alt="Singapore">
                             <span class="deal-city">Yangon ⇌ Singapore</span>
                         </div>
                         <div class="card-body p-4">
@@ -644,7 +644,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                 <div class="col-md-4">
                     <div class="card deal-card border-0 h-100">
                         <div class="deal-img-wrap">
-                            <img src="https://i.pinimg.com/1200x/c5/44/b5/c544b5caa3096646918eb4767101436f.jpg" alt="Shanghai">
+                            <img th:src="@{/images/China.jpg}" alt="Shanghai">
                             <span class="deal-city">Yangon ⇌ Shanghai</span>
                         </div>
                         <div class="card-body p-4">
@@ -684,7 +684,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                 <div class="col-md-4">
                     <div class="card deal-card border-0 h-100">
                         <div class="deal-img-wrap">
-                            <img src="https://i.pinimg.com/1200x/ed/98/be/ed98be3f83bbd7c7cf8f357cec9e9ff6.jpg" alt="Tokyo">
+                            <img th:src="@{/images/Tokyo.jpg}" alt="Tokyo">
                             <span class="deal-city">Yangon ⇌ Tokyo</span>
                         </div>
                         <div class="card-body p-4">
@@ -739,7 +739,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                 <div class="dest-carousel-track flex-grow-1">
                     <div class="dest-carousel-inner" id="destInner">
                         <div class="dest-card">
-                            <img src="https://images.pexels.com/photos/1285625/pexels-photo-1285625.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Santorini" loading="lazy">
+                            <img th:src="@{/images/A.avif}" alt="Santorini" loading="lazy">
                             <div class="dest-card-overlay"></div>
                             <div class="dest-card-info">
                                 <div class="dest-card-name">Santorini</div>
@@ -748,7 +748,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                         </div>
 
                         <div class="dest-card">
-                            <img src="https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Banff" loading="lazy">
+                            <img th:src="@{/images/B.avif}" alt="Banff" loading="lazy">
                             <div class="dest-card-overlay"></div>
                             <div class="dest-card-info">
                                 <div class="dest-card-name">Banff National Park</div>
@@ -757,7 +757,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                         </div>
 
                         <div class="dest-card">
-                            <img src="https://images.pexels.com/photos/1440476/pexels-photo-1440476.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Kyoto" loading="lazy">
+                            <img th:src="@{/images/C.avif}" alt="Kyoto" loading="lazy">
                             <div class="dest-card-overlay"></div>
                             <div class="dest-card-info">
                                 <div class="dest-card-name">Kyoto Temples</div>
@@ -766,7 +766,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                         </div>
 
                         <div class="dest-card">
-                            <img src="https://images.pexels.com/photos/1583339/pexels-photo-1583339.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Taj Mahal" loading="lazy">
+                            <img th:src="@{/images/D.avif}" alt="Taj Mahal" loading="lazy">
                             <div class="dest-card-overlay"></div>
                             <div class="dest-card-info">
                                 <div class="dest-card-name">Taj Mahal</div>
@@ -775,7 +775,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                         </div>
 
                         <div class="dest-card">
-                            <img src="https://images.pexels.com/photos/2868242/pexels-photo-2868242.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Rio De Janeiro" loading="lazy">
+                            <img th:src="@{/images/E.avif}" alt="Rio De Janeiro" loading="lazy">
                             <div class="dest-card-overlay"></div>
                             <div class="dest-card-info">
                                 <div class="dest-card-name">Rio De Janeiro</div>
@@ -784,7 +784,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                         </div>
 
                         <div class="dest-card">
-                            <img src="https://i.pinimg.com/1200x/5c/41/9a/5c419a116cfa5021e8e3ef50bc2f2ecc.jpg" alt="Amalfi Coast" loading="lazy">
+                            <img th:src="@{/images/F.jpg}" alt="Amalfi Coast" loading="lazy">
                             <div class="dest-card-overlay"></div>
                             <div class="dest-card-info">
                                 <div class="dest-card-name">Amalfi Coast</div>
