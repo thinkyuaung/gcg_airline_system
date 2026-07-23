@@ -64,9 +64,8 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
 </head>
 <body>
    
-   
- <!-- STICKY HEADER CONTAINER WRAPPER -->
-<header class="sticky-top p-0 border-0 shadow-sm" style="z-index: 1040;">
+  <!-- 🌐 UNIFIED STICKY HEADER -->
+<header class="sticky-top p-0 border-0 shadow-sm">
     
     <!-- TOP PROMOTION BANNER -->
     <div class="alert alert-warning alert-dismissible fade show m-0 text-center rounded-0 border-0 py-2 top-promo-banner" role="alert">
@@ -75,60 +74,82 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                 <i class="bi bi-fire me-1"></i>PROMOTION
             </span>
             <span class="small fw-semibold text-dark">
-                Special Offer! Auguest Promotion Get 30% OFF on your first flight booking. Use Code: <strong>MAUBIN30</strong>
+                Special Offer! August Promotion Get 30% OFF on your first flight booking. Use Code: <strong>MAUBIN30</strong>
             </span>
         </div>
-        <!-- Close (Cross) Button -->
         <button type="button" class="btn-close py-2" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
-
-</header>
-
-
-    <!-- NAVBAR -->
-    <nav id="mainNav" class="navbar navbar-expand-lg fixed-top">
+    <!-- MAIN NAVBAR -->
+    <nav id="mainNav" class="navbar navbar-expand-lg bg-white border-bottom py-2">
         <div class="container">
-            <!-- Brand -->
-            <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+            
+            <!-- BRAND LOGO -->
+            <a class="navbar-brand d-flex align-items-center gap-2" th:href="@{/airline/index}">
                 <div class="brand-icon">
-                    <i class="bi bi-airplane-fill"></i>
-                </div> Maubin International AirLine
+                    <img th:src="@{/images/Maubin AirLine.png}" alt="Maubin AirLine Logo" class="brand-logo-img">
+                </div> 
+                <span class="fw-bold text-dark fs-5">Maubin International AirLine</span>
             </a>
 
-            <!-- Toggler -->
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <!-- MOBILE TOGGLER -->
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <!-- Links -->
+             <!-- NAV LINKS & BUTTONS -->
             <div class="collapse navbar-collapse" id="navMenu">   
-                <ul class="navbar-nav mx-auto gap-lg-4 gap-2 mt-3 mt-lg-0">
-                    <li class="nav-item"><a class="nav-link active" th:href="@{/airline/}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/airline/flights}">Flights</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/airline/about}">About</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/airline/support}">Support</a></li>
-                </ul>  
+                <!-- NAV LINKS WITH DYNAMIC THYMELEAF ACTIVE STATE -->
+<ul class="navbar-nav mx-auto gap-lg-4 gap-2 mt-3 mt-lg-0 fw-semibold">
+    <li class="nav-item">
+        <a class="nav-link" 
+           th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI == '/airline/'} ? 'active' : ''" 
+           th:href="@{/airline/}">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" 
+           th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI.startsWith('/airline/flights')} ? 'active' : ''" 
+           th:href="@{/airline/flights}">Flights</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" 
+           th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI.startsWith('/airline/about')} ? 'active' : ''" 
+           th:href="@{/airline/about}">About</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" 
+           th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI.startsWith('/airline/support')} ? 'active' : ''" 
+           th:href="@{/airline/support}">Support</a>
+    </li>
+</ul>
+<!-- Right Controls Container with spacing gap -->
+<div class="d-flex align-items-center gap-2 mt-3 mt-lg-0 ms-lg-auto">
+    
+    <!-- Clean Search Bar Container -->
+    <div class="search-box-wrapper d-none d-md-block">
+        <i class="bi bi-search search-icon"></i>
+        <input 
+            type="text" 
+            class="form-control search-input" 
+            placeholder="Search..." 
+            aria-label="Search"
+        />
+    </div>
 
-                <!-- Right -->
-                <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
-                    <div class="nav-search d-none d-md-flex me-1">
-                        <i class="bi bi-search text-secondary"></i>
-                        <input type="text" placeholder="Search..." />
-                    </div>
+    <!-- Login Button -->
+    <a th:href="@{/airline/login}" class="btn btn-outline-primary px-3 fw-bold rounded-pill ms-2">
+        <i class="bi bi-person me-1"></i> Login
+    </a>
+    
+    <!-- Sign Up Button -->
+    <a th:href="@{/airline/signup}" class="btn btn-primary px-3 fw-bold rounded-pill">
+        <i class="bi bi-person-plus-fill me-1"></i> Sign Up
+    </a>
 
-                    <!-- Login -->
-                    <a th:href="@{/airline/login}" class="btn btn-outline-primary px-3 fw-bold rounded-pill">
-                        <i class="bi bi-person"></i> Login
-                    </a>
-                    <!-- Sign up -->
-                    <a th:href="@{/airline/signup}" class="btn-signup px-3 text-decoration-none">
-                        <i class="bi bi-person-plus-fill"></i> Sign Up
-                    </a>
-                </div>
-            </div>
-        </div>
+</div>
     </nav>
+
+</header>
 
     <!-- HERO SECTION -->
     <section id="hero" data-aos="fade-right" class="position-relative overflow-hidden py-5">
@@ -337,23 +358,23 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
         </div>
     </section>
 
-<!-- 2️⃣ PROMOTION SECTION (AUGUST PROMOTIONS TEST) -->
+<!-- <!-- 2️⃣ PROMOTION SECTION (AUGUST PROMOTIONS TEST)
 <section class="custom-slider-section py-4" data-aos="fade-left">
     <div class="container position-relative px-4 px-md-5">
 
-        <!-- Section Title & Header -->
+        Section Title & Header
         <div class="text-center mb-3">
             <span class="badge bg-primary-subtle text-primary fw-bold px-3 py-1 rounded-pill mb-1">Limited Time Deals</span>
             <h3 class="section-title fw-bold m-0">August Special Promotions</h3>
         </div>
 
-        <!-- Continuous Slider Outer Box -->
+        Continuous Slider Outer Box
         <div class="small-promo-slider-container">
             <div class="small-promo-track">
              
-                <!-- ===== SET 1: AUGUST PROMOTIONS ===== -->
+                ===== SET 1: AUGUST PROMOTIONS =====
 
-                <!-- Box 1: August Flash Sale -->
+                Box 1: August Flash Sale
                 <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #ff0844, #ffb199); min-width: 220px; flex-shrink: 0;">
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">AUG FLASH</span>
@@ -362,7 +383,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                     <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">40% OFF</h4>
                 </div>
 
-                <!-- Box 2: August Monsoon Saver -->
+                Box 2: August Monsoon Saver
                 <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #0d6efd, #0dcaf0); min-width: 220px; flex-shrink: 0;">
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">MONSOON</span>
@@ -371,7 +392,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                     <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">$80 SAVINGS</h4>
                 </div>
 
-                <!-- Box 3: Late Summer Getaway -->
+                Box 3: Late Summer Getaway
                 <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #ff7e5f, #feb47b); min-width: 220px; flex-shrink: 0;">
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">SUMMER END</span>
@@ -380,7 +401,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                     <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">25% FARE CUT</h4>
                 </div>
 
-                <!-- Box 4: August Weekend Special -->
+                Box 4: August Weekend Special
                 <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #6a11cb, #2575fc); min-width: 220px; flex-shrink: 0;">
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">AUG WEEKEND</span>
@@ -389,7 +410,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                     <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">2X MILES</h4>
                 </div>
 
-                <!-- Box 5: Back to School Flight Deal -->
+                Box 5: Back to School Flight Deal
                 <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #11998e, #38ef7d); min-width: 220px; flex-shrink: 0;">
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">STUDENT</span>
@@ -398,7 +419,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                     <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">15% EXTRA</h4>
                 </div>
 
-                <!-- Box 6: End of Month Mega Deal -->
+                Box 6: End of Month Mega Deal
                 <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #232526, #414345); min-width: 220px; flex-shrink: 0;">
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="badge bg-warning text-dark fw-bold" style="font-size: 0.65rem;">AUG FINAL</span>
@@ -408,9 +429,9 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                 </div>
 
 
-                <!-- ===== SET 2: DUPLICATED FOR INFINITE ANIMATION ===== -->
+                ===== SET 2: DUPLICATED FOR INFINITE ANIMATION =====
 
-                <!-- Box 1 Duplicate -->
+                Box 1 Duplicate
                 <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #ff0844, #ffb199); min-width: 220px; flex-shrink: 0;">
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">AUG FLASH</span>
@@ -419,7 +440,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                     <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">40% OFF</h4>
                 </div>
 
-                <!-- Box 2 Duplicate -->
+                Box 2 Duplicate
                 <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #0d6efd, #0dcaf0); min-width: 220px; flex-shrink: 0;">
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">MONSOON</span>
@@ -428,7 +449,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                     <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">$80 SAVINGS</h4>
                 </div>
 
-                <!-- Box 3 Duplicate -->
+                Box 3 Duplicate
                 <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #ff7e5f, #feb47b); min-width: 220px; flex-shrink: 0;">
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">SUMMER END</span>
@@ -437,7 +458,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                     <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">25% FARE CUT</h4>
                 </div>
 
-                <!-- <!-- Box 4 Duplicate -->
+                Box 4 Duplicate
                 <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #6a11cb, #2575fc); min-width: 220px; flex-shrink: 0;">
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">AUG WEEKEND</span>
@@ -446,7 +467,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                     <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">2X MILES</h4>
                 </div>
 
-               <!--  Box 5 Duplicate -->
+                Box 5 Duplicate
                 <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #11998e, #38ef7d); min-width: 220px; flex-shrink: 0;">
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">STUDENT</span>
@@ -455,7 +476,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                     <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">15% EXTRA</h4>
                 </div>
 
-               <!--  Box 6 Duplicate -->
+                Box 6 Duplicate
                 <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #232526, #414345); min-width: 220px; flex-shrink: 0;">
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="badge bg-warning text-dark fw-bold" style="font-size: 0.65rem;">AUG FINAL</span>
@@ -468,7 +489,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
         </div>
 
     </div>
-</section>
+</section> -->
 
     <!-- EXCLUSIVE DEALS -->
     <section id="deals" class="section-padding" data-aos="fade-up">
@@ -812,8 +833,8 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
             </div>
 
             <div class="row align-items-center gy-5">
-                <div class="col-lg-6">
-                    <p class="about-body">At SkyNest Travels, we believe travel isn't just about visiting places — it's about creating unforgettable experiences. From sun-kissed beaches to iconic landmarks, we design seamless journeys tailored to your dreams.</p>
+                <div class="col-lg-6">    
+                    <p class="about-body">At Maubin AirLine, we believe travel isn't just about visiting places — it's about creating unforgettable experiences. From sun-kissed beaches to iconic landmarks, we design seamless journeys tailored to your dreams.</p>
                     <p class="about-body">With decades of expertise and an unwavering commitment to luxury, our mission is to make travel planning effortless and exciting. Whether it's an adventurous expedition, a romantic getaway, or a spiritual escape, we're here to fly you away with style and simplicity.</p>
                     <p class="about-body mb-4">Let us take you places you've always dreamed of — the world is waiting.</p>
 
@@ -855,7 +876,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
     <section id="testimonials">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="section-title">SkyNest Clients</h2>
+                <h2 class="section-title">AirLine Clients</h2>
                 <div class="divider"></div>
                 <p class="section-sub mt-3">What our travelers say about us</p>
             </div>
@@ -1077,6 +1098,25 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
             buildDots();
             render();
         })();
+        
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get current URL path
+            const currentPath = window.location.pathname;
+            
+            // Target all navigation links
+            const navLinks = document.querySelectorAll('#navMenu .nav-link');
+
+            navLinks.forEach(link => {
+                // Remove hardcoded active classes
+                link.classList.remove('active');
+
+                // Compare link href attribute with current pathname
+                const linkHref = link.getAttribute('href');
+                if (linkHref && currentPath === linkHref) {
+                    link.classList.add('active');
+                }
+            });
+        });
     </script>
 </body>
 </html>

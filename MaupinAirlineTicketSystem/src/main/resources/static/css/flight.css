@@ -1,0 +1,76 @@
+/* =========================================================
+   HOMEPAGE & HERO SECTION STYLES
+   ========================================================= */
+
+/* Hero Banner with Sky Background */
+.hero-banner {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 50%, #075985 100%);
+    color: #ffffff;
+    padding: 4rem 1rem 6rem 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-banner::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.15) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+/* Glassmorphism Flight Search Widget */
+.search-card-glass {
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(2, 132, 199, 0.2);
+    margin-top: -3rem;
+    position: relative;
+    z-index: 10;
+}
+
+/* Enhanced Flight Card Item */
+.flight-card {
+    border: 1px solid rgba(186, 230, 253, 0.6) !important;
+    border-radius: 16px !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: #ffffff;
+}
+
+.flight-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(2, 132, 199, 0.15) !important;
+}
+
+/* Destination Cards */
+.destination-card {
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    border: none;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+}
+
+.destination-card:hover {
+    transform: scale(1.03);
+}
+
+.destination-card img {
+    height: 220px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.destination-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.25rem;
+    background: linear-gradient(to top, rgba(15, 23, 42, 0.85), transparent);
+    color: #ffffff;
+}

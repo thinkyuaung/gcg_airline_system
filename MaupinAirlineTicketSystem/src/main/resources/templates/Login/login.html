@@ -1,56 +1,82 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Airline Ticket Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Maubin International AirLine</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/style.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
-<body class="d-flex flex-column min-vh-100 bg-light">
+<body>
 
-    <!-- Header Fragment -->
-    <div th:replace="~{fragments/header :: header}"></div>
+    <!-- Shared Sticky Navbar Fragment -->
+    <nav th:replace="~{Fragments/header :: navbar}"></nav>
 
-    <!-- Main Wrapper with Padding for Fixed Navbar & Flex Grow for Sticky Footer -->
-    <main class="flex-grow-1 d-flex align-items-center justify-content-center py-5 mt-5">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-5">
-                    <div class="card shadow-lg rounded-4 p-4 border-0">
-                        <h2 class="text-center mb-4 fw-bold">Login</h2>
+    <!-- Cloud Sky Background Outer Wrapper -->
+    <div class="auth-wrapper">
+        
+        <!-- Centered Glassmorphism Form Card -->
+        <div class="auth-glass-card">
+            
+          <!-- Brand Header with Official Logo -->
+<div class="text-center mb-4">
+    <div class="d-inline-flex align-items-center justify-content-center bg-white shadow-sm rounded-circle mb-3 overflow-hidden p-2" 
+         style="width: 72px; height: 72px; border: 1px solid rgba(186, 230, 253, 0.8);">
+        <img th:src="@{/images/Maubin AirLine.png}" alt="Maubin AirLine Logo" class="img-fluid" style="max-height: 100%; object-fit: contain;">
+    </div>
+    <h3 class="fw-bold text-dark m-0">Welcome Back</h3>
+    <p class="text-secondary small mt-1">Fly high with Maubin International AirLine</p>
+</div>
 
-                        <!-- Login Error -->
-                        <div th:if="${param.error}" class="alert alert-danger text-center">
-                            Invalid Email or Password
-                        </div>
-
-                        <div th:if="${param.logout}" class="alert alert-success text-center">
-                            You have been logged out.
-                        </div>
-
-                        <!-- Spring Security Login Form -->
-                        <form th:action="@{/airline/login}" method="post">
-                            <div class="mb-3">
-                                <label class="form-label fw-semibold">Email Address</label>
-                                <input type="email" class="form-control" name="username" placeholder="name@example.com" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label fw-semibold">Password</label>
-                                <input type="password" class="form-control" name="password" placeholder="Password" required>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold mt-2">Sign In</button>
-                        </form>
+            <!-- Login Form (Backend binding preserved) -->
+            <form th:action="@{/airline/login}" method="post">
+                
+                <!-- Email Input -->
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold text-secondary ms-2">Email Address</label>
+                    <div class="glass-input-group">
+                        <i class="bi bi-envelope input-icon"></i>
+                        <input type="email" name="username" class="form-control" placeholder="name@example.com" required>
                     </div>
                 </div>
-            </div>
+
+                <!-- Password Input -->
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-1 ms-2">
+                        <label class="form-label small fw-semibold text-secondary m-0">Password</label>
+                        <a href="#" class="small text-decoration-none text-primary fw-medium">Forgot?</a>
+                    </div>
+                    <div class="glass-input-group">
+                        <i class="bi bi-lock input-icon"></i>
+                        <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                    </div>
+                </div>
+
+                <!-- Remember Me Checkbox -->
+                <div class="form-check mb-4 ms-2">
+                    <input class="form-check-input" type="checkbox" id="rememberMe">
+                    <label class="form-check-label small text-secondary" for="rememberMe">Remember me</label>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-glass-submit w-100 mb-3">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                </button>
+
+                <!-- Footer Link -->
+                <div class="text-center">
+                    <span class="small text-secondary">Don't have an account? </span>
+                    <a th:href="@{/airline/signup}" class="small fw-bold text-primary text-decoration-none ms-1">Sign Up</a>
+                </div>
+            </form>
+
         </div>
-    </main>
-
-    <!-- Footer Fragment -->
-    <div th:replace="~{fragments/footer :: footer}"></div>
-
+    </div>
+         <div th:replace="~{fragments/footer :: footer}"></div>
+     
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

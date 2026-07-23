@@ -1,4 +1,6 @@
-/* ✈️ MODERN SUPPORT PAGE STYLING */
+/* =========================================================
+   MAUBIN AIRLINE - MODERN SUPPORT CENTER STYLING
+   ========================================================= */
 
 /* Hero Banner Style */
 .support-hero-banner {
@@ -68,20 +70,9 @@
 }
 
 /* Icon Variations */
-.icon-box-call {
-    background: rgba(14, 165, 233, 0.1);
-    color: #0ea5e9;
-}
-
-.icon-box-email {
-    background: rgba(16, 185, 129, 0.1);
-    color: #10b981;
-}
-
-.icon-box-chat {
-    background: rgba(245, 158, 11, 0.1);
-    color: #f59e0b;
-}
+.icon-box-call { background: rgba(14, 165, 233, 0.1); color: #0ea5e9; }
+.icon-box-email { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+.icon-box-chat { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
 
 /* Rounded Action Buttons */
 .btn-support-action {
@@ -90,4 +81,38 @@
     font-weight: 600;
     font-size: 0.875rem;
     transition: all 0.3s ease;
+}
+
+/* FAQ Accordion Styling */
+.support-accordion .accordion-item {
+    border: 1px solid #e2e8f0;
+    border-radius: 16px !important;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.support-accordion .accordion-button {
+    font-weight: 600;
+    color: #0f172a;
+    padding: 1.2rem 1.5rem;
+}
+
+.support-accordion .accordion-button:not(.collapsed) {
+    background-color: #f0f9ff;
+    color: #0284c7;
+    box-shadow: none;
+}
+
+/* Contact Form Card */
+.support-form-card {
+    background: #ffffff;
+    border-radius: 24px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+/* Office / Airport Counter Icon Style */
+.icon-box-office {
+    background: rgba(99, 102, 241, 0.1);
+    color: #6366f1;
 }
