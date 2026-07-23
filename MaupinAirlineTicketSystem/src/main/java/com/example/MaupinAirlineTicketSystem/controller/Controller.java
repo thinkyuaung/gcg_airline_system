@@ -55,7 +55,7 @@ public class Controller {
 	    /////////////////////////
 	    
 	    model.addAttribute(
-		        "seatClasses",
+		        "seatClasses",seatClassRepository.findAll()
 		    );
 
 	    return "index";
