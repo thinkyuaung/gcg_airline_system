@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.MaupinAirlineTicketSystem.repository.AirportRepository;
 import com.example.MaupinAirlineTicketSystem.entity.User;
 import com.example.MaupinAirlineTicketSystem.repository.UserRepository;
+import com.example.MaupinAirlineTicketSystem.service.ReviewService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -30,6 +31,9 @@ public class Controller {
 	 @Autowired
 	    private AirportRepository airportRepository;
 	 
+	 @Autowired
+	 private ReviewService reviewService;
+	 
 	////////////// Home //////////////
 
 	
@@ -41,7 +45,14 @@ public class Controller {
 	        "airports",
 	        airportRepository.findAll()
 	    );
-
+	    
+	    /////////review/////////
+	    model.addAttribute(
+				"reviews",
+				reviewService.getReviews()
+				);
+	    /////////////////////////
+	    
 	    return "index";
 	}
 	  
@@ -334,5 +345,7 @@ public class Controller {
 
 		return "redirect:/airline/login";
 	}
+	
+
 
 }

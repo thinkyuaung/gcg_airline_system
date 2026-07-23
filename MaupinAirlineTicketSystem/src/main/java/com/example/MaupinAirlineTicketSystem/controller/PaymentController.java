@@ -37,7 +37,7 @@ public class PaymentController {
 	            "payment",
 	            payment
 	    );
-
+	    
 	    return "userview/payment";
 
 
@@ -51,14 +51,20 @@ public class PaymentController {
 	        @RequestParam MultipartFile screenshot,
 	        Model model){
 
-		Payment payment =
-		        paymentService.uploadScreenshot(paymentId, screenshot);
+	    Payment payment =
+	            paymentService.uploadScreenshot(paymentId, screenshot);
 
-		
-		model.addAttribute(
-		        "payment",
-		        payment
-		    );
+
+	    model.addAttribute(
+	            "payment",
+	            payment
+	    );
+
+
+	    model.addAttribute(
+	            "booking",
+	            payment.getBooking()
+	    );
 
 
 	    return "userview/paymentSuccess";
