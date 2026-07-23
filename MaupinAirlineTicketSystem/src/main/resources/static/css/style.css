@@ -1098,3 +1098,76 @@ body {
     color: #ffffff !important;
     border-color: var(--sky, #0ea5e9);
 }
+
+/* ==================================================
+ * 1. Continuous Slider Container
+ * ================================================== */
+.small-promo-slider-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 0.5rem 0;
+}
+
+/* Left and Right Fading Effect (Edge Masking) */
+.small-promo-slider-container::before,
+.small-promo-slider-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 60px;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.small-promo-slider-container::before {
+    left: 0;
+    background: linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.small-promo-slider-container::after {
+    right: 0;
+    background: linear-gradient(to left, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+/* ==================================================
+ * 2. Sliding Track & Continuous Animation
+ * ================================================== */
+.small-promo-track {
+    display: flex;
+    gap: 16px; /* Header Box တစ်ခုနှင့် တစ်ခုကြား အကွာအဝေး */
+    width: max-content;
+    animation: scrollHeaderBoxes 20s linear infinite; /* 20s သည် အမြန်နှုန်းဖြစ်သည် */
+}
+
+/* Pause Scrolling on Mouse Hover */
+.small-promo-track:hover {
+    animation-play-state: paused;
+}
+
+/* ==================================================
+ * 3. Header Box Styling & Hover Transition
+ * ================================================== */
+.small-card-header {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    cursor: pointer;
+}
+
+.small-card-header:hover {
+    transform: translateY(-4px) scale(1.02); /* Hover လုပ်ပါက အနည်းငယ် ကြွလာမည် */
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* ==================================================
+ * 4. Infinite Scroll Animation Keyframes
+ * ================================================== */
+@keyframes scrollHeaderBoxes {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(calc(-50% - 8px)); 
+    }
+}
+

@@ -37,9 +37,32 @@
             transition-property: opacity;
             transition-duration: 0.5s !important;
         }
+        /* Top Promotion Banner Custom Styling */
+.top-promo-banner {
+    background: linear-gradient(90deg, #ffed4a 0%, #ffc107 100%);
+    z-index: 1050; /* Navbar ထက် မနိမ့်စေရန် */
+}
+
+.top-promo-banner .btn-close {
+    font-size: 0.8rem;
+}
     </style>
 </head>
 <body>
+   
+   
+   <!-- TOP PROMOTION BANNER -->
+<div class="alert alert-warning alert-dismissible fade show m-0 text-center rounded-0 border-0 py-2 top-promo-banner" role="alert">
+    <div class="container d-flex align-items-center justify-content-center gap-2">
+        <span class="badge bg-danger text-white fw-bold px-2 py-1"><i class="bi bi-fire me-1"></i>PROMO</span>
+        <span class="small fw-semibold text-dark">
+            Special Offer! Get 30% OFF on your first flight booking. Use Code: <strong>MAUBIN30</strong>
+        </span>
+        <a href="#heroPromoCarousel" class="btn btn-dark btn-sm rounded-pill px-3 py-0 fs-7 ms-2">Claim Now</a>
+    </div>
+    <!-- Close (Cross) Button -->
+    <button type="button" class="btn-close py-2" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
 
     <!-- NAVBAR -->
     <nav id="mainNav" class="navbar navbar-expand-lg fixed-top">
@@ -292,179 +315,136 @@
         </div>
     </section>
 
-   <!-- 2️⃣ PROMOTION SECTION (MOVED DOWN BELOW SEARCH FLIGHTS) -->
-<section class="custom-slider-section">
+<!-- 2️⃣ PROMOTION SECTION (AUGUST PROMOTIONS TEST) -->
+<section class="custom-slider-section py-4">
     <div class="container position-relative px-4 px-md-5">
 
         <!-- Section Title & Header -->
-        <div class="text-center mb-4">
-            <span class="badge bg-primary-subtle text-primary fw-bold px-3 py-2 rounded-pill mb-2">Special Offers</span>
-            <h2 class="section-title">Promotions & Exclusive Deals</h2>
-            <p class="section-subtitle">Discover our latest discounts and save more on your next flight.</p>
+        <div class="text-center mb-3">
+            <span class="badge bg-primary-subtle text-primary fw-bold px-3 py-1 rounded-pill mb-1">Limited Time Deals</span>
+            <h3 class="section-title fw-bold m-0">August Special Promotions</h3>
         </div>
 
-        <!-- Carousel Container -->
-        <div id="exactPromoCarousel" class="carousel slide" data-bs-ride="carousel">
-            
-            <!-- Slides Outer Container -->
-            <div class="carousel-inner">
-                
-                <!-- Slide 1 -->
-                <div class="carousel-item active">
-                    <div class="row g-4">
-                        <!-- Promo Card 1 -->
-                        <div class="col-lg-4 col-md-6">
-                            <div class="exact-promo-card">
-                                <div>
-                                    <div class="card-img-wrapper">
-                                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500" class="exact-card-img" alt="Summer Beach Getaway">
-                                        <span class="floating-badge badge-red">SAVE 30%</span>
-                                    </div>
-                                    <h5 class="exact-card-title">Summer Beach Getaway</h5>
-                                    <p class="exact-card-text">Book flight tickets to tropical destinations and enjoy special discounts on round trips.</p>
-                                </div>
-                                <div class="card-footer-action">
-                                    <div class="exact-promo-code">
-                                        <i class="bi bi-ticket-perforated me-1"></i>Code: <strong>SUMMER30</strong>
-                                    </div>
-                                    <a href="#" class="exact-action-btn"><i class="bi bi-arrow-up-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
+        <!-- Continuous Slider Outer Box -->
+        <div class="small-promo-slider-container">
+            <div class="small-promo-track">
+             
+                <!-- ===== SET 1: AUGUST PROMOTIONS ===== -->
 
-                        <!-- Promo Card 2 -->
-                        <div class="col-lg-4 col-md-6">
-                            <div class="exact-promo-card">
-                                <div>
-                                    <div class="card-img-wrapper">
-                                        <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=500" class="exact-card-img" alt="Early Bird Europe Flights">
-                                        <span class="floating-badge badge-orange">HOT DEAL</span>
-                                    </div>
-                                    <h5 class="exact-card-title">Early Bird Europe Flights</h5>
-                                    <p class="exact-card-text">Plan ahead and fly to European cities with zero booking convenience fees this month.</p>
-                                </div>
-                                <div class="card-footer-action">
-                                    <div class="exact-promo-code">
-                                        <i class="bi bi-ticket-perforated me-1"></i>Code: <strong>FLYEUROPE</strong>
-                                    </div>
-                                    <a href="#" class="exact-action-btn"><i class="bi bi-arrow-up-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Promo Card 3 -->
-                        <div class="col-lg-4 col-md-6">
-                            <div class="exact-promo-card">
-                                <div>
-                                    <div class="card-img-wrapper">
-                                        <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=500" class="exact-card-img" alt="Double Loyalty Points">
-                                        <span class="floating-badge badge-yellow">MEMBER ONLY</span>
-                                    </div>
-                                    <h5 class="exact-card-title">Double Loyalty Points</h5>
-                                    <p class="exact-card-text">Earn 2x reward miles on all domestic flights booked before the end of this week.</p>
-                                </div>
-                                <div class="card-footer-action">
-                                    <div class="exact-promo-code">
-                                        <i class="bi bi-ticket-perforated me-1"></i>Code: <strong>2XPOINTS</strong>
-                                    </div>
-                                    <a href="#" class="exact-action-btn"><i class="bi bi-arrow-up-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
+                <!-- Box 1: August Flash Sale -->
+                <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #ff0844, #ffb199); min-width: 220px; flex-shrink: 0;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">AUG FLASH</span>
+                        <small style="font-size: 0.65rem;"><i class="bi bi-clock me-1"></i>15 Aug</small>
                     </div>
+                    <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">40% OFF</h4>
                 </div>
 
-                <!-- Slide 2 -->
-                <div class="carousel-item">
-                    <div class="row g-4">
-                        <!-- Promo Card 4 -->
-                        <div class="col-lg-4 col-md-6">
-                            <div class="exact-promo-card">
-                                <div>
-                                    <div class="card-img-wrapper">
-                                        <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?w=500" class="exact-card-img" alt="Weekend Express">
-                                        <span class="floating-badge badge-blue">SPECIAL</span>
-                                    </div>
-                                    <h5 class="exact-card-title">Weekend Express Getaway</h5>
-                                    <p class="exact-card-text">Get instant discounts on weekend regional flight bookings with family and friends.</p>
-                                </div>
-                                <div class="card-footer-action">
-                                    <span class="exact-promo-code">
-                                        <i class="bi bi-ticket-perforated me-1"></i>WEEKEND10
-                                    </span>
-                                    <a href="#" class="exact-action-btn" aria-label="Claim Promo">
-                                        <i class="bi bi-arrow-up-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Promo Card 5 -->
-                        <div class="col-lg-4 col-md-6">
-                            <div class="exact-promo-card">
-                                <div>
-                                    <div class="card-img-wrapper">
-                                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500" class="exact-card-img" alt="Island Escape">
-                                        <span class="floating-badge badge-red">SAVE 25%</span>
-                                    </div>
-                                    <h5 class="exact-card-title">Tropical Island Escape</h5>
-                                    <p class="exact-card-text">Enjoy exclusive rates on flights to top tropical island destinations this summer.</p>
-                                </div>
-                                <div class="card-footer-action">
-                                    <span class="exact-promo-code">
-                                        <i class="bi bi-ticket-perforated me-1"></i>ISLAND25
-                                    </span>
-                                    <a href="#" class="exact-action-btn" aria-label="Claim Promo">
-                                        <i class="bi bi-arrow-up-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Promo Card 6 -->
-                        <div class="col-lg-4 col-md-6">
-                            <div class="exact-promo-card">
-                                <div>
-                                    <div class="card-img-wrapper">
-                                        <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=500" class="exact-card-img" alt="Business Flight">
-                                        <span class="floating-badge badge-orange">HOT DEAL</span>
-                                    </div>
-                                    <h5 class="exact-card-title">Business Class Upgrade</h5>
-                                    <p class="exact-card-text">Upgrade your flight to business class at half the price on selected routes.</p>
-                                </div>
-                                <div class="card-footer-action">
-                                    <span class="exact-promo-code">
-                                        <i class="bi bi-ticket-perforated me-1"></i>BIZCLASS
-                                    </span>
-                                    <a href="#" class="exact-action-btn" aria-label="Claim Promo">
-                                        <i class="bi bi-arrow-up-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                <!-- Box 2: August Monsoon Saver -->
+                <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #0d6efd, #0dcaf0); min-width: 220px; flex-shrink: 0;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">MONSOON</span>
+                        <small style="font-size: 0.65rem;"><i class="bi bi-clock me-1"></i>20 Aug</small>
                     </div>
+                    <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">$80 SAVINGS</h4>
                 </div>
 
-            </div> <!-- Properly Closed carousel-inner -->
+                <!-- Box 3: Late Summer Getaway -->
+                <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #ff7e5f, #feb47b); min-width: 220px; flex-shrink: 0;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">SUMMER END</span>
+                        <small style="font-size: 0.65rem;"><i class="bi bi-clock me-1"></i>31 Aug</small>
+                    </div>
+                    <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">25% FARE CUT</h4>
+                </div>
 
-            <!-- Navigation Controls (Updated target ID to match #exactPromoCarousel) -->
-            <button class="carousel-control-prev custom-carousel-btn" type="button" data-bs-target="#exactPromoCarousel" data-bs-slide="prev">
-                <i class="bi bi-chevron-left"></i>
-                <span class="visually-hidden">Previous</span>
-            </button>
+                <!-- Box 4: August Weekend Special -->
+                <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #6a11cb, #2575fc); min-width: 220px; flex-shrink: 0;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">AUG WEEKEND</span>
+                        <small style="font-size: 0.65rem;"><i class="bi bi-clock me-1"></i>Fri-Sun</small>
+                    </div>
+                    <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">2X MILES</h4>
+                </div>
 
-            <button class="carousel-control-next custom-carousel-btn" type="button" data-bs-target="#exactPromoCarousel" data-bs-slide="next">
-                <i class="bi bi-chevron-right"></i>
-                <span class="visually-hidden">Next</span>
-            </button>
+                <!-- Box 5: Back to School Flight Deal -->
+                <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #11998e, #38ef7d); min-width: 220px; flex-shrink: 0;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">STUDENT</span>
+                        <small style="font-size: 0.65rem;"><i class="bi bi-clock me-1"></i>28 Aug</small>
+                    </div>
+                    <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">15% EXTRA</h4>
+                </div>
 
-            <!-- Pagination Indicators -->
-            <div class="carousel-indicators custom-carousel-indicators">
-                <button type="button" data-bs-target="#exactPromoCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#exactPromoCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <!-- Box 6: End of Month Mega Deal -->
+                <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #232526, #414345); min-width: 220px; flex-shrink: 0;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-warning text-dark fw-bold" style="font-size: 0.65rem;">AUG FINAL</span>
+                        <small style="font-size: 0.65rem;"><i class="bi bi-clock me-1"></i>31 Aug</small>
+                    </div>
+                    <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">0% FEE</h4>
+                </div>
+
+
+                <!-- ===== SET 2: DUPLICATED FOR INFINITE ANIMATION ===== -->
+
+                <!-- Box 1 Duplicate -->
+                <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #ff0844, #ffb199); min-width: 220px; flex-shrink: 0;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">AUG FLASH</span>
+                        <small style="font-size: 0.65rem;"><i class="bi bi-clock me-1"></i>15 Aug</small>
+                    </div>
+                    <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">40% OFF</h4>
+                </div>
+
+                <!-- Box 2 Duplicate -->
+                <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #0d6efd, #0dcaf0); min-width: 220px; flex-shrink: 0;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">MONSOON</span>
+                        <small style="font-size: 0.65rem;"><i class="bi bi-clock me-1"></i>20 Aug</small>
+                    </div>
+                    <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">$80 SAVINGS</h4>
+                </div>
+
+                <!-- Box 3 Duplicate -->
+                <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #ff7e5f, #feb47b); min-width: 220px; flex-shrink: 0;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">SUMMER END</span>
+                        <small style="font-size: 0.65rem;"><i class="bi bi-clock me-1"></i>31 Aug</small>
+                    </div>
+                    <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">25% FARE CUT</h4>
+                </div>
+
+                <!-- Box 4 Duplicate -->
+                <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #6a11cb, #2575fc); min-width: 220px; flex-shrink: 0;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">AUG WEEKEND</span>
+                        <small style="font-size: 0.65rem;"><i class="bi bi-clock me-1"></i>Fri-Sun</small>
+                    </div>
+                    <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">2X MILES</h4>
+                </div>
+
+                <!-- Box 5 Duplicate -->
+                <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #11998e, #38ef7d); min-width: 220px; flex-shrink: 0;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">STUDENT</span>
+                        <small style="font-size: 0.65rem;"><i class="bi bi-clock me-1"></i>28 Aug</small>
+                    </div>
+                    <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">15% EXTRA</h4>
+                </div>
+
+                <!-- Box 6 Duplicate -->
+                <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #232526, #414345); min-width: 220px; flex-shrink: 0;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-warning text-dark fw-bold" style="font-size: 0.65rem;">AUG FINAL</span>
+                        <small style="font-size: 0.65rem;"><i class="bi bi-clock me-1"></i>31 Aug</small>
+                    </div>
+                    <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">0% FEE</h4>
+                </div>
+
             </div>
-
         </div>
+
     </div>
 </section>
 
