@@ -59,7 +59,7 @@ public class Controller {
  
 		model.addAttribute("user", new User());
  
-		return "Login/loginPage";
+		return "Login/login";
 	}
  
 	////////////// Signup //////////////

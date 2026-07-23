@@ -37,32 +37,54 @@
             transition-property: opacity;
             transition-duration: 0.5s !important;
         }
-        /* Top Promotion Banner Custom Styling */
+/* Ensure Top Promotion Banner stays on top */
 .top-promo-banner {
     background: linear-gradient(90deg, #ffed4a 0%, #ffc107 100%);
-    z-index: 1050; /* Navbar ထက် မနိမ့်စေရန် */
+    position: relative;
+    z-index: 1060; 
 }
 
-.top-promo-banner .btn-close {
-    font-size: 0.8rem;
+/* Push the fixed navbar down when the banner is visible */
+body:has(.top-promo-banner.show) #mainNav {
+    top: 40px; /* Adjust according to banner height */
+    transition: top 0.3s ease;
+}
+
+/* Reset navbar position when banner is closed */
+body:has(.top-promo-banner:not(.show)) #mainNav {
+    top: 0;
+    transition: top 0.3s ease;
+}
+
+/* Styling for Top Promotion Banner */
+.top-promo-banner {
+    background: linear-gradient(90deg, #ffed4a 0%, #ffc107 100%);
 }
     </style>
 </head>
 <body>
    
    
-   <!-- TOP PROMOTION BANNER -->
-<div class="alert alert-warning alert-dismissible fade show m-0 text-center rounded-0 border-0 py-2 top-promo-banner" role="alert">
-    <div class="container d-flex align-items-center justify-content-center gap-2">
-        <span class="badge bg-danger text-white fw-bold px-2 py-1"><i class="bi bi-fire me-1"></i>PROMO</span>
-        <span class="small fw-semibold text-dark">
-            Special Offer! Get 30% OFF on your first flight booking. Use Code: <strong>MAUBIN30</strong>
-        </span>
-        <a href="#heroPromoCarousel" class="btn btn-dark btn-sm rounded-pill px-3 py-0 fs-7 ms-2">Claim Now</a>
+ <!-- STICKY HEADER CONTAINER WRAPPER -->
+<header class="sticky-top p-0 border-0 shadow-sm" style="z-index: 1040;">
+    
+    <!-- TOP PROMOTION BANNER -->
+    <div class="alert alert-warning alert-dismissible fade show m-0 text-center rounded-0 border-0 py-2 top-promo-banner" role="alert">
+        <div class="container d-flex align-items-center justify-content-center gap-2">
+            <span class="badge bg-danger text-white fw-bold px-2 py-1">
+                <i class="bi bi-fire me-1"></i>PROMOTION
+            </span>
+            <span class="small fw-semibold text-dark">
+                Special Offer! Auguest Promotion Get 30% OFF on your first flight booking. Use Code: <strong>MAUBIN30</strong>
+            </span>
+        </div>
+        <!-- Close (Cross) Button -->
+        <button type="button" class="btn-close py-2" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-    <!-- Close (Cross) Button -->
-    <button type="button" class="btn-close py-2" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
+
+
+</header>
+
 
     <!-- NAVBAR -->
     <nav id="mainNav" class="navbar navbar-expand-lg fixed-top">
@@ -316,7 +338,7 @@
     </section>
 
 <!-- 2️⃣ PROMOTION SECTION (AUGUST PROMOTIONS TEST) -->
-<section class="custom-slider-section py-4">
+<section class="custom-slider-section py-4" data-aos="fade-left">
     <div class="container position-relative px-4 px-md-5">
 
         <!-- Section Title & Header -->
@@ -415,7 +437,7 @@
                     <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">25% FARE CUT</h4>
                 </div>
 
-                <!-- Box 4 Duplicate -->
+                <!-- <!-- Box 4 Duplicate -->
                 <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #6a11cb, #2575fc); min-width: 220px; flex-shrink: 0;">
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">AUG WEEKEND</span>
@@ -424,7 +446,7 @@
                     <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">2X MILES</h4>
                 </div>
 
-                <!-- Box 5 Duplicate -->
+               <!--  Box 5 Duplicate -->
                 <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #11998e, #38ef7d); min-width: 220px; flex-shrink: 0;">
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">STUDENT</span>
@@ -433,14 +455,14 @@
                     <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">15% EXTRA</h4>
                 </div>
 
-                <!-- Box 6 Duplicate -->
+               <!--  Box 6 Duplicate -->
                 <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #232526, #414345); min-width: 220px; flex-shrink: 0;">
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="badge bg-warning text-dark fw-bold" style="font-size: 0.65rem;">AUG FINAL</span>
                         <small style="font-size: 0.65rem;"><i class="bi bi-clock me-1"></i>31 Aug</small>
                     </div>
                     <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">0% FEE</h4>
-                </div>
+                </div> 
 
             </div>
         </div>
@@ -893,7 +915,7 @@
                         <div class="footer-brand-icon">
                             <i class="bi bi-airplane-fill"></i>
                         </div>
-                        <span class="footer-brand-name">SkyNest</span>
+                        <span class="footer-brand-name">Maubin AirLine</span>
                     </div>
                     <p class="footer-tagline">Crafting extraordinary journeys for extraordinary people. Your dream destination awaits.</p>
                     <div class="d-flex gap-2 mt-4 footer-social">
@@ -939,7 +961,7 @@
             </div>
 
             <div class="footer-bottom">
-                <span class="footer-copy">&copy; 2025 SkyNest. All rights reserved.</span>
+                <span class="footer-copy">&copy; 2025 Maubin AirLine. All rights reserved.</span>
                 <span class="footer-slogan">Fly Far. Pay Less. Travel Better.</span>
             </div>
         </div>
