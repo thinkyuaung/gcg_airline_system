@@ -34,6 +34,8 @@ public class Controller {
 	 
 	 @Autowired
 	 private ReviewService reviewService;
+
+	 @Autowired
 	 private SeatClassRepository seatClassRepository;
 	 
 	////////////// Home //////////////
