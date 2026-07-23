@@ -61,7 +61,6 @@ body{
 <body>
 
 
-<!-- Header -->
 
 <div th:replace="~{fragments/header :: header}"></div>
 
@@ -71,65 +70,36 @@ body{
 
 
 
-<!-- Header Section -->
-
 <div class="d-flex justify-content-between align-items-center mb-4">
-
 
 <div>
 
 <h2 class="fw-bold">
-
-<i class="bi bi-speedometer2"></i>
-
-Dashboard
-
+<i class="bi bi-speedometer2"></i>Dashboard
 </h2>
 
 
-<p class="text-muted">
-
-Maubin International Airline Administration
-
-</p>
-
-
+<p class="text-muted">Maubin International Airline Administration</p>
 </div>
-
 
 
 <div class="d-flex gap-2">
 
 
-<a th:href="@{/airline/admin/add-user}"
-class="btn btn-primary rounded-pill">
-
-<i class="bi bi-person-plus"></i>
-
+<a th:href="@{/airline/admin/add-user}" class="btn btn-outline-primary btn-sm rounded-3">
+<i class="bi bi-person-plus me-1"></i>
 Add User
-
 </a>
 
 
-
-<a th:href="@{/airline/admin/add-admin}"
-class="btn btn-dark rounded-pill">
-
-<i class="bi bi-person-badge"></i>
-
+<a th:href="@{/airline/admin/add-admin}" class="btn btn-outline-secondary btn-sm rounded-3">
+<i class="bi bi-person-badge me-1"></i>
 Add Admin
-
 </a>
 
-
-
-<a th:href="@{/airline/logout}"
-class="btn btn-outline-danger rounded-pill">
-
-<i class="bi bi-box-arrow-right"></i>
-
+<a th:href="@{/airline/logout}" class="btn btn-outline-danger btn-sm rounded-3">
+<i class="bi bi-box-arrow-right me-1"></i>
 Logout
-
 </a>
 
 
@@ -138,197 +108,143 @@ Logout
 
 </div>
 
-
-
-
-
-<!-- Dashboard Cards -->
 
 
 <div class="row g-4 mb-4">
 
 
-
+<!-- Total Users -->
 <div class="col-md-3">
 
-<div class="card dashboard-card shadow-sm bg-primary text-white">
+<a th:href="@{/airline/admin/users/all}" 
+   style="text-decoration:none;">
+
+<div class="card dashboard-card shadow-sm border-0" style="background:#ffffff;">
 
 <div class="card-body">
 
+<i class="bi bi-people-fill fs-2 text-primary"></i>
 
-<i class="bi bi-people-fill fs-2"></i>
-
-
-<h6 class="mt-3">
+<h6 class="mt-3 text-muted">
 Total Users
 </h6>
 
-
-<h2 th:text="${totalUsers}">
+<h2 class="fw-bold text-dark"
+    th:text="${totalUsers}">
 0
 </h2>
 
-
 </div>
 
 </div>
 
+</a>
+
 </div>
 
 
 
 
+<!-- Active Users -->
 <div class="col-md-3">
 
+<a th:href="@{/airline/admin/users/active}"
+   style="text-decoration:none;">
 
-<div class="card dashboard-card shadow-sm bg-success text-white">
-
+<div class="card dashboard-card shadow-sm border-0"
+     style="background:#ffffff;">
 
 <div class="card-body">
 
+<i class="bi bi-check-circle-fill fs-2 text-success"></i>
 
-<i class="bi bi-check-circle-fill fs-2"></i>
-
-
-<h6 class="mt-3">
+<h6 class="mt-3 text-muted">
 Active Users
 </h6>
 
-
-<h2 th:text="${activeUsers}">
+<h2 class="fw-bold text-dark"
+    th:text="${activeUsers}">
 0
 </h2>
 
+</div>
+
+</div>
+
+</a>
 
 </div>
 
 
-</div>
-
-
-</div>
 
 
 
-
-
+<!-- Inactive Users -->
 <div class="col-md-3">
 
+<a th:href="@{/airline/admin/users/inactive}"
+   style="text-decoration:none;">
 
-<div class="card dashboard-card shadow-sm bg-danger text-white">
-
+<div class="card dashboard-card shadow-sm border-0"
+     style="background:#ffffff;">
 
 <div class="card-body">
 
+<i class="bi bi-x-circle-fill fs-2 text-danger"></i>
 
-<i class="bi bi-x-circle-fill fs-2"></i>
-
-
-<h6 class="mt-3">
+<h6 class="mt-3 text-muted">
 Inactive Users
 </h6>
 
-
-<h2 th:text="${inactiveUsers}">
+<h2 class="fw-bold text-dark"
+    th:text="${inactiveUsers}">
 0
 </h2>
 
+</div>
 
+</div>
+
+</a>
 
 </div>
 
 
-</div>
-
-
-</div>
 
 
 
-
-
+<!-- Admin Users -->
 <div class="col-md-3">
 
+<a th:href="@{/airline/admin/users/admin}"
+   style="text-decoration:none;">
 
-<div class="card dashboard-card shadow-sm bg-dark text-white">
-
+<div class="card dashboard-card shadow-sm border-0"
+     style="background:#ffffff;">
 
 <div class="card-body">
 
+<i class="bi bi-person-workspace fs-2 text-dark"></i>
 
-<i class="bi bi-person-workspace fs-2"></i>
-
-
-<h6 class="mt-3">
+<h6 class="mt-3 text-muted">
 Admins
 </h6>
 
-
-<h2 th:text="${adminUsers}">
+<h2 class="fw-bold text-dark"
+    th:text="${adminUsers}">
 0
 </h2>
 
-
 </div>
 
-
 </div>
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-<!-- Filter Buttons -->
-
-
-<div class="mb-4">
-
-
-<a th:href="@{/airline/admin/users/active}"
-class="btn btn-success rounded-pill px-4">
-
-
-<i class="bi bi-check-circle-fill fs-5"></i>
-
 
 </a>
 
-
-
-<a th:href="@{/airline/admin/users/inactive}"
-class="btn btn-danger rounded-pill px-4">
-
-
-<i class="bi bi-x-circle-fill fs-5"></i>
-
-
-</a>
-
-
-
-<a th:href="@{/airline/admin/users/all}"
-class="btn btn-primary rounded-pill px-4">
-
-
-<i class="bi bi-people-fill fs-5"></i>
-
-
-</a>
-
-
 </div>
 
 
-
-
+</div>
 
 
 
@@ -512,12 +428,6 @@ class="btn btn-outline-warning btn-sm action-btn">
 
 
 
-
-
-
-<!-- Delete USER + ADMIN -->
-
-
 <a th:if="${user.userId != 1 and user.status=='active'}"
 
 th:href="@{/airline/admin/user/delete/{id}(id=${user.userId})}"
@@ -530,13 +440,6 @@ class="btn btn-outline-danger btn-sm action-btn">
 
 </a>
 
-
-
-
-
-
-
-<!-- Activate -->
 
 
 <a th:if="${user.userId != 1 and user.status=='inactive'}"

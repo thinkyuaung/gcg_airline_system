@@ -18,7 +18,7 @@ import com.example.MaupinAirlineTicketSystem.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 
 @org.springframework.stereotype.Controller
-@RequestMapping("/airline") 
+@RequestMapping("/airline")
 public class Controller {
 
 	@Autowired
@@ -27,25 +27,20 @@ public class Controller {
 	@Autowired
 	private UserRepository userRepository;
 
-	 @Autowired
-	    private AirportRepository airportRepository;
-	 
+	@Autowired
+	private AirportRepository airportRepository;
+
 	////////////// Home //////////////
 
-	
 	@GetMapping("/")
 
-	public String home(Model model){
+	public String home(Model model) {
 
-	    model.addAttribute(
-	        "airports",
-	        airportRepository.findAll()
-	    );
+		model.addAttribute("airports", airportRepository.findAll());
 
-	    return "index";
+		return "index";
 	}
-	  
-	 
+
 	public String index() {
 		return "index";
 	}
@@ -61,7 +56,7 @@ public class Controller {
 	public String loginPage(Model model) {
 
 		model.addAttribute("user", new User());
- 
+
 		return "Login/loginPage";
 	}
 
@@ -132,8 +127,6 @@ public class Controller {
 			return "redirect:/airline/login";
 		}
 
-		// Confirm current password
-
 		if (!passwordEncoder.matches(confirmPassword, loginUser.getPassword())) {
 
 			model.addAttribute("error", "Incorrect password.");
@@ -145,15 +138,11 @@ public class Controller {
 
 		user.setUserId(loginUser.getUserId());
 
-		// keep old password
-
 		user.setPassword(loginUser.getPassword());
 
 		user.setRole(loginUser.getRole());
 
 		user.setStatus(loginUser.getStatus());
-
-		// keep old DOB if empty
 
 		if (user.getDob() == null) {
 
@@ -202,16 +191,12 @@ public class Controller {
 			return "redirect:/airline/login";
 		}
 
-		// check old password
-
 		if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
 
 			model.addAttribute("error", "Old password is incorrect");
 
 			return "User/change-password";
 		}
-
-		// check new password
 
 		if (!newPassword.equals(confirmPassword)) {
 
@@ -227,7 +212,7 @@ public class Controller {
 		return "redirect:/airline/profile";
 	}
 
-	////////////// Admin Dashboard //////////////
+	//////////// Admin Dashboard //////////////
 
 	@GetMapping("/admin/dashboard")
 	public String adminDashboard(Authentication authentication, Model model) {
@@ -235,13 +220,33 @@ public class Controller {
 		User loginUser = userRepository.findByEmail(authentication.getName());
 
 		if (loginUser == null || !loginUser.getRole().equals("ADMIN")) {
-
-			return "redirect:/airline/home";
+			return "redirect:/airline/index";
 		}
 
-		model.addAttribute("users", userRepository.findByStatus("active"));
+		model.addAttribute("users", userRepository.findAll());
+
+		model.addAttribute("totalUsers", userRepository.count());
+
+		model.addAttribute("activeUsers", userRepository.countByStatus("active"));
+
+		model.addAttribute("inactiveUsers", userRepository.countByStatus("inactive"));
+
+		model.addAttribute("adminUsers", userRepository.countByRole("ADMIN"));
 
 		return "Admin/admin-dashboard";
+	}
+
+	////////// Dashboard Counts //////////////
+
+	private void addDashboardCounts(Model model) {
+
+		model.addAttribute("totalUsers", userRepository.count());
+
+		model.addAttribute("activeUsers", userRepository.countByStatus("active"));
+
+		model.addAttribute("inactiveUsers", userRepository.countByStatus("inactive"));
+
+		model.addAttribute("adminUsers", userRepository.countByRole("ADMIN"));
 	}
 
 	////////////// All Users //////////////
@@ -250,6 +255,8 @@ public class Controller {
 	public String allUsers(Model model) {
 
 		model.addAttribute("users", userRepository.findAll());
+
+		addDashboardCounts(model);
 
 		return "Admin/admin-dashboard";
 	}
@@ -261,6 +268,8 @@ public class Controller {
 
 		model.addAttribute("users", userRepository.findByStatus("active"));
 
+		addDashboardCounts(model);
+
 		return "Admin/admin-dashboard";
 	}
 
@@ -270,6 +279,20 @@ public class Controller {
 	public String inactiveUsers(Model model) {
 
 		model.addAttribute("users", userRepository.findByStatus("inactive"));
+
+		addDashboardCounts(model);
+
+		return "Admin/admin-dashboard";
+	}
+
+	/////////// Admin Users //////////////
+
+	@GetMapping("/admin/users/admin")
+	public String adminUsers(Model model) {
+
+		model.addAttribute("users", userRepository.findByRoleAndStatus("ADMIN", "active"));
+
+		addDashboardCounts(model);
 
 		return "Admin/admin-dashboard";
 	}
@@ -325,6 +348,57 @@ public class Controller {
 		return "redirect:/airline/admin/dashboard";
 	}
 
+	/////////// Add User Page //////////////
+
+	@GetMapping("/admin/add-user")
+	public String addUserPage(Model model) {
+
+		model.addAttribute("user", new User());
+
+		return "Admin/add-user";
+	}
+
+	////////// Save User //////////////
+
+	@PostMapping("/admin/add-user")
+	public String saveUser(@ModelAttribute User user) {
+
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+		user.setRole("USER");
+
+		user.setStatus("active");
+
+		userRepository.save(user);
+
+		return "redirect:/airline/admin/dashboard";
+	}
+
+	/////////// Add Admin Page //////////////
+
+	@GetMapping("/admin/add-admin")
+	public String addAdminPage(Model model) {
+
+		model.addAttribute("user", new User());
+
+		return "Admin/add-admin";
+	}
+
+	/////////// Save Admin //////////////
+
+	@PostMapping("/admin/add-admin")
+	public String saveAdmin(@ModelAttribute User user) {
+
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+		user.setRole("ADMIN");
+
+		user.setStatus("active");
+
+		userRepository.save(user);
+
+		return "redirect:/airline/admin/dashboard";
+	}
 	////////////// Logout //////////////
 
 	@GetMapping("/logout")

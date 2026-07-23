@@ -12,8 +12,6 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import com.example.MaupinAirlineTicketSystem.component.LoginSuccessHandler;
 
-
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -29,8 +27,8 @@ public class SecurityConfig {
 				.authorizeHttpRequests(auth -> auth
 
 						// Public pages
-						.requestMatchers("/airline/", "/airline/home", "/airline/login", "/airline/signup", "/css/**",
-								"/js/**", "/images/**")
+						.requestMatchers("/airline/", "/airline/index", "/airline/home", "/airline/login",
+								"/airline/signup", "/css/**", "/js/**", "/images/**")
 						.permitAll()
 
 						// Admin pages
