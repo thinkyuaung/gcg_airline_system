@@ -19,7 +19,7 @@ import com.example.MaupinAirlineTicketSystem.service.ReviewService;
 import jakarta.servlet.http.HttpSession;
 
 @org.springframework.stereotype.Controller
-@RequestMapping("/airline")
+@RequestMapping("/airline") 
 public class Controller {
 
 	@Autowired
@@ -60,20 +60,20 @@ public class Controller {
 	public String index() {
 		return "index";
 	}
- 
+
 	@GetMapping("/index")
 	public String home() {
 		return "index";
 	}
- 
+
 	////////////// Login //////////////
 
 	@GetMapping("/login")
 	public String loginPage(Model model) {
 
 		model.addAttribute("user", new User());
-
-		return "Login/login";
+ 
+		return "Login/loginPage";
 	}
 
 	////////////// Signup //////////////

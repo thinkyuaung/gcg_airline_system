@@ -105,8 +105,38 @@ public class AdminAirlineController {
 		return "Admin/AddAirport";
 	}
 
+//	@PostMapping("/admin/airport")
+//	public String saveAirport(@ModelAttribute("airport") Airport airport) {
+//		adminAirportService.saveAirport(airport);
+//		return "redirect:/airline/admin/airports";
+//	}
+	
 	@PostMapping("/admin/airport")
-	public String saveAirport(@ModelAttribute("airport") Airport airport) {
+	public String  saveAirport(@ModelAttribute("airport") Airport airport,
+			@RequestParam("photoFile") MultipartFile photoFile) throws IllegalStateException, IOException {
+
+		if (!photoFile.isEmpty()) {
+			String uploadDir = System.getProperty("user.dir") + File.separator + "uploads" + File.separator;
+			File directory = new File(uploadDir);
+
+			if (!directory.exists()) {
+				directory.mkdirs(); 
+			}
+
+			String fileName = System.currentTimeMillis() + "_" + photoFile.getOriginalFilename();
+			File destination = new File(directory, fileName);
+			photoFile.transferTo(destination);
+
+			airport.setImage(fileName);
+		} else {
+			if (airport.getAirportId() != 0 && airport.getAirportId() != null) {
+				Airline existingAirline = adminAirlineService.getAirlineById(airport.getAirportId());
+				if (existingAirline != null) {
+					airport.setImage(existingAirline.getLogo());
+				}
+			}
+		}
+
 		adminAirportService.saveAirport(airport);
 		return "redirect:/airline/admin/airports";
 	}

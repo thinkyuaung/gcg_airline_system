@@ -1,6 +1,7 @@
 package com.example.MaupinAirlineTicketSystem.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.MaupinAirlineTicketSystem.entity.Booking;
 import com.example.MaupinAirlineTicketSystem.service.AdminBookingService;
+import com.example.MaupinAirlineTicketSystem.service.EmailService;
 
 @Controller
 @RequestMapping("/airline")
@@ -18,6 +20,9 @@ public class AdminBookingController {
 
 	@Autowired
 	AdminBookingService adminBookingService;
+
+	@Autowired
+	EmailService emailService;
 
 	@GetMapping("/admin/bookings")
 	public String bookingList(Model model) {
@@ -34,8 +39,12 @@ public class AdminBookingController {
 	public String approveBooking(@PathVariable("id") int id) {
 		Booking booking = adminBookingService.getBookingById(id);
 		if (booking != null) {
-			booking.setStatus("Successful");
+			String serialCode = "MAT-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+			booking.setBookingCode(serialCode);
+			booking.setStatus("Success");
 			adminBookingService.saveBooking(booking);
+
+			emailService.sendTicketEmail(booking, serialCode);
 		}
 		return "redirect:/airline/admin/bookings";
 	}
