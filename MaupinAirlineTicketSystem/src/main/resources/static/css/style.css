@@ -892,3 +892,209 @@ body {
   .hero-heading { font-size: 2.4rem; }
   .dest-card { flex: 0 0 80%; }
 }
+
+/* ✈️ ENHANCED PROMOTION SECTION WITH MODERN BACKGROUND */
+/* ✈️ COMPACT PROMOTION SECTION */
+
+/* Section Layout & Reduced Padding */
+.custom-slider-section {
+    background: linear-gradient(135deg, #f0f7ff 0%, #eef2ff 100%);
+    padding: 2rem 0 !important; /* Reduced vertical section padding */
+    position: relative;
+    overflow: hidden; 
+}
+
+/* Decorative Background Glow Circles */
+.custom-slider-section::before,
+.custom-slider-section::after {
+    content: '';
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.custom-slider-section::before {
+    background: rgba(14, 165, 233, 0.15);
+    top: -40px;
+    left: -40px;
+}
+
+.custom-slider-section::after {
+    background: rgba(99, 102, 241, 0.12);
+    bottom: -40px;
+    right: -40px;
+}
+
+.custom-slider-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* Header Text Spacing */
+.custom-slider-section .section-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.2rem;
+}
+
+.custom-slider-section .section-subtitle {
+    font-size: 0.85rem;
+    margin-bottom: 1rem !important;
+}
+
+/* Compact Promo Card */
+.exact-promo-card {
+    background: var(--white);
+    border-radius: var(--radius-md);
+    padding: 0.85rem; /* Reduced internal padding */
+    border: 1px solid var(--gray-200);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.exact-promo-card:hover {
+    border-color: var(--sky);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
+}
+
+/* Image Container & Compact Image Height */
+.card-img-wrapper {
+    position: relative;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.exact-card-img {
+    width: 100%;
+    height: 130px !important; /* Reduced image height for compactness */
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.exact-promo-card:hover .exact-card-img {
+    transform: scale(1.05);
+}
+
+/* Floating Badge */
+.floating-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    padding: 0.25rem 0.6rem;
+    border-radius: 99px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.badge-red { background: rgba(239, 68, 68, 0.9); color: #ffffff; }
+.badge-orange { background: rgba(249, 115, 22, 0.9); color: #ffffff; }
+.badge-yellow { background: rgba(234, 179, 8, 0.9); color: #ffffff; }
+
+/* Text Typography */
+.exact-card-title {
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    line-height: 1.3;
+    margin-bottom: 0.25rem;
+}
+
+.exact-card-text {
+    font-size: 0.8rem;
+    color: var(--gray-500);
+    line-height: 1.4;
+    margin-bottom: 0.6rem;
+}
+
+/* Footer Section inside Card */
+.card-footer-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.6rem;
+    border-top: 1px dashed var(--gray-200);
+}
+
+.exact-promo-code {
+    background-color: var(--sky-light);
+    border: 1px solid #bae6fd;
+    border-radius: 6px;
+    padding: 3px 8px;
+    font-size: 0.72rem;
+    color: var(--sky-dark);
+    font-weight: 600;
+}
+
+.exact-action-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: var(--gray-100);
+    color: var(--sky);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    transition: all 0.25s ease;
+    text-decoration: none;
+}
+
+.exact-promo-card:hover .exact-action-btn {
+    background-color: var(--sky);
+    color: #ffffff;
+}
+
+/* Carousel Section Container Adjustment */
+.custom-slider-section {
+    position: relative;
+    padding: 2rem 1.5rem !important; 
+}
+
+/* Fix Slider Navigation Arrow Buttons */
+.custom-carousel-btn {
+    width: 40px;
+    height: 40px;
+    background-color: #ffffff !important;
+    border: 1px solid var(--gray-200, #e5e7eb);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 1 !important; /* Forces visible opacity */
+    color: var(--sky, #0ea5e9) !important;
+    font-size: 1.1rem;
+    z-index: 100 !important; /* Ensures arrows sit on top of cards */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.25s ease;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Positioning for Left and Right Buttons */
+.carousel-control-prev.custom-carousel-btn { 
+    left: 5px; /* Margin position */
+}
+
+.carousel-control-next.custom-carousel-btn { 
+    right: 5px; 
+}
+
+/* Hover Effect */
+.custom-carousel-btn:hover {
+    background-color: var(--sky, #0ea5e9) !important;
+    color: #ffffff !important;
+    border-color: var(--sky, #0ea5e9);
+}

@@ -5,7 +5,7 @@
   
   /* Dark Overlay + 4K High-Res Airplane Wing Background Image */
   background: 
-    
+      
     url('https://i.pinimg.com/736x/b2/6c/b3/b26cb30b1cb84889d8dae4c43a0f3958.jpg') center/cover no-repeat;
   
   /* CSS Image Sharpening & High Quality Rendering */
@@ -14,7 +14,7 @@
 }
 
 /* Text Container Position */
-.hero-content {
+.hero-content { 
   position: relative;
   z-index: 2;
 }
@@ -287,9 +287,9 @@
     color: #0d9488;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
-
+ 
 .value-card-redesign.active-teal .value-card-btn:hover {
     background-color: #f0fdf4;
-    color: #0f766e;
+    color: #0f766e; 
 }
 
