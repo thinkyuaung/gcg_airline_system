@@ -757,9 +757,20 @@ Seat Class
 <select name="seatClass"
 class="form-select">
 
+<option value="">
+Select Seat Class
+</option>
+
+<option th:each="seat:${seatClasses}"
+
+        th:value="${seat.className}"
+
+        th:text="${seat.className}">
 
 
-<option value="Economy">
+</option>
+
+<!-- <option value="Economy">
 
 Economy
 
@@ -777,11 +788,17 @@ Business
 
 First Class
 
-</option>
+</option> -->
 
 
 
-</select>
+</select> 
+
+
+
+
+
+
 
 
 

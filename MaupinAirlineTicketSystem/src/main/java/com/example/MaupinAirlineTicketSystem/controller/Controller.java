@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.MaupinAirlineTicketSystem.repository.AirportRepository;
+import com.example.MaupinAirlineTicketSystem.repository.SeatClassRepository;
 import com.example.MaupinAirlineTicketSystem.entity.User;
 import com.example.MaupinAirlineTicketSystem.repository.UserRepository;
 import com.example.MaupinAirlineTicketSystem.service.ReviewService;
@@ -33,6 +34,7 @@ public class Controller {
 	 
 	 @Autowired
 	 private ReviewService reviewService;
+	 private SeatClassRepository seatClassRepository;
 	 
 	////////////// Home //////////////
 
@@ -48,14 +50,16 @@ public class Controller {
 	    
 	    /////////review/////////
 	    model.addAttribute(
-				"reviews",
 				reviewService.getReviews()
 				);
 	    /////////////////////////
 	    
+	    model.addAttribute(
+		        "seatClasses",
+		    );
+
 	    return "index";
 	}
-	  
 	 
 	public String index() {
 		return "index";

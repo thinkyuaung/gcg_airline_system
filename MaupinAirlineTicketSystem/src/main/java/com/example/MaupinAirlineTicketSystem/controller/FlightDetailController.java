@@ -26,8 +26,8 @@ public class FlightDetailController {
 	        @RequestParam String seatClass,
 	        Model model) {
 
-		System.out.println("Passengers = " + passengers);
-		System.out.println("Seat Class = " + seatClass);
+//		System.out.println("Passengers = " + passengers);
+//		System.out.println("Seat Class = " + seatClass);
 		
 	    FlightPlan flightPlan =
 	            flightDetailService.getFlightPlan(id);

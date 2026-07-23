@@ -566,7 +566,10 @@ body {
 										<th>Departure Time</th>
 										<th>Arrival Time</th>
 										<th>Date</th>
-										<th>Seats</th>
+										<th>Economy</th>
+										<th>Business</th>
+										<th>First Class</th>
+										<th>Available</th>
 										<th>Price</th>
 										<th class="text-end">Actions</th>
 									</tr>
@@ -606,9 +609,13 @@ body {
 										<td class="text-dark fw-medium"
 											th:text="${#dates.format(fp.flight_date, 'yyyy-MM-dd')}"></td>
 
+										<td th:text="${fp.ecomonySeats}"></td>
+										<td th:text="${fp.businessSeats}"></td>
+										<td th:text="${fp.firseClassSeats}"></td>
+
 										<td><span
 											class="badge bg-dark-subtle text-dark-emphasis border fw-bold px-2 py-1 rounded-pill"
-											th:text="${fp.availableSeats + ' Available'}"></span></td>
+											th:text="${fp.availableSeats}"></span></td>
 
 										<td class="fw-bold text-dark"
 											th:text="${#numbers.formatDecimal(fp.price, 1, 2)}"></td>
@@ -652,7 +659,8 @@ body {
 										<th>Passenger</th>
 										<th>Flight</th>
 										<th>Class</th>
-										<th>Seat Number</th>
+										<th>Seats</th>
+										<th>Seat Class</th>
 										<th>Departure</th>
 										<th>Payment SS</th>
 										<th>Total Amount</th>
@@ -677,7 +685,8 @@ body {
 											<span th:if="${b.seatClass != null}" th:text="${b.seatClass.className}"></span>
 											<span th:unless="${b.seatClass != null}">N/A</span>
 										</td>
-										<td th:text="${b.seatNumber}"></td>
+										<td th:text="${b.passengers}"></td>
+										<td th:text="${b.seatClass.className}"></td>
 										<td>
 											<span th:if="${b.flightPlan != null and b.flightPlan.departureAirport != null}" 
 												th:text="${b.flightPlan.departureAirport.airportName}"></span>

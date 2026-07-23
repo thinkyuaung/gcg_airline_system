@@ -37,7 +37,7 @@ public class EmailServiceImpl implements EmailService {
 		String depTime = booking.getFlightPlan().getDepartureTime().format(fmt);
 		String arrTime = booking.getFlightPlan().getArrivalTime().format(fmt);
 		String cls = booking.getSeatClass().getClassName();
-		String seat = booking.getSeatNumber() != null ? booking.getSeatNumber() : "N/A";
+		//String seat = booking.getSeatNumber() != null ? booking.getSeatNumber() : "N/A";
 		String name = booking.getUser().getFirstName() + " " + booking.getUser().getLastName();
 		double amount = booking.getTotalAmount();
 
@@ -63,7 +63,7 @@ public class EmailServiceImpl implements EmailService {
 				+ "<tr><td style='padding:10px;font-weight:bold;border:1px solid #dee2e6'>Departure</td><td style='padding:10px;border:1px solid #dee2e6'>" + depTime + "</td></tr>"
 				+ "<tr style='background:#f8f9fa'><td style='padding:10px;font-weight:bold;border:1px solid #dee2e6'>Arrival</td><td style='padding:10px;border:1px solid #dee2e6'>" + arrTime + "</td></tr>"
 				+ "<tr><td style='padding:10px;font-weight:bold;border:1px solid #dee2e6'>Class</td><td style='padding:10px;border:1px solid #dee2e6'>" + cls + "</td></tr>"
-				+ "<tr style='background:#f8f9fa'><td style='padding:10px;font-weight:bold;border:1px solid #dee2e6'>Seat Number</td><td style='padding:10px;border:1px solid #dee2e6'>" + seat + "</td></tr>"
+				//+ "<tr style='background:#f8f9fa'><td style='padding:10px;font-weight:bold;border:1px solid #dee2e6'>Seat Number</td><td style='padding:10px;border:1px solid #dee2e6'>" + seat + "</td></tr>"
 				+ "<tr><td style='padding:10px;font-weight:bold;border:1px solid #dee2e6'>Passengers</td><td style='padding:10px;border:1px solid #dee2e6'>" + booking.getPassengers() + "</td></tr>"
 				+ "<tr style='background:#f8f9fa'><td style='padding:10px;font-weight:bold;border:1px solid #dee2e6'>Total Amount</td><td style='padding:10px;border:1px solid #dee2e6;font-weight:bold'>$" + String.format("%.2f", amount) + "</td></tr>"
 				+ "</table>"

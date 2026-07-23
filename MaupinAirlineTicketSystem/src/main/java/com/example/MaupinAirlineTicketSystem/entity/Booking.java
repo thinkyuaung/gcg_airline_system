@@ -21,7 +21,7 @@ public class Booking {
 
 	    private String bookingCode;
 
-	    private String seatNumber;
+	   // private String seatNumber;
 
 	    private LocalDateTime bookingDate;
 
@@ -64,7 +64,7 @@ public class Booking {
 			super();
 			this.bookingId = bookingId;
 			this.bookingCode = bookingCode;
-			this.seatNumber = seatNumber;
+			
 			this.bookingDate = bookingDate;
 			this.totalAmount = totalAmount;
 			this.status = status;
@@ -95,14 +95,6 @@ public class Booking {
 
 		public void setBookingCode(String bookingCode) {
 			this.bookingCode = bookingCode;
-		}
-
-		public String getSeatNumber() {
-			return seatNumber;
-		}
-
-		public void setSeatNumber(String seatNumber) {
-			this.seatNumber = seatNumber;
 		}
 
 		public LocalDateTime getBookingDate() {

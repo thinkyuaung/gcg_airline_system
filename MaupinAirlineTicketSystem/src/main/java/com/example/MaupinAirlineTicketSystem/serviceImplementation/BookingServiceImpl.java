@@ -67,26 +67,27 @@ public class BookingServiceImpl implements BookingService{
 	            .findById(flightPlanId)
 	            .orElseThrow();
 
-
+	   // System.out.println("*****Seat Class Testing*****: "+seatClass);
+	    
 	    // Convert String -> SeatClass Entity
 
 	    SeatClass seatClassEntity =
 	            seatClassRepository
 	            .findByClassName(seatClass);
 
-
+	    //System.out.println("*****Seat Class*****: "+seatClassEntity.getClassName());
 
 	    if(seatClassEntity == null){
 
 	        throw new RuntimeException(
-	            "Seat class not found"
-	        );
+		            "Seat class not found"
+		        );
 
 	    }
-
-
-
+	    
 	    Booking booking = new Booking();
+	    
+	 
 
 
 	    booking.setFlightPlan(flightPlan);
