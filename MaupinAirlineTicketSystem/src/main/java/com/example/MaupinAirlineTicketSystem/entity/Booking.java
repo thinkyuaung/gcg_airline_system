@@ -21,8 +21,6 @@ public class Booking {
 
 	    private String bookingCode;
 
-	   // private String seatNumber;
-
 	    private LocalDateTime bookingDate;
 
 	    private double totalAmount;

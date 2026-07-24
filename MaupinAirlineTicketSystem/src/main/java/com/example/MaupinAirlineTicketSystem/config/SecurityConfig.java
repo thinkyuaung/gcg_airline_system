@@ -26,19 +26,19 @@ public class SecurityConfig {
 
 		.authorizeHttpRequests(auth -> auth
 
-
-						// Public pages
-						.requestMatchers("/airline/", "/airline/index", "/airline/home", "/airline/login",
-								"/airline/signup", "/css/**", "/js/**", "/images/**")
-						.permitAll()
-
-				// Public pages
 				.requestMatchers(
 				    "/airline/",
 				    "/airline/index",
 				    "/airline/home",
 				    "/airline/login",
 				    "/airline/signup",
+				    "/airline/manage-booking",
+				    "/airline/flights",
+				    "/airline/packages",
+				    "/airline/support",
+				    "/airline/search",
+				    "/airline/flightDetail/**",
+				    "/uploads/**",
 				    "/css/**",
 				    "/js/**",
 				    "/images/**"
@@ -47,7 +47,6 @@ public class SecurityConfig {
 
 			    .requestMatchers("/airline/admin/**")
 			    .hasRole("ADMIN")
-
 
 			    .requestMatchers(
 			        "/airline/profile/**",
@@ -58,21 +57,16 @@ public class SecurityConfig {
 			    )
 			    .hasRole("USER")
 
-
 			    .anyRequest().authenticated()
 			)
 				.formLogin(form -> form
 
-						// Login page
 						.loginPage("/airline/login")
 
-						// Spring Security processes this POST request
 						.loginProcessingUrl("/airline/login")
 
-						// Redirect after successful login
 						.successHandler(successHandler)
 
-						// Redirect after failed login
 						.failureUrl("/airline/login?error")
 
 						.permitAll())
