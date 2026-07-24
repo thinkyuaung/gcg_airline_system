@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.MaupinAirlineTicketSystem.entity.Booking;
+import com.example.MaupinAirlineTicketSystem.entity.BookingDetail;
 import com.example.MaupinAirlineTicketSystem.entity.FlightPlan;
 import com.example.MaupinAirlineTicketSystem.entity.Payment;
 import com.example.MaupinAirlineTicketSystem.entity.SeatClass;
 import com.example.MaupinAirlineTicketSystem.entity.User;
+import com.example.MaupinAirlineTicketSystem.repository.BookingDetailRepository;
 import com.example.MaupinAirlineTicketSystem.repository.BookingRepository;
 import com.example.MaupinAirlineTicketSystem.repository.FlightPlanRepository;
 import com.example.MaupinAirlineTicketSystem.repository.PaymentRepository;
@@ -41,6 +43,9 @@ public class BookingServiceImpl implements BookingService{
 
     @Autowired
     private PaymentRepository paymentRepository;
+
+    @Autowired
+    private BookingDetailRepository bookingDetailRepository;
     
 	@Override
 	public double calculateTotalPrice(FlightPlan flightPlan, SeatClass seatClass, int passengers) {
@@ -131,7 +136,15 @@ public class BookingServiceImpl implements BookingService{
 	    booking.setPassengers(passengers);
 	    
 
-	    return bookingRepository.save(booking);
+	    Booking savedBooking = bookingRepository.save(booking);
+
+	    BookingDetail detail = new BookingDetail();
+	    detail.setBooking(savedBooking);
+	    detail.setPassengerName(user.getFirstName() + " " + user.getLastName());
+	    detail.setPassport(user.getPassport());
+	    bookingDetailRepository.save(detail);
+
+	    return savedBooking;
 
 	}
 }
