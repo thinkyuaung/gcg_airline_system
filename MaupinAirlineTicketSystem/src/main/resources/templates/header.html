@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+ 
+<head th:fragment="header">
+ 
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+	
+     <link rel="stylesheet" th:href="@{/css/style.css}">
+ 
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+	rel="stylesheet">
+
+
+    
+</head>
+ <style> 
+   /* Ensure sticky header positioning */
+#mainNav.sticky-top {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    background-color: #ffffff !important;
+}
+</style>
+ 
+<body>
+ 
+<!-- <nav th:fragment="header" class="navbar navbar-expand-lg navbar-custom">
+ 
+<div class="container">
+ 
+<a class="navbar-brand d-flex align-items-center gap-2" th:href="@{/airline/}">
+<div class="brand-icon">
+<i class="bi bi-airplane-fill"></i>
+</div>
+<span>Maubin International Airline</span>
+</a>
+ 
+<button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
+<span class="navbar-toggler-icon"></span>
+</button>
+ 
+<div class="collapse navbar-collapse" id="menu">
+ 
+<ul class="navbar-nav mx-auto"></ul>
+ 
+<div>
+<a class="btn btn-outline-primary rounded-pill" th:href="@{/airline/login}"> Login </a>
+<a class="btn-signup text-decoration-none ms-2" th:href="@{/airline/signup}"> Sign Up </a>
+</div>
+ 
+ 
+</div>
+</div>
+</nav> -->
+ <!-- MAIN NAVBAR WITH STICKY TOP EFFECT -->
+<nav id="mainNav" th:fragment="header" class="navbar navbar-expand-lg bg-white border-bottom py-2 sticky-top shadow-sm">
+    <div class="container">
+        
+        <!-- BRAND LOGO -->
+        <a class="navbar-brand d-flex align-items-center gap-2" th:href="@{/airline/index}">
+            <div class="brand-icon">
+                <img th:src="@{/images/Maubin AirLine Logo.png}" alt="Maubin AirLine Logo" class="brand-logo-img">
+            </div> 
+            <span class="fw-bold text-dark fs-5">Maubin International AirLine</span>
+        </a>
+
+        <!-- MOBILE TOGGLER -->
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- NAV LINKS & BUTTONS -->
+        <div class="collapse navbar-collapse" id="navMenu">   
+            
+            <!-- NAV LINKS WITH DYNAMIC THYMELEAF ACTIVE STATE -->
+            <ul class="navbar-nav mx-auto gap-lg-4 gap-2 mt-3 mt-lg-0 fw-semibold">
+                <li class="nav-item">
+                    <a class="nav-link" 
+                       th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI == '/airline/'} ? 'active' : ''" 
+                       th:href="@{/airline/}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" 
+                       th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI.startsWith('/airline/flights')} ? 'active' : ''" 
+                       th:href="@{/airline/flights}">Flights</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" 
+                       th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI.startsWith('/airline/about')} ? 'active' : ''" 
+                       th:href="@{/airline/about}">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" 
+                       th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI.startsWith('/airline/support')} ? 'active' : ''" 
+                       th:href="@{/airline/support}">Support</a>
+                </li>
+            </ul>
+
+            <!-- Right Controls Container with spacing gap -->
+            <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0 ms-lg-auto">
+                
+                <!-- Clean Search Bar Container -->
+                <div class="search-box-wrapper d-none d-md-block">
+                    <i class="bi bi-search search-icon"></i>
+                    <input 
+                        type="text" 
+                        class="form-control search-input" 
+                        placeholder="Search..." 
+                        aria-label="Search"
+                    />
+                </div>
+
+                <!-- Login Button -->
+                <a th:href="@{/airline/login}" class="btn btn-outline-primary px-3 fw-bold rounded-pill ms-2">
+                    <i class="bi bi-person me-1"></i> Login
+                </a>
+                
+                <!-- Sign Up Button -->
+                <a th:href="@{/airline/signup}" class="btn btn-primary px-3 fw-bold rounded-pill">
+                    <i class="bi bi-person-plus-fill me-1"></i> Sign Up
+                </a>
+            </div>
+
+        </div> <!-- Closed collapse navbar-collapse -->
+    </div> <!-- Closed container -->
+</nav>
+ 
+</body>
+    
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get current URL path
+        const currentPath = window.location.pathname;
+        
+        // Target all navigation links
+        const navLinks = document.querySelectorAll('#navMenu .nav-link');
+
+        navLinks.forEach(link => {
+            // Remove hardcoded active classes
+            link.classList.remove('active');
+
+            // Compare link href attribute with current pathname
+            const linkHref = link.getAttribute('href');
+            if (linkHref && currentPath === linkHref) {
+                link.classList.add('active');
+            }
+        });
+    });
+</script>
+</html>
+ 

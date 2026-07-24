@@ -32,6 +32,12 @@ public class FlightPlan {
 	private Date flight_date;
 
 	private int availableSeats;
+	
+	private int ecomonySeats;
+	
+	private int businessSeats;
+	
+	private int firseClassSeats;
 
 	private double price;
 
@@ -50,14 +56,20 @@ public class FlightPlan {
 	@JoinColumn(name = "arrival_airport_id")
 	private Airport arrivalAirport;
 
+	
+
 	public FlightPlan(int flightPlanId, LocalDateTime departureTime, LocalDateTime arrivalTime, Date flight_date,
-			int availableSeats, double price, Flight flight, Airport departureAirport, Airport arrivalAirport) {
+			int availableSeats, int ecomonySeats, int businessSeats, int firseClassSeats, double price, Flight flight,
+			Airport departureAirport, Airport arrivalAirport) {
 		super();
 		this.flightPlanId = flightPlanId;
 		this.departureTime = departureTime;
 		this.arrivalTime = arrivalTime;
 		this.flight_date = flight_date;
 		this.availableSeats = availableSeats;
+		this.ecomonySeats = ecomonySeats;
+		this.businessSeats = businessSeats;
+		this.firseClassSeats = firseClassSeats;
 		this.price = price;
 		this.flight = flight;
 		this.departureAirport = departureAirport;
@@ -66,7 +78,6 @@ public class FlightPlan {
 
 	public FlightPlan() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public int getFlightPlanId() {
@@ -139,6 +150,30 @@ public class FlightPlan {
 
 	public void setFlight_date(Date flight_date) {
 		this.flight_date = flight_date;
+	}
+
+	public int getEcomonySeats() {
+		return ecomonySeats;
+	}
+
+	public void setEcomonySeats(int ecomonySeats) {
+		this.ecomonySeats = ecomonySeats;
+	}
+
+	public int getBusinessSeats() {
+		return businessSeats;
+	}
+
+	public void setBusinessSeats(int businessSeats) {
+		this.businessSeats = businessSeats;
+	}
+
+	public int getFirseClassSeats() {
+		return firseClassSeats;
+	}
+
+	public void setFirseClassSeats(int firseClassSeats) {
+		this.firseClassSeats = firseClassSeats;
 	}
 
 }

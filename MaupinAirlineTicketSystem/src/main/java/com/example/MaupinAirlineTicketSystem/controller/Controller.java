@@ -75,7 +75,21 @@ public class Controller {
 	public String home() {
 		return "index";
 	}
-
+	
+	@GetMapping("/flights")
+	public String flights() {
+		return "flights";
+	}
+	
+	@GetMapping("/about")
+	public String about() {
+		return "about";
+	}
+      
+	@GetMapping("/support")
+	public String  support(){
+		return "support";
+	}
 	////////////// Login //////////////
 
 	@GetMapping("/login")
@@ -83,7 +97,7 @@ public class Controller {
 
 		model.addAttribute("user", new User());
 
-		return "Login/loginPage";
+		return "Login/login";
 	}
 
 	////////////// Signup //////////////

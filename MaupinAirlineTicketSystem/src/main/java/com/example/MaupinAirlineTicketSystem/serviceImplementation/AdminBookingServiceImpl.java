@@ -30,4 +30,9 @@ public class AdminBookingServiceImpl implements AdminBookingService {
 		return adminBookingRepo.save(booking);
 	}
 
+	@Override
+	public Booking findByBookingCodeAndUserLastName(String bookingCode, String lastName) {
+		return adminBookingRepo.findByBookingCodeAndUserLastName(bookingCode, lastName).orElse(null);
+	}
+
 }

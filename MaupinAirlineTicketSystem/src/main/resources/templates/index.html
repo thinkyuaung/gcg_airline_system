@@ -1,1615 +1,1122 @@
 <!DOCTYPE html>
-
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-
-<html xmlns:th="http://www.thymeleaf.org">
-
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Maubin — Book Smarter, Travel Further</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Maubin — Book Smarter, Travel Further</title>
 
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-<link rel="stylesheet" href="/css/style.css" />
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <style>
+        /* Glassmorphism Captions for Slider */
+        .hero-slider-glass {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            left: 5% !important;
+            right: auto !important;
+            bottom: 6% !important;
+            max-width: 85%;
+        }
+
+        /* Play Button Bounce effect */
+        .play-btn-bounce {
+            transition: transform 0.1s ease, box-shadow 0.2s ease;
+        }
+
+        .play-btn-bounce:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.25) !important;
+        }
+
+        .carousel-fade .carousel-item {
+            transition-property: opacity;
+            transition-duration: 0.5s !important;
+        }
+/* Ensure Top Promotion Banner stays on top */
+.top-promo-banner {
+    background: linear-gradient(90deg, #ffed4a 0%, #ffc107 100%);
+    position: relative;
+    z-index: 1060; 
+}
+
+/* Push the fixed navbar down when the banner is visible */
+body:has(.top-promo-banner.show) #mainNav {
+    top: 40px; /* Adjust according to banner height */
+    transition: top 0.3s ease;
+}
+
+/* Reset navbar position when banner is closed */
+body:has(.top-promo-banner:not(.show)) #mainNav {
+    top: 0;
+    transition: top 0.3s ease;
+}
+
+/* Styling for Top Promotion Banner */
+.top-promo-banner {
+    background: linear-gradient(90deg, #ffed4a 0%, #ffc107 100%);
+}
+    </style>
 </head>
-<style>
-/* Glassmorphism Captions for Slider */
-.hero-slider-glass {
-	background: rgba(0, 0, 0, 0.4);
-	backdrop-filter: blur(8px);
-	-webkit-backdrop-filter: blur(8px);
-	border: 1px solid rgba(255, 255, 255, 0.1);
-	left: 5% !important;
-	right: auto !important;
-	bottom: 6% !important;
-	max-width: 85%;
-}
-
-/* Play Button Bounce effect */
-.play-btn-bounce {
-	transition: transform 0.1s ease, box-shadow 0.2s ease;
-}
-
-.play-btn-bounce:hover {
-	transform: scale(1.1);
-	box-shadow: 0 4px 12px rgba(13, 110, 253, 0.25) !important;
-}
-
-.carousel-fade .carousel-item {
-	transition-property: opacity;
-	transition-duration: 0.5s !important;
-}
-
-.input-picker input:focus {
-	outline: none !important;
-	box-shadow: none !important;
-	background-color: transparent !important;
-}
-
-.input-picker:focus-within {
-	border-color: #0d6efd !important;
-	background-color: #ffffff !important;
-	box-shadow: none !important;
-	transition: border-color 0.2s ease;
-}
-</style>
 <body>
-
-
-	<!-- NAVBAR -->
-
-	<nav id="mainNav" class="navbar navbar-expand-lg fixed-top">
-		<div class="container">
-
-			<!-- Brand -->
-			<a class="navbar-brand d-flex align-items-center gap-2" href="#">
-				<div class="brand-icon">
-					<i class="bi bi-airplane-fill"></i>
-				</div> Maubin International AirLine
-			</a>
-     
-			<!-- Toggler -->
-			<button class="navbar-toggler border-0" type="button"
-				data-bs-toggle="collapse" data-bs-target="#navMenu">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			
-	<!-- Links -->
-<div class="collapse navbar-collapse" id="navMenu">
-  <ul class="navbar-nav mx-auto gap-lg-4 gap-2 mt-3 mt-lg-0">
-    <li class="nav-item"><a class="nav-link active" th:href="@{/airline/index}">Home</a></li>
-    <li class="nav-item"><a class="nav-link" th:href="@{/airline/flights}">Flights</a></li>
+   
+  <!-- 🌐 UNIFIED STICKY HEADER -->
+<header class="sticky-top p-0 border-0 shadow-sm">
     
-    
-    <li class="nav-item"><a class="nav-link" th:href="@{/airline/packages}">Package</a></li>
-    <li class="nav-item"><a class="nav-link" th:href="@{/airline/support}">Support</a></li>
-  </ul>
-</div>
-			
-
-      <!-- Right -->
-   <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
-        <div class="nav-search d-none d-md-flex me-1">
-          <i class="bi bi-search text-secondary"></i>
-          <input type="text" placeholder="Search..." />
+    <!-- TOP PROMOTION BANNER -->
+    <div class="alert alert-warning alert-dismissible fade show m-0 text-center rounded-0 border-0 py-2 top-promo-banner" role="alert">
+        <div class="container d-flex align-items-center justify-content-center gap-2">
+            <span class="badge bg-danger text-white fw-bold px-2 py-1">
+                <i class="bi bi-fire me-1"></i>PROMOTION
+            </span>
+            <span class="small fw-semibold text-dark">
+                Special Offer! August Promotion Get 30% OFF on your first flight booking. Use Code: <strong>MAUBIN30</strong>
+            </span>
         </div>
-        
-        <!-- Login  -->
-<a th:href="@{/airline/login}" class="btn btn-outline-primary px-3 fw-bold rounded-pill">
- <i class="bi bi-person"></i> Login
-</a>
-	  	<!-- Sign up  -->
-<a th:href="@{/airline/signup}" class="btn-signup px-3 text-decoration-none">
-  <i class="bi bi-person-plus-fill"></i> Sign Up
-</a>
-      </div>
-  </div> 
-</nav>
-
-  
-
-	<!-- HERO SECTION -->
-	<section id="hero" data-aos="fade-right"
-		class="position-relative overflow-hidden py-5">
-		<div class="hero-blob hero-blob-1"></div>
-		<div class="hero-blob hero-blob-2"></div>
-
-		<div class="container hero-content position-relative"
-			style="z-index: 5;">
-			<div class="row align-items-center gy-5">
-
-				<div class="col-lg-5">
-					<span
-						class="text-uppercase tracking-wider text-muted small fw-bold d-block mb-2"
-						style="letter-spacing: 1.5px;">Elevate Your Travel Journey</span>
-					<h1 class="hero-heading">
-						BOOK<br>SMARTER,<br>TRAVEL<br> <span>FURTURE</span>
-					</h1>
-					<p class="hero-sub">Your next destination is just a click away</p>
-
-					<div class="d-flex align-items-center gap-3 mt-4 flex-wrap">
-						<div class="dest-thumbs d-flex">
-							<img
-								src="https://images.pexels.com/photos/1534411/pexels-photo-1534411.jpeg?auto=compress&cs=tinysrgb&w=120"
-								alt="Dubai" title="Dubai"> <img
-								src="https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=120"
-								alt="London" title="London"> <img
-								src="https://i.pinimg.com/1200x/2a/0f/c5/2a0fc56c63ed836b7a4e2151179c2edf.jpg"
-								alt="Thailand" title="Thailand">
-						</div>
-
-						<a href="#booking" class="btn-book text-decoration-none"> Book
-							A Trip Now <i class="bi bi-chevron-right"></i>
-						</a>
-
-						<!-- <button class="btn btn-white rounded-circle d-flex align-items-center justify-content-center p-0 shadow-sm play-btn-bounce" 
-                  style="width: 45px; height: 45px; background-color: #ffffff; border: 2px solid #0d6efd;" 
-                  title="Watch Promo Video">
-            <i class="bi bi-play-fill text-primary fs-5" style="margin-left: 2px;"></i>
-          </button> -->
-					</div>
-				</div>
-
-				<div class="col-lg-7">
-					<div id="heroDestinationCarousel"
-						class="carousel slide carousel-fade shadow-lg"
-						data-bs-ride="carousel"
-						style="border-radius: 40px; overflow: hidden; border: 4px solid #ffffff;">
-
-						<div class="carousel-indicators">
-							<button type="button" data-bs-target="#heroDestinationCarousel"
-								data-bs-slide-to="0" class="active" aria-current="true"></button>
-							<button type="button" data-bs-target="#heroDestinationCarousel"
-								data-bs-slide-to="1"></button>
-							<button type="button" data-bs-target="#heroDestinationCarousel"
-								data-bs-slide-to="2"></button>
-							<button type="button" data-bs-target="#heroDestinationCarousel"
-								data-bs-slide-to="3"></button>
-							<button type="button" data-bs-target="#heroDestinationCarousel"
-								data-bs-slide-to="4"></button>
-							<button type="button" data-bs-target="#heroDestinationCarousel"
-								data-bs-slide-to="5"></button>
-							<button type="button" data-bs-target="#heroDestinationCarousel"
-								data-bs-slide-to="6"></button>
-
-						</div>
-
-						<div class="carousel-inner" style="height: 450px;">
-
-
-							<div class="carousel-item active h-100" data-bs-interval="4000">
-								<img
-									src="https://i.pinimg.com/1200x/9b/5c/d9/9b5cd9b6019ef4555a699637d7a4eca2.jpg"
-									class="d-block w-100 h-100" style="object-fit: cover;"
-									alt="SkyNest Flight">
-								<div
-									class="carousel-caption d-none d-md-block text-start p-3 rounded-4 hero-slider-glass">
-									<h6 class="fw-bold text-warining m-0">
-										<i class="bi bi-geo-alt-fill"></i> Maubin AirFlight
-									</h6>
-									<p class="small text-white-50 m-0">Fly with high comfort
-										and safe modern aviation standard.</p>
-								</div>
-							</div>
-
-
-
-							<div class="carousel-item h-100" data-bs-interval="4000">
-								<img
-									src="https://i.pinimg.com/1200x/40/0e/d2/400ed2604ca9e37b2072dbc744511e1f.jpg"
-									class="d-block w-100 h-100" style="object-fit: cover;"
-									alt="Thailand">
-					 			<div
-									class="carousel-caption d-none d-md-block text-start p-3 rounded-4 hero-slider-glass">
-									<h6 class="fw-bold text-success m-0">
-										<i class="bi bi-geo-alt-fill"></i> Phi Phi Island, Thailand
-									</h6>
-									<p class="small text-white-50 m-0">Discover historic
-										landmarks and beautiful classic streets.</p>
-								</div>
-					 		</div>
-
-							<div class="carousel-item h-100" data-bs-interval="4000">
-								<img
-									src="https://i.pinimg.com/1200x/81/92/e5/8192e5a33fd457bead006f17c02cfb2b.jpg"
-									class="d-block w-100 h-100" style="object-fit: cover;"
-									alt="London">
-								<div
-									class="carousel-caption d-none d-md-block text-start p-3 rounded-4 hero-slider-glass">
-									<h6 class="fw-bold text-warning m-0">
-										<i class="bi bi-geo-alt-fill"></i> London, Unit Kingdom
-									</h6>
-									<p class="small text-white-50 m-0">Discover historic
-										landmarks and beautiful classic streets.</p>
-								</div>
-							</div>
-
-							<div class="carousel-item h-100" data-bs-interval="4000">
-								<img
-									src="https://i.pinimg.com/736x/c0/9f/c2/c09fc2d7c58de95e8d5a24f5517acf5f.jpg"
-									class="d-block w-100 h-100" style="object-fit: cover;"
-									alt="Dubai">
-								<div
-									class="carousel-caption d-none d-md-block text-start p-3 rounded-4 hero-slider-glass">
-									<h6 class="fw-bold text-info m-0">
-										<i class="bi bi-geo-alt-fill"></i>Tropical Paradise, Dubai
-									</h6>
-									<p class="small text-white-50 m-0">Unwind on crystal-clear
-										beaches and golden sunsets.</p>
-								</div>
-							</div>
-
-							<div class="carousel-item h-100" data-bs-interval="4000">
-								<img
-									src="https://i.pinimg.com/736x/ba/f2/b9/baf2b9e5f25873aa6d0227b3a10f87bc.jpg"
-									class="d-block w-100 h-100" style="object-fit: cover;"
-									alt="Cambodia">
-								<div
-									class="carousel-caption d-none d-md-block text-start p-3 rounded-4 hero-slider-glass">
-									<h6 class="fw-bold text-info m-0">
-										<i class="bi bi-geo-alt-fill"></i>Angor Wat, Cambodia
-									</h6>
-									<p class="small text-white-50 m-0">Unwind on crystal-clear
-										beaches and golden sunsets.</p>
-								</div>
-							</div>
-
-
-
-							<div class="carousel-item h-100" data-bs-interval="4000">
-								<img
-									src="https://i.pinimg.com/1200x/54/ed/ef/54edef55a3548d92d99095425d6795d1.jpg"
-									class="d-block w-100 h-100" style="object-fit: cover;"
-									alt="Myanamr">
-								<div
-									class="carousel-caption d-none d-md-block text-start p-3 rounded-4 hero-slider-glass">
-									<h6 class="fw-bold text-warning m-0">
-										<i class="bi bi-geo-alt-fill"></i>Bagan, Myanmar
-									</h6>
-									<p class="small text-white-50 m-0">Unwind on crystal-clear
-										beaches and golden sunsets.</p>
-								</div>
-							</div>
-
-
-
-
-							<div class="carousel-item h-100" data-bs-interval="4000">
-								<img
-									src="https://i.pinimg.com/1200x/51/5d/8c/515d8c9924a9787186b947ce7e9361dd.jpg"
-									class="d-block w-100 h-100" style="object-fit: cover;"
-									alt="Japan">
-								<div
-									class="carousel-caption d-none d-md-block text-start p-3 rounded-4 hero-slider-glass">
-									<h6 class="fw-bold text-info m-0">
-										<i class="bi bi-geo-alt-fill"></i>Miyasaki, Japan
-									</h6>
-									<p class="small text-white-50 m-0">Unwind on crystal-clear
-										beaches and golden sunsets.</p>
-								</div>
-							</div>
-
-						</div>
-
-						<button class="carousel-control-prev" type="button"
-							data-bs-target="#heroDestinationCarousel" data-bs-slide="prev">
-							<span
-								class="carousel-control-prev-icon p-2 rounded-circle bg-dark bg-opacity-25"
-								aria-hidden="true"></span>
-						</button>
-						<button class="carousel-control-next" type="button"
-							data-bs-target="#heroDestinationCarousel" data-bs-slide="next">
-							<span
-								class="carousel-control-next-icon p-2 rounded-circle bg-dark bg-opacity-25"
-								aria-hidden="true"></span>
-						</button>
-
-					</div>
-				</div>
-
-			</div>
-		</div>
-	</section>
-
-
-
-	<!-- Social Sidebar -->
-	<div class="social-stack">
-		<a href="#" title="X / Twitter"><i class="bi bi-twitter-x"></i></a> <a
-			href="#" title="Instagram"><i class="bi bi-instagram"></i></a> <a
-			href="#" title="YouTube"><i class="bi bi-youtube"></i></a> <a
-			href="#" title="Facebook"><i class="bi bi-facebook"></i></a>
-	</div>
-	</section>
-
-
-	<!-- ============================================================
-     FLIGHT BOOKING WIDGET
-     ============================================================ -->
-<section id="booking" data-aos="fade-up">
-
-<div class="container">
-
-<div class="booking-card">
-
-
-<form th:action="@{/airline/search}" method="post">
-
-
-<!-- Top row -->
-
-<div class="d-flex flex-wrap align-items-center gap-3 mb-4 pb-3 border-bottom">
-
-
-<button type="button" class="widget-pill">
-
-<i class="bi bi-airplane"></i>
-
-Flights
-
-<i class="bi bi-chevron-down"></i>
-
-</button>
-
-
-
-<button type="button" class="widget-pill">
-
-<i class="bi bi-people"></i>
-
-Travelers
-
-<i class="bi bi-chevron-down"></i>
-
-</button>
-
-
-
-<button type="button" class="widget-pill">
-
-<i class="bi bi-seat"></i>
-
-Seat Class
-
-<i class="bi bi-chevron-down"></i>
-
-</button>
-
-
-
-
-<div class="d-flex gap-4 ms-auto trip-radio">
-
-
-<label>
-
-<input type="radio"
-name="tripType"
-value="two-way"
-checked>
-
-Two Way
-
-</label>
-
-
-
-<label>
-
-<input type="radio"
-name="tripType"
-value="one-way">
-
-One Way
-
-</label>
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-<!-- Search Inputs -->
-
-<div class="row g-3">
-
-
-
-
-
-<!-- Departure -->
-
-<div class="col-6 col-md-3">
-
-
-<div class="input-picker">
-
-
-<label>
-
-<i class="bi bi-geo-alt-fill"></i>
-
-From
-
-</label>
-
-
-
-<select name="departureCity"
-class="form-select"
-required>
-
-
-<option value="">
-Select departure
-</option>
-
-
-<option th:each="airport:${airports}"
-
-        th:value="${airport.city}"
-
-        th:text="${airport.city + ' (' + airport.airportCode + ')'}">
-
-
-</option>
-
-
-</select>
-
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-<!-- Arrival -->
-
-
-<div class="col-6 col-md-3">
-
-
-<div class="input-picker">
-
-
-<label>
-
-<i class="bi bi-geo-alt-fill"></i>
-
-To
-
-</label>
-
-
-
-<select name="arrivalCity"
-class="form-select"
-required>
-
-
-<option value="">
-Select destination
-</option>
-
-
-
-<option th:each="airport:${airports}"
-
-        th:value="${airport.city}"
-
-        th:text="${airport.city + ' (' + airport.airportCode + ')'}">
-
-
-</option>
-
-
-</select>
-
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-<!-- Departure Date -->
-
-
-<div class="col-6 col-md-3">
-
-
-<div class="input-picker">
-
-
-<label>
-
-<i class="bi bi-calendar-event"></i>
-
-Departure
-
-</label>
-
-
-
-<input type="date"
-
-name="departureDate"
-
-required>
-
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-<!-- Passengers -->
-
-
-<div class="col-6 col-md-3">
-
-
-<div class="input-picker">
-
-
-<label>
-
-<i class="bi bi-person-check"></i>
-
-Passengers
-
-</label>
-
-
-
-<input type="number"
-
-name="passengers"
-
-value="1"
-
-min="1"
-
-max="50"
-
-required>
-
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-<!-- Seat Class -->
-
-
-<div class="col-6 col-md-3">
-
-
-<div class="input-picker">
-
-
-<label>
-
-<i class="bi bi-chair"></i>
-
-Seat Class
-
-</label>
-
-
-
-<select name="seatClass"
-class="form-select">
-
-
-
-<option value="Economy">
-
-Economy
-
-</option>
-
-<option value="Business">
-
-Business
-
-</option>
-
-
-
-<option value="First">
-
-First Class
-
-</option>
-
-
-
-</select>
-
-
-
-</option>
-
-
-</select> 
-
-</div>
-
-
-</div>
-
-
-
-
-
-</div>
-
-
-
-
-
-
-
-<!-- Search Button -->
-
-
-<div class="d-flex justify-content-end mt-4">
-
-
-<button type="submit"
-
-class="btn-search-flights">
-
-
-<i class="bi bi-search"></i>
-
-Search Flights
-
-
-</button>
-
-
-
-</div>
-
-
-
-
-</form>
-
-
-
-</div>
-
-
-</div>
-
-
-</section>
-
-
-     <!-- EXCLUSIVE DEALS -->
-<section id="deals" class="section-padding" data-aos="fade-up">
-  <div class="container">
-    <div class="text-center mb-5">
-      <h2 class="section-title">Maubin AirLine Exclusive Travel Packages</h2>
-      <div class="divider"></div>
-      <p class="section-sub mt-3">Premium Travel Experiences at Unbeatable Rates.</p>
+        <button type="button" class="btn-close py-2" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
-			<div class="row g-4" data-aos="fade-up">
+    <!-- MAIN NAVBAR -->
+    <nav id="mainNav" class="navbar navbar-expand-lg bg-white border-bottom py-2">
+        <div class="container">
+            
+            <!-- BRAND LOGO -->
+            <a class="navbar-brand d-flex align-items-center gap-2" th:href="@{/airline/index}">
+                <div class="brand-icon">
+                    <img th:src="@{/images/Maubin AirLine.png}" alt="Maubin AirLine Logo" class="brand-logo-img">
+                </div> 
+                <span class="fw-bold text-dark fs-5">Maubin International AirLine</span>
+            </a>
+
+            <!-- MOBILE TOGGLER -->
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+             <!-- NAV LINKS & BUTTONS -->
+            <div class="collapse navbar-collapse" id="navMenu">   
+                <!-- NAV LINKS WITH DYNAMIC THYMELEAF ACTIVE STATE -->
+<ul class="navbar-nav mx-auto gap-lg-4 gap-2 mt-3 mt-lg-0 fw-semibold">
+    <li class="nav-item">
+        <a class="nav-link" 
+           th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI == '/airline/'} ? 'active' : ''" 
+           th:href="@{/airline/}">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" 
+           th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI.startsWith('/airline/flights')} ? 'active' : ''" 
+           th:href="@{/airline/flights}">Flights</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" 
+           th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI.startsWith('/airline/about')} ? 'active' : ''" 
+           th:href="@{/airline/about}">About</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" 
+           th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI.startsWith('/airline/support')} ? 'active' : ''" 
+           th:href="@{/airline/support}">Support</a>
+    </li>
+</ul>
+<!-- Right Controls Container with spacing gap -->
+<div class="d-flex align-items-center gap-2 mt-3 mt-lg-0 ms-lg-auto">
+    
+    <!-- Clean Search Bar Container -->
+    <div class="search-box-wrapper d-none d-md-block">
+        <i class="bi bi-search search-icon"></i>
+        <input 
+            type="text" 
+            class="form-control search-input" 
+            placeholder="Search..." 
+            aria-label="Search"
+        />
+    </div>
+
+    <!-- Login Button -->
+    <a th:href="@{/airline/login}" class="btn btn-outline-primary px-3 fw-bold rounded-pill ms-2">
+        <i class="bi bi-person me-1"></i> Login
+    </a>
+    
+    <!-- Sign Up Button -->
+    <a th:href="@{/airline/signup}" class="btn btn-primary px-3 fw-bold rounded-pill">
+        <i class="bi bi-person-plus-fill me-1"></i> Sign Up
+    </a>
+
+</div>
+    </nav>
+
+</header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" data-aos="fade-right" class="position-relative overflow-hidden py-5">
+        <div class="hero-blob hero-blob-1"></div>
+        <div class="hero-blob hero-blob-2"></div>
+
+        <div class="container hero-content position-relative" style="z-index: 5;">
+            <div class="row align-items-center gy-5">
+
+                <div class="col-lg-5">
+                    <span class="text-uppercase tracking-wider text-muted small fw-bold d-block mb-2" style="letter-spacing: 1.5px;">Elevate Your Travel Journey</span>
+                    <h1 class="hero-heading">
+                        BOOK<br>SMARTER,<br>TRAVEL<br> <span>FURTHER</span>
+                    </h1>
+                    <p class="hero-sub">Your next destination is just a click away</p>
+
+                    <div class="d-flex align-items-center gap-3 mt-4 flex-wrap">
+                        <div class="dest-thumbs d-flex">
+                            <img th:src="@{/images/uae.avif}" alt="Dubai" title="Dubai">
+                            <img th:src="@{/images/UK.jpg}" alt="London" title="London">
+                            <img th:src="@{/images/Thai.jpg}" alt="Thailand" title="Thailand">
+                        </div>
+
+                        <a href="#booking" class="btn-book text-decoration-none">
+                            Book A Trip Now <i class="bi bi-chevron-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-7">
+                    <div id="heroDestinationCarousel" class="carousel slide carousel-fade shadow-lg" data-bs-ride="carousel" style="border-radius: 40px; overflow: hidden; border: 4px solid #ffffff;">
+
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#heroDestinationCarousel" data-bs-slide-to="0" class="active" aria-current="true"></button>
+                            <button type="button" data-bs-target="#heroDestinationCarousel" data-bs-slide-to="1"></button>
+                            <button type="button" data-bs-target="#heroDestinationCarousel" data-bs-slide-to="2"></button>
+                            <button type="button" data-bs-target="#heroDestinationCarousel" data-bs-slide-to="3"></button>
+                            <button type="button" data-bs-target="#heroDestinationCarousel" data-bs-slide-to="4"></button>
+                            <button type="button" data-bs-target="#heroDestinationCarousel" data-bs-slide-to="5"></button>
+                            <button type="button" data-bs-target="#heroDestinationCarousel" data-bs-slide-to="6"></button>
+                        </div>
+
+                        <div class="carousel-inner" style="height: 450px;">
+                            <div class="carousel-item active h-100" data-bs-interval="4000">
+                                <img th:src="@{/images/AirPlane.jpg}" class="d-block w-100 h-100" style="object-fit: cover;" alt="SkyNest Flight">
+                                <div class="carousel-caption d-none d-md-block text-start p-3 rounded-4 hero-slider-glass">
+                                    <h6 class="fw-bold text-warning m-0"><i class="bi bi-geo-alt-fill"></i> Maubin AirFlight</h6>
+                                    <p class="small text-white-50 m-0">Fly with high comfort and safe modern aviation standard.</p>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item h-100" data-bs-interval="4000">
+                                <img th:src="@{/images/Thailand.jpg}" class="d-block w-100 h-100" style="object-fit: cover;" alt="Thailand">
+                                <div class="carousel-caption d-none d-md-block text-start p-3 rounded-4 hero-slider-glass">
+                                    <h6 class="fw-bold text-success m-0"><i class="bi bi-geo-alt-fill"></i> Phi Phi Island, Thailand</h6>
+                                    <p class="small text-white-50 m-0">Discover historic landmarks and beautiful classic streets.</p>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item h-100" data-bs-interval="4000">
+                                <img th:src="@{/images/UK.jpg}" class="d-block w-100 h-100" style="object-fit: cover;" alt="London">
+                                <div class="carousel-caption d-none d-md-block text-start p-3 rounded-4 hero-slider-glass">
+                                    <h6 class="fw-bold text-warning m-0"><i class="bi bi-geo-alt-fill"></i> London, United Kingdom</h6>
+                                    <p class="small text-white-50 m-0">Discover historic landmarks and beautiful classic streets.</p>
+                                </div>
+                             </div>
+
+                            <div class="carousel-item h-100" data-bs-interval="4000">
+                                <img th:src="@{/images/Dubai.jpg}" class="d-block w-100 h-100" style="object-fit: cover;" alt="Dubai">
+                                <div class="carousel-caption d-none d-md-block text-start p-3 rounded-4 hero-slider-glass">
+                                    <h6 class="fw-bold text-info m-0"><i class="bi bi-geo-alt-fill"></i> Tropical Paradise, Dubai</h6>
+                                    <p class="small text-white-50 m-0">Unwind on crystal-clear beaches and golden sunsets.</p>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item h-100" data-bs-interval="4000">
+                                <img th:src="@{/images/Cambodia.jpg}" class="d-block w-100 h-100" style="object-fit: cover;" alt="Cambodia">
+                                <div class="carousel-caption d-none d-md-block text-start p-3 rounded-4 hero-slider-glass">
+                                    <h6 class="fw-bold text-info m-0"><i class="bi bi-geo-alt-fill"></i> Angkor Wat, Cambodia</h6>
+                                    <p class="small text-white-50 m-0">Unwind on crystal-clear beaches and golden sunsets.</p>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item h-100" data-bs-interval="4000">
+                                <img th:src="@{/images/Bagan.jpg}" class="d-block w-100 h-100" style="object-fit: cover;" alt="Myanmar">
+                                <div class="carousel-caption d-none d-md-block text-start p-3 rounded-4 hero-slider-glass">
+                                    <h6 class="fw-bold text-warning m-0"><i class="bi bi-geo-alt-fill"></i> Bagan, Myanmar</h6>
+                                    <p class="small text-white-50 m-0">Unwind on crystal-clear beaches and golden sunsets.</p>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item h-100" data-bs-interval="4000">
+                                <img th:src="@{/images/Japan.jpg}" class="d-block w-100 h-100" style="object-fit: cover;" alt="Japan">
+                                <div class="carousel-caption d-none d-md-block text-start p-3 rounded-4 hero-slider-glass">
+                                    <h6 class="fw-bold text-info m-0"><i class="bi bi-geo-alt-fill"></i> Miyazaki, Japan</h6>
+                                    <p class="small text-white-50 m-0">Unwind on crystal-clear beaches and golden sunsets.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="carousel-control-prev" type="button" data-bs-target="#heroDestinationCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon p-2 rounded-circle bg-dark bg-opacity-25" aria-hidden="true"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#heroDestinationCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon p-2 rounded-circle bg-dark bg-opacity-25" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </div>
 
-				<!-- Dubai -->
-				<div class="col-md-4">
-					<div class="card deal-card border-0 h-100">
-						<div class="deal-img-wrap">
-							<img
-								src="https://i.pinimg.com/1200x/b5/b9/50/b5b9508f565c91e781714445beca26e4.jpg"
-								alt="Dubai"> <span class="deal-city">Yangon ⇌ Dubai</span>
-						</div>
-						<div class="card-body p-4">
-							<div
-								class="d-flex justify-content-between align-items-start mb-3">
-								<div>
-									<div class="selected-pkg-label">Selected Package</div>
-									<div class="selected-price-display" data-card="dubai">$2,499</div>
-								</div>
-							</div>
-
-							<div class="pkg-options" data-target="dubai">
-								<div class="pkg-option selected" data-price="$2,499">
-									<div class="pkg-radio-wrap">
-										<div class="pkg-radio-dot"></div>
-									</div>
-									<span class="pkg-name">Elite Escape</span> <span
-										class="pkg-price">$2,499</span>
-								</div>
-								<div class="pkg-option" data-price="$1,299">
-									<div class="pkg-radio-wrap">
-										<div class="pkg-radio-dot"></div>
-									</div>
-									<span class="pkg-name">Smart Saver</span> <span
-										class="pkg-price">$1,299</span>
-								</div>
-								<div class="pkg-option" data-price="$799">
-									<div class="pkg-radio-wrap">
-										<div class="pkg-radio-dot"></div>
-									</div>
-									<span class="pkg-name">Budget Explorer</span> <span
-										class="pkg-price">$799</span>
-								</div>
-							</div>
-
-							<button class="btn-learn-more mt-3">
-								Learn more <i class="bi bi-arrow-right"></i>
-							</button>
-						</div>
-					</div>
-				</div>
-
-				<!-- London -->
-				<div class="col-md-4">
-					<div class="card deal-card border-0 h-100">
-						<div class="deal-img-wrap">
-							<img
-								src="https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=600"
-								alt="London"> <span class="deal-city">Yangon ⇌
-								London</span>
-						</div>
-						<div class="card-body p-4">
-							<div
-								class="d-flex justify-content-between align-items-start mb-3">
-								<div>
-									<div class="selected-pkg-label">Selected Package</div>
-									<div class="selected-price-display" data-card="london">$3,199</div>
-								</div>
-							</div>
-
-							<div class="pkg-options" data-target="london">
-								<div class="pkg-option selected" data-price="$3,199">
-									<div class="pkg-radio-wrap">
-										<div class="pkg-radio-dot"></div>
-									</div>
-									<span class="pkg-name">Elite Escape</span> <span
-										class="pkg-price">$3,199</span>
-								</div>
-								<div class="pkg-option" data-price="$1,599">
-									<div class="pkg-radio-wrap">
-										<div class="pkg-radio-dot"></div>
-									</div>
-									<span class="pkg-name">Smart Saver</span> <span
-										class="pkg-price">$1,599</span>
-								</div>
-								<div class="pkg-option" data-price="$899">
-									<div class="pkg-radio-wrap">
-										<div class="pkg-radio-dot"></div>
-									</div>
-									<span class="pkg-name">Budget Explorer</span> <span
-										class="pkg-price">$899</span>
-								</div>
-							</div>
-
-							<button class="btn-learn-more mt-3">
-								Learn more <i class="bi bi-arrow-right"></i>
-							</button>
-						</div>
-					</div>
-				</div>
-
-				<!-- Thailand -->
-				<div class="col-md-4">
-					<div class="card deal-card border-0 h-100">
-						<div class="deal-img-wrap">
-							<img
-								src="https://i.pinimg.com/1200x/2a/0f/c5/2a0fc56c63ed836b7a4e2151179c2edf.jpg"
-								alt="Thailand"> <span class="deal-city">Yangon ⇌
-								Bangkok</span>
-						</div>
-						<div class="card-body p-4">
-							<div
-								class="d-flex justify-content-between align-items-start mb-3">
-								<div>
-									<div class="selected-pkg-label">Selected Package</div>
-									<div class="selected-price-display" data-card="thailand">$1,999</div>
-								</div>
-							</div>
-
-							<div class="pkg-options" data-target="thailand">
-								<div class="pkg-option selected" data-price="$1,999">
-									<div class="pkg-radio-wrap">
-										<div class="pkg-radio-dot"></div>
-									</div>
-									<span class="pkg-name">Elite Escape</span> <span
-										class="pkg-price">$1,999</span>
-								</div>
-								<div class="pkg-option" data-price="$999">
-									<div class="pkg-radio-wrap">
-										<div class="pkg-radio-dot"></div>
-									</div>
-									<span class="pkg-name">Smart Saver</span> <span
-										class="pkg-price">$999</span>
-								</div>
-								<div class="pkg-option" data-price="$599">
-									<div class="pkg-radio-wrap">
-										<div class="pkg-radio-dot"></div>
-									</div>
-									<span class="pkg-name">Budget Explorer</span> <span
-										class="pkg-price">$599</span>
-								</div>
-							</div>
-
-							<button class="btn-learn-more mt-3">
-								Learn more <i class="bi bi-arrow-right"></i>
-							</button>
-						</div>
-					</div>
-				</div>
-
-				<!--Singpore-->
-				<div class="col-md-4">
-					<div class="card deal-card border-0 h-100">
-						<div class="deal-img-wrap">
-							<img
-								src="https://i.pinimg.com/1200x/47/b5/5e/47b55ebbba5bd93897a1445c5b7bfee7.jpg"
-								alt="Singpore"> <span class="deal-city">Yangon ⇌
-								Singapore</span>
-						</div>
-						<div class="card-body p-4">
-							<div
-								class="d-flex justify-content-between align-items-start mb-3">
-								<div>
-									<div class="selected-pkg-label">Selected Package</div>
-									<div class="selected-price-display" data-card="thailand">$1,999</div>
-								</div>
-							</div>
-
-							<div class="pkg-options" data-target="thailand">
-								<div class="pkg-option selected" data-price="$1,999">
-									<div class="pkg-radio-wrap">
-										<div class="pkg-radio-dot"></div>
-									</div>
-									<span class="pkg-name">Elite Escape</span> <span
-										class="pkg-price">$1,999</span>
-								</div>
-								<div class="pkg-option" data-price="$999">
-									<div class="pkg-radio-wrap">
-										<div class="pkg-radio-dot"></div>
-									</div>
-									<span class="pkg-name">Smart Saver</span> <span
-										class="pkg-price">$999</span>
-								</div>
-								<div class="pkg-option" data-price="$599">
-									<div class="pkg-radio-wrap">
-										<div class="pkg-radio-dot"></div>
-									</div>
-									<span class="pkg-name">Budget Explorer</span> <span
-										class="pkg-price">$599</span>
-								</div>
-							</div>
-
-							<button class="btn-learn-more mt-3">
-								Learn more <i class="bi bi-arrow-right"></i>
-							</button>
-						</div>
-					</div>
-				</div>
-				<!--China-->
-				<div class="col-md-4">
-					<div class="card deal-card border-0 h-100">
-						<div class="deal-img-wrap">
-							<img
-								src="https://i.pinimg.com/1200x/c5/44/b5/c544b5caa3096646918eb4767101436f.jpg"
-								alt="Shanhai"> <span class="deal-city">Yangon ⇌
-								Shanhai</span>
-						</div>
-						<div class="card-body p-4">
-							<div
-								class="d-flex justify-content-between align-items-start mb-3">
-								<div>
-									<div class="selected-pkg-label">Selected Package</div>
-									<div class="selected-price-display" data-card="thailand">$1,999</div>
-								</div>
-							</div>
-
-							<div class="pkg-options" data-target="thailand">
-								<div class="pkg-option selected" data-price="$1,999">
-									<div class="pkg-radio-wrap">
-										<div class="pkg-radio-dot"></div>
-									</div>
-									<span class="pkg-name">Elite Escape</span> <span
-										class="pkg-price">$1,999</span>
-								</div>
-								<div class="pkg-option" data-price="$999">
-									<div class="pkg-radio-wrap">
-										<div class="pkg-radio-dot"></div>
-									</div>
-									<span class="pkg-name">Smart Saver</span> <span
-										class="pkg-price">$999</span>
-								</div>
-								<div class="pkg-option" data-price="$599">
-									<div class="pkg-radio-wrap">
-										<div class="pkg-radio-dot"></div>
-									</div>
-									<span class="pkg-name">Budget Explorer</span> <span
-										class="pkg-price">$599</span>
-								</div>
-							</div>
-
-							<button class="btn-learn-more mt-3">
-								Learn more <i class="bi bi-arrow-right"></i>
-							</button>
-						</div>
-					</div>
-				</div>
-
-				<!--Tokyo-->
-				<div class="col-md-4">
-					<div class="card deal-card border-0 h-100">
-						<div class="deal-img-wrap">
-							<img
-								src="https://i.pinimg.com/1200x/ed/98/be/ed98be3f83bbd7c7cf8f357cec9e9ff6.jpg"
-								alt="Tokyo"> <span class="deal-city">Yangon ⇌ Tokyo</span>
-						</div>
-						<div class="card-body p-4">
-							<div
-								class="d-flex justify-content-between align-items-start mb-3">
-								<div>
-									<div class="selected-pkg-label">Selected Package</div>
-									<div class="selected-price-display" data-card="thailand">$1,999</div>
-								</div>
-							</div>
-
-							<div class="pkg-options" data-target="thailand">
-								<div class="pkg-option selected" data-price="$1,999">
-									<div class="pkg-radio-wrap">
-										<div class="pkg-radio-dot"></div>
-									</div>
-									<span class="pkg-name">Elite Escape</span> <span
-										class="pkg-price">$1,999</span>
-								</div>
-								<div class="pkg-option" data-price="$999">
-									<div class="pkg-radio-wrap">
-										<div class="pkg-radio-dot"></div>
-									</div>
-									<span class="pkg-name">Smart Saver</span> <span
-										class="pkg-price">$999</span>
-								</div>
-								<div class="pkg-option" data-price="$599">
-									<div class="pkg-radio-wrap">
-										<div class="pkg-radio-dot"></div>
-									</div>
-									<span class="pkg-name">Budget Explorer</span> <span
-										class="pkg-price">$599</span>
-								</div>
-							</div>
-
-							<button class="btn-learn-more mt-3">
-								Learn more <i class="bi bi-arrow-right"></i>
-							</button>
-						</div>
-					</div>
-				</div>
-
-
-
-			</div>
-			<!-- /row -->
-		</div>
-	</section>
-
-
-
-
-
-	<!-- ============================================================
-     POPULAR DESTINATIONS
-     ============================================================ -->
-	<section id="destinations" data-aos="fade-left">
-		<div class="container">
-			<div class="text-center mb-5">
-				<h2 class="section-title">Popular Destinations</h2>
-				<div class="divider"></div>
-			</div>
-
-			<div class="d-flex align-items-center gap-3">
-				<!-- Prev -->
-				<button class="dest-nav-btn" id="destPrev" disabled>
-					<i class="bi bi-chevron-left"></i>
-				</button>
-
-				<!-- Track -->
-				<div class="dest-carousel-track flex-grow-1">
-					<div class="dest-carousel-inner" id="destInner">
-
-						<div class="dest-card">
-							<img
-								src="https://images.pexels.com/photos/1285625/pexels-photo-1285625.jpeg?auto=compress&cs=tinysrgb&w=500"
-								alt="Santorini" loading="lazy">
-							<div class="dest-card-overlay"></div>
-							<div class="dest-card-info">
-								<div class="dest-card-name">Santorini</div>
-								<div class="dest-card-country">Greece</div>
-							</div>
-						</div>
-
-						<div class="dest-card">
-							<img
-								src="https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&w=500"
-								alt="Banff" loading="lazy">
-							<div class="dest-card-overlay"></div>
-							<div class="dest-card-info">
-								<div class="dest-card-name">Banff National Park</div>
-								<div class="dest-card-country">Canada</div>
-							</div>
-						</div>
-
-						<div class="dest-card">
-							<img
-								src="https://images.pexels.com/photos/1440476/pexels-photo-1440476.jpeg?auto=compress&cs=tinysrgb&w=500"
-								alt="Kyoto" loading="lazy">
-							<div class="dest-card-overlay"></div>
-							<div class="dest-card-info">
-								<div class="dest-card-name">Kyoto Temples</div>
-								<div class="dest-card-country">Japan</div>
-							</div>
-						</div>
-
-						<div class="dest-card">
-							<img
-								src="https://images.pexels.com/photos/1583339/pexels-photo-1583339.jpeg?auto=compress&cs=tinysrgb&w=500"
-								alt="Taj Mahal" loading="lazy">
-							<div class="dest-card-overlay"></div>
-							<div class="dest-card-info">
-								<div class="dest-card-name">Taj Mahal</div>
-								<div class="dest-card-country">India</div>
-							</div>
-						</div>
-
-						<div class="dest-card">
-							<img
-								src="https://images.pexels.com/photos/2868242/pexels-photo-2868242.jpeg?auto=compress&cs=tinysrgb&w=500"
-								alt="Rio De Janeiro" loading="lazy">
-							<div class="dest-card-overlay"></div>
-							<div class="dest-card-info">
-								<div class="dest-card-name">Rio De Janeiro</div>
-								<div class="dest-card-country">Brazil</div>
-							</div>
-						</div>
-
-						<div class="dest-card">
-							<img
-								src="https://i.pinimg.com/1200x/5c/41/9a/5c419a116cfa5021e8e3ef50bc2f2ecc.jpg"
-								alt="Amalfi Coast" loading="lazy">
-							<div class="dest-card-overlay"></div>
-							<div class="dest-card-info">
-								<div class="dest-card-name">Amalfi Coast</div>
-								<div class="dest-card-country">Italy</div>
-							</div>
-						</div>
-
-					</div>
-					<!-- /inner -->
-				</div>
-
-				<!-- Next -->
-				<button class="dest-nav-btn" id="destNext">
-					<i class="bi bi-chevron-right"></i>
-				</button>
-			</div>
-
-			<!-- Dots -->
-			<div class="dest-dots" id="destDots"></div>
-
-		</div>
-	</section>
-
-
-	<!-- ABOUT US -->
-	<section id="about" data-aos="zoom-in">
-		<div class="container">
-			<div class="text-center mb-5">
-				<h2 class="section-title">About Us</h2>
-				<div class="divider"></div>
-			</div>
-
-			<div class="row align-items-center gy-5">
-
-				<!-- Text -->
-				<div class="col-lg-6">
-					<p class="about-body">At Maubin AirLine Travels, we believe travel
-						isn't just about visiting places — it's about creating
-						unforgettable experiences. From sun-kissed beaches to iconic
-						landmarks, we design seamless journeys tailored to your dreams.</p>
-					<p class="about-body">With decades of expertise and an
-						unwavering commitment to luxury, our mission is to make travel
-						planning effortless and exciting. Whether it's an adventurous
-						expedition, a romantic getaway, or a spiritual escape, we're here
-						to fly you away with style and simplicity.</p>
-					<p class="about-body mb-4">Let us take you places you've always
-						dreamed of — the world is waiting.</p>
-
-					<!-- Stats -->
-					<div class="row g-4 text-center mt-1">
-						<div class="col-4">
-							<div class="about-stat-value">12K+</div>
-							<div class="about-stat-label">Happy Travelers</div>
-						</div>
-						<div class="col-4">
-							<div class="about-stat-value">180+</div>
-							<div class="about-stat-label">Destinations</div>
-						</div>
-						<div class="col-4">
-							<div class="about-stat-value">98%</div>
-							<div class="about-stat-label">Satisfaction Rate</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Image -->
-				<div class="col-lg-6">
-					<div class="about-img-frame">
-						<img
-							src="https://images.pexels.com/photos/358319/pexels-photo-358319.jpeg?auto=compress&cs=tinysrgb&w=900"
-							alt="Private Jet" />
-						<div class="about-badge">
-							<div class="about-badge-icon">
-								<i class="bi bi-patch-check-fill"></i>
-							</div>
-							<div>
-								<div class="about-badge-title">Trusted Agency</div>
-								<div class="about-badge-sub">Since 1999</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-			</div>
-		</div>
-	</section>
-
-
-
-	<!-- TESTIMONIALS -->
-	<section id="testimonials">
-		<div class="container">
-			<div class="text-center mb-5">
-				<h2 class="section-title">Maubin AirLine Clients</h2>
-				<div class="divider"></div>
-				<p class="section-sub mt-3">What our travelers say about us</p>
-			</div>
-
-			<div class="row g-4">
-
-				<!-- Arjun -->
-				<div class="col-md-4">
-					<div class="testi-card">
-						<div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-						<p class="testi-text">"SkyNest completely changed how I plan
-							business trips. The seamless booking process saved me hours of
-							hassle. From first-class flights to premium hotels — they had it
-							all covered. Absolutely world-class service!"</p>
-						<div class="d-flex align-items-center gap-3 mt-4 pt-3 border-top">
-							<img class="testi-avatar"
-								src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=100"
-								alt="Arjun Malhotra">
-							<div>
-								<div class="testi-name">Arjun Malhotra</div>
-								<div class="testi-role">Business Traveler</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Sara -->
-				<div class="col-md-4">
-					<div class="testi-card">
-						<div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-						<p class="testi-text">"As someone who travels for a living, I
-							have very high standards. SkyNest not only met them — they
-							exceeded every expectation. The Santorini package was
-							breathtaking. I will never book through anyone else again!"</p>
-						<div class="d-flex align-items-center gap-3 mt-4 pt-3 border-top">
-							<img class="testi-avatar"
-								src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=100"
-								alt="Sara Qureshi">
-							<div>
-								<div class="testi-name">Sara Qureshi</div>
-								<div class="testi-role">Travel Blogger</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Nikhil -->
-				<div class="col-md-4">
-					<div class="testi-card">
-						<div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-						<p class="testi-text">"We booked our honeymoon to Thailand
-							through SkyNest and it was pure magic. Everything from transfers
-							to private beach dinners was perfectly arranged. The team truly
-							cares about creating memories. Highly recommend!"</p>
-						<div class="d-flex align-items-center gap-3 mt-4 pt-3 border-top">
-							<img class="testi-avatar"
-								src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=100"
-								alt="Nikhil Verma">
-							<div>
-								<div class="testi-name">Nikhil Verma</div>
-								<div class="testi-role">Honeymoon Traveler</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-			</div>
-		</div>
-	</section>
-
-
-
-
-	<!-- Footer -->
-	<footer id="footer">
-		<div class="container">
-			<div class="row gy-5">
-
-				<div class="col-lg-4 col-md-6">
-					<div class="d-flex align-items-center gap-2 mb-3">
-						<div class="footer-brand-icon">
-							<i class="bi bi-airplane-fill"></i>
-						</div>
-						<span class="footer-brand-name">Maubin AirLine</span>
-					</div>
-					<p class="footer-tagline">Crafting extraordinary journeys for
-						extraordinary people. Your dream destination awaits.</p>
-					<div class="d-flex gap-2 mt-4 footer-social">
-						<a href="#" title="Twitter/X"><i class="bi bi-twitter-x"></i></a>
-						<a href="#" title="Instagram"><i class="bi bi-instagram"></i></a>
-						<a href="#" title="YouTube"><i class="bi bi-youtube"></i></a> <a
-							href="#" title="Facebook"><i class="bi bi-facebook"></i></a>
-					</div>
-				</div>
-
-				<div class="col-lg-2 col-6">
-					<div class="footer-col-title">Travel</div>
-					<ul class="footer-links">
-						<li><a th:href="@{/#search-section}">Flights</a></li>
-						<li><a th:href="@{/#offers-section}">Hotels</a></li>
-						<li><a th:href="@{/#destinations}">Packages</a></li>
-						<li><a th:href="@{/about#cruises}">Cruises</a></li>
-						<li><a th:href="@{/about#rentals}">Car Rentals</a></li>
-					</ul>
-				</div>
-
-				<div class="col-lg-2 col-6">
-					<div class="footer-col-title">Company</div>
-					<ul class="footer-links">
-						<li><a th:href="@{/airline/about}">About Us</a></li>
-						<li><a th:href="@{/airline/about#careers}">Careers</a></li>
-						<li><a th:href="@{/airline/about#press}">Press</a></li>
-						<li><a th:href="@{/airline/about#blog}">Blog</a></li>
-						<li><a th:href="@{/airline/about#partners}">Partners</a></li>
-					</ul>
-				</div>
-
-				<div class="col-lg-2 col-6">
-					<div class="footer-col-title">Extra Links</div>
-					<ul class="footer-links">
-						<li><a th:href="@{/airline/terms}">Privacy Policy</a></li>
-						<li><a th:href="@{/airline/terms#conditions}">Terms of Service</a></li>
-						<li><a th:href="@{/airline/terms#cookies}">Cookie Settings</a></li>
-						<li><a th:href="@{/airline/terms#faq}">Support</a></li>
-						<li><a th:href="@{/airline/about#contact}">Contact</a></li>
-					</ul>
-				</div>
-
-			</div>
-			<div class="footer-bottom">
-				<span class="footer-copy">&copy; 2026 AirLine. All rights
-					reserved.</span> <span class="footer-slogan">Fly Far. Pay Less.
-					Travel Better.</span>
-			</div>
-
-		</div>
-	</footer>
-
-	<!--JS Bundle -->
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-	<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-
-	<script>
-AOS.init({
-  duration: 2000, 
-  once: false,   
-  offset: 100     
-});
-
-  //  NAVBAR — scroll shadow
-  
-window.addEventListener('scroll', () => {
-  const nav = document.getElementById('mainNav');
-  if (window.scrollY > 20) {
-    nav.classList.add('scrolled');
-  } else {
-    nav.classList.remove('scrolled');
-  }
-});
-
-
-   //NAVBAR — active link on click
-  
-document.querySelectorAll('#navMenu .nav-link').forEach(link => {
-  link.addEventListener('click', function () {
-    document.querySelectorAll('#navMenu .nav-link').forEach(l => l.classList.remove('active'));
-    this.classList.add('active');
-  });
-});
-
-  // FLIGHT SEARCH - show matching flight plan cards
-(function () {
-  const flights = [
-    { airline: 'Maubin AirLine', code: 'MIA 204', from: 'Yangon', fromCode: 'RGN', to: 'Dubai', toCode: 'DXB', depart: '08:30', arrive: '13:45', duration: '7h 45m', stops: 'Nonstop', seats: '18 seats', price: '$799' },
-    { airline: 'Maubin AirLine', code: 'MIA 118', from: 'Yangon', fromCode: 'RGN', to: 'Bangkok', toCode: 'BKK', depart: '10:15', arrive: '12:05', duration: '1h 20m', stops: 'Nonstop', seats: '32 seats', price: '$169' },
-    { airline: 'Maubin AirLine', code: 'MIA 330', from: 'Yangon', fromCode: 'RGN', to: 'London', toCode: 'LHR', depart: '21:40', arrive: '06:10', duration: '14h 00m', stops: '1 stop', seats: '11 seats', price: '$899' },
-    { airline: 'Maubin AirLine', code: 'MIA 512', from: 'Yangon', fromCode: 'RGN', to: 'Singapore', toCode: 'SIN', depart: '07:00', arrive: '10:10', duration: '2h 40m', stops: 'Nonstop', seats: '24 seats', price: '$229' },
-    { airline: 'Maubin AirLine', code: 'MIA 702', from: 'Yangon', fromCode: 'RGN', to: 'Shanghai', toCode: 'PVG', depart: '12:25', arrive: '17:50', duration: '3h 55m', stops: 'Nonstop', seats: '15 seats', price: '$379' },
-    { airline: 'Maubin AirLine', code: 'MIA 916', from: 'Yangon', fromCode: 'RGN', to: 'Tokyo', toCode: 'HND', depart: '23:10', arrive: '07:20', duration: '5h 40m', stops: 'Nonstop', seats: '9 seats', price: '$599' }
-  ];
-
-  const destinationInput = document.getElementById('flightDestination');
-  const searchBtn = document.getElementById('searchFlightsBtn');
-  const resultsWrap = document.getElementById('flightResults');
-  const cardsWrap = document.getElementById('flightCards');
-  const resultsTitle = document.getElementById('flightResultsTitle');
-  const resultsCount = document.getElementById('flightResultsCount');
-  const navSearchInput = document.querySelector('.nav-search input');
-
-  function flightMatches(flight, term) {
-    const searchable = `${flight.to} ${flight.toCode} ${flight.from} ${flight.fromCode} ${flight.code}`.toLowerCase();
-    return searchable.includes(term);
-  }
-
-  function createFlightCard(flight) {
-    return `
-      <div class="col-md-6 col-xl-4">
-        <div class="flight-plan-card">
-          <div class="flight-plan-top">
-            <div>
-              <div class="flight-airline">${flight.airline}</div>
-              <div class="flight-code">${flight.code}</div>
             </div>
-            <div class="flight-price">${flight.price}</div>
-          </div>
-          <div class="flight-route">
-            <div class="flight-city">
-              <div class="flight-time">${flight.depart}</div>
-              <div class="flight-place">${flight.from} (${flight.fromCode})</div>
-            </div>
-            <div class="flight-path-icon"><i class="bi bi-airplane-fill"></i></div>
-            <div class="flight-city">
-              <div class="flight-time">${flight.arrive}</div>
-              <div class="flight-place">${flight.to} (${flight.toCode})</div>
-            </div>
-          </div>
-          <div class="flight-meta">
-            <div class="flight-meta-item">
-              <div class="flight-meta-label">Duration</div>
-              <div class="flight-meta-value">${flight.duration}</div>
-            </div>
-            <div class="flight-meta-item">
-              <div class="flight-meta-label">Stops</div>
-              <div class="flight-meta-value">${flight.stops}</div>
-            </div>
-            <div class="flight-meta-item">
-              <div class="flight-meta-label">Available</div>
-              <div class="flight-meta-value">${flight.seats}</div>
-            </div>
-          </div>
-          <button class="flight-card-action">
-            Book now <i class="bi bi-arrow-right"></i>
-          </button>
         </div>
-      </div>
-    `;
-  }
+    </section>
 
-  function renderFlights() {
-    const term = destinationInput.value.trim().toLowerCase();
-    const matchedFlights = term ? flights.filter(flight => flightMatches(flight, term)) : flights;
-    const label = destinationInput.value.trim() || 'all destinations';
+    <!-- Social Sidebar -->
+    <div class="social-stack">
+        <a href="#" title="X / Twitter"><i class="bi bi-twitter-x"></i></a>
+        <a href="#" title="Instagram"><i class="bi bi-instagram"></i></a>
+        <a href="#" title="YouTube"><i class="bi bi-youtube"></i></a>
+        <a href="#" title="Facebook"><i class="bi bi-facebook"></i></a>
+    </div>
 
-    resultsWrap.classList.remove('d-none');
-    resultsTitle.textContent = `Flights to ${label}`;
-    resultsCount.textContent = `${matchedFlights.length} result${matchedFlights.length === 1 ? '' : 's'}`;
+    <!-- 1️⃣ FLIGHT BOOKING WIDGET (MOVED UP) -->
+    <section id="booking" data-aos="fade-up">
+        <div class="container">
+            <div class="booking-card">
+                <form th:action="@{/airline/search}" method="post">
+                    <!-- Top row -->
+                    <div class="d-flex flex-wrap align-items-center gap-3 mb-4 pb-3 border-bottom">
+                        <button type="button" class="widget-pill">
+                            <i class="bi bi-airplane"></i> Flights <i class="bi bi-chevron-down"></i>
+                        </button>
+                        <button type="button" class="widget-pill">
+                            <i class="bi bi-people"></i> Travelers <i class="bi bi-chevron-down"></i>
+                        </button>
+                        <button type="button" class="widget-pill">
+                            <i class="bi bi-seat"></i> Seat Class <i class="bi bi-chevron-down"></i>
+                        </button>
 
-    if (!matchedFlights.length) {
-      cardsWrap.innerHTML = `
-        <div class="col-12">
-          <div class="flight-empty">No flight plans found. Try Dubai, Bangkok, London, Singapore, Shanghai, or Tokyo.</div>
+                        <div class="d-flex gap-4 ms-auto trip-radio">
+                            <label><input type="radio" name="tripType" value="two-way" checked> Two Way</label>
+                            <label><input type="radio" name="tripType" value="one-way"> One Way</label>
+                        </div>
+                    </div>
+
+                    <!-- Search Inputs -->
+                    <div class="row g-3">
+                        <!-- Departure -->
+                        <div class="col-6 col-md-3">
+                            <div class="input-picker">
+                                <label><i class="bi bi-geo-alt-fill"></i> From</label>
+                                <select name="departureCity" class="form-select" required>
+                                    <option value="">Select departure</option>
+                                    <option th:each="airport:${airports}" th:value="${airport.city}" th:text="${airport.city + ' (' + airport.airportCode + ')'}"></option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Arrival -->
+                        <div class="col-6 col-md-3">
+                            <div class="input-picker">
+                                <label><i class="bi bi-geo-alt-fill"></i> To</label>
+                                <select name="arrivalCity" class="form-select" required>
+                                    <option value="">Select destination</option>
+                                    <option th:each="airport:${airports}" th:value="${airport.city}" th:text="${airport.city + ' (' + airport.airportCode + ')'}"></option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Departure Date -->
+                        <div class="col-6 col-md-3">
+                            <div class="input-picker">
+                                <label><i class="bi bi-calendar-event"></i> Departure</label>
+                                <input type="date" name="departureDate" required>
+                            </div>
+                        </div>
+
+                        <!-- Passengers -->
+                        <div class="col-6 col-md-3">
+                            <div class="input-picker">
+                                <label><i class="bi bi-person-check"></i> Passengers</label>
+                                <input type="number" name="passengers" value="1" min="1" max="50" required>
+                            </div>
+                        </div>
+
+                        <!-- Seat Class -->
+                        <div class="col-6 col-md-3">
+                            <div class="input-picker">
+                                <label><i class="bi bi-chair"></i> Seat Class</label>
+                                <select name="seatClass" class="form-select">
+                                    <option value="Economy">Economy</option>
+                                    <option value="Business">Business</option>
+                                    <option value="First">First Class</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Search Button -->
+                    <div class="d-flex justify-content-end mt-4">
+                        <button type="submit" class="btn-search-flights">
+                            <i class="bi bi-search"></i> Search Flights
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-      `;
-      return;
-    }
+    </section>
 
-    cardsWrap.innerHTML = matchedFlights.map(createFlightCard).join('');
-  }
+<!-- <!-- 2️⃣ PROMOTION SECTION (AUGUST PROMOTIONS TEST)
+<section class="custom-slider-section py-4" data-aos="fade-left">
+    <div class="container position-relative px-4 px-md-5">
 
-  searchBtn.addEventListener('click', renderFlights);
-  destinationInput.addEventListener('keydown', event => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      renderFlights();
-    }
-  });
+        Section Title & Header
+        <div class="text-center mb-3">
+            <span class="badge bg-primary-subtle text-primary fw-bold px-3 py-1 rounded-pill mb-1">Limited Time Deals</span>
+            <h3 class="section-title fw-bold m-0">August Special Promotions</h3>
+        </div>
 
-  if (navSearchInput) {
-    navSearchInput.addEventListener('keydown', event => {
-      if (event.key === 'Enter') {
-        event.preventDefault();
-        destinationInput.value = navSearchInput.value;
-        document.getElementById('booking').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        renderFlights();
-      }
-    });
-  }
-})();
+        Continuous Slider Outer Box
+        <div class="small-promo-slider-container">
+            <div class="small-promo-track">
+             
+                ===== SET 1: AUGUST PROMOTIONS =====
+
+                Box 1: August Flash Sale
+                <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #ff0844, #ffb199); min-width: 220px; flex-shrink: 0;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">AUG FLASH</span>
+                        <small style="font-size: 0.65rem;"><i class="bi bi-clock me-1"></i>15 Aug</small>
+                    </div>
+                    <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">40% OFF</h4>
+                </div>
+
+                Box 2: August Monsoon Saver
+                <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #0d6efd, #0dcaf0); min-width: 220px; flex-shrink: 0;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">MONSOON</span>
+                        <small style="font-size: 0.65rem;"><i class="bi bi-clock me-1"></i>20 Aug</small>
+                    </div>
+                    <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">$80 SAVINGS</h4>
+                </div>
+
+                Box 3: Late Summer Getaway
+                <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #ff7e5f, #feb47b); min-width: 220px; flex-shrink: 0;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">SUMMER END</span>
+                        <small style="font-size: 0.65rem;"><i class="bi bi-clock me-1"></i>31 Aug</small>
+                    </div>
+                    <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">25% FARE CUT</h4>
+                </div>
+
+                Box 4: August Weekend Special
+                <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #6a11cb, #2575fc); min-width: 220px; flex-shrink: 0;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">AUG WEEKEND</span>
+                        <small style="font-size: 0.65rem;"><i class="bi bi-clock me-1"></i>Fri-Sun</small>
+                    </div>
+                    <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">2X MILES</h4>
+                </div>
+
+                Box 5: Back to School Flight Deal
+                <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #11998e, #38ef7d); min-width: 220px; flex-shrink: 0;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">STUDENT</span>
+                        <small style="font-size: 0.65rem;"><i class="bi bi-clock me-1"></i>28 Aug</small>
+                    </div>
+                    <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">15% EXTRA</h4>
+                </div>
+
+                Box 6: End of Month Mega Deal
+                <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #232526, #414345); min-width: 220px; flex-shrink: 0;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-warning text-dark fw-bold" style="font-size: 0.65rem;">AUG FINAL</span>
+                        <small style="font-size: 0.65rem;"><i class="bi bi-clock me-1"></i>31 Aug</small>
+                    </div>
+                    <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">0% FEE</h4>
+                </div>
 
 
-  // EXCLUSIVE DEALS — interactive package radio buttons
-document.querySelectorAll('.pkg-options').forEach(group => {
-  const cardId   = group.dataset.target;
-  const display  = document.querySelector(`.selected-price-display[data-card="${cardId}"]`);
-  const options  = group.querySelectorAll('.pkg-option');
+                ===== SET 2: DUPLICATED FOR INFINITE ANIMATION =====
 
-  options.forEach(opt => {
-    opt.addEventListener('click', function () {
-      // Deselect all in this group
-      options.forEach(o => o.classList.remove('selected'));
-      // Select clicked
-      this.classList.add('selected');
-      // Update price display
-      if (display) {
-        display.textContent = this.dataset.price;
-        // Animate price change
-        display.style.transform = 'scale(1.15)';
-        display.style.transition = 'transform .15s ease';
-        setTimeout(() => { display.style.transform = 'scale(1)'; }, 150);
-      }
-    });
-  });
-});
+                Box 1 Duplicate
+                <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #ff0844, #ffb199); min-width: 220px; flex-shrink: 0;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">AUG FLASH</span>
+                        <small style="font-size: 0.65rem;"><i class="bi bi-clock me-1"></i>15 Aug</small>
+                    </div>
+                    <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">40% OFF</h4>
+                </div>
 
+                Box 2 Duplicate
+                <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #0d6efd, #0dcaf0); min-width: 220px; flex-shrink: 0;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">MONSOON</span>
+                        <small style="font-size: 0.65rem;"><i class="bi bi-clock me-1"></i>20 Aug</small>
+                    </div>
+                    <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">$80 SAVINGS</h4>
+                </div>
 
+                Box 3 Duplicate
+                <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #ff7e5f, #feb47b); min-width: 220px; flex-shrink: 0;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">SUMMER END</span>
+                        <small style="font-size: 0.65rem;"><i class="bi bi-clock me-1"></i>31 Aug</small>
+                    </div>
+                    <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">25% FARE CUT</h4>
+                </div>
 
-  // POPULAR DESTINATIONS — custom slider
-(function () {
-  const inner     = document.getElementById('destInner');
-  const prevBtn   = document.getElementById('destPrev');
-  const nextBtn   = document.getElementById('destNext');
-  const dotsWrap  = document.getElementById('destDots');
-  const cards     = inner.querySelectorAll('.dest-card');
+                Box 4 Duplicate
+                <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #6a11cb, #2575fc); min-width: 220px; flex-shrink: 0;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">AUG WEEKEND</span>
+                        <small style="font-size: 0.65rem;"><i class="bi bi-clock me-1"></i>Fri-Sun</small>
+                    </div>
+                    <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">2X MILES</h4>
+                </div>
 
-  let offset     = 0;
-  let visibleCount = 4;
+                Box 5 Duplicate
+                <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #11998e, #38ef7d); min-width: 220px; flex-shrink: 0;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-white text-dark fw-bold" style="font-size: 0.65rem;">STUDENT</span>
+                        <small style="font-size: 0.65rem;"><i class="bi bi-clock me-1"></i>28 Aug</small>
+                    </div>
+                    <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">15% EXTRA</h4>
+                </div>
 
-  /* How many cards are visible at current breakpoint */
-  function getVisible() {
-    if (window.innerWidth < 576)  return 1;
-    if (window.innerWidth < 768)  return 2;
-    if (window.innerWidth < 992)  return 2;
-    return 4;
-  }
+                Box 6 Duplicate
+                <div class="small-card-header p-3 text-white rounded-3 shadow-sm" style="background: linear-gradient(135deg, #232526, #414345); min-width: 220px; flex-shrink: 0;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-warning text-dark fw-bold" style="font-size: 0.65rem;">AUG FINAL</span>
+                        <small style="font-size: 0.65rem;"><i class="bi bi-clock me-1"></i>31 Aug</small>
+                    </div>
+                    <h4 class="small-card-discount fw-black m-0 mt-2" style="font-size: 1.25rem; font-weight: 800;">0% FEE</h4>
+                </div> 
 
-  const totalCards = cards.length;
+            </div>
+        </div>
 
-  function maxOffset() {
-    return totalCards - getVisible();
-  }
+    </div>
+</section> -->
 
-  /* Build dots */
-  function buildDots() {
-    dotsWrap.innerHTML = '';
-    const count = maxOffset() + 1;
-    for (let i = 0; i < count; i++) {
-      const btn = document.createElement('button');
-      btn.className = 'dest-dot' + (i === offset ? ' active' : '');
-      btn.addEventListener('click', () => { offset = i; render(); });
-      dotsWrap.appendChild(btn);
-    }
-  }
+    <!-- EXCLUSIVE DEALS -->
+    <section id="deals" class="section-padding" data-aos="fade-up">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="section-title">Maubin AirLine Exclusive Travel Packages</h2>
+                <div class="divider"></div>
+                <p class="section-sub mt-3">Premium Travel Experiences at Unbeatable Rates.</p>
+            </div>
 
-  function render() {
-    const vis      = getVisible();
-    const gapPx    = 20;
-    const cardW    = (inner.parentElement.offsetWidth - (vis - 1) * gapPx) / vis;
-    const shift    = offset * (cardW + gapPx);
-    inner.style.transform = `translateX(-${shift}px)`;
+            <div class="row g-4" data-aos="fade-up">
+                <!-- Dubai -->
+                <div class="col-md-4">
+                    <div class="card deal-card border-0 h-100">
+                        <div class="deal-img-wrap">
+                            <img th:src="@{/images/dubaiNight.jpg}" alt="Dubai">
+                            <span class="deal-city">Yangon ⇌ Dubai</span>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <div class="selected-pkg-label">Selected Package</div>
+                                    <div class="selected-price-display" data-card="dubai">$2,499</div>
+                                </div>
+                            </div>
 
-    prevBtn.disabled = offset <= 0;
-    nextBtn.disabled = offset >= maxOffset();
+                            <div class="pkg-options" data-target="dubai">
+                                <div class="pkg-option selected" data-price="$2,499">
+                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
+                                    <span class="pkg-name">Elite Escape</span>
+                                    <span class="pkg-price">$2,499</span>
+                                </div>
+                                <div class="pkg-option" data-price="$1,299">
+                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
+                                    <span class="pkg-name">Smart Saver</span>
+                                    <span class="pkg-price">$1,299</span>
+                                </div>
+                                <div class="pkg-option" data-price="$799">
+                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
+                                    <span class="pkg-name">Budget Explorer</span>
+                                    <span class="pkg-price">$799</span>
+                                </div>
+                            </div>
 
-    /* Update dots */
-    dotsWrap.querySelectorAll('.dest-dot').forEach((d, i) => {
-      d.classList.toggle('active', i === offset);
-    });
-  }
+                            <button class="btn-learn-more mt-3">
+                                Learn more <i class="bi bi-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
-  prevBtn.addEventListener('click', () => { if (offset > 0) { offset--; render(); } });
-  nextBtn.addEventListener('click', () => { if (offset < maxOffset()) { offset++; render(); } });
+                <!-- London -->
+                <div class="col-md-4">
+                    <div class="card deal-card border-0 h-100">
+                        <div class="deal-img-wrap">
+                            <img th:src="@{/images/London.avif}" alt="London">
+                            <span class="deal-city">Yangon ⇌ London</span>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <div class="selected-pkg-label">Selected Package</div>
+                                    <div class="selected-price-display" data-card="london">$3,199</div>
+                                </div>
+                            </div>
 
-  window.addEventListener('resize', () => {
-    // Clamp offset if viewport grew
-    if (offset > maxOffset()) offset = maxOffset();
-    buildDots();
-    render();
-  });
+                            <div class="pkg-options" data-target="london">
+                                <div class="pkg-option selected" data-price="$3,199">
+                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
+                                    <span class="pkg-name">Elite Escape</span>
+                                    <span class="pkg-price">$3,199</span>
+                                </div>
+                                <div class="pkg-option" data-price="$1,599">
+                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
+                                    <span class="pkg-name">Smart Saver</span>
+                                    <span class="pkg-price">$1,599</span>
+                                </div>
+                                <div class="pkg-option" data-price="$899">
+                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
+                                    <span class="pkg-name">Budget Explorer</span>
+                                    <span class="pkg-price">$899</span>
+                                </div>
+                            </div>
 
-  buildDots();
-  render();
-})();
-const themeToggle = document.getElementById('themeToggle');
-    const themeIcon = document.getElementById('themeIcon');
-    const currentTheme = localStorage.getItem('theme') || 'light';
+                            <button class="btn-learn-more mt-3">
+                                Learn more <i class="bi bi-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
-    // // just testing
-    // if (currentTheme === 'dark') {
-    //   document.documentElement.setAttribute('data-theme', 'dark');
-    //   themeIcon.className = 'bi bi-sun-fill';
-    // }
+                <!-- Thailand -->
+                <div class="col-md-4">
+                    <div class="card deal-card border-0 h-100">
+                        <div class="deal-img-wrap">
+                            <img th:src="@{/images/Thai.jpg}" alt="Thailand">
+                            <span class="deal-city">Yangon ⇌ Bangkok</span>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <div class="selected-pkg-label">Selected Package</div>
+                                    <div class="selected-price-display" data-card="thailand">$1,999</div>
+                                </div>
+                            </div>
 
-    // // change theme by touching button
-    // themeToggle.addEventListener('click', () => {
-    //   let theme = document.documentElement.getAttribute('data-theme');
-    //   if (theme === 'dark') {
-    //     document.documentElement.setAttribute('data-theme', 'light');
-    //     themeIcon.className = 'bi bi-moon-stars-fill';
-    //     localStorage.setItem('theme', 'light');
-    //   } else {
-    //     document.documentElement.setAttribute('data-theme', 'dark');
-    //     themeIcon.className = 'bi bi-sun-fill';
-    //     localStorage.setItem('theme', 'dark');
-    //   }
-    // });
-</script>
+                            <div class="pkg-options" data-target="thailand">
+                                <div class="pkg-option selected" data-price="$1,999">
+                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
+                                    <span class="pkg-name">Elite Escape</span>
+                                    <span class="pkg-price">$1,999</span>
+                                </div>
+                                <div class="pkg-option" data-price="$999">
+                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
+                                    <span class="pkg-name">Smart Saver</span>
+                                    <span class="pkg-price">$999</span>
+                                </div>
+                                <div class="pkg-option" data-price="$599">
+                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
+                                    <span class="pkg-name">Budget Explorer</span>
+                                    <span class="pkg-price">$599</span>
+                                </div>
+                            </div>
 
+                            <button class="btn-learn-more mt-3">
+                                Learn more <i class="bi bi-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Singapore -->
+                <div class="col-md-4">
+                    <div class="card deal-card border-0 h-100">
+                        <div class="deal-img-wrap">
+                            <img th:src="@{/images/Singpore.jpg}" alt="Singapore">
+                            <span class="deal-city">Yangon ⇌ Singapore</span>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <div class="selected-pkg-label">Selected Package</div>
+                                    <div class="selected-price-display" data-card="thailand">$1,999</div>
+                                </div>
+                            </div>
+
+                            <div class="pkg-options" data-target="thailand">
+                                <div class="pkg-option selected" data-price="$1,999">
+                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
+                                    <span class="pkg-name">Elite Escape</span>
+                                    <span class="pkg-price">$1,999</span>
+                                </div>
+                                <div class="pkg-option" data-price="$999">
+                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
+                                    <span class="pkg-name">Smart Saver</span>
+                                    <span class="pkg-price">$999</span>
+                                </div>
+                                <div class="pkg-option" data-price="$599">
+                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
+                                    <span class="pkg-name">Budget Explorer</span>
+                                    <span class="pkg-price">$599</span>
+                                </div>
+                            </div>
+
+                            <button class="btn-learn-more mt-3">
+                                Learn more <i class="bi bi-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shanghai -->
+                <div class="col-md-4">
+                    <div class="card deal-card border-0 h-100">
+                        <div class="deal-img-wrap">
+                            <img th:src="@{/images/China.jpg}" alt="Shanghai">
+                            <span class="deal-city">Yangon ⇌ Shanghai</span>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <div class="selected-pkg-label">Selected Package</div>
+                                    <div class="selected-price-display" data-card="thailand">$1,999</div>
+                                </div>
+                            </div>
+
+                            <div class="pkg-options" data-target="thailand">
+                                <div class="pkg-option selected" data-price="$1,999">
+                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
+                                    <span class="pkg-name">Elite Escape</span>
+                                    <span class="pkg-price">$1,999</span>
+                                </div>
+                                <div class="pkg-option" data-price="$999">
+                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
+                                    <span class="pkg-name">Smart Saver</span>
+                                    <span class="pkg-price">$999</span>
+                                </div>
+                                <div class="pkg-option" data-price="$599">
+                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
+                                    <span class="pkg-name">Budget Explorer</span>
+                                    <span class="pkg-price">$599</span>
+                                </div>
+                            </div>
+
+                            <button class="btn-learn-more mt-3">
+                                Learn more <i class="bi bi-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tokyo -->
+                <div class="col-md-4">
+                    <div class="card deal-card border-0 h-100">
+                        <div class="deal-img-wrap">
+                            <img th:src="@{/images/Tokyo.jpg}" alt="Tokyo">
+                            <span class="deal-city">Yangon ⇌ Tokyo</span>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <div class="selected-pkg-label">Selected Package</div>
+                                    <div class="selected-price-display" data-card="thailand">$1,999</div>
+                                </div>
+                            </div>
+
+                            <div class="pkg-options" data-target="thailand">
+                                <div class="pkg-option selected" data-price="$1,999">
+                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
+                                    <span class="pkg-name">Elite Escape</span>
+                                    <span class="pkg-price">$1,999</span>
+                                </div>
+                                <div class="pkg-option" data-price="$999">
+                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
+                                    <span class="pkg-name">Smart Saver</span>
+                                    <span class="pkg-price">$999</span>
+                                </div>
+                                <div class="pkg-option" data-price="$599">
+                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
+                                    <span class="pkg-name">Budget Explorer</span>
+                                    <span class="pkg-price">$599</span>
+                                </div>
+                            </div>
+
+                            <button class="btn-learn-more mt-3">
+                                Learn more <i class="bi bi-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- POPULAR DESTINATIONS -->
+    <section id="destinations" data-aos="fade-left">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="section-title">Popular Destinations</h2>
+                <div class="divider"></div>
+            </div>
+
+            <div class="d-flex align-items-center gap-3">
+                <button class="dest-nav-btn" id="destPrev" disabled>
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+
+                <div class="dest-carousel-track flex-grow-1">
+                    <div class="dest-carousel-inner" id="destInner">
+                        <div class="dest-card">
+                            <img th:src="@{/images/A.avif}" alt="Santorini" loading="lazy">
+                            <div class="dest-card-overlay"></div>
+                            <div class="dest-card-info">
+                                <div class="dest-card-name">Santorini</div>
+                                <div class="dest-card-country">Greece</div>
+                            </div>
+                        </div>
+
+                        <div class="dest-card">
+                            <img th:src="@{/images/B.avif}" alt="Banff" loading="lazy">
+                            <div class="dest-card-overlay"></div>
+                            <div class="dest-card-info">
+                                <div class="dest-card-name">Banff National Park</div>
+                                <div class="dest-card-country">Canada</div>
+                            </div>
+                        </div>
+
+                        <div class="dest-card">
+                            <img th:src="@{/images/C.avif}" alt="Kyoto" loading="lazy">
+                            <div class="dest-card-overlay"></div>
+                            <div class="dest-card-info">
+                                <div class="dest-card-name">Kyoto Temples</div>
+                                <div class="dest-card-country">Japan</div>
+                            </div>
+                        </div>
+
+                        <div class="dest-card">
+                            <img th:src="@{/images/D.avif}" alt="Taj Mahal" loading="lazy">
+                            <div class="dest-card-overlay"></div>
+                            <div class="dest-card-info">
+                                <div class="dest-card-name">Taj Mahal</div>
+                                <div class="dest-card-country">India</div>
+                            </div>
+                        </div>
+
+                        <div class="dest-card">
+                            <img th:src="@{/images/E.avif}" alt="Rio De Janeiro" loading="lazy">
+                            <div class="dest-card-overlay"></div>
+                            <div class="dest-card-info">
+                                <div class="dest-card-name">Rio De Janeiro</div>
+                                <div class="dest-card-country">Brazil</div>
+                            </div>
+                        </div>
+
+                        <div class="dest-card">
+                            <img th:src="@{/images/F.jpg}" alt="Amalfi Coast" loading="lazy">
+                            <div class="dest-card-overlay"></div>
+                            <div class="dest-card-info">
+                                <div class="dest-card-name">Amalfi Coast</div>
+                                <div class="dest-card-country">Italy</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="dest-nav-btn" id="destNext">
+                    <i class="bi bi-chevron-right"></i>
+                </button>
+            </div>
+
+            <div class="dest-dots" id="destDots"></div>
+        </div>
+    </section>
+
+    <!-- ABOUT US -->
+    <section id="about" data-aos="zoom-in">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="section-title">About Us</h2>
+                <div class="divider"></div>
+            </div>
+
+            <div class="row align-items-center gy-5">
+                <div class="col-lg-6">    
+                    <p class="about-body">At Maubin AirLine, we believe travel isn't just about visiting places — it's about creating unforgettable experiences. From sun-kissed beaches to iconic landmarks, we design seamless journeys tailored to your dreams.</p>
+                    <p class="about-body">With decades of expertise and an unwavering commitment to luxury, our mission is to make travel planning effortless and exciting. Whether it's an adventurous expedition, a romantic getaway, or a spiritual escape, we're here to fly you away with style and simplicity.</p>
+                    <p class="about-body mb-4">Let us take you places you've always dreamed of — the world is waiting.</p>
+
+                    <div class="row g-4 text-center mt-1">
+                        <div class="col-4">
+                            <div class="about-stat-value">12K+</div>
+                            <div class="about-stat-label">Happy Travelers</div>
+                        </div>
+                        <div class="col-4">
+                            <div class="about-stat-value">180+</div>
+                            <div class="about-stat-label">Destinations</div>
+                        </div>
+                        <div class="col-4">
+                            <div class="about-stat-value">98%</div>
+                            <div class="about-stat-label">Satisfaction Rate</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="about-img-frame">
+                        <img th:src="@{/images/plane.avif}" alt="Private Jet" />
+                        <div class="about-badge">
+                            <div class="about-badge-icon">
+                                <i class="bi bi-patch-check-fill"></i>
+                            </div>
+                            <div>
+                                <div class="about-badge-title">Trusted Agency</div>
+                                <div class="about-badge-sub">Since 2010</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section id="testimonials">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="section-title">AirLine Clients</h2>
+                <div class="divider"></div>
+                <p class="section-sub mt-3">What our travelers say about us</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="testi-card">
+                        <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                        <p class="testi-text">"SkyNest completely changed how I plan business trips. The seamless booking process saved me hours of hassle. From first-class flights to premium hotels — they had it all covered. Absolutely world-class service!"</p>
+                        <div class="d-flex align-items-center gap-3 mt-4 pt-3 border-top">
+                            <img class="testi-avatar" src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=100" alt="Arjun Malhotra">
+                            <div>
+                                <div class="testi-name">Arjun Malhotra</div>
+                                <div class="testi-role">Business Traveler</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="testi-card">
+                        <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                        <p class="testi-text">"As someone who travels for a living, I have very high standards. SkyNest not only met them — they exceeded every expectation. The Santorini package was breathtaking. I will never book through anyone else again!"</p>
+                        <div class="d-flex align-items-center gap-3 mt-4 pt-3 border-top">
+                            <img class="testi-avatar" src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=100" alt="Sara Qureshi">
+                            <div>
+                                <div class="testi-name">Sara Qureshi</div>
+                                <div class="testi-role">Travel Blogger</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="testi-card">
+                        <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                        <p class="testi-text">"We booked our honeymoon to Thailand through SkyNest and it was pure magic. Everything from transfers to private beach dinners was perfectly arranged. The team truly cares about creating memories. Highly recommend!"</p>
+                        <div class="d-flex align-items-center gap-3 mt-4 pt-3 border-top">
+                            <img class="testi-avatar" src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=100" alt="Nikhil Verma">
+                            <div>
+                                <div class="testi-name">Nikhil Verma</div>
+                                <div class="testi-role">Honeymoon Traveler</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="footer">
+        <div class="container">
+            <div class="row gy-5">
+                <div class="col-lg-4 col-md-6">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="footer-brand-icon">
+                            <i class="bi bi-airplane-fill"></i>
+                        </div>
+                        <span class="footer-brand-name">Maubin AirLine</span>
+                    </div>
+                    <p class="footer-tagline">Crafting extraordinary journeys for extraordinary people. Your dream destination awaits.</p>
+                    <div class="d-flex gap-2 mt-4 footer-social">
+                        <a href="#" title="Twitter/X"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#" title="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="#" title="YouTube"><i class="bi bi-youtube"></i></a>
+                        <a href="#" title="Facebook"><i class="bi bi-facebook"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-6">
+                    <div class="footer-col-title">Travel</div>
+                    <ul class="footer-links">
+                        <li><a href="#">Flights</a></li>
+                        <li><a href="#">Hotels</a></li>
+                        <li><a href="#">Packages</a></li>
+                        <li><a href="#">Cruises</a></li>
+                        <li><a href="#">Car Rentals</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-2 col-6">
+                    <div class="footer-col-title">Company</div>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Partners</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-2 col-6">
+                    <div class="footer-col-title">Extra Links</div>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Settings</a></li>
+                        <li><a href="#">Support</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <span class="footer-copy">&copy; 2025 Maubin AirLine. All rights reserved.</span>
+                <span class="footer-slogan">Fly Far. Pay Less. Travel Better.</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+    <script>
+        AOS.init({
+            duration: 2000, 
+            once: false,   
+            offset: 100     
+        });
+
+        // NAVBAR — scroll shadow
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('mainNav');
+            if (window.scrollY > 20) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // NAVBAR — active link on click
+        document.querySelectorAll('#navMenu .nav-link').forEach(link => {
+            link.addEventListener('click', function () {
+                document.querySelectorAll('#navMenu .nav-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // EXCLUSIVE DEALS — interactive package radio buttons
+        document.querySelectorAll('.pkg-options').forEach(group => {
+            const cardId = group.dataset.target;
+            const display = document.querySelector(`.selected-price-display[data-card="${cardId}"]`);
+            const options = group.querySelectorAll('.pkg-option');
+
+            options.forEach(opt => {
+                opt.addEventListener('click', function () {
+                    options.forEach(o => o.classList.remove('selected'));
+                    this.classList.add('selected');
+                    if (display) {
+                        display.textContent = this.dataset.price;
+                        display.style.transform = 'scale(1.15)';
+                        display.style.transition = 'transform .15s ease';
+                        setTimeout(() => { display.style.transform = 'scale(1)'; }, 150);
+                    }
+                });
+            });
+        });
+
+        // POPULAR DESTINATIONS — custom slider
+        (function () {
+            const inner = document.getElementById('destInner');
+            const prevBtn = document.getElementById('destPrev');
+            const nextBtn = document.getElementById('destNext');
+            const dotsWrap = document.getElementById('destDots');
+            const cards = inner.querySelectorAll('.dest-card');
+
+            let offset = 0;
+
+            function getVisible() {
+                if (window.innerWidth < 576) return 1;
+                if (window.innerWidth < 768) return 2;
+                if (window.innerWidth < 992) return 2;
+                return 4;
+            }
+
+            const totalCards = cards.length;
+
+            function maxOffset() {
+                return totalCards - getVisible();
+            }
+
+            function buildDots() {
+                dotsWrap.innerHTML = '';
+                const count = maxOffset() + 1;
+                for (let i = 0; i < count; i++) {
+                    const btn = document.createElement('button');
+                    btn.className = 'dest-dot' + (i === offset ? ' active' : '');
+                    btn.addEventListener('click', () => { offset = i; render(); });
+                    dotsWrap.appendChild(btn);
+                }
+            }
+
+            function render() {
+                const vis = getVisible();
+                const gapPx = 20;
+                const cardW = (inner.parentElement.offsetWidth - (vis - 1) * gapPx) / vis;
+                const shift = offset * (cardW + gapPx);
+                inner.style.transform = `translateX(-${shift}px)`;
+
+                prevBtn.disabled = offset <= 0;
+                nextBtn.disabled = offset >= maxOffset();
+
+                dotsWrap.querySelectorAll('.dest-dot').forEach((d, i) => {
+                    d.classList.toggle('active', i === offset);
+                });
+            }
+
+            prevBtn.addEventListener('click', () => { if (offset > 0) { offset--; render(); } });
+            nextBtn.addEventListener('click', () => { if (offset < maxOffset()) { offset++; render(); } });
+
+            window.addEventListener('resize', () => {
+                if (offset > maxOffset()) offset = maxOffset();
+                buildDots();
+                render();
+            });
+
+            buildDots();
+            render();
+        })();
+        
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get current URL path
+            const currentPath = window.location.pathname;
+            
+            // Target all navigation links
+            const navLinks = document.querySelectorAll('#navMenu .nav-link');
+
+            navLinks.forEach(link => {
+                // Remove hardcoded active classes
+                link.classList.remove('active');
+
+                // Compare link href attribute with current pathname
+                const linkHref = link.getAttribute('href');
+                if (linkHref && currentPath === linkHref) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
