@@ -30,7 +30,7 @@ public class Flight {
 	
 	private int businessSeats;
 	
-	private int firseClassSeats;
+	private int firstClassSeats;
 	
     private String status;
     
@@ -50,7 +50,7 @@ public class Flight {
 
 	public Flight(int flightId, @NotBlank(message = "Flight name cannot be blank") String flightNumber,
 			@Min(value = 10, message = "Seats must be at least 10 seats.") int totalSeats, int ecomonySeats,
-			int businessSeats, int firseClassSeats, String status, int wifi, int meal, int entertainment, int charging,
+			int businessSeats, int firstClassSeats, String status, int wifi, int meal, int entertainment, int charging,
 			Airline airline) {
 		super();
 		this.flightId = flightId;
@@ -58,7 +58,7 @@ public class Flight {
 		this.totalSeats = totalSeats;
 		this.ecomonySeats = ecomonySeats;
 		this.businessSeats = businessSeats;
-		this.firseClassSeats = firseClassSeats;
+		this.firstClassSeats = firstClassSeats;
 		this.status = status;
 		this.wifi = wifi;
 		this.meal = meal;
@@ -161,11 +161,11 @@ public class Flight {
 		}
 
 		public int getFirseClassSeats() {
-			return firseClassSeats;
+			return firstClassSeats;
 		}
 
 		public void setFirseClassSeats(int firseClassSeats) {
-			this.firseClassSeats = firseClassSeats;
+			this.firstClassSeats = firseClassSeats;
 		}
     
     

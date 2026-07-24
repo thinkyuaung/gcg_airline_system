@@ -25,7 +25,7 @@ public class User {
 	private String password;
 	@Column
 	private String phoneNumber;
-	private String role = "user";
+	private String role = "USER";
 	private String status = "active";
 
 	public User(int userId, String firstName, String lastName, String passport, LocalDate dob, String email,

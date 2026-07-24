@@ -40,6 +40,7 @@ public class BookingHistoryController {
 	            "all"
 	    );
 
+	    model.addAttribute("currentPage", "history");
 
 	    return "userview/bookingHistory";
 
@@ -63,6 +64,7 @@ public class BookingHistoryController {
 	            "upcoming"
 	    );
 
+	    model.addAttribute("currentPage", "history");
 
 	    return "userview/bookingHistory";
 
@@ -87,6 +89,7 @@ public class BookingHistoryController {
 	            "cancelled"
 	    );
 
+	    model.addAttribute("currentPage", "history");
 
 	    return "userview/bookingHistory";
 

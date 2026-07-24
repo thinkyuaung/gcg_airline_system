@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.MaupinAirlineTicketSystem.repository.AirportRepository;
+import com.example.MaupinAirlineTicketSystem.repository.SeatClassRepository;
 import com.example.MaupinAirlineTicketSystem.entity.User;
 import com.example.MaupinAirlineTicketSystem.repository.UserRepository;
+import com.example.MaupinAirlineTicketSystem.service.ReviewService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -27,8 +29,15 @@ public class Controller {
 	@Autowired
 	private UserRepository userRepository;
 
-	@Autowired
-	private AirportRepository airportRepository;
+	 @Autowired
+	    private AirportRepository airportRepository;
+	 
+	 @Autowired
+	 private ReviewService reviewService;
+	 
+	 @Autowired
+	 private SeatClassRepository seatClassRepository;
+	 
 
 	////////////// Home //////////////
 
@@ -36,9 +45,26 @@ public class Controller {
 
 	public String home(Model model) {
 
-		model.addAttribute("airports", airportRepository.findAll());
+	    model.addAttribute(
+	        "airports",
+	        airportRepository.findAll()
+	    );
+	    
+	    /////////review/////////
+	    model.addAttribute(
+				reviewService.getReviews()
+				);
+	    /////////////////////////
+	    
+	    model.addAttribute(
+	            "seatClasses",
+	            seatClassRepository.findAll()
+	        );
 
-		return "index";
+	    model.addAttribute("currentPage", "home");
+	    
+	    
+	    return "index";
 	}
 
 	public String index() {

@@ -141,8 +141,39 @@ font-weight:600;
 
 }
 
+.main-content{
+
+    margin-left:260px;
+
+    transition:0.3s;
+
+}
+
+
+@media(max-width:991px){
+
+    .main-content{
+
+        margin-left:0;
+
+    }
+
+}
+
+
+.history-section{
+
+    min-height:100vh;
+
+    padding:40px 20px;
+
+}
+
 </style>
 
+<link rel="stylesheet" th:href="@{/css/sidebar.css}">
+<link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 </head>
 
@@ -150,6 +181,9 @@ font-weight:600;
 
 <body>
 
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="main-content">
 
 <section class="history-section">
 
@@ -501,5 +535,7 @@ Cancel
 
 
 </body>
+
+</main>
 
 </html>

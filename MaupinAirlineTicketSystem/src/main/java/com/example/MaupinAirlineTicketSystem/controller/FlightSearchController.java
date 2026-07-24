@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.MaupinAirlineTicketSystem.entity.FlightPlan;
 import com.example.MaupinAirlineTicketSystem.repository.AirportRepository;
+import com.example.MaupinAirlineTicketSystem.repository.SeatClassRepository;
 import com.example.MaupinAirlineTicketSystem.service.FlightSearchService;
 
 @Controller
@@ -25,12 +26,21 @@ public class FlightSearchController {
 	
 	@Autowired
 	AirportRepository airportRepository;
+	
+	@Autowired
+	private SeatClassRepository seatClassRepository;
 
 	@GetMapping("/search")
 	public String searchPage(Model model) {
 		
 		  model.addAttribute("airports",
 		            airportRepository.findAll());
+		  
+		  model.addAttribute(
+		            "seatClasses",
+		            seatClassRepository.findAll()
+		    );
+
 		  
 		return "userview/searchFlight";
 	}

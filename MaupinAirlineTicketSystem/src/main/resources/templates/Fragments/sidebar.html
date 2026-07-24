@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<body>
+
+<div th:fragment="sidebar">
+
+
+    <!-- Mobile Hamburger -->
+    <button class="menu-toggle d-lg-none" id="menuToggle">
+        <i class="bi bi-list"></i>
+    </button>
+
+
+    <!-- Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+
+
+        <!-- Logo -->
+        <div class="sidebar-header">
+
+            <div class="logo-circle">
+                <i class="bi bi-airplane-fill"></i>
+            </div>
+
+            <div>
+                <h4>Maupin Airline</h4>
+                <small>User Panel</small>
+            </div>
+
+        </div>
+
+
+        <!-- User -->
+        <div class="user-box">
+
+            <div class="user-avatar">
+                <i class="bi bi-person-fill"></i>
+            </div>
+
+
+            <div class="user-info">
+
+                <h6 th:text="${username}">
+                    User Name
+                </h6>
+
+                <span>Welcome Back</span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Navigation ONLY ONCE -->
+        <ul class="sidebar-menu">
+
+
+            <li>
+                <a th:href="@{/airline/home}"
+                   th:classappend="${currentPage=='home'} ? ' active'">
+
+                    <i class="bi bi-house-door-fill"></i>
+
+                    Home
+
+                </a>
+            </li>
+
+
+
+            <li>
+                <a th:href="@{/airline/dashboard}"
+                   th:classappend="${currentPage=='dashboard'} ? ' active'">
+
+                    <i class="bi bi-speedometer2"></i>
+
+                    Dashboard
+
+                </a>
+            </li>
+
+
+
+            <li>
+                <a th:href="@{/airline/history}"
+                   th:classappend="${currentPage=='history'} ? ' active'">
+
+                    <i class="bi bi-journal-text"></i>
+
+                    Booking History
+
+                </a>
+            </li>
+
+
+
+            <li>
+                <a th:href="@{/airline/profile}"
+                   th:classappend="${currentPage=='profile'} ? ' active'">
+
+                    <i class="bi bi-person-circle"></i>
+
+                    Profile
+
+                </a>
+            </li>
+
+
+        </ul>
+
+
+
+        <!-- Logout -->
+        <div class="sidebar-footer">
+
+            <a th:href="@{/airline/logout}"
+               class="logout-btn">
+
+                <i class="bi bi-box-arrow-right"></i>
+
+                Logout
+
+            </a>
+
+        </div>
+
+
+    </aside>
+
+
+</div>
+
+<!-- Sidebar JavaScript -->
+<script>
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    const sidebar = document.getElementById("sidebar");
+
+    const overlay = document.getElementById("sidebarOverlay");
+
+    const toggle = document.getElementById("menuToggle");
+
+    if(toggle){
+
+        toggle.addEventListener("click", function(){
+
+            sidebar.classList.toggle("show");
+
+            overlay.classList.toggle("show");
+
+        });
+
+    }
+
+    overlay.addEventListener("click", function(){
+
+        sidebar.classList.remove("show");
+
+        overlay.classList.remove("show");
+
+    });
+
+    document.querySelectorAll(".sidebar-menu a")
+        .forEach(link => {
+
+            link.addEventListener("click", function(){
+
+                if(window.innerWidth < 992){
+
+                    sidebar.classList.remove("show");
+
+                    overlay.classList.remove("show");
+
+                }
+
+            });
+
+        });
+
+});
+
+</script>
+
+</body>
+</html>

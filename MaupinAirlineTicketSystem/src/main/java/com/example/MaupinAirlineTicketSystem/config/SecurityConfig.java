@@ -24,22 +24,43 @@ public class SecurityConfig {
 
 		http
 
-				.authorizeHttpRequests(auth -> auth
+		.authorizeHttpRequests(auth -> auth
+
 
 						// Public pages
 						.requestMatchers("/airline/", "/airline/index", "/airline/home", "/airline/login",
 								"/airline/signup", "/css/**", "/js/**", "/images/**")
 						.permitAll()
 
-						// Admin pages
-						.requestMatchers("/airline/admin/**").hasRole("ADMIN")
+				// Public pages
+				.requestMatchers(
+				    "/airline/",
+				    "/airline/index",
+				    "/airline/home",
+				    "/airline/login",
+				    "/airline/signup",
+				    "/css/**",
+				    "/js/**",
+				    "/images/**"
+				)
+				.permitAll()
 
-						// User pages
-						.requestMatchers("/airline/profile/**").hasRole("USER")
+			    .requestMatchers("/airline/admin/**")
+			    .hasRole("ADMIN")
 
-						// Everything else requires login
-						.anyRequest().authenticated())
 
+			    .requestMatchers(
+			        "/airline/profile/**",
+			        "/airline/dashboard",
+			        "/airline/history/**",
+			        "/airline/booking/**",
+			        "/airline/payment/**"
+			    )
+			    .hasRole("USER")
+
+
+			    .anyRequest().authenticated()
+			)
 				.formLogin(form -> form
 
 						// Login page

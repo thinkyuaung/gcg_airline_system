@@ -26,8 +26,11 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 			}
 
 			if ("ROLE_USER".equals(authority.getAuthority())) {
-				response.sendRedirect("/airline/index");
+
+				response.sendRedirect("/airline/");
 				return;
+
+			   
 			}
 		}
 
