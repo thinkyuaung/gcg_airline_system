@@ -90,7 +90,6 @@ public class Controller {
 	public String  support(){
 		return "support";
 	}
-
 	////////////// Login //////////////
 
 	@GetMapping("/login")

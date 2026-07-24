@@ -1,0 +1,118 @@
+/* =========================================================
+   MAUBIN AIRLINE - MODERN SUPPORT CENTER STYLING
+   ========================================================= */
+
+/* Hero Banner Style */
+.support-hero-banner {
+    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+    color: #ffffff;
+    padding: 4.5rem 1rem 5rem 1rem;
+    border-bottom-left-radius: 36px;
+    border-bottom-right-radius: 36px;
+    box-shadow: 0 10px 25px rgba(14, 165, 233, 0.15);
+}
+
+/* Hero Search Box */
+.support-search-wrapper {
+    max-width: 550px;
+    margin: 1.5rem auto 0 auto;
+    position: relative;
+}
+
+.support-search-input {
+    border-radius: 50px;
+    padding: 0.85rem 1.5rem 0.85rem 3.2rem;
+    border: none;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.support-search-icon {
+    position: absolute;
+    left: 1.2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #0ea5e9;
+    font-size: 1.2rem;
+}
+
+/* Glassmorphism Support Cards */
+.modern-support-card {
+    background: #ffffff;
+    border-radius: 28px;
+    padding: 2rem 1.5rem;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.05);
+    transition: all 0.35s ease;
+    height: 100%;
+}
+
+.modern-support-card:hover {
+    transform: translateY(-8px);
+    border-color: #38bdf8;
+    box-shadow: 0 20px 35px rgba(14, 165, 233, 0.15);
+}
+
+/* Floating Icon Box */
+.support-icon-box {
+    width: 60px;
+    height: 60px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    margin: 0 auto 1.25rem auto;
+    transition: transform 0.3s ease;
+}
+
+.modern-support-card:hover .support-icon-box {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* Icon Variations */
+.icon-box-call { background: rgba(14, 165, 233, 0.1); color: #0ea5e9; }
+.icon-box-email { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+.icon-box-chat { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+
+/* Rounded Action Buttons */
+.btn-support-action {
+    border-radius: 50px;
+    padding: 0.5rem 1.25rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+}
+
+/* FAQ Accordion Styling */
+.support-accordion .accordion-item {
+    border: 1px solid #e2e8f0;
+    border-radius: 16px !important;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.support-accordion .accordion-button {
+    font-weight: 600;
+    color: #0f172a;
+    padding: 1.2rem 1.5rem;
+}
+
+.support-accordion .accordion-button:not(.collapsed) {
+    background-color: #f0f9ff;
+    color: #0284c7;
+    box-shadow: none;
+}
+
+/* Contact Form Card */
+.support-form-card {
+    background: #ffffff;
+    border-radius: 24px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+/* Office / Airport Counter Icon Style */
+.icon-box-office {
+    background: rgba(99, 102, 241, 0.1);
+    color: #6366f1;
+}
