@@ -58,7 +58,8 @@ public class BookingServiceImpl implements BookingService{
 	public Booking createBooking(
 	        int flightPlanId,
 	        String seatClass,
-	        int passengers) {
+	        int passengers,
+	        User user) {
 
 
 	    FlightPlan flightPlan =
@@ -90,6 +91,7 @@ public class BookingServiceImpl implements BookingService{
 
 	    booking.setFlightPlan(flightPlan);
 
+	    booking.setUser(user);
 
 	    booking.setSeatClass(seatClassEntity);
 
