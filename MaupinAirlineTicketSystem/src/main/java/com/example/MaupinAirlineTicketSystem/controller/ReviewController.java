@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.MaupinAirlineTicketSystem.entity.Booking;
 import com.example.MaupinAirlineTicketSystem.repository.BookingRepository;
+import com.example.MaupinAirlineTicketSystem.repository.ReviewRepository;
 import com.example.MaupinAirlineTicketSystem.service.ReviewService;
 
 @Controller
@@ -22,34 +23,31 @@ public class ReviewController {
 	@Autowired
 	private BookingRepository bookingRepository;
 	
-	@GetMapping("/paymentSuccess")
-	public String paymentSuccess(
-	        @RequestParam int bookingId,
-	        Model model) {
-
-	    Booking booking = bookingRepository.findById(bookingId)
-	            .orElseThrow();
-
-	    model.addAttribute("booking", booking);
-
-	    return "userview/paymentSuccess";
-	}
+	@Autowired
+	private ReviewRepository reviewRepository;
 	
 	@PostMapping("/review")
-	
-	public String savereview(
+	public String saveReview(
 			
-			@RequestParam int bookingId,
-			@RequestParam(required = false, defaultValue = "0") int rating,
-			@RequestParam String comment
-			) {
+			@RequestParam("bookingId") Integer bookingId,
+			@RequestParam(defaultValue="0") int rating,
+	        @RequestParam("comment") String comment
+	){
 		
-		 if(rating == 0){
-		        return "redirect:/airline/paymentSuccess?error=rating";
-		    }
+			if(bookingId == null){
+				throw new RuntimeException("Booking ID missing");
+	    }
+	    
+	    reviewService.saveReview(
+	            bookingId,
+	            rating,
+	            comment
+	    );
 
-		    reviewService.saveReview(bookingId, rating, comment);
+	   
+	    return "redirect:/airline/paymentSuccess?bookingId="
+	            + bookingId
+	            + "&success=true";
 
-		    return "redirect:/airline/paymentSuccess?bookingId=" + bookingId + "&success=true";
 	}
 }

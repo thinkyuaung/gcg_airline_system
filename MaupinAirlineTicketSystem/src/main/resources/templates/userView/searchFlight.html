@@ -488,6 +488,7 @@ Select Arrival
 
             <input type="date"
                    name="departureDate"
+                   th:min="${#temporals.format(#temporals.createNow(),'yyyy-MM-dd')}"
                    required>
 
         </div>

@@ -52,8 +52,10 @@ public class Controller {
 	    
 	    /////////review/////////
 	    model.addAttribute(
-				reviewService.getReviews()
-				);
+	            "reviews",
+	            reviewService.getLatestReviews()
+	        );
+
 	    /////////////////////////
 	    
 	    model.addAttribute(

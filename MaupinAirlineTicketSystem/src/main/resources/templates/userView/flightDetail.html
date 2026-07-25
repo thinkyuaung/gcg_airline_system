@@ -285,6 +285,17 @@ $<span th:text="${totalPrice}"></span>
 
 </div>
 
+<div th:if="${promotion != null}"
+     class="alert alert-success">
+
+    <i class="bi bi-tag-fill"></i>
+
+    Promotion Applied!
+
+    <b th:text="${promotion.percentage + '% OFF'}"></b>
+
+</div>
+
 </div>
 
 <br>

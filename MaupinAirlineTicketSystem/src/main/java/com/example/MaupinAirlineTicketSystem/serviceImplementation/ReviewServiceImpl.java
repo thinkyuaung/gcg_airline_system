@@ -13,44 +13,50 @@ import com.example.MaupinAirlineTicketSystem.repository.ReviewRepository;
 import com.example.MaupinAirlineTicketSystem.service.ReviewService;
 
 @Service
-public class ReviewServiceImpl implements ReviewService{
+public class ReviewServiceImpl implements ReviewService {
 
-	@Autowired
+    @Autowired
     private ReviewRepository reviewRepository;
 
     @Autowired
     private BookingRepository bookingRepository;
-    
-	@Override
-	public Review saveReview(int bookingId, int rating, String comment) {
-		// TODO Auto-generated method stub
-		 Booking booking = bookingRepository
-	                .findById(bookingId)
-	                .orElseThrow();
 
-	        Review review = new Review();
+    @Override
+    public Review saveReview(int bookingId, int rating, String comment) {
 
-	        review.setBooking(booking);
+        // Prevent duplicate review for the same booking
+        if (reviewRepository.existsByBooking_BookingId(bookingId)) {
+            throw new RuntimeException("This booking has already been reviewed.");
+        }
 
-	        review.setUser(
-	                booking.getUser()
-	        );
+        Booking booking = bookingRepository
+                .findById(bookingId)
+                .orElseThrow();
 
-	        review.setRating(rating);
+        Review review = new Review();
 
-	        review.setComment(comment);
+        review.setBooking(booking);
+        review.setUser(booking.getUser());
+        review.setRating(rating);
+        review.setComment(comment);
+        review.setReviewDate(LocalDateTime.now());
 
-	        review.setReviewDate(
-	                LocalDateTime.now()
-	        );
+        return reviewRepository.save(review);
+    }
 
-	        return reviewRepository.save(review);
-	    }
+    @Override
+    public List<Review> getReviews() {
+        return reviewRepository.findAll();
+    }
 
-	@Override
-	public List<Review> getReviews() {
-		// TODO Auto-generated method stub
-		return reviewRepository.findAll();
-	}
+    @Override
+    public List<Review> getLatestReviews() {
+        return reviewRepository.findTop3ByOrderByReviewDateDesc();
+    }
+
+    @Override
+    public boolean hasReview(int bookingId) {
+        return reviewRepository.existsByBooking_BookingId(bookingId);
+    }
 
 }
