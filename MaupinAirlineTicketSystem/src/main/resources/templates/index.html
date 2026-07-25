@@ -303,10 +303,9 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                                 <select name="departureCity" class="form-select" required>
                                     <option value="">Select departure</option>
                                     <option th:each="airport:${airports}" th:value="${airport.city}" th:text="${airport.city + ' (' + airport.airportCode + ')'}"></option>
-                                </select>
+                                </select>   
                             </div>
                         </div>
-
                         <!-- Arrival -->
                         <div class="col-6 col-md-3">
                             <div class="input-picker">

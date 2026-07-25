@@ -1248,7 +1248,7 @@ html, body {
     overflow-x: clip; /* Replaces overflow-x: hidden to avoid breaking CSS sticky */
 }
 
-/* Sticky Navbar Custom Rules */
+/* Sticky Navbar Custom Rules */   
 #mainNav.sticky-top {
     position: -webkit-sticky !important;
     position: sticky !important;
@@ -1256,3 +1256,5 @@ html, body {
     z-index: 1030 !important;
     background-color: #ffffff !important;
 }
+
+	
