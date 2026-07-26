@@ -1,6 +1,7 @@
 package com.example.MaupinAirlineTicketSystem.entity;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
@@ -25,14 +26,10 @@ public class BookingDetail {
 	
 	private String passport;
 	
-	private LocalDateTime DOB;
-
-	@ManyToOne
-	@JoinColumn(name = "booking_id")
-	private Booking booking;
+	private LocalDate DOB;
 
 	public BookingDetail(int bookingDetailId, String passengerFirstName, String passengerLastName, String passport,
-			LocalDateTime dOB, Booking booking) {
+			LocalDate dOB, Booking booking) {
 		super();
 		this.bookingDetailId = bookingDetailId;
 		this.passengerFirstName = passengerFirstName;
@@ -41,6 +38,10 @@ public class BookingDetail {
 		DOB = dOB;
 		this.booking = booking;
 	}
+
+	@ManyToOne
+	@JoinColumn(name = "booking_id")
+	private Booking booking;
 
 	public BookingDetail() {
 		super();
@@ -79,11 +80,11 @@ public class BookingDetail {
 		this.passport = passport;
 	}
 
-	public LocalDateTime getDOB() {
+	public LocalDate getDOB() {
 		return DOB;
 	}
 
-	public void setDOB(LocalDateTime dOB) {
+	public void setDOB(LocalDate dOB) {
 		DOB = dOB;
 	}
 
@@ -94,7 +95,6 @@ public class BookingDetail {
 	public void setBooking(Booking booking) {
 		this.booking = booking;
 	}
-
 
 	
 }

@@ -1,5 +1,7 @@
 package com.example.MaupinAirlineTicketSystem.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,7 +29,9 @@ public class BookingController {
     public String booking(
             @RequestParam int flightPlanId,
             @RequestParam int passengers,
-            @RequestParam String seatClass){
+            @RequestParam String seatClass,
+            Principal principal
+           ){
 
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     	User user = userRepository.findByEmail(auth.getName());
@@ -40,7 +44,7 @@ public class BookingController {
                         user
                 );
 
-        return "redirect:/airline/payment/" + booking.getPayment().getPaymentId();
+        return "redirect:/airline/passenger/" + booking.getBookingId();
 
     }
 
