@@ -1,8 +1,15 @@
 package com.example.MaupinAirlineTicketSystem.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.MaupinAirlineTicketSystem.repository.AirportRepository;
 import com.example.MaupinAirlineTicketSystem.repository.SeatClassRepository;
+import com.example.MaupinAirlineTicketSystem.entity.Booking;
 import com.example.MaupinAirlineTicketSystem.entity.User;
 import com.example.MaupinAirlineTicketSystem.repository.UserRepository;
+import com.example.MaupinAirlineTicketSystem.service.BookingService;
 import com.example.MaupinAirlineTicketSystem.service.ReviewService;
 
 import jakarta.servlet.http.HttpSession;
@@ -35,8 +44,11 @@ public class Controller {
 	 @Autowired
 	 private ReviewService reviewService;
 	 
-	 @Autowired
-	 private SeatClassRepository seatClassRepository;
+	@Autowired
+	private SeatClassRepository seatClassRepository;
+
+	@Autowired
+	private BookingService bookingService;
 	 
 
 	////////////// Home //////////////
@@ -51,10 +63,10 @@ public class Controller {
 	    );
 	    
 	    /////////review/////////
-	    model.addAttribute(
-				reviewService.getReviews()
-				);
-	    /////////////////////////
+//	    model.addAttribute(
+//				reviewService.getReviews()
+//				);
+//	    /////////////////////////
 	    
 	    model.addAttribute(
 	            "seatClasses",
@@ -72,7 +84,25 @@ public class Controller {
 	}
 
 	@GetMapping("/index")
-	public String home() {
+	public String index(Model model) {
+
+	    model.addAttribute(
+	        "airports",
+	        airportRepository.findAll()
+	    );
+	    
+	    /////////review/////////
+//	    model.addAttribute(
+//				reviewService.getReviews()
+//				);
+//	    /////////////////////////
+	    
+	    model.addAttribute(
+	            "seatClasses",
+	            seatClassRepository.findAll()
+	        );
+
+	    model.addAttribute("currentPage", "home");
 		return "index";
 	}
 	
@@ -103,15 +133,27 @@ public class Controller {
 	////////////// Signup //////////////
 
 	@GetMapping("/signup")
-	public String signupPage(Model model) {
+	public String signupPage(Model model, HttpSession session) {
 
 		model.addAttribute("user", new User());
+
+		Integer pendingFlightPlanId = (Integer) session.getAttribute("pendingFlightPlanId");
+		if (pendingFlightPlanId != null) {
+			model.addAttribute("pendingFlightPlanId", pendingFlightPlanId);
+			model.addAttribute("pendingPassengers", session.getAttribute("pendingPassengers"));
+			model.addAttribute("pendingSeatClass", session.getAttribute("pendingSeatClass"));
+		}
 
 		return "Login/signup";
 	}
 
 	@PostMapping("/signup")
-	public String signup(@ModelAttribute User user) {
+	public String signup(
+			@ModelAttribute User user,
+			@RequestParam(value = "pendingFlightPlanId", required = false) Integer pendingFlightPlanId,
+			@RequestParam(value = "pendingPassengers", required = false) Integer pendingPassengers,
+			@RequestParam(value = "pendingSeatClass", required = false) String pendingSeatClass,
+			HttpSession session) {
 
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 
@@ -119,6 +161,30 @@ public class Controller {
 		user.setStatus("active");
 
 		userRepository.save(user);
+
+		List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
+		UsernamePasswordAuthenticationToken authToken =
+				new UsernamePasswordAuthenticationToken(user.getEmail(), null, authorities);
+
+		SecurityContext context = SecurityContextHolder.createEmptyContext();
+		context.setAuthentication(authToken);
+		SecurityContextHolder.setContext(context);
+		session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, context);
+
+		session.setAttribute("loginUserName", user.getFirstName() + " " + user.getLastName());
+		session.setAttribute("loginUserId", user.getUserId());
+		session.setAttribute("loginUserRole", user.getRole());
+
+		if (pendingFlightPlanId != null) {
+			session.removeAttribute("pendingFlightPlanId");
+			session.removeAttribute("pendingPassengers");
+			session.removeAttribute("pendingSeatClass");
+
+			Booking booking = bookingService.createBooking(
+					pendingFlightPlanId, pendingSeatClass, pendingPassengers, user);
+
+			return "redirect:/airline/payment/" + booking.getPayment().getPaymentId();
+		}
 
 		return "redirect:/airline/index";
 
@@ -446,7 +512,7 @@ public class Controller {
 
 		session.invalidate();
 
-		return "redirect:/airline/login";
+		return "redirect:/airline/";
 	}
 
 }

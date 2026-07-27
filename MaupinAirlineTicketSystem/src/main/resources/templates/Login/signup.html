@@ -34,6 +34,10 @@
                         <!-- Sign Up Form (Backend Model preserved) -->
                         <form th:action="@{/airline/signup}" th:object="${user}" method="post">
 
+                            <input type="hidden" name="pendingFlightPlanId" th:value="${pendingFlightPlanId}" />
+                            <input type="hidden" name="pendingPassengers" th:value="${pendingPassengers}" />
+                            <input type="hidden" name="pendingSeatClass" th:value="${pendingSeatClass}" />
+
                             <!-- First Name & Last Name -->
                             <div class="row g-3 mb-3">
                                 <div class="col-md-6">
