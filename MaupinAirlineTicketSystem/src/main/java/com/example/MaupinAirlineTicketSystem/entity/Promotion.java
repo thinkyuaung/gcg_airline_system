@@ -27,20 +27,27 @@ public class Promotion {
 	private String status;
 
 	private String description;
+	
+	private int percentage;
 
 	public Promotion() {
 		super();
 	}
 
-	public Promotion(int promotionId, LocalDateTime startDate, LocalDateTime endDate, String status,
-			String description) {
+	
+
+	public Promotion(int promotionId, LocalDateTime startDate, LocalDateTime endDate, String status, String description,
+			int percentage) {
 		super();
 		this.promotionId = promotionId;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.status = status;
 		this.description = description;
+		this.percentage = percentage;
 	}
+
+
 
 	public int getPromotionId() {
 		return promotionId;
@@ -80,6 +87,18 @@ public class Promotion {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+
+
+	public int getPercentage() {
+		return percentage;
+	}
+
+
+
+	public void setPercentage(int percentage) {
+		this.percentage = percentage;
 	}
 
 }

@@ -69,12 +69,12 @@ public class DataInitializer {
 				System.out.println("User account created!");
 			}
 
-			if (seatClassRepo.count() == 0) {
-				seatClassRepo.save(new SeatClass(1, "Economy", 20, 1.0));
-				seatClassRepo.save(new SeatClass(2, "Business", 25, 2.0));
-				seatClassRepo.save(new SeatClass(3, "First Class", 30, 3.0));
-				System.out.println("Seat classes created!");
-			}
+//			if (seatClassRepo.count() == 0) {
+//				seatClassRepo.save(new SeatClass(1, "Economy", 20, 1.0));
+//				seatClassRepo.save(new SeatClass(2, "Business", 25, 2.0));
+//				seatClassRepo.save(new SeatClass(3, "First Class", 30, 3.0));
+//				System.out.println("Seat classes created!");
+//			}
 
 		};
 	}

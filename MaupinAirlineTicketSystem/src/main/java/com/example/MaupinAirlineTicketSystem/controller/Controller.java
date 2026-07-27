@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.MaupinAirlineTicketSystem.repository.AirportRepository;
 import com.example.MaupinAirlineTicketSystem.repository.SeatClassRepository;
 import com.example.MaupinAirlineTicketSystem.entity.Booking;
+import com.example.MaupinAirlineTicketSystem.entity.Promotion;
 import com.example.MaupinAirlineTicketSystem.entity.User;
+import com.example.MaupinAirlineTicketSystem.repository.AdminPromotionRepository;
 import com.example.MaupinAirlineTicketSystem.repository.UserRepository;
 import com.example.MaupinAirlineTicketSystem.service.BookingService;
 import com.example.MaupinAirlineTicketSystem.service.ReviewService;
@@ -49,6 +51,9 @@ public class Controller {
 
 	@Autowired
 	private BookingService bookingService;
+
+	@Autowired
+	private AdminPromotionRepository promotionRepository;
 	 
 
 	////////////// Home //////////////
@@ -62,16 +67,13 @@ public class Controller {
 	        airportRepository.findAll()
 	    );
 	    
-	    /////////review/////////
-//	    model.addAttribute(
-//				reviewService.getReviews()
-//				);
-//	    /////////////////////////
-	    
 	    model.addAttribute(
 	            "seatClasses",
 	            seatClassRepository.findAll()
 	        );
+
+	    List<Promotion> activePromotions = promotionRepository.findByStatus("Active");
+	    model.addAttribute("promotions", activePromotions);
 
 	    model.addAttribute("currentPage", "home");
 	    
@@ -91,16 +93,13 @@ public class Controller {
 	        airportRepository.findAll()
 	    );
 	    
-	    /////////review/////////
-//	    model.addAttribute(
-//				reviewService.getReviews()
-//				);
-//	    /////////////////////////
-	    
 	    model.addAttribute(
 	            "seatClasses",
 	            seatClassRepository.findAll()
 	        );
+
+	    List<Promotion> activePromotions = promotionRepository.findByStatus("Active");
+	    model.addAttribute("promotions", activePromotions);
 
 	    model.addAttribute("currentPage", "home");
 		return "index";
