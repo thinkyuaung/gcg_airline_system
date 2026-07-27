@@ -537,9 +537,15 @@ Cancel Pending
 
 </a>
 
-<div th:if="${booking.status=='Success' and booking.cancelDescription != null}" class="mt-2">
+<div th:if="${booking.status=='Being Booked' and booking.cancelDescription != null}" class="mt-2">
     <div class="alert alert-info py-2 px-3 mb-0 small">
         <i class="bi bi-info-circle"></i> <strong>Cancel Rejected:</strong> <span th:text="${booking.cancelDescription}"></span>
+    </div>
+</div>
+
+<div th:if="${booking.status=='Issued' and booking.cancelDescription != null}" class="mt-2">
+    <div class="alert alert-secondary py-2 px-3 mb-0 small">
+        <i class="bi bi-journal-text"></i> <strong>Note:</strong> <span th:text="${booking.cancelDescription}"></span>
     </div>
 </div>
 

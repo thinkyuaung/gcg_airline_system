@@ -68,10 +68,22 @@ public class AdminBookingController {
 	}
 
 	@GetMapping("/admin/booking/issue/{id}")
-	public String issueBooking(@PathVariable("id") int id) {
+	public String issueBookingForm(@PathVariable("id") int id, Model model) {
+		Booking booking = adminBookingService.getBookingById(id);
+		if (booking != null) {
+			model.addAttribute("booking", booking);
+		}
+		return "Admin/issueBooking";
+	}
+
+	@PostMapping("/admin/booking/issue/{id}")
+	public String issueBooking(
+			@PathVariable("id") int id,
+			@RequestParam("description") String description) {
 		Booking booking = adminBookingService.getBookingById(id);
 		if (booking != null) {
 			booking.setStatus("Issued");
+			booking.setCancelDescription(description);
 			adminBookingService.saveBooking(booking);
 		}
 		return "redirect:/airline/admin/bookings";

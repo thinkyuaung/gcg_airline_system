@@ -706,8 +706,10 @@ body {
 										<td th:text="${b.totalAmount}"></td>
 										<td>
 											<span class="badge" 
-												th:classappend="${b.status == 'PENDING'} ? 'bg-warning text-dark' : (${b.status == 'Success'} ? 'bg-success' : (${b.status == 'Issued'} ? 'bg-primary' : (${b.status == 'Pending Cancel'} ? 'bg-warning text-dark' : (${b.status == 'CANCELLED'} ? 'bg-secondary' : (${b.status == 'Success'} ? 'bg-info text-dark' : 'bg-secondary')))))"
+												th:classappend="${b.status == 'PENDING'} ? 'bg-warning text-dark' : (${b.status == 'Success' or b.status == 'Issued'} ? 'bg-success' : (${b.status == 'Pending Cancel'} ? 'bg-warning text-dark' : (${b.status == 'CANCELLED'} ? 'bg-secondary' : (${b.status == 'Being Booked'} ? 'bg-info text-dark' : 'bg-secondary'))))"
 												th:text="${b.status}"></span>
+											<small th:if="${b.status == 'Being Booked' and b.cancelDescription != null}" 
+												class="d-block text-muted mt-1" th:text="${b.cancelDescription}"></small>
 										</td>
 										<td>
 										
