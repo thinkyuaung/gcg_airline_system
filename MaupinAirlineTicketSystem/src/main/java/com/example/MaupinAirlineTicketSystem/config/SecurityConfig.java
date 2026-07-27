@@ -23,8 +23,13 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
 		http
+			// 1. Disable CSRF for REST API endpoints
+			.csrf(csrf -> csrf
+				.ignoringRequestMatchers("/airline/api/**")
+			)
 
-		.authorizeHttpRequests(auth -> auth
+			// 2. Configure URL Permissions
+			.authorizeHttpRequests(auth -> auth
 
 				.requestMatchers(
 				    "/airline/",
@@ -39,6 +44,7 @@ public class SecurityConfig {
 				    "/airline/support",
 				    "/airline/search",
 				    "/airline/flightDetail/**",
+				    "/airline/api/chat",     // <-- ADDED: Allow Chatbot API access
 				    "/uploads/**",
 				    "/css/**",
 				    "/js/**",
@@ -60,33 +66,33 @@ public class SecurityConfig {
 
 			    .anyRequest().authenticated()
 			)
-				.formLogin(form -> form
+			.formLogin(form -> form
 
-						.loginPage("/airline/login")
+				.loginPage("/airline/login")
 
-						.loginProcessingUrl("/airline/login")
+				.loginProcessingUrl("/airline/login")
 
-						.successHandler(successHandler)
+				.successHandler(successHandler)
 
-						.failureUrl("/airline/login?error")
+				.failureUrl("/airline/login?error")
 
-						.permitAll())
+				.permitAll())
 
-				.logout(logout -> logout
+			.logout(logout -> logout
 
-						.logoutUrl("/airline/logout")
+				.logoutUrl("/airline/logout")
 
-						.logoutSuccessUrl("/airline/login")
+				.logoutSuccessUrl("/airline/login")
 
-						.invalidateHttpSession(true)
+				.invalidateHttpSession(true)
 
-						.clearAuthentication(true)
+				.clearAuthentication(true)
 
-						.deleteCookies("JSESSIONID")
+				.deleteCookies("JSESSIONID")
 
-						.permitAll())
+				.permitAll())
 
-				.httpBasic(Customizer.withDefaults());
+			.httpBasic(Customizer.withDefaults());
 
 		return http.build();
 	}
