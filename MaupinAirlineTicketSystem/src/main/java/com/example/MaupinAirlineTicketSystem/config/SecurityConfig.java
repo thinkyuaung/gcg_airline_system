@@ -32,6 +32,7 @@ public class SecurityConfig {
 				    "/airline/home",
 				    "/airline/login",
 				    "/airline/signup",
+				    "/airline/booking",
 				    "/airline/manage-booking",
 				    "/airline/flights",
 				    "/airline/packages",
