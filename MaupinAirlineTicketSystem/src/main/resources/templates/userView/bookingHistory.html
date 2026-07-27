@@ -339,7 +339,7 @@ Pending Payment
 
 <span class="status bg-success-subtle text-success"
 
-th:if="${booking.status=='CONFIRMED'}">
+th:if="${booking.status=='CONFIRMED' or booking.status=='Success' or booking.status=='Issued'}">
 
 Confirmed
 
@@ -352,6 +352,22 @@ Confirmed
 th:if="${booking.status=='CANCELLED'}">
 
 Cancelled
+
+</span>
+
+<span class="status bg-warning-subtle text-dark"
+
+th:if="${booking.status=='Pending Cancel'}">
+
+Pending Cancel
+
+</span>
+
+<span class="status bg-info-subtle text-info"
+
+th:if="${booking.status=='Success'}">
+
+Success
 
 </span>
 
@@ -499,7 +515,7 @@ View Details
 
 
 
-<a th:if="${booking.status!='CANCELLED'}"
+<a th:if="${booking.status=='PENDING' or booking.status=='Success' or booking.status=='Issued' or booking.status=='CONFIRMED'}"
 
 th:href="@{/airline/cancel/confirm/{id}(id=${booking.bookingId})}"
 
@@ -510,6 +526,22 @@ class="btn btn-outline-danger ms-2">
 Cancel
 
 </a>
+
+<a th:if="${booking.status=='Pending Cancel'}"
+
+class="btn btn-outline-warning ms-2" style="pointer-events:none;">
+
+<i class="bi bi-hourglass-split"></i>
+
+Cancel Pending
+
+</a>
+
+<div th:if="${booking.status=='Success' and booking.cancelDescription != null}" class="mt-2">
+    <div class="alert alert-info py-2 px-3 mb-0 small">
+        <i class="bi bi-info-circle"></i> <strong>Cancel Rejected:</strong> <span th:text="${booking.cancelDescription}"></span>
+    </div>
+</div>
 
 
 

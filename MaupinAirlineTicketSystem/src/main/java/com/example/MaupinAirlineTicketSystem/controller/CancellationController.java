@@ -60,28 +60,24 @@ public String cancel(
         @RequestParam String reason,
         Model model){
 
+    try {
+        Booking booking = bookingRepository.findById(id).orElseThrow();
 
+        if ("CANCELLED".equals(booking.getStatus())
+                || "Pending Cancel".equals(booking.getStatus())) {
+            throw new RuntimeException("This booking has already been cancelled.");
+        }
 
-	try {
-
-        cancellationService.cancelBooking(id, reason);
+        booking.setStatus("Pending Cancel");
+        bookingRepository.save(booking);
 
         return "userview/cancelSuccess";
 
-
     } catch(RuntimeException e){
 
-
-        model.addAttribute(
-            "message",
-            e.getMessage()
-        );
-
-
+        model.addAttribute("message", e.getMessage());
         return "userview/cancelError";
-
     }
-
 
 }
 
