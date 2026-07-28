@@ -339,7 +339,10 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                         <div class="col-6 col-md-3">
                             <div class="input-picker">
                                 <label><i class="bi bi-calendar-event"></i> Departure</label>
-                                <input type="date" name="departureDate" required>
+                                <input type="date"
+       								name="departureDate"
+       								id="departureDate"
+       								th:min="${#temporals.format(#temporals.createNow(),'yyyy-MM-dd')}">
                             </div>
                         </div>
 
@@ -900,47 +903,72 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
             </div>
 
             <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="testi-card">
-                        <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                        <p class="testi-text">"SkyNest completely changed how I plan business trips. The seamless booking process saved me hours of hassle. From first-class flights to premium hotels — they had it all covered. Absolutely world-class service!"</p>
-                        <div class="d-flex align-items-center gap-3 mt-4 pt-3 border-top">
-                            <img class="testi-avatar" src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=100" alt="Arjun Malhotra">
-                            <div>
-                                <div class="testi-name">Arjun Malhotra</div>
-                                <div class="testi-role">Business Traveler</div>
-                            </div>
-                        </div>
+
+    <div class="col-md-4"
+
+         th:each="review : ${reviews}">
+
+        <div class="testi-card">
+
+            <div class="testi-stars">
+
+                <span
+                        th:each="i:${#numbers.sequence(1,5)}">
+
+                    <i class="bi"
+
+                       th:classappend="${i<=review.rating}
+                       ? ' bi-star-fill text-warning'
+                       : ' bi-star text-warning'">
+
+                    </i>
+
+                </span>
+
+            </div>
+
+            <p class="testi-text"
+   				th:text="|&quot;${review.comment}&quot;|">
+			</p>
+			
+            <div class="d-flex
+                        align-items-center
+                        gap-3
+                        mt-4
+                        pt-3
+                        border-top">
+
+                <!-- Default Avatar -->
+
+                <img class="testi-avatar"
+
+                     src="/images/default-user.png"
+
+                     alt="User">
+
+                <div>
+
+                    <div class="testi-name"
+
+                         th:text="${review.user.firstName+' '+review.user.lastName}">
+
                     </div>
+
+                    <div class="testi-role">
+
+                        Airline Passenger
+
+                    </div>
+
                 </div>
 
-                <div class="col-md-4">
-                    <div class="testi-card">
-                        <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                        <p class="testi-text">"As someone who travels for a living, I have very high standards. SkyNest not only met them — they exceeded every expectation. The Santorini package was breathtaking. I will never book through anyone else again!"</p>
-                        <div class="d-flex align-items-center gap-3 mt-4 pt-3 border-top">
-                            <img class="testi-avatar" src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=100" alt="Sara Qureshi">
-                            <div>
-                                <div class="testi-name">Sara Qureshi</div>
-                                <div class="testi-role">Travel Blogger</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            </div>
 
-                <div class="col-md-4">
-                    <div class="testi-card">
-                        <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                        <p class="testi-text">"We booked our honeymoon to Thailand through SkyNest and it was pure magic. Everything from transfers to private beach dinners was perfectly arranged. The team truly cares about creating memories. Highly recommend!"</p>
-                        <div class="d-flex align-items-center gap-3 mt-4 pt-3 border-top">
-                            <img class="testi-avatar" src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=100" alt="Nikhil Verma">
-                            <div>
-                                <div class="testi-name">Nikhil Verma</div>
-                                <div class="testi-role">Honeymoon Traveler</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        </div>
+
+    </div>
+
+</div>
             </div>
         </div>
     </section>

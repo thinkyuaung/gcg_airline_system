@@ -48,11 +48,11 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 					response.sendRedirect("/airline/booking/complete");
 					return;
 				}
-				response.sendRedirect("/airline/index");
+				response.sendRedirect("/airline/");
 				return;
 			}
 			else {
-				response.sendRedirect("/airline/index");
+				response.sendRedirect("/airline/");
 				return;
 			}
 		}
