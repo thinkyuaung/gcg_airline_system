@@ -64,13 +64,10 @@ public class Controller {
 		model.addAttribute("airports", airportRepository.findAll());
 
 		model.addAttribute("seatClasses", seatClassRepository.findAll());
-
-		List<Promotion> activePromotions = promotionRepository.findByStatus("Active");
-		model.addAttribute("promotions", activePromotions);
-
-		model.addAttribute("currentPage", "home");
-
-		return "index";
+	    model.addAttribute("currentPage", "home");
+	    model.addAttribute("promotion", promotionRepository.findTopByStatusOrderByStartDateDesc("Active"));
+	    
+	    return "index";
 	}
 
 	public String index() {
@@ -84,10 +81,9 @@ public class Controller {
 
 		model.addAttribute("seatClasses", seatClassRepository.findAll());
 
-		List<Promotion> activePromotions = promotionRepository.findByStatus("Active");
-		model.addAttribute("promotions", activePromotions);
+		   model.addAttribute("promotion", promotionRepository.findTopByStatusOrderByStartDateDesc("Active"));
 
-		model.addAttribute("currentPage", "home");
+	    model.addAttribute("currentPage", "home");
 		return "index";
 	}
 

@@ -28,8 +28,8 @@ public class AdminPromotionServiceImpl implements AdminPromotionService {
 
 	@Override
 	public Promotion getPromotionById(int id) {
-		Optional<Promotion> optional = adminPromotionRepo.findById(id);
-		return optional.orElse(null);
+	
+		return adminPromotionRepo.findById(id).get();
 	}
 
 	@Override
