@@ -22,71 +22,57 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-		http
-
-		.authorizeHttpRequests(auth -> auth
+		http.authorizeHttpRequests(auth -> auth
 
 				.requestMatchers(
-						 "/airline/",
-						    "/airline/index",
-						    "/airline/home",
-						    "/airline/login",
-						    "/airline/signup",
-						    "/airline/manage-booking",
-						    "/airline/flights",
-						    "/airline/packages",
-						    "/airline/support",
-						    "/airline/search",
-						    "/airline/flightDetail/**",
-						    "/airline/about",
-						    "/airline/contact",
-						    "/uploads/**",
-						    "/css/**",
-						    "/js/**",
-						    "/images/**"
+					"/airline",
+					"/airline/",
+					"/airline/index",
+					"/airline/home",
+					"/airline/login",
+					"/airline/signup",
+					"/airline/manage-booking",
+					"/airline/flights",
+					"/airline/packages",
+					"/airline/support",
+					"/airline/about",
+					"/airline/search",
+					"/airline/flightDetail/**",
+					"/airline/flight/**",
+					"/airline/booking/reserve",
+					"/uploads/**",
+					"/css/**",
+					"/js/**",
+					"/images/**"
 				)
 				.permitAll()
 
-			    .requestMatchers("/airline/admin/**")
-			    .hasRole("ADMIN")
+				.requestMatchers("/airline/admin/**").hasRole("ADMIN")
 
-			    .requestMatchers(
-			        "/airline/profile/**",
-			        "/airline/dashboard",
-			        "/airline/history/**",
-			        "/airline/booking/**",
-			        "/airline/payment/**",
-			        "/airline/paymentSuccess",
-			        "/airline/passenger/**"
-			    )
-			    .hasRole("USER")
+				.requestMatchers(
+					"/airline/profile/**",
+					"/airline/dashboard",
+					"/airline/history/**",
+					"/airline/booking/**",
+					"/airline/payment/**"
+				)
+				.hasRole("USER")
 
-			    .anyRequest().authenticated()
-			)
+				.anyRequest().authenticated())
+
 				.formLogin(form -> form
-
 						.loginPage("/airline/login")
-
 						.loginProcessingUrl("/airline/login")
-
 						.successHandler(successHandler)
-
 						.failureUrl("/airline/login?error")
-
 						.permitAll())
 
 				.logout(logout -> logout
-
 						.logoutUrl("/airline/logout")
-
 						.logoutSuccessUrl("/airline/login")
-
 						.invalidateHttpSession(true)
-
 						.clearAuthentication(true)
-
 						.deleteCookies("JSESSIONID")
-
 						.permitAll())
 
 				.httpBasic(Customizer.withDefaults());

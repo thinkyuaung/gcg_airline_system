@@ -46,6 +46,8 @@ public class Promotion {
 		// TODO Auto-generated constructor stub
 	}
 
+
+
 	public int getPromotionId() {
 		return promotionId;
 	}
