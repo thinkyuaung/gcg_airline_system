@@ -39,7 +39,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		for (GrantedAuthority authority : authentication.getAuthorities()) {
 
 			if ("ROLE_ADMIN".equals(authority.getAuthority())) {
-				response.sendRedirect("/airline/admin/dashboard");
+				response.sendRedirect("/airline/admin");
 				return;
 			}
 

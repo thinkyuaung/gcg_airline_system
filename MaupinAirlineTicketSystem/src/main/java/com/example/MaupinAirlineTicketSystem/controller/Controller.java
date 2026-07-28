@@ -40,12 +40,12 @@ public class Controller {
 	@Autowired
 	private UserRepository userRepository;
 
-	 @Autowired
-	    private AirportRepository airportRepository;
-	 
-	 @Autowired
-	 private ReviewService reviewService;
-	 
+	@Autowired
+	private AirportRepository airportRepository;
+
+	@Autowired
+	private ReviewService reviewService;
+
 	@Autowired
 	private SeatClassRepository seatClassRepository;
 
@@ -54,7 +54,6 @@ public class Controller {
 
 	@Autowired
 	private AdminPromotionRepository promotionRepository;
-	 
 
 	////////////// Home //////////////
 
@@ -62,23 +61,16 @@ public class Controller {
 
 	public String home(Model model) {
 
-	    model.addAttribute(
-	        "airports",
-	        airportRepository.findAll()
-	    );
-	    
-	    model.addAttribute(
-	            "seatClasses",
-	            seatClassRepository.findAll()
-	        );
+		model.addAttribute("airports", airportRepository.findAll());
 
-	    List<Promotion> activePromotions = promotionRepository.findByStatus("Active");
-	    model.addAttribute("promotions", activePromotions);
+		model.addAttribute("seatClasses", seatClassRepository.findAll());
 
-	    model.addAttribute("currentPage", "home");
-	    
-	    
-	    return "index";
+		List<Promotion> activePromotions = promotionRepository.findByStatus("Active");
+		model.addAttribute("promotions", activePromotions);
+
+		model.addAttribute("currentPage", "home");
+
+		return "index";
 	}
 
 	public String index() {
@@ -88,30 +80,24 @@ public class Controller {
 	@GetMapping("/index")
 	public String index(Model model) {
 
-	    model.addAttribute(
-	        "airports",
-	        airportRepository.findAll()
-	    );
-	    
-	    model.addAttribute(
-	            "seatClasses",
-	            seatClassRepository.findAll()
-	        );
+		model.addAttribute("airports", airportRepository.findAll());
 
-	    List<Promotion> activePromotions = promotionRepository.findByStatus("Active");
-	    model.addAttribute("promotions", activePromotions);
+		model.addAttribute("seatClasses", seatClassRepository.findAll());
 
-	    model.addAttribute("currentPage", "home");
+		List<Promotion> activePromotions = promotionRepository.findByStatus("Active");
+		model.addAttribute("promotions", activePromotions);
+
+		model.addAttribute("currentPage", "home");
 		return "index";
 	}
-	
+
 	@GetMapping("/about")
 	public String about() {
 		return "about";
 	}
-      
+
 	@GetMapping("/support")
-	public String  support(){
+	public String support() {
 		return "support";
 	}
 	////////////// Login //////////////
@@ -142,12 +128,10 @@ public class Controller {
 	}
 
 	@PostMapping("/signup")
-	public String signup(
-			@ModelAttribute User user,
+	public String signup(@ModelAttribute User user,
 			@RequestParam(value = "pendingFlightPlanId", required = false) Integer pendingFlightPlanId,
 			@RequestParam(value = "pendingPassengers", required = false) Integer pendingPassengers,
-			@RequestParam(value = "pendingSeatClass", required = false) String pendingSeatClass,
-			HttpSession session) {
+			@RequestParam(value = "pendingSeatClass", required = false) String pendingSeatClass, HttpSession session) {
 
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 
@@ -157,8 +141,8 @@ public class Controller {
 		userRepository.save(user);
 
 		List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
-		UsernamePasswordAuthenticationToken authToken =
-				new UsernamePasswordAuthenticationToken(user.getEmail(), null, authorities);
+		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getEmail(), null,
+				authorities);
 
 		SecurityContext context = SecurityContextHolder.createEmptyContext();
 		context.setAuthentication(authToken);
@@ -174,8 +158,8 @@ public class Controller {
 			session.removeAttribute("pendingPassengers");
 			session.removeAttribute("pendingSeatClass");
 
-			Booking booking = bookingService.createBooking(
-					pendingFlightPlanId, pendingSeatClass, pendingPassengers, user);
+			Booking booking = bookingService.createBooking(pendingFlightPlanId, pendingSeatClass, pendingPassengers,
+					user);
 
 			return "redirect:/airline/payment/" + booking.getPayment().getPaymentId();
 		}
@@ -429,6 +413,39 @@ public class Controller {
 		model.addAttribute("user", user);
 
 		return "Admin/admin-view-user";
+	}
+
+	//////////// Edit User ///////////////
+	@GetMapping("/admin/users/edit/{id}")
+	public String editUser(@PathVariable int id, Model model) {
+
+	    User user = userRepository.findById(id).orElse(null);
+
+	    if (user == null) {
+	        return "redirect:/airline/admin/dashboard";
+	    }
+
+	    model.addAttribute("user", user);
+
+	    return "Admin/admin-edit-user";
+	}
+
+	@PostMapping("/admin/users/update")
+	public String updateUser(@ModelAttribute User user) {
+
+		User existingUser = userRepository.findById(user.getUserId()).orElse(null);
+
+		if (existingUser == null) {
+			return "redirect:/airline/admin/dashboard";
+		}
+		user.setPassword(existingUser.getPassword());
+		user.setRole(existingUser.getRole());
+		user.setStatus(existingUser.getStatus());
+		user.setDob(existingUser.getDob());
+
+		userRepository.save(user);
+
+		return "redirect:/airline/admin/dashboard";
 	}
 
 	////////////// Activate User //////////////
