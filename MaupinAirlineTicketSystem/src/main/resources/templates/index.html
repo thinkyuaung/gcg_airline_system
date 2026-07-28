@@ -494,6 +494,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
     </div>
 </section> -->
 
+<<<<<<< Updated upstream
     <!-- EXCLUSIVE DEALS -->
     <section id="deals" class="section-padding" data-aos="fade-up">
         <div class="container">
@@ -747,6 +748,9 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
         </div>
     </section>
 
+=======
+    
+>>>>>>> Stashed changes
     <!-- POPULAR DESTINATIONS -->
     <section id="destinations" data-aos="fade-left">
         <div class="container">
@@ -875,86 +879,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
         </div>
     </section>
 
-    <!-- TESTIMONIALS -->
-    <section id="testimonials">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="section-title">AirLine Clients</h2>
-                <div class="divider"></div>
-                <p class="section-sub mt-3">What our travelers say about us</p>
-            </div>
-
-            <div class="row g-4">
-
-    <div class="col-md-4"
-
-         th:each="review : ${reviews}">
-
-        <div class="testi-card">
-
-            <div class="testi-stars">
-
-                <span
-                        th:each="i:${#numbers.sequence(1,5)}">
-
-                    <i class="bi"
-
-                       th:classappend="${i<=review.rating}
-                       ? ' bi-star-fill text-warning'
-                       : ' bi-star text-warning'">
-
-                    </i>
-
-                </span>
-
-            </div>
-
-            <p class="testi-text"
-   				th:text="|&quot;${review.comment}&quot;|">
-			</p>
-			
-            <div class="d-flex
-                        align-items-center
-                        gap-3
-                        mt-4
-                        pt-3
-                        border-top">
-
-                <!-- Default Avatar -->
-
-                <img class="testi-avatar"
-
-                     src="/images/default-user.png"
-
-                     alt="User">
-
-                <div>
-
-                    <div class="testi-name"
-
-                         th:text="${review.user.firstName+' '+review.user.lastName}">
-
-                    </div>
-
-                    <div class="testi-role">
-
-                        Airline Passenger
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-            </div>
-        </div>
-    </section>
-
+   
     <!-- FOOTER -->
     <footer id="footer">
         <div class="container">

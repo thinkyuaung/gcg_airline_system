@@ -79,10 +79,14 @@ public class Controller {
 	}
 	
 	@GetMapping("/about")
-	public String about() {
-		return "about";
+	public String about(Model model) {
+
+	    model.addAttribute(
+	            "reviews",
+	            reviewService.getLatestReviews());
+
+	    return "about";
 	}
-      
 	@GetMapping("/support")
 	public String  support(){
 		return "support";
