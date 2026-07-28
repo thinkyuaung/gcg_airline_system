@@ -82,7 +82,7 @@ public class BookingServiceImpl implements BookingService{
 
 	    SeatClass seatClassEntity =
 	            seatClassRepository
-	            .findByClassName(seatClass);
+	            .findByClassNameIgnoreCase(seatClass);
 
 
 

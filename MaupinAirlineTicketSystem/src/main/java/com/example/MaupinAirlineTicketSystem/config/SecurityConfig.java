@@ -27,21 +27,23 @@ public class SecurityConfig {
 		.authorizeHttpRequests(auth -> auth
 
 				.requestMatchers(
-				    "/airline/",
-				    "/airline/index",
-				    "/airline/home",
-				    "/airline/login",
-				    "/airline/signup",
-				    "/airline/manage-booking",
-				    "/airline/flights",
-				    "/airline/packages",
-				    "/airline/support",
-				    "/airline/search",
-				    "/airline/flightDetail/**",
-				    "/uploads/**",
-				    "/css/**",
-				    "/js/**",
-				    "/images/**"
+						 "/airline/",
+						    "/airline/index",
+						    "/airline/home",
+						    "/airline/login",
+						    "/airline/signup",
+						    "/airline/manage-booking",
+						    "/airline/flights",
+						    "/airline/packages",
+						    "/airline/support",
+						    "/airline/search",
+						    "/airline/flightDetail/**",
+						    "/airline/about",
+						    "/airline/contact",
+						    "/uploads/**",
+						    "/css/**",
+						    "/js/**",
+						    "/images/**"
 				)
 				.permitAll()
 
@@ -53,7 +55,9 @@ public class SecurityConfig {
 			        "/airline/dashboard",
 			        "/airline/history/**",
 			        "/airline/booking/**",
-			        "/airline/payment/**"
+			        "/airline/payment/**",
+			        "/airline/paymentSuccess",
+			        "/airline/passenger/**"
 			    )
 			    .hasRole("USER")
 

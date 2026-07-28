@@ -78,11 +78,6 @@ public class Controller {
 		return "index";
 	}
 	
-	@GetMapping("/flights")
-	public String flights() {
-		return "flights";
-	}
-	
 	@GetMapping("/about")
 	public String about() {
 		return "about";

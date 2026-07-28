@@ -17,4 +17,10 @@ public interface FlightPlanRepository extends JpaRepository<FlightPlan, Integer>
 	 		LocalDateTime start,
 	 		LocalDateTime end);
 	
+	List<FlightPlan>
+	findByFlight_Airline_AirlineIdAndDepartureTimeBetween(
+	        int airlineId,
+	        LocalDateTime start,
+	        LocalDateTime end);
+	
 }
