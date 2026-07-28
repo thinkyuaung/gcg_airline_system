@@ -1032,15 +1032,15 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
             </div>
         </div>
     </footer>
-    
-    <!-- Floating Toggle Button -->
+ <!--    
+    Floating Toggle Button
 <button class="chat-float-btn" id="chatToggleBtn" onclick="toggleChatWindow()">
     <i class="bi bi-robot" id="chatIcon"></i>
 </button>
-
-<!-- Chat Window Popup -->
+ -->
+<!-- <!-- Chat Window Popup
 <div class="chat-popup-card" id="chatPopupCard">
-    <!-- Header -->
+    Header
     <div class="chat-header">
         <div class="d-flex align-items-center gap-2">
             <i class="bi bi-robot fs-4"></i>
@@ -1052,13 +1052,13 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
         <button type="button" class="btn-close btn-close-white" onclick="toggleChatWindow()"></button>
     </div>
 
-    <!-- Message Body -->
+    Message Body
     <div class="chat-messages-body" id="chatMessagesBody">
         <div class="msg-bubble bot-msg-bubble">
             မင်္ဂလာပါခင်ဗျာ! Maubin Airline Assistant မှ ကြိုဆိုပါတယ်။ လေယာဉ်လက်မှတ်များနှင့် ပတ်သက်ပြီး ဘာများကူညီပေးရမလဲခင်ဗျာ။
         </div>
     </div>
-
+ --> 
     <!-- Input Footer -->
     <div class="chat-footer-input">
         <form id="chatForm" onsubmit="handleChatSubmit(event)">
@@ -1077,6 +1077,11 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
     <script src="/js/aos.js"></script>
 
     <script>
+    AOS.init({
+    	  duration: 2000, 
+    	  once: false,   
+    	  offset: 100     
+    	})
         // NAVBAR — scroll shadow
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('mainNav');
