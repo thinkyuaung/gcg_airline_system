@@ -22,77 +22,60 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-		http
-			// 1. Disable CSRF for REST API endpoints
-			.csrf(csrf -> csrf
-				.ignoringRequestMatchers("/airline/api/**")
-			)
-
-			// 2. Configure URL Permissions
-			.authorizeHttpRequests(auth -> auth
+		http.authorizeHttpRequests(auth -> auth
 
 				.requestMatchers(
-				    "/airline/",
-				    "/airline/index",
-				    "/airline/home",
-				    "/airline/login",
-				    "/airline/signup",
-				    "/airline/booking",
-				    "/airline/manage-booking",
-				    "/airline/flights",
-				    "/airline/packages",
-				    "/airline/support",
-				    "/airline/search",
-				    "/airline/flightDetail/**",
-				    "/airline/api/chat",     // <-- ADDED: Allow Chatbot API access
-				    "/uploads/**",
-				    "/css/**",
-				    "/js/**",
-				    "/images/**"
+					"/airline",
+					"/airline/",
+					"/airline/index",
+					"/airline/home",
+					"/airline/login",
+					"/airline/signup",
+					"/airline/manage-booking",
+					"/airline/flights",
+					"/airline/packages",
+					"/airline/support",
+					"/airline/about",
+					"/airline/search",
+					"/airline/flightDetail/**",
+					"/airline/flight/**",
+					"/airline/booking/reserve",
+					"/uploads/**",
+					"/css/**",
+					"/js/**",
+					"/images/**"
 				)
 				.permitAll()
 
-			    .requestMatchers("/airline/admin/**")
-			    .hasRole("ADMIN")
+				.requestMatchers("/airline/admin/**").hasRole("ADMIN")
 
-			    .requestMatchers(
-			        "/airline/profile/**",
-			        "/airline/dashboard",
-			        "/airline/history/**",
-			        "/airline/booking/**",
-			        "/airline/payment/**"
-			    )
-			    .hasRole("USER")
+				.requestMatchers(
+					"/airline/profile/**",
+					"/airline/dashboard",
+					"/airline/history/**",
+					"/airline/booking/**",
+					"/airline/payment/**"
+				)
+				.hasRole("USER")
 
-			    .anyRequest().authenticated()
-			)
-			.formLogin(form -> form
+				.anyRequest().authenticated())
 
-				.loginPage("/airline/login")
+				.formLogin(form -> form
+						.loginPage("/airline/login")
+						.loginProcessingUrl("/airline/login")
+						.successHandler(successHandler)
+						.failureUrl("/airline/login?error")
+						.permitAll())
 
-				.loginProcessingUrl("/airline/login")
+				.logout(logout -> logout
+						.logoutUrl("/airline/logout")
+						.logoutSuccessUrl("/airline/login")
+						.invalidateHttpSession(true)
+						.clearAuthentication(true)
+						.deleteCookies("JSESSIONID")
+						.permitAll())
 
-				.successHandler(successHandler)
-
-				.failureUrl("/airline/login?error")
-
-				.permitAll())
-
-			.logout(logout -> logout
-
-				.logoutUrl("/airline/logout")
-
-				.logoutSuccessUrl("/airline/login")
-
-				.invalidateHttpSession(true)
-
-				.clearAuthentication(true)
-
-				.deleteCookies("JSESSIONID")
-
-				.permitAll())
-
-			.httpBasic(Customizer.withDefaults());
+				.httpBasic(Customizer.withDefaults());
 
 		return http.build();
 	}

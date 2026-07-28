@@ -7,7 +7,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.example.MaupinAirlineTicketSystem.entity.SeatClass;
 import com.example.MaupinAirlineTicketSystem.entity.User;
+import com.example.MaupinAirlineTicketSystem.repository.SeatClassRepository;
 import com.example.MaupinAirlineTicketSystem.repository.UserRepository;
 
 
@@ -15,7 +17,7 @@ import com.example.MaupinAirlineTicketSystem.repository.UserRepository;
 public class DataInitializer {
 
 	@Bean
-	CommandLineRunner init(UserRepository repo, PasswordEncoder encoder) {
+	CommandLineRunner init(UserRepository repo, SeatClassRepository seatClassRepo, PasswordEncoder encoder) {
 
 		return args -> {
 
@@ -66,6 +68,13 @@ public class DataInitializer {
 
 				System.out.println("User account created!");
 			}
+
+//			if (seatClassRepo.count() == 0) {
+//				seatClassRepo.save(new SeatClass(1, "Economy", 20, 1.0));
+//				seatClassRepo.save(new SeatClass(2, "Business", 25, 2.0));
+//				seatClassRepo.save(new SeatClass(3, "First Class", 30, 3.0));
+//				System.out.println("Seat classes created!");
+//			}
 
 		};
 	}

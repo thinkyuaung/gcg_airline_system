@@ -706,8 +706,10 @@ body {
 										<td th:text="${b.totalAmount}"></td>
 										<td>
 											<span class="badge" 
-												th:classappend="${b.status == 'Pending'} ? 'bg-warning text-dark' : (${b.status == 'Successful'} ? 'bg-success' : (${b.status == 'Issued'} ? 'bg-primary' : 'bg-secondary'))"
+												th:classappend="${b.status == 'PENDING'} ? 'bg-warning text-dark' : (${b.status == 'Success' or b.status == 'Issued'} ? 'bg-success' : (${b.status == 'Pending Cancel'} ? 'bg-warning text-dark' : (${b.status == 'CANCELLED'} ? 'bg-secondary' : (${b.status == 'Being Booked'} ? 'bg-info text-dark' : 'bg-secondary'))))"
 												th:text="${b.status}"></span>
+											<small th:if="${b.status == 'Being Booked' and b.cancelDescription != null}" 
+												class="d-block text-muted mt-1" th:text="${b.cancelDescription}"></small>
 										</td>
 										<td>
 										
@@ -723,6 +725,18 @@ body {
 												<button
 												class="btn btn-sm btn-danger py-0 px-2 shadow-sm"><i
 												class="bi bi-qr-code"></i>  Issued</button>
+											</a>
+											<a th:if="${b.status == 'Pending Cancel'}"
+												th:href="@{/airline/admin/booking/approve-cancel/{id}(id=${b.bookingId})}"
+												class="">
+												<button
+												class="btn btn-sm btn-success py-0 px-2 shadow-sm"><i class="bi bi-check-circle"></i> Approve Cancel</button>
+											</a>
+											<a th:if="${b.status == 'Pending Cancel'}"
+												th:href="@{/airline/admin/booking/issue-cancel/{id}(id=${b.bookingId})}"
+												class="">
+												<button
+												class="btn btn-sm btn-danger py-0 px-2 shadow-sm"><i class="bi bi-x-circle"></i> Reject Cancel</button>
 											</a>
 										</td>
 									</tr>
