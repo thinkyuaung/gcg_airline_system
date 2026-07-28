@@ -12,4 +12,7 @@ public interface AdminPromotionRepository extends JpaRepository<Promotion, Integ
 
 	List<Promotion> findByStatus(String status);
 
+	
+	Promotion findTopByStatusOrderByStartDateDesc(String string);
+
 }
