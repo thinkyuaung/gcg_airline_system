@@ -68,12 +68,12 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
 <header class="sticky-top p-0 border-0 shadow-sm">
     
     <!-- TOP PROMOTION BANNER -->
-    <div th:if="${promotions != null and !promotions.isEmpty()}" class="alert alert-warning alert-dismissible fade show m-0 text-center rounded-0 border-0 py-2 top-promo-banner" role="alert">
+    <div th:if="${promotion != null}" class="alert alert-warning alert-dismissible fade show m-0 text-center rounded-0 border-0 py-2 top-promo-banner" role="alert">
         <div class="container d-flex align-items-center justify-content-center gap-2">
             <span class="badge bg-danger text-white fw-bold px-2 py-1">
                 <i class="bi bi-fire me-1"></i>PROMOTION
             </span>
-            <span class="small fw-semibold text-dark" th:each="promo : ${promotions}" th:text="${promo.description}"></span>
+            <span class="small fw-semibold text-dark" th:text="${promotion.description}"></span>
         </div>
         <button type="button" class="btn-close py-2" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
@@ -100,23 +100,31 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                 <!-- NAV LINKS WITH DYNAMIC THYMELEAF ACTIVE STATE -->
 <ul class="navbar-nav mx-auto gap-lg-4 gap-2 mt-3 mt-lg-0 fw-semibold">
     <li class="nav-item">
-        <a class="nav-link" 
-           th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI == '/airline/'} ? 'active' : ''" 
+     <a class="nav-link" 
            th:href="@{/airline/}">Home</a>
+       <!--  <a class="nav-link" 
+           th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI == '/airline/'} ? 'active' : ''" 
+           th:href="@{/airline/}">Home</a> -->
     </li>
     <li class="nav-item">
-        <a class="nav-link" 
-           th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI.startsWith('/airline/flights')} ? 'active' : ''" 
+    <a class="nav-link" 
            th:href="@{/airline/flights}">Flights</a>
+        <!-- <a class="nav-link" 
+           th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI.startsWith('/airline/flights')} ? 'active' : ''" 
+           th:href="@{/airline/flights}">Flights</a> -->
     </li>
     <li class="nav-item">
-        <a class="nav-link" 
-           th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI.startsWith('/airline/about')} ? 'active' : ''" 
+    <a class="nav-link" 
            th:href="@{/airline/about}">About</a>
+        <!-- <a class="nav-link" 
+           th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI.startsWith('/airline/about')} ? 'active' : ''" 
+           th:href="@{/airline/about}">About</a> -->
     </li>
     <li class="nav-item">
-        <a class="nav-link" 
+        <!-- <a class="nav-link" 
            th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI.startsWith('/airline/support')} ? 'active' : ''" 
+           th:href="@{/airline/support}">Support</a> -->
+           <a class="nav-link" 
            th:href="@{/airline/support}">Support</a>
     </li>
 </ul>
