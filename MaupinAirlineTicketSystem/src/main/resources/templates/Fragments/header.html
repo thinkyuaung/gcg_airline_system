@@ -105,7 +105,7 @@
             <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0 ms-lg-auto">
                 
                 <!-- Clean Search Bar Container -->
-                <div class="search-box-wrapper d-none d-md-block">
+               <!-- <!--  <div class="search-box-wrapper d-none d-md-block">
                     <i class="bi bi-search search-icon"></i>
                     <input 
                         type="text" 
@@ -113,17 +113,46 @@
                         placeholder="Search..." 
                         aria-label="Search"
                     />
-                </div>
+                </div> --> 
 
-                <!-- Login Button -->
-                <a th:href="@{/airline/login}" class="btn btn-outline-primary px-3 fw-bold rounded-pill ms-2">
+                <!-- <!-- Login Button -->
+               <!--  <a th:href="@{/airline/login}" class="btn btn-outline-primary px-3 fw-bold rounded-pill ms-2">
                     <i class="bi bi-person me-1"></i> Login
                 </a>
                 
-                <!-- Sign Up Button -->
+                Sign Up Button
                 <a th:href="@{/airline/signup}" class="btn btn-primary px-3 fw-bold rounded-pill">
                     <i class="bi bi-person-plus-fill me-1"></i> Sign Up
-                </a>
+                </a> --> 
+                
+                <!-- Login Button (shown when NOT logged in) -->
+    <a th:if="${session.loginUserName == null}" th:href="@{/airline/login}" class="btn btn-outline-primary px-3 fw-bold rounded-pill ms-2">
+        <i class="bi bi-person me-1"></i> Login
+    </a>
+    
+    <!-- Sign Up Button (shown when NOT logged in) -->
+    <a th:if="${session.loginUserName == null}" th:href="@{/airline/signup}" class="btn btn-primary px-3 fw-bold rounded-pill">
+        <i class="bi bi-person-plus-fill me-1"></i> Sign Up
+    </a>
+
+    <!-- Logged-in user: person icon, username, dashboard icon, logout -->
+    <div th:if="${session.loginUserName != null}" class="d-flex align-items-center gap-3 ms-2">
+        <div class="d-flex align-items-center gap-2">
+            <div class="d-flex align-items-center justify-content-center rounded-circle bg-primary text-white" style="width:34px;height:34px;font-size:16px;">
+                <i class="bi bi-person-fill"></i>
+            </div>
+            <span class="fw-bold text-dark" th:text="${session.loginUserName}">User</span>
+        </div>
+        <a th:if="${session.loginUserRole == 'ADMIN'}" th:href="@{/airline/admin/dashboard}" class="btn btn-outline-primary btn-sm rounded-pill" title="Dashboard">
+            <i class="bi bi-list-ul"></i>
+        </a>
+        <a th:if="${session.loginUserRole == 'USER'}" th:href="@{/airline/dashboard}" class="btn btn-outline-primary btn-sm rounded-pill" title="Dashboard">
+            <i class="bi bi-list-ul"></i>
+        </a>
+        <a th:href="@{/airline/logout}" class="btn btn-outline-danger btn-sm rounded-pill" title="Logout">
+            <i class="bi bi-box-arrow-right"></i> Logout
+        </a>
+    </div>
             </div>
 
         </div> <!-- Closed collapse navbar-collapse -->
