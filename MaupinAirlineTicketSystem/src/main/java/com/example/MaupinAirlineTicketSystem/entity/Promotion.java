@@ -28,7 +28,6 @@ public class Promotion {
 
 	private String description;
 	
-	private int percentage;
 
 	private double percentage;
 
