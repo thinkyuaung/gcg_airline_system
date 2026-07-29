@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "airline")
@@ -12,11 +13,22 @@ public class Airline {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	
+	
 	private Integer airlineId;
+	
+	@NotBlank(message = "Airline name is required")
 	 private String airlineName;
+	
+	@NotBlank(message = "Airline code is required")
 	 private String airlineCode;
+	
+	@NotBlank(message = "Country is required")
 	 private String country;
+	
 	 private String logo;
+	 
+	 
 	 public Airline(Integer airlineId, String airlineName, String airlineCode, String country, String logo) {
 		super();
 		this.airlineId = airlineId;
