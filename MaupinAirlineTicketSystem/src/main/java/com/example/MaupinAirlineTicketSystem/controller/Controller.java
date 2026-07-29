@@ -300,7 +300,7 @@ public class Controller {
 
 		User loginUser = userRepository.findByEmail(authentication.getName());
 
-		if (loginUser == null || !loginUser.getRole().equals("ADMIN")) {
+		if (loginUser == null || !loginUser.getRole().equals("SUPERADMIN")) {
 			return "redirect:/airline/index";
 		}
 

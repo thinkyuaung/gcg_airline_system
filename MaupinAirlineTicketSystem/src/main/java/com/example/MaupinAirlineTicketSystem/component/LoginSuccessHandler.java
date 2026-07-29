@@ -42,7 +42,10 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 				response.sendRedirect("/airline/admin");
 				return;
 			}
-
+			else if ("ROLE_SUPERADMIN".equals(authority.getAuthority())) {
+				response.sendRedirect("/airline/admin/dashboard");
+				return;
+			}
 			else if ("ROLE_USER".equals(authority.getAuthority())) {
 				if (session.getAttribute("pendingFlightPlanId") != null) {
 					response.sendRedirect("/airline/booking/complete");
