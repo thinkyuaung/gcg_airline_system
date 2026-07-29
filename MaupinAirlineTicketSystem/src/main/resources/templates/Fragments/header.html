@@ -89,6 +89,10 @@
                        th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI.startsWith('/airline/flights')} ? 'active' : ''" 
                        th:href="@{/airline/flights}">Flights</a>
                 </li>
+                 <li class="nav-item">
+                    <a class="nav-link" 
+          				 th:href="@{/airline/manage-booking}">Manage Booking</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" 
                        th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI.startsWith('/airline/about')} ? 'active' : ''" 

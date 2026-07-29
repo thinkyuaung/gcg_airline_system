@@ -39,7 +39,11 @@ public class BookingController {
 		session.setAttribute("pendingPassengers", passengers);
 		session.setAttribute("pendingSeatClass", seatClass);
 
-		return "redirect:/airline/login";
+		if (session.getAttribute("loginUserName") == null) {
+			return "redirect:/airline/login";
+		}
+
+		return "redirect:/airline/booking/complete";
 	}
 
 	@GetMapping("/booking/complete")

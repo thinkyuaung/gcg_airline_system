@@ -115,8 +115,9 @@
               <label class="form-label text-uppercase fw-bold">Start Date</label>
               <div class="input-group">
                 <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-calendar-event"></i></span>
-                <input type="datetime-local" class="form-control border-start-0" th:field="*{startDate}" required>
+                <input type="datetime-local" class="form-control border-start-0" th:field="*{startDate}">
               </div>
+              <span class="text-danger small" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></span>
             </div>
 
             <!-- End Date -->
@@ -124,8 +125,9 @@
               <label class="form-label text-uppercase fw-bold">End Date</label>
               <div class="input-group">
                 <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-calendar-check"></i></span>
-                <input type="datetime-local" class="form-control border-start-0" th:field="*{endDate}" required>
+                <input type="datetime-local" class="form-control border-start-0" th:field="*{endDate}">
               </div>
+              <span class="text-danger small" th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"></span>
             </div>
 
             <!-- Status -->
@@ -133,13 +135,14 @@
               <label class="form-label text-uppercase fw-bold">Status</label>
               <div class="input-group">
                 <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-toggle-on"></i></span>
-                <select class="form-select border-start-0" th:field="*{status}" required>
+                <select class="form-select border-start-0" th:field="*{status}">
                   <option value="">Select Status</option>
                   <option value="Active" th:selected="${promotion.status == 'Active'}">Active</option>
                   <option value="Inactive" th:selected="${promotion.status == 'Inactive'}">Inactive</option>
                   <option value="Expired" th:selected="${promotion.status == 'Expired'}">Expired</option>
                 </select>
               </div>
+              <span class="text-danger small" th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></span>
             </div>
 
             <!-- Description -->
@@ -147,8 +150,9 @@
               <label class="form-label text-uppercase fw-bold">Description</label>
               <div class="input-group">
                 <span class="input-group-text bg-light border-end-0 text-muted align-items-start pt-3"><i class="bi bi-text-paragraph"></i></span>
-                <textarea class="form-control border-start-0" th:field="*{description}" rows="3" placeholder="Enter promotion description..." required></textarea>
+                <textarea class="form-control border-start-0" th:field="*{description}" rows="3" placeholder="Enter promotion description..."></textarea>
               </div>
+              <span class="text-danger small" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
             </div>
             
              <!-- Percentage -->
@@ -158,6 +162,7 @@
                 <span class="input-group-text bg-light border-end-0 text-muted align-items-start pt-3"><i class="bi bi-text-paragraph"></i></span>
                  <input type="number" name="percentage" class="form-control border-start-0"  th:field="*{percentage}">
               </div>
+              <span class="text-danger small" th:if="${#fields.hasErrors('percentage')}" th:errors="*{percentage}"></span>
             </div>
 
           </div>

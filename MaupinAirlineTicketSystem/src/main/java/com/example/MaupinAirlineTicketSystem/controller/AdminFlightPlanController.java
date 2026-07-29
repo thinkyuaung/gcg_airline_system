@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.MaupinAirlineTicketSystem.entity.Airport;
 import com.example.MaupinAirlineTicketSystem.entity.Flight;
@@ -18,6 +18,8 @@ import com.example.MaupinAirlineTicketSystem.entity.FlightPlan;
 import com.example.MaupinAirlineTicketSystem.service.AdminAirportService;
 import com.example.MaupinAirlineTicketSystem.service.AdminFlightPlanService;
 import com.example.MaupinAirlineTicketSystem.service.AdminFlightService;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/airline")
@@ -46,18 +48,17 @@ public class AdminFlightPlanController {
 	}
 
 	@PostMapping("/admin/flightPlan")
-	public String saveFlightPlan(@ModelAttribute("flightPlan") FlightPlan flightPlan,
-			@RequestParam("flightId") int flightId,
-			@RequestParam("departureAirportId") int departureAirportId,
-			@RequestParam("arrivalAirportId") int arrivalAirportId) {
+	public String saveFlightPlan(@Valid @ModelAttribute("flightPlan") FlightPlan flightPlan, BindingResult result,
+			Model model) {
 
-		Flight flight = adminFlightService.getFlightById(flightId);
-		Airport departureAirport = adminAirportService.getAirportById(departureAirportId);
-		Airport arrivalAirport = adminAirportService.getAirportById(arrivalAirportId);
+		List<Flight> flights = adminFlightService.getAllFlights();
+		List<Airport> airports = adminAirportService.getAllAirports();
+		model.addAttribute("flights", flights);
+		model.addAttribute("airports", airports);
 
-		flightPlan.setFlight(flight);
-		flightPlan.setDepartureAirport(departureAirport);
-		flightPlan.setArrivalAirport(arrivalAirport);
+		if (result.hasErrors()) {
+			return "Admin/AddFlightPlan";
+		}
 
 		adminFlightPlanService.saveFlightPlan(flightPlan);
 		return "redirect:/airline/admin/flightPlans";
@@ -87,18 +88,17 @@ public class AdminFlightPlanController {
 	}
 
 	@PostMapping("/admin/flightPlan/update")
-	public String updateFlightPlan(@ModelAttribute("flightPlan") FlightPlan flightPlan,
-			@RequestParam("flightId") int flightId,
-			@RequestParam("departureAirportId") int departureAirportId,
-			@RequestParam("arrivalAirportId") int arrivalAirportId) {
+	public String updateFlightPlan(@Valid @ModelAttribute("flightPlan") FlightPlan flightPlan, BindingResult result,
+			Model model) {
 
-		Flight flight = adminFlightService.getFlightById(flightId);
-		Airport departureAirport = adminAirportService.getAirportById(departureAirportId);
-		Airport arrivalAirport = adminAirportService.getAirportById(arrivalAirportId);
+		List<Flight> flights = adminFlightService.getAllFlights();
+		List<Airport> airports = adminAirportService.getAllAirports();
+		model.addAttribute("flights", flights);
+		model.addAttribute("airports", airports);
 
-		flightPlan.setFlight(flight);
-		flightPlan.setDepartureAirport(departureAirport);
-		flightPlan.setArrivalAirport(arrivalAirport);
+		if (result.hasErrors()) {
+			return "Admin/AddFlightPlan";
+		}
 
 		adminFlightPlanService.saveFlightPlan(flightPlan);
 		return "redirect:/airline/admin/flightPlans";

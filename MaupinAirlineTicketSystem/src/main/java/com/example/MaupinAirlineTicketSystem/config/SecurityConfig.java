@@ -47,7 +47,7 @@ public class SecurityConfig {
 				)
 				.permitAll()
 
-				.requestMatchers("/airline/admin/**").hasRole("ADMIN")
+				.requestMatchers("/airline/admin/**").hasAnyRole("ADMIN", "SUPERADMIN")
 
 				.requestMatchers(
 					"/airline/profile/**",
