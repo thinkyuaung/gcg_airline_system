@@ -13,7 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import com.example.MaupinAirlineTicketSystem.validation.TodayOrFuture;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -48,7 +48,7 @@ public class FlightPlan {
 	
 	private int firseClassSeats;
 
-	@Min(value = 5, message = "Price must be greater than 5 dollars.")
+	@DecimalMin(value = "5.0", message = "Price must be greater than 5 dollars")
 	private double price;
 
 	// Foreign Key -> Flight
