@@ -35,13 +35,39 @@ Edit Profile
 <form th:action="@{/airline/profile/update}" th:object="${user}" method="post">
 
 <div class="mb-3">
-<label class="form-label">First Name</label>
-<input type="text" class="form-control" th:field="*{firstName}" required>
+
+<label class="form-label">
+    First Name
+</label>
+
+<input type="text"
+       class="form-control"
+       th:field="*{firstName}"
+       required>
+
+<div class="text-danger small"
+     th:if="${#fields.hasErrors('firstName')}"
+     th:errors="*{firstName}">
+</div>
+
 </div>
 
 <div class="mb-3">
-<label class="form-label">Last Name</label>
-<input type="text" class="form-control" th:field="*{lastName}" required>
+
+<label class="form-label">
+    Last Name
+</label>
+
+<input type="text"
+       class="form-control"
+       th:field="*{lastName}"
+       required>
+
+<div class="text-danger small"
+     th:if="${#fields.hasErrors('lastName')}"
+     th:errors="*{lastName}">
+</div>
+
 </div>
 
 <div class="mb-3">
@@ -49,19 +75,60 @@ Edit Profile
 <input type="text" class="form-control" th:field="*{passport}" required>
 </div>
 
+
+
 <div class="mb-3">
-<label class="form-label">Date of Birth</label>
-<input type="date" class="form-control" th:field="*{dob}">
+
+<label class="form-label">
+    Date of Birth
+</label>
+
+<input type="date"
+       class="form-control"
+       th:field="*{dob}">
+
+<div class="text-danger small"
+     th:if="${#fields.hasErrors('dob')}"
+     th:errors="*{dob}">
+</div>
+
 </div>
 
 <div class="mb-3">
-<label class="form-label">Email Address</label>
-<input type="email" class="form-control" th:field="*{email}" required>
+
+<label class="form-label">
+    Phone Number
+</label>
+
+<input type="text"
+       class="form-control"
+       th:field="*{phoneNumber}"
+       required>
+
+<div class="text-danger small"
+     th:if="${#fields.hasErrors('phoneNumber')}"
+     th:errors="*{phoneNumber}">
 </div>
 
 <div class="mb-3">
-<label class="form-label">Phone Number</label>
-<input type="text" class="form-control" th:field="*{phoneNumber}" required>
+
+<label class="form-label">
+    Email Address
+</label>
+
+<input type="text"
+       class="form-control"
+       th:field="*{email}"
+       placeholder="example@email.com"
+       required>
+
+
+<div class="text-danger small"
+     th:if="${#fields.hasErrors('email')}"
+     th:errors="*{email}">
+</div>
+
+</div>
 </div>
 
 <div th:if="${error}" class="alert alert-danger">
