@@ -12,6 +12,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import com.example.MaupinAirlineTicketSystem.validation.TodayOrFuture;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "flight_plan")
@@ -23,12 +26,18 @@ public class FlightPlan {
 	private int flightPlanId;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+	@NotNull(message = "Departure time is required")
+	@TodayOrFuture(message = "Departure time must be today or in the future")
 	private LocalDateTime departureTime;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+	@NotNull(message = "Arrival time is required")
+	@TodayOrFuture(message = "Arrival time must be today or in the future")
 	private LocalDateTime arrivalTime;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@NotNull(message = "Flight date is required")
+	@TodayOrFuture(message = "Flight date must be today or in the future")
 	private Date flight_date;
 
 	private int availableSeats;
@@ -39,21 +48,25 @@ public class FlightPlan {
 	
 	private int firseClassSeats;
 
+	@Min(value = 5, message = "Price must be greater than 5 dollars.")
 	private double price;
 
 	// Foreign Key -> Flight
 	@ManyToOne
 	@JoinColumn(name = "flight_id")
+	@NotNull(message = "Please select a flight")
 	private Flight flight;
 
 	// Foreign Key -> Airport (Departure)
 	@ManyToOne
 	@JoinColumn(name = "departure_airport_id")
+	@NotNull(message = "Please select a departure airport")
 	private Airport departureAirport;
 
 	// Foreign Key -> Airport (Arrival)
 	@ManyToOne
 	@JoinColumn(name = "arrival_airport_id")
+	@NotNull(message = "Please select an arrival airport")
 	private Airport arrivalAirport;
 
 	

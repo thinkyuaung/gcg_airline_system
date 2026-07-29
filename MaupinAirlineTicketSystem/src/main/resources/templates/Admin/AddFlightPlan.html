@@ -120,17 +120,17 @@
               <label class="form-label text-uppercase fw-bold">Flight</label>
               <div class="input-group">
                 <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-airplane"></i></span>
-                <select id="flightSelect" name="flightId" class="form-select border-start-0" required onchange="onFlightChange(this)">
+                <select th:field="*{flight}" class="form-select border-start-0" onchange="onFlightChange(this)">
                   <option value="">Select Flight</option>
-                  <option th:each="flight : ${flights}" 
-                          th:value="${flight.flightId}" 
-                          th:text="${flight.flightNumber}"
-                          th:data-economy="${flight.ecomonySeats}"
-                          th:data-business="${flight.businessSeats}"
-                          th:data-firstclass="${flight.firseClassSeats}"
-                          th:selected="${flightPlan.flight != null and flightPlan.flight.flightId == flight.flightId}"></option>
+                  <option th:each="f : ${flights}" 
+                          th:value="${f.flightId}" 
+                          th:text="${f.flightNumber}"
+                          th:data-economy="${f.ecomonySeats}"
+                          th:data-business="${f.businessSeats}"
+                          th:data-firstclass="${f.firseClassSeats}"></option>
                 </select>
               </div>
+              <span class="text-danger small" th:if="${#fields.hasErrors('flight')}" th:errors="*{flight}"></span>
             </div>
 
             <!-- Departure Airport -->
@@ -138,14 +138,14 @@
               <label class="form-label text-uppercase fw-bold">Departure Airport</label>
               <div class="input-group">
                 <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-geo-alt"></i></span>
-                <select name="departureAirportId" class="form-select border-start-0" required>
+                <select th:field="*{departureAirport}" class="form-select border-start-0">
                   <option value="">Select Departure Airport</option>
-                  <option th:each="airport : ${airports}" 
-                          th:value="${airport.airportId}" 
-                          th:text="${airport.airportName}"
-                          th:selected="${flightPlan.departureAirport != null and flightPlan.departureAirport.airportId == airport.airportId}"></option>
+                  <option th:each="a : ${airports}" 
+                          th:value="${a.airportId}" 
+                          th:text="${a.airportName}"></option>
                 </select>
               </div>
+              <span class="text-danger small" th:if="${#fields.hasErrors('departureAirport')}" th:errors="*{departureAirport}"></span>
             </div>
 
             <!-- Arrival Airport -->
@@ -153,14 +153,14 @@
               <label class="form-label text-uppercase fw-bold">Arrival Airport</label>
               <div class="input-group">
                 <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-geo-alt-fill"></i></span>
-                <select name="arrivalAirportId" class="form-select border-start-0" required>
+                <select th:field="*{arrivalAirport}" class="form-select border-start-0">
                   <option value="">Select Arrival Airport</option>
-                  <option th:each="airport : ${airports}" 
-                          th:value="${airport.airportId}" 
-                          th:text="${airport.airportName}"
-                          th:selected="${flightPlan.arrivalAirport != null and flightPlan.arrivalAirport.airportId == airport.airportId}"></option>
+                  <option th:each="a : ${airports}" 
+                          th:value="${a.airportId}" 
+                          th:text="${a.airportName}"></option>
                 </select>
               </div>
+              <span class="text-danger small" th:if="${#fields.hasErrors('arrivalAirport')}" th:errors="*{arrivalAirport}"></span>
             </div>
 
             <!-- Departure Time -->
@@ -168,8 +168,9 @@
               <label class="form-label text-uppercase fw-bold">Departure Time</label>
               <div class="input-group">
                 <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-clock"></i></span>
-                <input type="datetime-local" class="form-control border-start-0" th:field="*{departureTime}" required>
+                <input type="datetime-local" class="form-control border-start-0" th:field="*{departureTime}">
               </div>
+              <span class="text-danger small" th:if="${#fields.hasErrors('departureTime')}" th:errors="*{departureTime}"></span>
             </div>
 
             <!-- Arrival Time -->
@@ -177,8 +178,9 @@
               <label class="form-label text-uppercase fw-bold">Arrival Time</label>
               <div class="input-group">
                 <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-clock-fill"></i></span>
-                <input type="datetime-local" class="form-control border-start-0" th:field="*{arrivalTime}" required>
+                <input type="datetime-local" class="form-control border-start-0" th:field="*{arrivalTime}">
               </div>
+              <span class="text-danger small" th:if="${#fields.hasErrors('arrivalTime')}" th:errors="*{arrivalTime}"></span>
             </div>
 
             <!-- Flight Date -->
@@ -186,8 +188,9 @@
               <label class="form-label text-uppercase fw-bold">Flight Date</label>
               <div class="input-group">
                 <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-calendar-event"></i></span>
-                <input type="date" class="form-control border-start-0" th:field="*{flight_date}" required>
+                <input type="date" class="form-control border-start-0" th:field="*{flight_date}">
               </div>
+              <span class="text-danger small" th:if="${#fields.hasErrors('flight_date')}" th:errors="*{flight_date}"></span>
             </div>
 
             <!-- Economy Seats -->
@@ -231,8 +234,9 @@
               <label class="form-label text-uppercase fw-bold">Price</label>
               <div class="input-group">
                 <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-currency-dollar"></i></span>
-                <input type="number" step="0.01" class="form-control border-start-0" th:field="*{price}" placeholder="e.g., 250.00" required>
+                <input type="number" step="0.01" class="form-control border-start-0" th:field="*{price}" placeholder="e.g., 250.00">
               </div>
+              <span class="text-danger small" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
             </div>
 
           <div class="modal-footer">
