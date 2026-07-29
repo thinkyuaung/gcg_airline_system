@@ -912,6 +912,8 @@ body {
 										</td> -->
 									<td class="text-center"><img th:if="${ap.image != null}" alt="Logo" class="circle-logo-container"
 											th:src="@{'/photos/'+${ap.image}}" >
+											<span th:unless="${ap.image != null}"
+											class="text-muted small italic">No Logo</span>
 										</td>
 										<td><span
 											class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded-2"

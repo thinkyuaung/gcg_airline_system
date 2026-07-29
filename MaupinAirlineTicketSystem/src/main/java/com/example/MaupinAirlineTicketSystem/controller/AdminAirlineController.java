@@ -143,7 +143,7 @@ public class AdminAirlineController {
 
 			airport.setImage(fileName);
 		} else {
-			if (airport.getAirportId() != 0 && airport.getAirportId() != null) {
+			if (airport.getAirportId() != null) {
 				Airline existingAirline = adminAirlineService.getAirlineById(airport.getAirportId());
 				if (existingAirline != null) {
 					airport.setImage(existingAirline.getLogo());

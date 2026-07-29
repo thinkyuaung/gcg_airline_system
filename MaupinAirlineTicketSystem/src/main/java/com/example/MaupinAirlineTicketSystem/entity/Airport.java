@@ -5,19 +5,23 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "airport")
 public class Airport {
-   
+    
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer airportId;
 
+	@NotBlank(message = "Airport name is required")
     private String airportName;
 
+	@NotBlank(message = "Airport code is required")
     private String airportCode;
 
+	@NotBlank(message = "City is required")
     private String city;
     
     private String image;
