@@ -67,10 +67,10 @@ public class Controller {
 		model.addAttribute("airports", airportRepository.findAll());
 
 		model.addAttribute("seatClasses", seatClassRepository.findAll());
-	    model.addAttribute("currentPage", "home");
-	    model.addAttribute("promotion", getCurrentPromotion());
-	    
-	    return "index";
+		model.addAttribute("currentPage", "home");
+		model.addAttribute("promotion", getCurrentPromotion());
+
+		return "index";
 	}
 
 	public String index() {
@@ -84,21 +84,20 @@ public class Controller {
 
 		model.addAttribute("seatClasses", seatClassRepository.findAll());
 
-		   model.addAttribute("promotion", getCurrentPromotion());
+		model.addAttribute("promotion", getCurrentPromotion());
 
-	    model.addAttribute("currentPage", "home");
+		model.addAttribute("currentPage", "home");
 		return "index";
 	}
 
 	@GetMapping("/about")
 	public String about(Model model) {
 
-	    model.addAttribute(
-	            "reviews",
-	            reviewService.getLatestReviews());
+		model.addAttribute("reviews", reviewService.getLatestReviews());
 
-	    return "about";
+		return "about";
 	}
+
 	@GetMapping("/support")
 	public String support() {
 		return "support";
@@ -131,10 +130,15 @@ public class Controller {
 	}
 
 	@PostMapping("/signup")
-	public String signup(@ModelAttribute User user,
+	public String signup(@Valid @ModelAttribute User user, BindingResult result, Model model,
 			@RequestParam(value = "pendingFlightPlanId", required = false) Integer pendingFlightPlanId,
 			@RequestParam(value = "pendingPassengers", required = false) Integer pendingPassengers,
 			@RequestParam(value = "pendingSeatClass", required = false) String pendingSeatClass, HttpSession session) {
+
+		if (result.hasErrors()) {
+
+			return "Login/signup";
+		}
 
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 
@@ -205,8 +209,7 @@ public class Controller {
 
 	@PostMapping("/profile/update")
 	public String updateProfile(@Valid @ModelAttribute User user, BindingResult result,
-			@RequestParam String confirmPassword,
-			Authentication authentication, Model model) {
+			@RequestParam String confirmPassword, Authentication authentication, Model model) {
 
 		User loginUser = userRepository.findByEmail(authentication.getName());
 
@@ -301,6 +304,35 @@ public class Controller {
 		userRepository.save(user);
 
 		return "redirect:/airline/profile";
+	}
+
+	///////// Delete Profile////////////
+
+	@PostMapping("/profile/delete")
+	public String deleteAccount(@RequestParam("password") String password, Authentication authentication, Model model) {
+
+		User user = userRepository.findByEmail(authentication.getName());
+
+		if (user == null) {
+			return "redirect:/airline/login";
+		}
+
+		if (!passwordEncoder.matches(password, user.getPassword())) {
+
+			model.addAttribute("user", user);
+
+			model.addAttribute("error", "Incorrect password.");
+
+			return "User/profile";
+		}
+
+		user.setStatus("inactive");
+
+		userRepository.save(user);
+
+		SecurityContextHolder.clearContext();
+
+		return "redirect:/airline/logout";
 	}
 
 	//////////// Admin Dashboard //////////////
@@ -426,29 +458,35 @@ public class Controller {
 	@GetMapping("/admin/users/edit/{id}")
 	public String editUser(@PathVariable int id, Model model) {
 
-	    User user = userRepository.findById(id).orElse(null);
+		User user = userRepository.findById(id).orElse(null);
 
-	    if (user == null) {
-	        return "redirect:/airline/admin/dashboard";
-	    }
+		if (user == null) {
+			return "redirect:/airline/admin/dashboard";
+		}
 
-	    model.addAttribute("user", user);
+		model.addAttribute("user", user);
 
-	    return "Admin/admin-edit-user";
+		return "Admin/admin-edit-user";
 	}
 
 	@PostMapping("/admin/users/update")
-	public String updateUser(@ModelAttribute User user) {
+	public String updateUser(@Valid @ModelAttribute User user, BindingResult result, Model model) {
+
+		if (result.hasErrors()) {
+
+			return "Admin/admin-edit-user";
+		}
 
 		User existingUser = userRepository.findById(user.getUserId()).orElse(null);
 
 		if (existingUser == null) {
 			return "redirect:/airline/admin/dashboard";
 		}
+
 		user.setPassword(existingUser.getPassword());
 		user.setRole(existingUser.getRole());
 		user.setStatus(existingUser.getStatus());
-		user.setDob(existingUser.getDob());
+		user.setDob(user.getDob());
 
 		userRepository.save(user);
 
@@ -485,7 +523,12 @@ public class Controller {
 	////////// Save User //////////////
 
 	@PostMapping("/admin/add-user")
-	public String saveUser(@ModelAttribute User user) {
+	public String saveUser(@Valid @ModelAttribute User user, BindingResult result) {
+
+		if (result.hasErrors()) {
+
+			return "Admin/add-user";
+		}
 
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 
@@ -511,7 +554,12 @@ public class Controller {
 	/////////// Save Admin //////////////
 
 	@PostMapping("/admin/add-admin")
-	public String saveAdmin(@ModelAttribute User user) {
+	public String saveAdmin(@Valid @ModelAttribute User user, BindingResult result) {
+
+		if (result.hasErrors()) {
+
+			return "Admin/add-admin";
+		}
 
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 
@@ -543,9 +591,10 @@ public class Controller {
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 
+		SecurityContextHolder.clearContext();
+
 		session.invalidate();
 
 		return "redirect:/airline/";
 	}
-
 }

@@ -118,7 +118,7 @@
 
 									<span class="input-group-text"> <i
 										class="bi bi-calendar"></i>
-									</span> <input type="date" class="form-control" th:field="*{dob}">
+									</span> <input type="date"  class="form-control" th:field="*{dob}"  th:attr="max=${#dates.format(#dates.createNow(),'yyyy-MM-dd')}">
 
 								</div>
 

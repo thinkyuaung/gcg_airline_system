@@ -26,13 +26,27 @@ rel="stylesheet">
 
 <div class="mb-3">
 <label>First Name</label>
-<input class="form-control" th:field="*{firstName}" required>
+<input class="form-control"
+       th:field="*{firstName}"
+       required>
+
+<div class="text-danger small"
+     th:if="${#fields.hasErrors('firstName')}"
+     th:errors="*{firstName}">
+</div>
 </div>
 
 
 <div class="mb-3">
 <label>Last Name</label>
-<input class="form-control" th:field="*{lastName}" required>
+<input class="form-control"
+       th:field="*{lastName}"
+       required>
+
+<div class="text-danger small"
+     th:if="${#fields.hasErrors('lastName')}"
+     th:errors="*{lastName}">
+</div>
 </div>
 
 
@@ -44,19 +58,43 @@ rel="stylesheet">
 
 <div class="mb-3">
 <label>Date of Birth</label>
-<input type="date" class="form-control" th:field="*{dob}" required>
+<input type="date"
+       class="form-control"
+       th:field="*{dob}"
+       th:attr="max=${#dates.format(#dates.createNow(),'yyyy-MM-dd')}"
+       required>
+
+<div class="text-danger small"
+     th:if="${#fields.hasErrors('dob')}"
+     th:errors="*{dob}">
+</div>
 </div>
 
 
 <div class="mb-3">
 <label>Email</label>
-<input type="email" class="form-control" th:field="*{email}" required>
+<input type="email"
+       class="form-control"
+       th:field="*{email}"
+       required>
+
+<div class="text-danger small"
+     th:if="${#fields.hasErrors('email')}"
+     th:errors="*{email}">
+</div>
 </div>
 
 
 <div class="mb-3">
 <label>Phone Number</label>
-<input class="form-control" th:field="*{phoneNumber}" required>
+<input class="form-control"
+       th:field="*{phoneNumber}"
+       required>
+
+<div class="text-danger small"
+     th:if="${#fields.hasErrors('phoneNumber')}"
+     th:errors="*{phoneNumber}">
+</div>
 </div>
 
 
@@ -66,16 +104,23 @@ rel="stylesheet">
 </div>
 
 
-<button class="btn btn-primary">
-Add User
-</button>
+<div class="d-flex gap-2 mt-4">
+
+    <button type="submit" class="btn btn-primary px-4">
+        <i class="bi bi-person-plus me-1"></i>
+        Add User
+    </button>
 
 
-<a th:href="@{/airline/admin/dashboard}"
-class="btn btn-secondary">
-Cancel
-</a>
+    <a th:href="@{/airline/admin/dashboard}"
+       class="btn btn-outline-secondary px-4">
+        <i class="bi bi-x-circle me-1"></i>
+        Cancel
+    </a>
 
+</div>
+
+<br>
 
 </form>
 
