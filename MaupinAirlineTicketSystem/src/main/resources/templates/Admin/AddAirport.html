@@ -122,7 +122,8 @@ body {
 						<!-- 1. Airport Code Selection Dropdown -->
 						<div class="mb-3">
 							<label class="form-label small fw-bold">Airport Code</label> 
-							<input type="text" name="airportCode" class="form-control border-start-0" placeholder="e.g., RGN" required th:field="*{airportCode}">
+							<input type="text" name="airportCode" class="form-control border-start-0" placeholder="e.g., RGN" th:field="*{airportCode}">
+							<span class="text-danger small" th:if="${#fields.hasErrors('airportCode')}" th:errors="*{airportCode}"></span>
 							<!-- <select th:field="*{airportCode}" class="form-select" required>
 								<option value="" selected disabled>-- Select Airport Code --</option>
 								<option value="RGN">RGN (Yangon)</option>
@@ -147,7 +148,8 @@ body {
 						<!-- 2. Airport Name Selection Dropdown -->
 						<div class="mb-3">
 							<label class="form-label small fw-bold">Airport Name</label> 
-							<input type="text" name="airportName" class="form-control border-start-0" placeholder="e.g., Yangon International Airport" required th:field="*{airportName}">
+							<input type="text" name="airportName" class="form-control border-start-0" placeholder="e.g., Yangon International Airport" th:field="*{airportName}">
+							<span class="text-danger small" th:if="${#fields.hasErrors('airportName')}" th:errors="*{airportName}"></span>
 							<!-- <select th:field="*{airportName}" class="form-select" required>
 								<option value="" selected disabled>-- Select Airport Name --</option>
 								<option value="Yangon International Airport">Yangon International Airport</option>
@@ -173,8 +175,9 @@ body {
               <label class="form-label text-uppercase fw-bold">City Location</label>
               <div class="input-group">
                 <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-geo-alt"></i></span>
-                <input type="text" name="city" class="form-control border-start-0" placeholder="e.g., Yangon" required th:field="*{city}">
+                <input type="text" name="city" class="form-control border-start-0" placeholder="e.g., Yangon" th:field="*{city}">
               </div>
+              <span class="text-danger small" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></span>
             </div>
             
             <!-- Airport Image -->

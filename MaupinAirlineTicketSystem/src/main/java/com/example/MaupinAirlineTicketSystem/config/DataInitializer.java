@@ -44,6 +44,30 @@ public class DataInitializer {
 
 				System.out.println("Admin account created!");
 			}
+			//superadmin
+			if (repo.findByEmail("superadmin@gmail.com") == null) {
+
+				User admin = new User();
+
+				admin.setFirstName("Super Admin");
+				admin.setLastName("Account");
+				admin.setPassport("SUPERADMIN001");
+				admin.setDob(LocalDate.of(1990, 1, 1));
+
+				admin.setEmail("superadmin@gmail.com");
+
+				admin.setPassword(encoder.encode("superadmin123"));
+
+				admin.setPhoneNumber("0900000000");
+
+				admin.setRole("SUPERADMIN");
+
+				admin.setStatus("active");
+
+				repo.save(admin);
+
+				System.out.println("Super Admin account created!");
+			}
 
 			if (repo.findByEmail("user@gmail.com") == null) {
 
