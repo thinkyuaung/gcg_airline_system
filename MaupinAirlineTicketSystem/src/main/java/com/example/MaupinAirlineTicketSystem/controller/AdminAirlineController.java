@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,8 @@ import com.example.MaupinAirlineTicketSystem.entity.Airline;
 import com.example.MaupinAirlineTicketSystem.entity.Airport;
 import com.example.MaupinAirlineTicketSystem.service.AdminAirlineService;
 import com.example.MaupinAirlineTicketSystem.service.AdminAirportService;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/airline") // Base Path
@@ -40,8 +43,14 @@ public class AdminAirlineController {
 	}
 
 	@PostMapping("/admin/airline")
-	public String saveSAirline(@ModelAttribute("airline") Airline airline,
-			@RequestParam("photoFile") MultipartFile photoFile) throws IllegalStateException, IOException {
+	public String saveSAirline(@Valid @ModelAttribute("airline") Airline airline,
+			BindingResult result,
+			@RequestParam("photoFile") MultipartFile photoFile, Model model)
+			throws IllegalStateException, IOException {
+
+		if (result.hasErrors()) {
+			return "Admin/AddAirline";
+		}
 
 		if (!photoFile.isEmpty()) {
 			String uploadDir = System.getProperty("user.dir") + File.separator + "uploads" + File.separator;
@@ -112,8 +121,13 @@ public class AdminAirlineController {
 //	}
 	
 	@PostMapping("/admin/airport")
-	public String  saveAirport(@ModelAttribute("airport") Airport airport,
-			@RequestParam("photoFile") MultipartFile photoFile) throws IllegalStateException, IOException {
+	public String saveAirport(@Valid @ModelAttribute("airport") Airport airport, BindingResult result,
+			@RequestParam("photoFile") MultipartFile photoFile, Model model)
+			throws IllegalStateException, IOException {
+
+		if (result.hasErrors()) {
+			return "Admin/AddAirport";
+		}
 
 		if (!photoFile.isEmpty()) {
 			String uploadDir = System.getProperty("user.dir") + File.separator + "uploads" + File.separator;
@@ -129,7 +143,7 @@ public class AdminAirlineController {
 
 			airport.setImage(fileName);
 		} else {
-			if (airport.getAirportId() != 0 && airport.getAirportId() != null) {
+			if (airport.getAirportId() != null) {
 				Airline existingAirline = adminAirlineService.getAirlineById(airport.getAirportId());
 				if (existingAirline != null) {
 					airport.setImage(existingAirline.getLogo());

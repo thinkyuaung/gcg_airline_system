@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -43,7 +43,7 @@ body {
 
 /* Sidebar Layout Fixes */
 .admin-sidebar {
-	background-color: #212529;
+	background-color:#1e293b;
 	box-shadow: 4px 0 24px rgba(0, 0, 0, 0.05);
 	z-index: 100;
 }
@@ -289,7 +289,12 @@ body {
 						class="bi bi-geo-alt-fill"></i> Air Port</a>
 
 					<hr class="my-3 text-white">
- 
+
+					<a sec:authorize="hasRole('SUPERADMIN')" th:href="@{/airline/admin/dashboard}"
+						class="admin-nav-link" style="background-color:#0d6efd; color:#fff;">
+						<i class="bi bi-bar-chart-fill"></i> Admin Dashboard
+					</a>
+
 					<a th:href="@{/airline/logout}"
 						class="admin-nav-link text-danger"><i
 						class="bi bi-box-arrow-left"></i> Exit Portal</a>
@@ -317,10 +322,9 @@ body {
 									<h2 class="fw-bold m-0 mt-1 text-dark"
 										th:text="${availableAirlines != null ? availableAirlines : '4'}">4</h2>
 								</div>
-								<div
-									class="mt-4 pt-2 border-top d-flex justify-content-between align-items-center">
+								<div class="mt-4 pt-2 border-top d-flex justify-content-between align-items-center">
 									<span class="text-muted small"><span
-										class="text-success fw-bold">AirIndia</span> lastly added</span> <i
+										class="text-success fw-bold" th:text="${lastlyAddedAirline}"></span> lastly added</span> <i
 										class="bi bi-chevron-right text-muted small"></i>
 								</div>
 							</div>
@@ -341,7 +345,7 @@ body {
 								<div
 									class="mt-4 pt-2 border-top d-flex justify-content-between align-items-center">
 									<span class="text-muted small">Flight No : <span
-										class="text-success fw-bold">108</span> lastly added
+										class="text-success fw-bold" th:text="${lastlyAddedFlight}"></span> lastly added
 									</span> <i class="bi bi-chevron-right text-muted small"></i>
 								</div>
 							</div>
@@ -363,7 +367,7 @@ body {
 								<div
 									class="mt-4 pt-2 border-top d-flex justify-content-between align-items-center">
 									<span class="text-muted small">From <span
-										class="text-primary fw-bold">20</span> Registrations
+										class="text-primary fw-bold" th:text="${totalUsers}"></span> Registrations
 									</span> <i class="bi bi-chevron-right text-muted small"></i>
 								</div>
 							</div>
@@ -378,7 +382,7 @@ body {
 								<div class="text-end">
 									<span class="text-secondary small fw-medium">Total
 										Earnings</span>
-									<h2 class="fw-bold m-0 mt-1 text-primary">$ 236,968</h2>
+									<h2 class="fw-bold m-0 mt-1 text-primary" th:text="'$ ' + ${#numbers.formatDecimal(totalEarnings, 1, 2)}">$ 236,968</h2>
 								</div>
 								<div
 									class="mt-4 pt-2 border-top d-flex justify-content-between align-items-center">
@@ -395,28 +399,28 @@ body {
 					<div class="premium-card p-4">
 						<div
 							class="d-flex justify-content-between align-items-center mb-4">
-							<h3 class="text-dark fw-bold m-0">System Overview Charts</h3>
+							<h3 class="text-dark fw-bold m-0">Booking Analytics</h3>
 							<div class="d-flex align-items-center gap-2">
 								<span class="pulse-dot"></span> <span
 									class="text-muted small fw-medium">Live Server Telemetry</span>
 							</div>
 						</div>
 						<div class="row g-5">
-							<!-- Left Column: Flights Status -->
+							<!-- Left Column: Bookings per Month -->
 							<div class="col-lg-6 border-end pe-lg-4">
-								<h5 class="text-center fw-bold text-secondary mb-3">Flights
-									Status Breakdown</h5>
+								<h5 class="text-center fw-bold text-secondary mb-3">Bookings
+									Per Month</h5>
 								<div class="premium-chart-wrapper">
-									<canvas id="flightsStatusChart"></canvas>
+									<canvas id="bookingsMonthChart"></canvas>
 								</div>
 							</div>
 
-							<!-- Right Column: Flights per Airline -->
+							<!-- Right Column: Booking Status Breakdown -->
 							<div class="col-lg-6 ps-lg-4">
-								<h5 class="text-center fw-bold text-secondary mb-3">Operational
-									Fleet Distribution</h5>
+								<h5 class="text-center fw-bold text-secondary mb-3">Booking
+									Status Distribution</h5>
 								<div class="premium-chart-wrapper">
-									<canvas id="flightsPerAirlineChart"></canvas>
+									<canvas id="bookingStatusChart"></canvas>
 								</div>
 							</div>
 						</div>
@@ -912,6 +916,8 @@ body {
 										</td> -->
 									<td class="text-center"><img th:if="${ap.image != null}" alt="Logo" class="circle-logo-container"
 											th:src="@{'/photos/'+${ap.image}}" >
+											<span th:unless="${ap.image != null}"
+											class="text-muted small italic">No Logo</span>
 										</td>
 										<td><span
 											class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded-2"
@@ -1016,68 +1022,70 @@ body {
 
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
-	<script>
+	<script th:inline="javascript">
+    /*<![CDATA[*/
     document.addEventListener("DOMContentLoaded", function () {
-        
-        // Flights Status - Advanced Bar Chart
-        const barCanvas = document.getElementById('flightsStatusChart');
-        if (barCanvas) {
-            new Chart(barCanvas.getContext('2d'), {
-                type: 'bar',
+
+        const monthLabels = /*[[${chartBookingMonthLabels}]]*/ [];
+        const monthData = /*[[${chartBookingMonthData}]]*/ [];
+        const statusLabels = /*[[${chartBookingStatusLabels}]]*/ [];
+        const statusData = /*[[${chartBookingStatusData}]]*/ [];
+
+        // Bookings Per Month - Line Chart
+        const lineCanvas = document.getElementById('bookingsMonthChart');
+        if (lineCanvas && monthLabels.length > 0) {
+            new Chart(lineCanvas.getContext('2d'), {
+                type: 'line',
                 data: {
-                    labels: ['Cancelled', 'Delayed', 'Scheduled'],
+                    labels: monthLabels,
                     datasets: [{
-                        data: [3, 1, 37], 
-                        backgroundColor: [
-                            'rgba(239, 83, 80, 0.85)',  
-                            'rgba(255, 167, 38, 0.85)', 
-                            'rgba(30, 136, 229, 0.85)'  
-                        ],
-                        borderColor: ['#ef5350', '#ffa726', '#1e88e5'],
-                        borderWidth: 1.5,
-                        borderRadius: 6,
-                        barPercentage: 0.35
+                        label: 'Bookings',
+                        data: monthData,
+                        borderColor: '#0d6efd',
+                        backgroundColor: 'rgba(13, 110, 253, 0.1)',
+                        fill: true,
+                        tension: 0.3,
+                        pointBackgroundColor: '#0d6efd',
+                        pointRadius: 4,
+                        borderWidth: 2.5
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    layout: {
-                        padding: {
-                            bottom: 15,
-                            top: 10
-                        }
-                    },
-                    plugins: { 
-                        legend: { display: false }
-                    },
+                    layout: { padding: { bottom: 15, top: 10 } },
+                    plugins: { legend: { display: false } },
                     scales: {
-                        x: { 
-                            grid: { display: false }, 
-                            ticks: { font: { weight: '600', size: 12 } } 
-                        },
-                        y: { 
-                            beginAtZero: true, 
-                            max: 40,
-                            ticks: { stepSize: 10, font: { weight: '500' } },
+                        x: { grid: { display: false }, ticks: { font: { weight: '600', size: 11 } } },
+                        y: {
+                            beginAtZero: true,
+                            ticks: { stepSize: 1, font: { weight: '500' } },
                             grid: { display: true, color: 'rgba(0, 0, 0, 0.04)' },
-                            title: { display: true, text: 'No of Flights', font: { size: 13, weight: 'bold' } } 
+                            title: { display: true, text: 'No of Bookings', font: { size: 13, weight: 'bold' } }
                         }
                     }
                 }
             });
         }
 
-        // Operational Fleet Distribution - Styled Pie Chart
-        const pieCanvas = document.getElementById('flightsPerAirlineChart');
-        if (pieCanvas) {
-            new Chart(pieCanvas.getContext('2d'), {
-                type: 'pie',
+        // Booking Status Distribution - Doughnut Chart
+        const doughnutCanvas = document.getElementById('bookingStatusChart');
+        if (doughnutCanvas && statusLabels.length > 0) {
+            const statusColors = {
+                'PENDING': '#ffc107',
+                'Success': '#198754',
+                'Issued': '#0d6efd',
+                'CANCELLED': '#dc3545',
+                'Pending Cancel': '#fd7e14',
+                'Being Booked': '#6f42c1'
+            };
+            new Chart(doughnutCanvas.getContext('2d'), {
+                type: 'doughnut',
                 data: {
-                    labels: ['AirAsia (1 Flight)', 'AirIndia (2 Flights)', 'IndiGo (2 Flights)', 'Emirates (2 Flights)'],
+                    labels: statusLabels,
                     datasets: [{
-                        data: [1, 2, 2, 2],
-                        backgroundColor: ['#66bb6a', '#26c6da', '#ab47bc', '#42a5f5'],
+                        data: statusData,
+                        backgroundColor: statusLabels.map(l => statusColors[l] || '#6c757d'),
                         borderWidth: 2,
                         borderColor: '#ffffff'
                     }]
@@ -1085,27 +1093,19 @@ body {
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    layout: {
-                        padding: {
-                            bottom: 15,
-                            top: 10
-                        }
-                    },
+                    layout: { padding: { bottom: 15, top: 10 } },
+                    cutout: '60%',
                     plugins: {
-                        legend: { 
+                        legend: {
                             position: 'left',
-                            labels: {
-                                boxWidth: 12,
-                                usePointStyle: true,
-                                font: { size: 12, weight: '500' },
-                                padding: 15
-                            } 
+                            labels: { boxWidth: 12, usePointStyle: true, font: { size: 12, weight: '500' }, padding: 15 }
                         }
                     }
                 }
             });
         }
     });
+    /*]]>*/
 </script>
 </body>
 </html>

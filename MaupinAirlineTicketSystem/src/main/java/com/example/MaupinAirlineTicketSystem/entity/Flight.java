@@ -43,8 +43,7 @@ public class Flight {
     
     @ManyToOne
     @JoinColumn(name="airline_id")
-    //For object -> not null
-//    @NotNull(message = "Choose Airline")
+    @NotNull(message = "Please select an airline")
     private Airline airline;
 
 

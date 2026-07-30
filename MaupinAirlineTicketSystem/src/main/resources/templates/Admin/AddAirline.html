@@ -126,8 +126,9 @@ body {
 						<!-- 1. Airline Code Selection Dropdown -->
 						<div class="mb-3">
 							<label class="form-label small fw-bold">Airline Code</label> 
-							<input type="text" name="airlineCode" class="form-control border-start-0" placeholder="e.g., SN" required th:field="*{airlineCode}">
-						<!-- 	<select th:field="*{airlineCode}" class="form-select" required>
+							<input type="text" name="airlineCode" class="form-control border-start-0" placeholder="e.g., SN"  th:field="*{airlineCode}">
+							<span class="text-danger small" th:if="${#fields.hasErrors('airlineCode')}" th:errors="*{airlineCode}"></span>
+						<!-- 	<select th:field="*{airlineCode}" class="form-select"  >
 								<option value="" selected disabled>-- Select Airline Code --</option>
 								<option value="MNA">MNA (Myanmar National Airlines)</option>
 								<option value="MAI">MAI (Myanmar Airways International)</option>
@@ -150,8 +151,9 @@ body {
 						<!-- 2. Airline Name Selection Dropdown -->
 						<div class="mb-3">
 							<label class="form-label small fw-bold">Airline Name</label> 
-							   <input type="text" name="airlineName" class="form-control border-start-0" placeholder="e.g., SkyNest Airways" required th:field="*{airlineName}">
-							<!-- <select th:field="*{airlineName}" class="form-select" required>
+							   <input type="text" name="airlineName" class="form-control border-start-0" placeholder="e.g., SkyNest Airways"   th:field="*{airlineName}">
+							<span class="text-danger small" th:if="${#fields.hasErrors('airlineName')}" th:errors="*{airlineName}"></span>
+							<!-- <select th:field="*{airlineName}" class="form-select"  >
 								<option value="" selected disabled>-- Select Airline Name --</option>
 								<option value="Myanmar National Airlines">Myanmar National Airlines</option>
 								<option value="Myanmar Airways International">Myanmar Airways International</option>
@@ -176,8 +178,8 @@ body {
 							<label class="form-label text-uppercase fw-bold">Country</label>
 							<div class="input-group">
 								<span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-globe2"></i></span> 
-								<input type="text" name="country" class="form-control border-start-0" placeholder="e.g., Myanmar" required th:field="*{country}">
-								<!-- <select th:field="*{country}" class="form-select border-start-0" required>
+								<input type="text" name="country" class="form-control border-start-0" placeholder="e.g., Myanmar"   th:field="*{country}">
+								<!-- <select th:field="*{country}" class="form-select border-start-0"  >
 									<option value="" selected disabled>-- Select Country --</option>
 									<option value="Myanmar">Myanmar</option>
 									<option value="Thailand">Thailand</option>
@@ -196,6 +198,7 @@ body {
 									<option value="United Kingdom">United Kingdom</option>
 								</select> -->
 							</div>
+							<span class="text-danger small" th:if="${#fields.hasErrors('country')}" th:errors="*{country}"></span>
 						</div>
 
 
@@ -212,8 +215,9 @@ body {
 								<span class="small text-muted">Current Logo: </span> 
 								<img th:src="@{'/photos/'+${airline.logo}}" width="40" height="30" class="rounded border" />
 							</div>
+							</div>
+							
 						</div>
-					</div>
 
 					<div class="modal-footer">
 						<a th:href="@{/airline/admin/airlines}" class="btn btn-light rounded-pill px-4">Cancel</a>

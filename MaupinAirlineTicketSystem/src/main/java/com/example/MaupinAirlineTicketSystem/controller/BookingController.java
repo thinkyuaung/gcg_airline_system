@@ -39,36 +39,39 @@ public class BookingController {
 		session.setAttribute("pendingPassengers", passengers);
 		session.setAttribute("pendingSeatClass", seatClass);
 
-		return "redirect:/airline/login";
+		if (session.getAttribute("loginUserName") == null) {
+			return "redirect:/airline/login";
+		}
+
+		return "redirect:/airline/booking/complete";
 	}
 
 	@GetMapping("/booking/complete")
 	public String completeBooking(HttpSession session) {
 
-		Integer flightPlanId = (Integer) session.getAttribute("pendingFlightPlanId");
-		Integer passengers = (Integer) session.getAttribute("pendingPassengers");
-		String seatClass = (String) session.getAttribute("pendingSeatClass");
+	    Integer flightPlanId = (Integer) session.getAttribute("pendingFlightPlanId");
+	    Integer passengers = (Integer) session.getAttribute("pendingPassengers");
+	    String seatClass = (String) session.getAttribute("pendingSeatClass");
 
-		if (flightPlanId == null) {
-			return "redirect:/airline/flights";
-		}
+	    if (flightPlanId == null) {
+	        return "redirect:/airline/flights";
+	    }
 
-		session.removeAttribute("pendingFlightPlanId");
-		session.removeAttribute("pendingPassengers");
-		session.removeAttribute("pendingSeatClass");
+	    session.removeAttribute("pendingFlightPlanId");
+	    session.removeAttribute("pendingPassengers");
+	    session.removeAttribute("pendingSeatClass");
 
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User user = userRepository.findByEmail(auth.getName());
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    User user = userRepository.findByEmail(auth.getName());
 
-		Booking booking =
-				bookingService.createBooking(
-						flightPlanId,
-						seatClass,
-						passengers,
-						user
-				);
+	    Booking booking = bookingService.createBooking(
+	            flightPlanId,
+	            seatClass,
+	            passengers,
+	            user
+	    );
 
-		return "redirect:/airline/payment/" + booking.getPayment().getPaymentId();
+	    return "redirect:/airline/passenger/" + booking.getBookingId();
 	}
 
     @PostMapping("/booking")

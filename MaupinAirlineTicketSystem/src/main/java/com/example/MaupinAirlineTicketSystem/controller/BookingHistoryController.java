@@ -1,5 +1,6 @@
 package com.example.MaupinAirlineTicketSystem.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -18,82 +19,48 @@ import com.example.MaupinAirlineTicketSystem.service.BookingHistoryService;
 @RequestMapping("/airline")
 public class BookingHistoryController {
 
-	@Autowired
-	private BookingHistoryService bookingHistoryService;
+    @Autowired
+    private BookingHistoryService bookingHistoryService;
 
-	@Autowired
-	private BookingRepository bookingRepository;
+    @Autowired
+    private BookingRepository bookingRepository;
 
+    @GetMapping("/history")
+    public String allBookings(Model model) {
 
-	@GetMapping("/history")
-	public String allBookings(Model model){
+        model.addAttribute(
+                "bookings",
+                bookingHistoryService.getAllBookings());
 
+        model.addAttribute("currentPage", "all");
 
-	    model.addAttribute(
-	            "bookings",
-	            bookingHistoryService.getAllBookings()
-	    );
-
-
-	    model.addAttribute(
-	            "currentPage",
-	            "all"
-	    );
-
-	    model.addAttribute("currentPage", "history");
-
-	    return "userview/bookingHistory";
-
-	}
+        return "userview/bookingHistory";
+    }
 
 
+    @GetMapping("/history/upcoming")
+    public String upcoming(Model model) {
+
+        model.addAttribute(
+                "bookings",
+                bookingHistoryService.getUpcomingBookings());
+
+        model.addAttribute("currentPage", "upcoming");
+
+        return "userview/bookingHistory";
+    }
 
 
-	@GetMapping("/history/upcoming")
-	public String upcoming(Model model){
+    @GetMapping("/history/cancelled")
+    public String cancelled(Model model) {
 
+        model.addAttribute(
+                "bookings",
+                bookingHistoryService.getCancelledBookings());
 
-	    model.addAttribute(
-	            "bookings",
-	            bookingHistoryService.getUpcomingBookings()
-	    );
+        model.addAttribute("currentPage", "cancelled");
 
-
-	    model.addAttribute(
-	            "currentPage",
-	            "upcoming"
-	    );
-
-	    model.addAttribute("currentPage", "history");
-
-	    return "userview/bookingHistory";
-
-	}
-
-
-
-
-
-	@GetMapping("/history/cancelled")
-	public String cancelled(Model model){
-
-
-	    model.addAttribute(
-	            "bookings",
-	            bookingHistoryService.getCancelledBookings()
-	    );
-
-
-	    model.addAttribute(
-	            "currentPage",
-	            "cancelled"
-	    );
-
-	    model.addAttribute("currentPage", "history");
-
-	    return "userview/bookingHistory";
-
-	}
-
+        return "userview/bookingHistory";
+    }
 
 }

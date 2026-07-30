@@ -40,8 +40,8 @@
 /* Ensure Top Promotion Banner stays on top */
 .top-promo-banner {
     background: linear-gradient(90deg, #ffed4a 0%, #ffc107 100%);
-    position: relative;
-    z-index: 1060; 
+     position: relative; 
+    z-index: 100;   
 }
 
 /* Push the fixed navbar down when the banner is visible */
@@ -57,10 +57,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
 }
 
 /* Styling for Top Promotion Banner */
-.top-promo-banner {
-    background: linear-gradient(90deg, #ffed4a 0%, #ffc107 100%);
-}
-    </style>
+ </style>
 </head>
 <body>
    
@@ -68,12 +65,12 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
 <header class="sticky-top p-0 border-0 shadow-sm">
     
     <!-- TOP PROMOTION BANNER -->
-    <div th:if="${promotions != null and !promotions.isEmpty()}" class="alert alert-warning alert-dismissible fade show m-0 text-center rounded-0 border-0 py-2 top-promo-banner" role="alert">
+    <div th:if="${promotion != null}" class="alert alert-warning alert-dismissible fade show m-0 text-center rounded-0 border-0 py-2 top-promo-banner" role="alert">
         <div class="container d-flex align-items-center justify-content-center gap-2">
             <span class="badge bg-danger text-white fw-bold px-2 py-1">
                 <i class="bi bi-fire me-1"></i>PROMOTION
             </span>
-            <span class="small fw-semibold text-dark" th:each="promo : ${promotions}" th:text="${promo.description}"></span>
+            <span class="small fw-semibold text-dark" th:text="${promotion.description}"></span>
         </div>
         <button type="button" class="btn-close py-2" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
@@ -100,23 +97,35 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                 <!-- NAV LINKS WITH DYNAMIC THYMELEAF ACTIVE STATE -->
 <ul class="navbar-nav mx-auto gap-lg-4 gap-2 mt-3 mt-lg-0 fw-semibold">
     <li class="nav-item">
-        <a class="nav-link" 
-           th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI == '/airline/'} ? 'active' : ''" 
+     <a class="nav-link" 
            th:href="@{/airline/}">Home</a>
+       <!--  <a class="nav-link" 
+           th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI == '/airline/'} ? 'active' : ''" 
+           th:href="@{/airline/}">Home</a> -->
     </li>
     <li class="nav-item">
-        <a class="nav-link" 
-           th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI.startsWith('/airline/flights')} ? 'active' : ''" 
+    <a class="nav-link" 
            th:href="@{/airline/flights}">Flights</a>
+        <!-- <a class="nav-link" 
+           th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI.startsWith('/airline/flights')} ? 'active' : ''" 
+           th:href="@{/airline/flights}">Flights</a> -->
     </li>
     <li class="nav-item">
-        <a class="nav-link" 
-           th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI.startsWith('/airline/about')} ? 'active' : ''" 
+    <a class="nav-link" 
+           th:href="@{/airline/manage-booking}">Manage Booking</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" 
            th:href="@{/airline/about}">About</a>
+        <!-- <a class="nav-link" 
+           th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI.startsWith('/airline/about')} ? 'active' : ''" 
+           th:href="@{/airline/about}">About</a> -->
     </li>
     <li class="nav-item">
-        <a class="nav-link" 
+        <!-- <a class="nav-link" 
            th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI.startsWith('/airline/support')} ? 'active' : ''" 
+           th:href="@{/airline/support}">Support</a> -->
+           <a class="nav-link" 
            th:href="@{/airline/support}">Support</a>
     </li>
 </ul>
@@ -152,7 +161,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
             </div>
             <span class="fw-bold text-dark" th:text="${session.loginUserName}">User</span>
         </div>
-        <a th:if="${session.loginUserRole == 'ADMIN'}" th:href="@{/airline/admin/dashboard}" class="btn btn-outline-primary btn-sm rounded-pill" title="Dashboard">
+        <a th:if="${session.loginUserRole == 'ADMIN'}" th:href="@{/airline/admin}" class="btn btn-outline-primary btn-sm rounded-pill" title="Dashboard">
             <i class="bi bi-list-ul"></i>
         </a>
         <a th:if="${session.loginUserRole == 'USER'}" th:href="@{/airline/dashboard}" class="btn btn-outline-primary btn-sm rounded-pill" title="Dashboard">
@@ -304,11 +313,6 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                         <button type="button" class="widget-pill">
                             <i class="bi bi-seat"></i> Seat Class <i class="bi bi-chevron-down"></i>
                         </button>
-
-                        <div class="d-flex gap-4 ms-auto trip-radio">
-                            <label><input type="radio" name="tripType" value="two-way" checked> Two Way</label>
-                            <label><input type="radio" name="tripType" value="one-way"> One Way</label>
-                        </div>
                     </div>
 
                     <!-- Search Inputs -->
@@ -320,10 +324,9 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                                 <select name="departureCity" class="form-select" required>
                                     <option value="">Select departure</option>
                                     <option th:each="airport:${airports}" th:value="${airport.city}" th:text="${airport.city + ' (' + airport.airportCode + ')'}"></option>
-                                </select>
+                                </select>   
                             </div>
                         </div>
-
                         <!-- Arrival -->
                         <div class="col-6 col-md-3">
                             <div class="input-picker">
@@ -512,259 +515,6 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
     </div>
 </section> -->
 
-    <!-- EXCLUSIVE DEALS -->
-    <section id="deals" data-aos="fade-up" class="section-padding">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="section-title">Maubin AirLine Exclusive Travel Packages</h2>
-                <div class="divider"></div>
-                <p class="section-sub mt-3">Premium Travel Experiences at Unbeatable Rates.</p>
-            </div>
-
-            <div class="row g-4">
-                <!-- Dubai -->
-                <div class="col-md-4">
-                    <div class="card deal-card border-0 h-100">
-                        <div class="deal-img-wrap">
-                            <img th:src="@{/images/dubaiNight.jpg}" alt="Dubai">
-                            <span class="deal-city">Yangon ⇌ Dubai</span>
-                        </div>
-                        <div class="card-body p-4">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <div>
-                                    <div class="selected-pkg-label">Selected Package</div>
-                                    <div class="selected-price-display" data-card="dubai">$2,499</div>
-                                </div>
-                            </div>
-
-                            <div class="pkg-options" data-target="dubai">
-                                <div class="pkg-option selected" data-price="$2,499">
-                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
-                                    <span class="pkg-name">Elite Escape</span>
-                                    <span class="pkg-price">$2,499</span>
-                                </div>
-                                <div class="pkg-option" data-price="$1,299">
-                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
-                                    <span class="pkg-name">Smart Saver</span>
-                                    <span class="pkg-price">$1,299</span>
-                                </div>
-                                <div class="pkg-option" data-price="$799">
-                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
-                                    <span class="pkg-name">Budget Explorer</span>
-                                    <span class="pkg-price">$799</span>
-                                </div>
-                            </div>
-
-                            <button class="btn-learn-more mt-3">
-                                Learn more <i class="bi bi-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- London -->
-                <div class="col-md-4">
-                    <div class="card deal-card border-0 h-100">
-                        <div class="deal-img-wrap">
-                            <img th:src="@{/images/London.avif}" alt="London">
-                            <span class="deal-city">Yangon ⇌ London</span>
-                        </div>
-                        <div class="card-body p-4">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <div>
-                                    <div class="selected-pkg-label">Selected Package</div>
-                                    <div class="selected-price-display" data-card="london">$3,199</div>
-                                </div>
-                            </div>
-
-                            <div class="pkg-options" data-target="london">
-                                <div class="pkg-option selected" data-price="$3,199">
-                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
-                                    <span class="pkg-name">Elite Escape</span>
-                                    <span class="pkg-price">$3,199</span>
-                                </div>
-                                <div class="pkg-option" data-price="$1,599">
-                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
-                                    <span class="pkg-name">Smart Saver</span>
-                                    <span class="pkg-price">$1,599</span>
-                                </div>
-                                <div class="pkg-option" data-price="$899">
-                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
-                                    <span class="pkg-name">Budget Explorer</span>
-                                    <span class="pkg-price">$899</span>
-                                </div>
-                            </div>
-
-                            <button class="btn-learn-more mt-3">
-                                Learn more <i class="bi bi-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Thailand -->
-                <div class="col-md-4">
-                    <div class="card deal-card border-0 h-100">
-                        <div class="deal-img-wrap">
-                            <img th:src="@{/images/Thai.jpg}" alt="Thailand">
-                            <span class="deal-city">Yangon ⇌ Bangkok</span>
-                        </div>
-                        <div class="card-body p-4">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <div>
-                                    <div class="selected-pkg-label">Selected Package</div>
-                                    <div class="selected-price-display" data-card="thailand">$1,999</div>
-                                </div>
-                            </div>
-
-                            <div class="pkg-options" data-target="thailand">
-                                <div class="pkg-option selected" data-price="$1,999">
-                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
-                                    <span class="pkg-name">Elite Escape</span>
-                                    <span class="pkg-price">$1,999</span>
-                                </div>
-                                <div class="pkg-option" data-price="$999">
-                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
-                                    <span class="pkg-name">Smart Saver</span>
-                                    <span class="pkg-price">$999</span>
-                                </div>
-                                <div class="pkg-option" data-price="$599">
-                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
-                                    <span class="pkg-name">Budget Explorer</span>
-                                    <span class="pkg-price">$599</span>
-                                </div>
-                            </div>
-
-                            <button class="btn-learn-more mt-3">
-                                Learn more <i class="bi bi-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Singapore -->
-                <div class="col-md-4">
-                    <div class="card deal-card border-0 h-100">
-                        <div class="deal-img-wrap">
-                            <img th:src="@{/images/Singpore.jpg}" alt="Singapore">
-                            <span class="deal-city">Yangon ⇌ Singapore</span>
-                        </div>
-                        <div class="card-body p-4">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <div>
-                                    <div class="selected-pkg-label">Selected Package</div>
-                                    <div class="selected-price-display" data-card="thailand">$1,999</div>
-                                </div>
-                            </div>
-
-                            <div class="pkg-options" data-target="thailand">
-                                <div class="pkg-option selected" data-price="$1,999">
-                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
-                                    <span class="pkg-name">Elite Escape</span>
-                                    <span class="pkg-price">$1,999</span>
-                                </div>
-                                <div class="pkg-option" data-price="$999">
-                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
-                                    <span class="pkg-name">Smart Saver</span>
-                                    <span class="pkg-price">$999</span>
-                                </div>
-                                <div class="pkg-option" data-price="$599">
-                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
-                                    <span class="pkg-name">Budget Explorer</span>
-                                    <span class="pkg-price">$599</span>
-                                </div>
-                            </div>
-
-                            <button class="btn-learn-more mt-3">
-                                Learn more <i class="bi bi-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Shanghai -->
-                <div class="col-md-4">
-                    <div class="card deal-card border-0 h-100">
-                        <div class="deal-img-wrap">
-                            <img th:src="@{/images/China.jpg}" alt="Shanghai">
-                            <span class="deal-city">Yangon ⇌ Shanghai</span>
-                        </div>
-                        <div class="card-body p-4">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <div>
-                                    <div class="selected-pkg-label">Selected Package</div>
-                                    <div class="selected-price-display" data-card="thailand">$1,999</div>
-                                </div>
-                            </div>
-
-                            <div class="pkg-options" data-target="thailand">
-                                <div class="pkg-option selected" data-price="$1,999">
-                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
-                                    <span class="pkg-name">Elite Escape</span>
-                                    <span class="pkg-price">$1,999</span>
-                                </div>
-                                <div class="pkg-option" data-price="$999">
-                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
-                                    <span class="pkg-name">Smart Saver</span>
-                                    <span class="pkg-price">$999</span>
-                                </div>
-                                <div class="pkg-option" data-price="$599">
-                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
-                                    <span class="pkg-name">Budget Explorer</span>
-                                    <span class="pkg-price">$599</span>
-                                </div>
-                            </div>
-
-                            <button class="btn-learn-more mt-3">
-                                Learn more <i class="bi bi-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tokyo -->
-                <div class="col-md-4">
-                    <div class="card deal-card border-0 h-100">
-                        <div class="deal-img-wrap">
-                            <img th:src="@{/images/Tokyo.jpg}" alt="Tokyo">
-                            <span class="deal-city">Yangon ⇌ Tokyo</span>
-                        </div>
-                        <div class="card-body p-4">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <div>
-                                    <div class="selected-pkg-label">Selected Package</div>
-                                    <div class="selected-price-display" data-card="thailand">$1,999</div>
-                                </div>
-                            </div>
-
-                            <div class="pkg-options" data-target="thailand">
-                                <div class="pkg-option selected" data-price="$1,999">
-                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
-                                    <span class="pkg-name">Elite Escape</span>
-                                    <span class="pkg-price">$1,999</span>
-                                </div>
-                                <div class="pkg-option" data-price="$999">
-                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
-                                    <span class="pkg-name">Smart Saver</span>
-                                    <span class="pkg-price">$999</span>
-                                </div>
-                                <div class="pkg-option" data-price="$599">
-                                    <div class="pkg-radio-wrap"><div class="pkg-radio-dot"></div></div>
-                                    <span class="pkg-name">Budget Explorer</span>
-                                    <span class="pkg-price">$599</span>
-                                </div>
-                            </div>
-
-                            <button class="btn-learn-more mt-3">
-                                Learn more <i class="bi bi-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- POPULAR DESTINATIONS -->
     <section id="destinations" data-aos="fade-left">
         <div class="container">
@@ -893,86 +643,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
         </div>
     </section>
 
-    <!-- TESTIMONIALS -->
-    <section id="testimonials">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="section-title">AirLine Clients</h2>
-                <div class="divider"></div>
-                <p class="section-sub mt-3">What our travelers say about us</p>
-            </div>
-
-            <div class="row g-4">
-
-    <div class="col-md-4"
-
-         th:each="review : ${reviews}">
-
-        <div class="testi-card">
-
-            <div class="testi-stars">
-
-                <span
-                        th:each="i:${#numbers.sequence(1,5)}">
-
-                    <i class="bi"
-
-                       th:classappend="${i<=review.rating}
-                       ? ' bi-star-fill text-warning'
-                       : ' bi-star text-warning'">
-
-                    </i>
-
-                </span>
-
-            </div>
-
-            <p class="testi-text"
-   				th:text="|&quot;${review.comment}&quot;|">
-			</p>
-			
-            <div class="d-flex
-                        align-items-center
-                        gap-3
-                        mt-4
-                        pt-3
-                        border-top">
-
-                <!-- Default Avatar -->
-
-                <img class="testi-avatar"
-
-                     src="/images/default-user.png"
-
-                     alt="User">
-
-                <div>
-
-                    <div class="testi-name"
-
-                         th:text="${review.user.firstName+' '+review.user.lastName}">
-
-                    </div>
-
-                    <div class="testi-role">
-
-                        Airline Passenger
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-            </div>
-        </div>
-    </section>
-
+   
     <!-- FOOTER -->
     <footer id="footer">
         <div class="container">
@@ -1033,12 +704,56 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
             </div>
         </div>
     </footer>
+ <!--    
+    Floating Toggle Button
+<button class="chat-float-btn" id="chatToggleBtn" onclick="toggleChatWindow()">
+    <i class="bi bi-robot" id="chatIcon"></i>
+</button>
+ -->
+<!-- <!-- Chat Window Popup
+<div class="chat-popup-card" id="chatPopupCard">
+    Header
+    <div class="chat-header">
+        <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-robot fs-4"></i>
+            <div>
+                <h6 class="m-0 fw-bold">Maubin AI Assistant</h6>
+                <small style="font-size: 0.75rem; opacity: 0.85;">Online | Flight Support</small>
+            </div>
+        </div>
+        <button type="button" class="btn-close btn-close-white" onclick="toggleChatWindow()"></button>
+    </div>
+
+    Message Body
+    <div class="chat-messages-body" id="chatMessagesBody">
+        <div class="msg-bubble bot-msg-bubble">
+            မင်္ဂလာပါခင်ဗျာ! Maubin Airline Assistant မှ ကြိုဆိုပါတယ်။ လေယာဉ်လက်မှတ်များနှင့် ပတ်သက်ပြီး ဘာများကူညီပေးရမလဲခင်ဗျာ။
+        </div>
+    </div>
+ --> 
+    <!-- Input Footer -->
+    <div class="chat-footer-input">
+        <form id="chatForm" onsubmit="handleChatSubmit(event)">
+            <div class="input-group">
+                <input type="text" id="chatInput" class="form-control form-control-sm rounded-pill-start" placeholder="မေးခွန်း ရေးပါ..." autocomplete="off" required>
+                <button type="submit" class="btn btn-primary btn-sm rounded-pill-end px-3">
+                    <i class="bi bi-send-fill"></i>
+                </button>
+            </div>
+        </form>
+    </div>   
+</div>
 
     <!-- JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/aos.js"></script>
 
     <script>
+    AOS.init({
+    	  duration: 2000, 
+    	  once: false,   
+    	  offset: 100     
+    	})
         // NAVBAR — scroll shadow
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('mainNav');
@@ -1157,6 +872,81 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                 }
             });
         });
+        
+        function toggleChatWindow() {
+            const popup = document.getElementById('chatPopupCard');
+            const icon = document.getElementById('chatIcon');
+            
+            if (popup.style.display === 'flex') {
+                popup.style.display = 'none';
+                icon.className = 'bi bi-robot';
+            } else {
+                popup.style.display = 'flex';
+                icon.className = 'bi bi-x-lg';
+                document.getElementById('chatInput').focus();
+            }
+        }
+
+        function handleChatSubmit(event) {
+            event.preventDefault();
+            const inputField = document.getElementById('chatInput');
+            const userMessage = inputField.value.trim();
+            
+            if (!userMessage) return;
+
+            const chatBody = document.getElementById('chatMessagesBody');
+
+            // 1. Append User Message
+            const userBubble = document.createElement('div');
+            userBubble.className = 'msg-bubble user-msg-bubble';
+            userBubble.textContent = userMessage;
+            chatBody.appendChild(userBubble);
+
+            // Clear input
+            inputField.value = '';
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            // 2. Add Loading Indicator
+            const loadingBubble = document.createElement('div');
+            loadingBubble.className = 'msg-bubble bot-msg-bubble text-muted italic';
+            loadingBubble.id = 'chatLoading';
+            loadingBubble.textContent = 'ခဏစောင့်ပါ...';
+            chatBody.appendChild(loadingBubble);
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            // 3. Send AJAX Request to Spring Boot Backend
+            fetch('/airline/api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: userMessage })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Remove loading
+                const loading = document.getElementById('chatLoading');
+                if (loading) loading.remove();
+
+                // Append Bot Response
+                const botBubble = document.createElement('div');
+                botBubble.className = 'msg-bubble bot-msg-bubble';
+                botBubble.textContent = data.reply;
+                chatBody.appendChild(botBubble);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            })
+            .catch(error => {
+                console.error('Chat API Error:', error);
+                const loading = document.getElementById('chatLoading');
+                if (loading) loading.remove();
+
+                const errorBubble = document.createElement('div');
+                errorBubble.className = 'msg-bubble bot-msg-bubble text-danger';
+                errorBubble.textContent = 'စနစ်ချို့ယွင်းချက်ရှိနေပါသဖြင့် ခဏအကြာမှ ထပ်မံကြိုးစားပါ။';
+                chatBody.appendChild(errorBubble);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            });
+        }
     </script>
 </body>
 </html>

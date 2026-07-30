@@ -61,26 +61,20 @@ public class AdminFlightController {
 	@PostMapping("/admin/flight")
 	public String saveFlights(
 	        @Valid @ModelAttribute("flight") Flight flight,
-	        BindingResult result,
-	        @RequestParam("airlineId") int aId,Model model) {
-		
-		//if validation error, send airlines
-		 List<Airline> airlines = adminAirlineService.getAllAirlines();
-		    model.addAttribute("airlines", airlines);
+	        BindingResult result, Model model) {
 
-	    if(result.hasErrors()) {
-	        return "Admin/AddFlight";
-	    }
+		List<Airline> airlines = adminAirlineService.getAllAirlines();
+		model.addAttribute("airlines", airlines);
 
-	    flight.setStatus("active");
+		if (result.hasErrors()) {
+			return "Admin/AddFlight";
+		}
 
-	    Airline a = adminAirlineService.getAirlineById(aId);
-	    flight.setAirline(a);
-	    
+		flight.setStatus("active");
 
-	    adminFlightService.saveFlight(flight);
+		adminFlightService.saveFlight(flight);
 
-	    return "redirect:/airline/admin/flights";
+		return "redirect:/airline/admin/flights";
 	}
 
 	@GetMapping("/admin/flights")
@@ -106,11 +100,15 @@ public class AdminFlightController {
 	}
 
 	@PostMapping("/admin/flight/update")
-	public String updateFlight(@ModelAttribute("flight") Flight flight, @RequestParam("airlineId") int aId) {
-		Airline a = adminAirlineService.getAirlineById(aId);
-		flight.setAirline(a);
-		
-		System.out.println("***********"+flight.getStatus());
+	public String updateFlight(@Valid @ModelAttribute("flight") Flight flight, BindingResult result,
+			Model model) {
+
+		List<Airline> airlines = adminAirlineService.getAllAirlines();
+		model.addAttribute("airlines", airlines);
+
+		if (result.hasErrors()) {
+			return "Admin/AddFlight";
+		}
 
 		adminFlightService.saveFlight(flight);
 		return "redirect:/airline/admin/flights";

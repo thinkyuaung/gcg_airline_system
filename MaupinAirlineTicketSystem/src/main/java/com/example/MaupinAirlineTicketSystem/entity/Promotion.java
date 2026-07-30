@@ -9,6 +9,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+import com.example.MaupinAirlineTicketSystem.validation.TodayOrFuture;
 
 @Entity
 @Table(name = "promotion")
@@ -19,15 +25,23 @@ public class Promotion {
 	private int promotionId;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+	@NotNull(message = "Start date is required")
+	@TodayOrFuture(message = "Start date must be today or in the future")
 	private LocalDateTime startDate;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+	@NotNull(message = "End date is required")
+	@TodayOrFuture(message = "End date must be today or in the future")
 	private LocalDateTime endDate;
 
+	@NotBlank(message = "Status is required")
 	private String status;
 
+	@NotBlank(message = "Description is required")
 	private String description;
 
+	@DecimalMin(value = "0", message = "Percentage must be positive")
+	@DecimalMax(value = "100", message = "Percentage must not exceed 100")
 	private double percentage;
 
 	public Promotion(int promotionId, LocalDateTime startDate, LocalDateTime endDate, String status, String description,
