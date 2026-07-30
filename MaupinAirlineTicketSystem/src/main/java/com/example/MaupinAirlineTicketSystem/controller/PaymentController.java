@@ -1,5 +1,8 @@
 package com.example.MaupinAirlineTicketSystem.controller;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -12,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.MaupinAirlineTicketSystem.repository.BookingRepository;
+import com.example.MaupinAirlineTicketSystem.repository.UserPromotionRepository;
 import com.example.MaupinAirlineTicketSystem.entity.Booking;
 import com.example.MaupinAirlineTicketSystem.entity.Payment;
+import com.example.MaupinAirlineTicketSystem.entity.Promotion;
 import com.example.MaupinAirlineTicketSystem.service.PaymentService;
 import com.example.MaupinAirlineTicketSystem.service.ReviewService;
 
@@ -26,9 +31,12 @@ public class PaymentController {
 
 	@Autowired
 	private BookingRepository bookingRepository;
-	
+
 	@Autowired
 	private ReviewService reviewService;
+
+	@Autowired
+	private UserPromotionRepository promotionRepository;
 
 	@GetMapping("/payment/{id}")
 	public String paymentPage(
@@ -39,8 +47,6 @@ public class PaymentController {
 
 	    model.addAttribute("payment", payment);
 
-
-	    // calculate original price
 	    Booking booking = payment.getBooking();
 
 	    double originalPrice =
@@ -49,13 +55,51 @@ public class PaymentController {
 	            booking.getSeatClass().getPriceMultiplier()
 	            *
 	            booking.getPassengers();
+	    
+	    System.out.println("**********Price:"+booking.getFlightPlan().getPrice());
+	    System.out.println("Seat:"+booking.getSeatClass().getPriceMultiplier());
+	    System.out.println("Passengers:"+booking.getPassengers());
+	    System.out.println("Original Price:"+originalPrice);
 
+	    model.addAttribute("originalPrice", originalPrice);
 
-	    model.addAttribute(
-	            "originalPrice",
-	            originalPrice
-	    );
+	    Optional<Promotion> globalPromotion =
+	            promotionRepository
+	            .findFirstByStatusAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
+	                    "Active",
+	                    LocalDateTime.now(),
+	                    LocalDateTime.now()
+	            );
 
+	    Promotion flightPlanPromotion = booking.getFlightPlan().getPromotion();
+
+//	    if (flightPlanPromotion != null) {
+//	    	model.addAttribute("flightPlanPromotion", flightPlanPromotion);
+//	    }
+//
+//	    if (globalPromotion.isPresent()) {
+//	    	model.addAttribute("globalPromotion", globalPromotion.get());
+//	    }
+	    
+	    double totalDiscountPercent = 0;
+
+	    if (flightPlanPromotion != null) {
+	    	totalDiscountPercent += flightPlanPromotion.getPercentage();
+	    	model.addAttribute("flightPlanPromotion", flightPlanPromotion);
+	    }
+
+	    if (globalPromotion.isPresent()) {
+	    	Promotion gp = globalPromotion.get();
+	    	totalDiscountPercent += gp.getPercentage();
+	    	model.addAttribute("globalPromotion", gp);
+	    }
+
+	    if (totalDiscountPercent > 0) {
+	    	originalPrice = originalPrice - (originalPrice * totalDiscountPercent / 100);
+	    }
+
+	    model.addAttribute("finalPrice", originalPrice);
+//	    booking.getFlightPlan().setPrice(originalPrice);
 
 	    return "userview/payment";
 	}

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.MaupinAirlineTicketSystem.entity.FlightPlan;
 import com.example.MaupinAirlineTicketSystem.entity.Promotion;
+import com.example.MaupinAirlineTicketSystem.entity.SeatClass;
+import com.example.MaupinAirlineTicketSystem.repository.SeatClassRepository;
 import com.example.MaupinAirlineTicketSystem.repository.UserPromotionRepository;
 import com.example.MaupinAirlineTicketSystem.service.FlightDetailService;
 
@@ -26,6 +28,8 @@ public class FlightDetailController {
 
 	@Autowired
 	private UserPromotionRepository promotionRepository;
+	
+	@Autowired SeatClassRepository seatRepo;
 
 	@GetMapping("/flight/{id}")
 	public String flightDetail(
@@ -39,15 +43,25 @@ public class FlightDetailController {
 
 	    FlightPlan flightPlan =
 	            flightDetailService.getFlightPlan(id);
+	    
 
-	    double multiplier = 1;
-
-	    if(seatClass.equalsIgnoreCase("Business")){
-	        multiplier = 1.5;
+	    //Seat Class Multiplier
+	   SeatClass seat =  seatRepo.findByClassNameIgnoreCase(seatClass);
+	   double multiplier = 1;
+	   
+	    if (seat != null) {
+	        multiplier = seat.getPriceMultiplier();
 	    }
-	    else if(seatClass.equalsIgnoreCase("First")){
-	        multiplier = 2;
-	    }
+	    
+	  //  double multiplier = 1;
+//
+//	    if(seatClass.equalsIgnoreCase("Business")){
+//	    	
+//	        multiplier = 1.5;
+//	    }
+//	    else if(seatClass.equalsIgnoreCase("First Class")){
+//	        multiplier = 2;
+//	    }
 
 	    double totalPrice =
 	            flightPlan.getPrice()
