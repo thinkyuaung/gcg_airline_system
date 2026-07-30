@@ -23,10 +23,10 @@ public class FlightDetailController {
 
 	@Autowired
     private FlightDetailService flightDetailService;
-	
+
 	@Autowired
 	private UserPromotionRepository promotionRepository;
-	
+
 	@GetMapping("/flight/{id}")
 	public String flightDetail(
 	        @PathVariable int id,
@@ -36,7 +36,7 @@ public class FlightDetailController {
 
 		System.out.println("Passengers = " + passengers);
 		System.out.println("Seat Class = " + seatClass);
-		
+
 	    FlightPlan flightPlan =
 	            flightDetailService.getFlightPlan(id);
 
@@ -53,8 +53,8 @@ public class FlightDetailController {
 	            flightPlan.getPrice()
 	            * multiplier
 	            * passengers;
-	    
-	    Optional<Promotion> promotion =
+
+	    Optional<Promotion> globalPromotion =
 	            promotionRepository
 	            .findFirstByStatusAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
 	                    "Active",
@@ -62,16 +62,23 @@ public class FlightDetailController {
 	                    LocalDateTime.now()
 	            );
 
+	    Promotion flightPlanPromotion = flightPlan.getPromotion();
 
-	    if(promotion.isPresent()){
+	    double totalDiscountPercent = 0;
 
-	        Promotion p = promotion.get();
+	    if (flightPlanPromotion != null) {
+	    	totalDiscountPercent += flightPlanPromotion.getPercentage();
+	    	model.addAttribute("flightPlanPromotion", flightPlanPromotion);
+	    }
 
-	        totalPrice =
-	            totalPrice - (totalPrice * p.getPercentage() / 100);
+	    if (globalPromotion.isPresent()) {
+	    	Promotion gp = globalPromotion.get();
+	    	totalDiscountPercent += gp.getPercentage();
+	    	model.addAttribute("globalPromotion", gp);
+	    }
 
-	        model.addAttribute("promotion", p);
-
+	    if (totalDiscountPercent > 0) {
+	    	totalPrice = totalPrice - (totalPrice * totalDiscountPercent / 100);
 	    }
 
 	    model.addAttribute("flightPlan", flightPlan);
@@ -79,8 +86,7 @@ public class FlightDetailController {
 	    model.addAttribute("seatClass", seatClass);
 	    model.addAttribute("multiplier", multiplier);
 	    model.addAttribute("totalPrice", totalPrice);
-	    model.addAttribute("totalPrice", totalPrice);
-	    
+
 	    return "userview/flightDetail";
 	}
 }
