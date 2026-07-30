@@ -1,5 +1,9 @@
 package com.example.MaupinAirlineTicketSystem.entity;
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,9 +20,24 @@ public class BookingDetail {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int bookingDetailId;
 
-	private String passengerName;
-
+	private String passengerFirstName;
+	
+	private String passengerLastName;
+	
 	private String passport;
+	
+	private LocalDate DOB;
+
+	public BookingDetail(int bookingDetailId, String passengerFirstName, String passengerLastName, String passport,
+			LocalDate dOB, Booking booking) {
+		super();
+		this.bookingDetailId = bookingDetailId;
+		this.passengerFirstName = passengerFirstName;
+		this.passengerLastName = passengerLastName;
+		this.passport = passport;
+		DOB = dOB;
+		this.booking = booking;
+	}
 
 	@ManyToOne
 	@JoinColumn(name = "booking_id")
@@ -26,14 +45,7 @@ public class BookingDetail {
 
 	public BookingDetail() {
 		super();
-	}
-
-	public BookingDetail(int bookingDetailId, String passengerName, String passport, Booking booking) {
-		super();
-		this.bookingDetailId = bookingDetailId;
-		this.passengerName = passengerName;
-		this.passport = passport;
-		this.booking = booking;
+		// TODO Auto-generated constructor stub
 	}
 
 	public int getBookingDetailId() {
@@ -44,12 +56,20 @@ public class BookingDetail {
 		this.bookingDetailId = bookingDetailId;
 	}
 
-	public String getPassengerName() {
-		return passengerName;
+	public String getPassengerFirstName() {
+		return passengerFirstName;
 	}
 
-	public void setPassengerName(String passengerName) {
-		this.passengerName = passengerName;
+	public void setPassengerFirstName(String passengerFirstName) {
+		this.passengerFirstName = passengerFirstName;
+	}
+
+	public String getPassengerLastName() {
+		return passengerLastName;
+	}
+
+	public void setPassengerLastName(String passengerLastName) {
+		this.passengerLastName = passengerLastName;
 	}
 
 	public String getPassport() {
@@ -60,6 +80,14 @@ public class BookingDetail {
 		this.passport = passport;
 	}
 
+	public LocalDate getDOB() {
+		return DOB;
+	}
+
+	public void setDOB(LocalDate dOB) {
+		DOB = dOB;
+	}
+
 	public Booking getBooking() {
 		return booking;
 	}
@@ -68,4 +96,5 @@ public class BookingDetail {
 		this.booking = booking;
 	}
 
+	
 }

@@ -28,19 +28,25 @@ public class Promotion {
 
 	private String description;
 
-	public Promotion() {
-		super();
-	}
+	private double percentage;
 
-	public Promotion(int promotionId, LocalDateTime startDate, LocalDateTime endDate, String status,
-			String description) {
+	public Promotion(int promotionId, LocalDateTime startDate, LocalDateTime endDate, String status, String description,
+			double percentage) {
 		super();
 		this.promotionId = promotionId;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.status = status;
 		this.description = description;
+		this.percentage = percentage;
 	}
+
+	public Promotion() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
 
 	public int getPromotionId() {
 		return promotionId;
@@ -82,4 +88,13 @@ public class Promotion {
 		this.description = description;
 	}
 
+	public double getPercentage() {
+		return percentage;
+	}
+
+	public void setPercentage(double percentage) {
+		this.percentage = percentage;
+	}
+	
+	
 }

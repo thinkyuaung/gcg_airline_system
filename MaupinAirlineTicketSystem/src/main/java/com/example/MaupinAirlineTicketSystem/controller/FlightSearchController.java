@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -31,45 +30,32 @@ public class FlightSearchController {
 	private SeatClassRepository seatClassRepository;
 
 	@GetMapping("/search")
-	public String searchPage(Model model) {
-		
-		  model.addAttribute("airports",
-		            airportRepository.findAll());
-		  
-		  model.addAttribute(
-		            "seatClasses",
-		            seatClassRepository.findAll()
-		    );
-
-		  
-		return "userview/searchFlight";
-	}
-	
-	
-	@PostMapping("/search")
 	public String searchFlights(
-			@RequestParam("departureCity") String departureCity,
-			@RequestParam("arrivalCity") String arrivalCity,
-			@RequestParam("departureDate") LocalDate departureDate,
-			@RequestParam("passengers") int passengers,
-			@RequestParam("seatClass") String seatClass,
+			@RequestParam(value = "departureCity", required = false) String departureCity,
+			@RequestParam(value = "arrivalCity", required = false) String arrivalCity,
+			@RequestParam(value = "departureDate", required = false) LocalDate departureDate,
+			@RequestParam(value = "passengers", required = false, defaultValue = "1") int passengers,
+			@RequestParam(value = "seatClass", required = false) String seatClass,
 			Model model) {
-		
+
+		model.addAttribute("airports", airportRepository.findAll());
+		model.addAttribute("seatClasses", seatClassRepository.findAll());
+
+		if (departureCity == null || departureCity.isBlank()) {
+			return "userview/searchFlight";
+		}
+
 		List<FlightPlan> flightPlans =
 				flightSearchService.searchFlights(
 						departureCity,
 						arrivalCity,
 						departureDate
 				);
-		
+
 		model.addAttribute("flightPlans", flightPlans);
- 
-		// keep user's choices for next step
 		model.addAttribute("passengers", passengers);
- 
 		model.addAttribute("seatClass", seatClass);
- 
- 
+
 		return "userview/searchResult";
 	}
 }

@@ -4,99 +4,326 @@
 <head>
 
 <meta charset="UTF-8">
-
 <title>Flight Detail</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-rel="stylesheet">
+      rel="stylesheet">
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
-rel="stylesheet">
+      rel="stylesheet">
 
 <style>
 
+:root{
+    --primary:#2563eb;
+    --primary-light:#eff6ff;
+    --bg:#f5f7fb;
+    --card:#ffffff;
+    --border:#e8edf5;
+    --text:#1f2937;
+    --muted:#6b7280;
+    --success:#16a34a;
+}
+
+*{
+    box-sizing:border-box;
+}
+
 body{
+    margin:0;
+    background:var(--bg);
+    font-family:"Segoe UI",sans-serif;
+    color:var(--text);
+}
 
-background:#f4f7fb;
-font-family:'Segoe UI',sans-serif;
-
+.container{
+    max-width:1100px;
 }
 
 .main-card{
+    background:var(--card);
+    border-radius:22px;
+    padding:28px;
+    box-shadow:0 12px 35px rgba(15,23,42,.08);
+}
 
-background:white;
-border-radius:20px;
-padding:35px;
-box-shadow:0 10px 30px rgba(0,0,0,.08);
+/* -----------------------------
+   Header
+------------------------------*/
 
+.airline-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.airline-info{
+    display:flex;
+    align-items:center;
 }
 
 .airline-icon{
+    width:62px;
+    height:62px;
+    border-radius:16px;
+    background:var(--primary-light);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:var(--primary);
+    font-size:28px;
+    margin-right:18px;
+}
 
-width:70px;
-height:70px;
-background:#eef4ff;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:34px;
-color:#0d6efd;
+.airline-name{
+    font-size:26px;
+    font-weight:700;
+    margin-bottom:2px;
+}
 
+.flight-number{
+    color:var(--muted);
+    font-size:15px;
+}
+
+.flight-badge{
+    background:var(--primary-light);
+    color:var(--primary);
+    padding:10px 18px;
+    border-radius:50px;
+    font-weight:600;
+    font-size:14px;
+}
+
+/* -----------------------------
+   Flight Timeline
+------------------------------*/
+
+.timeline{
+    background:#fafcff;
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:20px;
+    margin-top:20px;
+    margin-bottom:25px;
 }
 
 .time{
-
-font-size:36px;
-font-weight:bold;
-
+    font-size:34px;
+    font-weight:700;
+    line-height:1;
 }
 
 .date{
-
-color:#777;
-
+    color:var(--muted);
+    font-size:13px;
+    margin-top:8px;
 }
 
 .city{
-
-font-size:20px;
-font-weight:600;
-
+    font-size:19px;
+    font-weight:600;
+    margin-top:6px;
 }
+
+.flight-arrow{
+    color:var(--primary);
+    font-size:34px;
+}
+
+/* -----------------------------
+   Section Title
+------------------------------*/
+
+.section-title{
+    font-size:20px;
+    font-weight:700;
+    margin-bottom:18px;
+}
+
+/* -----------------------------
+   Feature Cards
+------------------------------*/
 
 .feature{
-
-background:#eef4ff;
-padding:12px;
-border-radius:12px;
-text-align:center;
-margin-bottom:10px;
-
+    border:1px solid var(--border);
+    border-radius:16px;
+    background:white;
+    padding:18px 12px;
+    text-align:center;
+    transition:.25s;
+    height:100%;
 }
+
+.feature:hover{
+    transform:translateY(-3px);
+    box-shadow:0 8px 18px rgba(0,0,0,.06);
+}
+
+.feature i{
+    font-size:24px;
+    margin-bottom:8px;
+}
+
+.feature span{
+    display:block;
+    font-weight:600;
+    font-size:14px;
+}
+
+/* -----------------------------
+   Fare Benefits
+------------------------------*/
+
+.benefit-list{
+    border-radius:16px;
+    overflow:hidden;
+    border:1px solid var(--border);
+}
+
+.benefit-list .list-group-item{
+    border:none;
+    border-bottom:1px solid var(--border);
+    padding:14px 18px;
+}
+
+.benefit-list .list-group-item:last-child{
+    border-bottom:none;
+}
+
+.benefit-list i{
+    color:var(--primary);
+    margin-right:10px;
+}
+
+/* -----------------------------
+   Summary Card
+------------------------------*/
 
 .summary{
-
-background:#f8f9fa;
-border-radius:15px;
-padding:25px;
-
+    background:#fbfcfe;
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:22px;
 }
 
-.total{
-
-font-size:32px;
-font-weight:bold;
-color:#0d6efd;
-
+.summary h4{
+    margin-bottom:18px;
+    font-size:22px;
+    font-weight:700;
 }
+
+.summary table td{
+    border:none;
+    padding:10px 0;
+}
+
+.summary table td:last-child{
+    text-align:right;
+    font-weight:600;
+}
+
+.total-row{
+    border-top:1px solid var(--border);
+    margin-top:12px;
+    padding-top:16px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.total-label{
+    font-size:18px;
+    font-weight:700;
+}
+
+.total-price{
+    font-size:34px;
+    color:var(--primary);
+    font-weight:700;
+}
+
+/* -----------------------------
+   Promotion
+------------------------------*/
+
+.promo-box{
+    margin-top:18px;
+    border-radius:14px;
+}
+
+/* -----------------------------
+   Policy
+------------------------------*/
 
 .policy{
+    margin-top:25px;
+    background:#fff8e7;
+    border-left:5px solid #f59e0b;
+    padding:18px;
+    border-radius:14px;
+}
 
-background:#fff8e5;
-border-left:5px solid orange;
-padding:20px;
-border-radius:10px;
+.policy h5{
+    margin-bottom:10px;
+    font-weight:700;
+}
+
+/* -----------------------------
+   Book Button
+------------------------------*/
+
+.book-btn{
+    margin-top:24px;
+    border-radius:14px;
+    font-size:18px;
+    font-weight:600;
+    padding:14px;
+}
+
+/* -----------------------------
+   Divider
+------------------------------*/
+
+.soft-divider{
+    margin:28px 0;
+    border:none;
+    border-top:1px solid var(--border);
+}
+
+/* -----------------------------
+   Responsive
+------------------------------*/
+
+@media(max-width:768px){
+
+.airline-header{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:15px;
+}
+
+.airline-name{
+    font-size:22px;
+}
+
+.time{
+    font-size:28px;
+}
+
+.flight-arrow{
+    transform:rotate(90deg);
+    margin:15px 0;
+}
+
+.total-price{
+    font-size:28px;
+}
+
+.main-card{
+    padding:20px;
+}
 
 }
 
@@ -110,214 +337,292 @@ border-radius:10px;
 
 <div class="main-card">
 
-<div class="row">
+<!-- Airline Header -->
 
-<div class="col-md-2 text-center">
+<div class="airline-header">
 
-<div class="airline-icon mx-auto">
+    <div class="airline-info">
 
-<i class="bi bi-airplane-fill"></i>
+        <div class="airline-icon">
+            <i class="bi bi-airplane-fill"></i>
+        </div>
 
-</div>
+        <div>
+            <div class="airline-name"
+                 th:text="${flightPlan.flight.airline.airlineName}">
+            </div>
 
-</div>
+            <div class="flight-number"
+                 th:text="${flightPlan.flight.flightNumber}">
+            </div>
+        </div>
 
-<div class="col-md-10">
+    </div>
 
-<h2 th:text="${flightPlan.flight.airline.airlineName}"></h2>
-
-<h5 th:text="${flightPlan.flight.flightNumber}"></h5>
-
-</div>
-
-</div>
-
-<hr>
-
-<div class="row text-center">
-
-<div class="col">
-
-<div class="time"
-th:text="${#temporals.format(flightPlan.departureTime,'HH:mm')}"></div>
-
-<div class="date"
-th:text="${#temporals.format(flightPlan.departureTime,'dd MMM yyyy')}"></div>
-
-<div class="city"
-th:text="${flightPlan.departureAirport.city}"></div>
+    <div class="flight-badge">
+        <i class="bi bi-ticket-perforated-fill"></i>
+        Flight
+    </div>
 
 </div>
 
-<div class="col-2 d-flex align-items-center justify-content-center">
+<hr class="soft-divider">
 
-<i class="bi bi-arrow-right fs-2 text-primary"></i>
+<!-- Flight Timeline -->
 
-</div>
+<div class="timeline">
 
-<div class="col">
+    <div class="row align-items-center text-center">
 
-<div class="time"
-th:text="${#temporals.format(flightPlan.arrivalTime,'HH:mm')}"></div>
+        <div class="col-md">
 
-<div class="date"
-th:text="${#temporals.format(flightPlan.arrivalTime,'dd MMM yyyy')}"></div>
+            <div class="time"
+                 th:text="${#temporals.format(flightPlan.departureTime,'HH:mm')}">
+            </div>
 
-<div class="city"
-th:text="${flightPlan.arrivalAirport.city}"></div>
+            <div class="date"
+                 th:text="${#temporals.format(flightPlan.departureTime,'dd MMM yyyy')}">
+            </div>
 
-</div>
+            <div class="city"
+                 th:text="${flightPlan.departureAirport.city}">
+            </div>
 
-</div>
+        </div>
 
-<hr>
+        <div class="col-md-2 my-3 my-md-0">
 
-<h4>Aircraft Features</h4>
+            <i class="bi bi-arrow-right-circle-fill flight-arrow"></i>
 
-<div class="row">
+        </div>
 
-<div class="col-md-3" th:if="${flightPlan.flight.wifi==1}">
-<div class="feature">
-<i class="bi bi-wifi fs-2 text-primary"></i>
-<br>Wi-Fi
-</div>
-</div>
+        <div class="col-md">
 
-<div class="col-md-3" th:if="${flightPlan.flight.meal==1}">
-<div class="feature">
-<i class="bi bi-cup-hot-fill fs-2 text-warning"></i>
-<br>Meal
-</div>
-</div>
+            <div class="time"
+                 th:text="${#temporals.format(flightPlan.arrivalTime,'HH:mm')}">
+            </div>
 
-<div class="col-md-3" th:if="${flightPlan.flight.entertainment==1}">
-<div class="feature">
-<i class="bi bi-tv-fill fs-2 text-danger"></i>
-<br>Entertainment
-</div>
-</div>
+            <div class="date"
+                 th:text="${#temporals.format(flightPlan.arrivalTime,'dd MMM yyyy')}">
+            </div>
 
-<div class="col-md-3" th:if="${flightPlan.flight.charging==1}">
-<div class="feature">
-<i class="bi bi-battery-charging fs-2 text-success"></i>
-<br>Charging
-</div>
-</div>
+            <div class="city"
+                 th:text="${flightPlan.arrivalAirport.city}">
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 
-<hr>
+<hr class="soft-divider">
 
-<h4>Fare Benefits</h4>
+<!-- Aircraft Features -->
 
-<ul class="list-group mb-4">
+<h4 class="section-title">
+    Aircraft Features
+</h4>
 
-<li class="list-group-item">
-<i class="bi bi-briefcase-fill"></i>
-1 Carry-on Bag
-</li>
+<div class="row g-3">
 
-<li class="list-group-item">
-<i class="bi bi-suitcase-lg-fill"></i>
-1 Checked Bag
-</li>
+    <div class="col-6 col-lg-3"
+         th:if="${flightPlan.flight.wifi==1}">
 
-<li class="list-group-item">
-<i class="bi bi-person-workspace"></i>
-Seat selection for a fee
-</li>
+        <div class="feature">
 
-<li class="list-group-item">
-<i class="bi bi-arrows-angle-expand"></i>
-Extra legroom for a fee
-</li>
+            <i class="bi bi-wifi text-primary"></i>
 
-<li class="list-group-item">
-<i class="bi bi-arrow-repeat"></i>
-Ticket changes for a fee
-</li>
+            <span>Wi-Fi</span>
+
+        </div>
+
+    </div>
+
+    <div class="col-6 col-lg-3"
+         th:if="${flightPlan.flight.meal==1}">
+
+        <div class="feature">
+
+            <i class="bi bi-cup-hot-fill text-warning"></i>
+
+            <span>Meal</span>
+
+        </div>
+
+    </div>
+
+    <div class="col-6 col-lg-3"
+         th:if="${flightPlan.flight.entertainment==1}">
+
+        <div class="feature">
+
+            <i class="bi bi-tv-fill text-danger"></i>
+
+            <span>Entertainment</span>
+
+        </div>
+
+    </div>
+
+    <div class="col-6 col-lg-3"
+         th:if="${flightPlan.flight.charging==1}">
+
+        <div class="feature">
+
+            <i class="bi bi-battery-charging text-success"></i>
+
+            <span>Charging</span>
+
+        </div>
+
+    </div>
+
+</div>
+
+<hr class="soft-divider">
+
+<!-- Fare Benefits -->
+
+<h4 class="section-title">
+    Fare Benefits
+</h4>
+
+<ul class="list-group benefit-list mb-4">
+
+    <li class="list-group-item">
+        <i class="bi bi-briefcase-fill"></i>
+        1 Carry-on Bag
+    </li>
+
+    <li class="list-group-item">
+        <i class="bi bi-suitcase-lg-fill"></i>
+        1 Checked Bag
+    </li>
+
+    <li class="list-group-item">
+        <i class="bi bi-person-workspace"></i>
+        Seat selection for a fee
+    </li>
+
+    <li class="list-group-item">
+        <i class="bi bi-arrows-angle-expand"></i>
+        Extra legroom for a fee
+    </li>
+
+    <li class="list-group-item">
+        <i class="bi bi-arrow-repeat"></i>
+        Ticket changes for a fee
+    </li>
 
 </ul>
 
+<!-- Price Summary -->
+
 <div class="summary">
 
-<h4>Price Summary</h4>
+    <h4>Price Summary</h4>
 
-<table class="table">
+    <table class="table">
 
-<tr>
+        <tr>
+            <td>Passengers</td>
+            <td th:text="${passengers}"></td>
+        </tr>
 
-<td>Passengers</td>
+        <tr>
+            <td>Cabin</td>
+            <td th:text="${seatClass}"></td>
+        </tr>
 
-<td th:text="${passengers}"></td>
+        <tr>
+            <td>Base Fare</td>
+            <td>
+                $<span th:text="${flightPlan.price}"></span>
+            </td>
+        </tr>
 
-</tr>
+        <tr>
+            <td>Multiplier</td>
+            <td th:text="${multiplier}"></td>
+        </tr>
 
-<tr>
+    </table>
 
-<td>Cabin</td>
+    <div class="total-row">
 
-<td th:text="${seatClass}"></td>
+        <span class="total-label">
+            Total Price
+        </span>
 
-</tr>
+        <span class="total-price">
+            $<span th:text="${totalPrice}"></span>
+        </span>
 
-<tr>
+    </div>
 
-<td>Base Fare</td>
+    <div
+        th:if="${promotion != null}"
+        class="alert alert-success promo-box mb-0 mt-4">
 
-<td>$<span th:text="${flightPlan.price}"></span></td>
+        <i class="bi bi-tag-fill me-2"></i>
 
-</tr>
+        Promotion Applied!
 
-<tr>
+        <strong
+            th:text="${promotion.percentage + '% OFF'}">
+        </strong>
 
-<td>Multiplier</td>
-
-<td th:text="${multiplier}"></td>
-
-</tr>
-
-</table>
-
-<div class="text-end total">
-
-$<span th:text="${totalPrice}"></span>
+    </div>
 
 </div>
 
-</div>
-
-<br>
+<!-- Cancellation Policy -->
 
 <div class="policy">
 
-<h5>Cancellation Policy</h5>
+    <h5>
+        <i class="bi bi-shield-check me-2"></i>
+        Cancellation Policy
+    </h5>
 
-Cancellation is allowed only if the scheduled departure time is more than <b>24 hours</b> away. Refunds are not available for cancellations made within 24 hours before departure.
+    <p class="mb-0">
+        Cancellation is allowed only if the scheduled departure time is more than
+        <strong>24 hours</strong> away.
+        Refunds are not available for cancellations made within
+        <strong>24 hours</strong> before departure.
+    </p>
 
 </div>
 
-<br>
+<!-- Booking Form -->
 
-<form th:action="@{/airline/booking}" method="post">
+<form th:action="@{/airline/booking/reserve}" method="get">
 
-<input type="hidden"
-name="flightPlanId"
-th:value="${flightPlan.flightPlanId}">
+    <input
+        type="hidden"
+        name="flightPlanId"
+        th:value="${flightPlan.flightPlanId}">
 
-<input type="hidden"
-name="seatClass"
-th:value="${seatClass}">
+    <input
+        type="hidden"
+        name="seatClass"
+        th:value="${seatClass}">
 
-<input type="hidden"
-name="passengers"
-th:value="${passengers}">
+    <input
+        type="hidden"
+        name="passengers"
+        th:value="${passengers}">
 
-<button type="submit" class="btn btn-primary btn-lg w-100">
+    <button
+        type="submit"
+        class="btn btn-primary w-100 book-btn">
 
-Book Now
+        <i class="bi bi-credit-card-fill me-2"></i>
 
-</button>
+        Book Now
+
+    </button>
 
 </form>
 

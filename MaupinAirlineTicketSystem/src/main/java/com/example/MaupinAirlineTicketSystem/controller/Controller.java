@@ -1,6 +1,5 @@
 package com.example.MaupinAirlineTicketSystem.controller;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.MaupinAirlineTicketSystem.repository.AirportRepository;
 import com.example.MaupinAirlineTicketSystem.repository.SeatClassRepository;
@@ -29,10 +27,7 @@ import com.example.MaupinAirlineTicketSystem.repository.AdminPromotionRepository
 import com.example.MaupinAirlineTicketSystem.repository.UserRepository;
 import com.example.MaupinAirlineTicketSystem.service.BookingService;
 import com.example.MaupinAirlineTicketSystem.service.ReviewService;
-import com.example.MaupinAirlineTicketSystem.service.UserService;
 
-import org.springframework.validation.BindingResult;
-import jakarta.validation.Valid;
 import jakarta.servlet.http.HttpSession;
 
 @org.springframework.stereotype.Controller
@@ -59,9 +54,6 @@ public class Controller {
 
 	@Autowired
 	private AdminPromotionRepository promotionRepository;
-
-	@Autowired
-	private UserService userService;
 
 	////////////// Home //////////////
 
@@ -209,12 +201,13 @@ public class Controller {
 	}
 
 	@PostMapping("/profile/update")
-	public String updateProfile(@Valid @ModelAttribute("user") User user, BindingResult result,
-			@RequestParam String confirmPassword, Authentication authentication, Model model) {
+	public String updateProfile(@ModelAttribute User user, @RequestParam String confirmPassword,
+			Authentication authentication, Model model) {
 
 		User loginUser = userRepository.findByEmail(authentication.getName());
 
 		if (loginUser == null) {
+
 			return "redirect:/airline/login";
 		}
 
@@ -222,42 +215,25 @@ public class Controller {
 
 			model.addAttribute("error", "Incorrect password.");
 
-			return "User/edit-profile";
-		}
-
-		User existingEmail = userRepository.findByEmail(user.getEmail());
-
-		if (existingEmail != null && existingEmail.getUserId() != loginUser.getUserId()) {
-
-			result.rejectValue("email", "duplicate", "Email already exists.");
-		}
-
-		if (result.hasErrors()) {
+			model.addAttribute("user", loginUser);
 
 			return "User/edit-profile";
 		}
 
-		loginUser.setFirstName(user.getFirstName());
+		user.setUserId(loginUser.getUserId());
 
-		loginUser.setLastName(user.getLastName());
+		user.setPassword(loginUser.getPassword());
 
-		loginUser.setPassport(user.getPassport());
+		user.setRole(loginUser.getRole());
 
-		loginUser.setEmail(user.getEmail());
+		user.setStatus(loginUser.getStatus());
 
-		loginUser.setPhoneNumber(user.getPhoneNumber());
+		if (user.getDob() == null) {
 
-		if (user.getDob() != null) {
-
-			loginUser.setDob(user.getDob());
-
-		} else {
-
-			loginUser.setDob(loginUser.getDob());
-
+			user.setDob(loginUser.getDob());
 		}
 
-		userRepository.save(loginUser);
+		userRepository.save(user);
 
 		return "redirect:/airline/profile";
 	}
@@ -318,44 +294,6 @@ public class Controller {
 		userRepository.save(user);
 
 		return "redirect:/airline/profile";
-	}
-
-	//////////// Delete Profile ///////////////
-	@PostMapping("/profile/delete")
-	public String deleteAccount(@RequestParam("password") String password, Authentication authentication,
-			RedirectAttributes redirectAttributes) {
-
-		String email = authentication.getName();
-
-		System.out.println("DELETE USER EMAIL: " + email);
-
-		User user = userRepository.findByEmail(email);
-
-		if (user == null) {
-
-			System.out.println("USER NOT FOUND");
-
-			return "redirect:/airline/login";
-		}
-
-		System.out.println("OLD STATUS: " + user.getStatus());
-
-		if (!passwordEncoder.matches(password, user.getPassword())) {
-
-			redirectAttributes.addFlashAttribute("error", "Incorrect current password.");
-
-			return "redirect:/airline/profile";
-		}
-
-		user.setStatus("inactive");
-
-		System.out.println("NEW STATUS BEFORE SAVE: " + user.getStatus());
-
-		userRepository.save(user);
-
-		System.out.println("SAVED");
-
-		return "redirect:/airline/logout";
 	}
 
 	//////////// Admin Dashboard //////////////
@@ -478,19 +416,36 @@ public class Controller {
 	}
 
 	//////////// Edit User ///////////////
-
 	@GetMapping("/admin/users/edit/{id}")
 	public String editUser(@PathVariable int id, Model model) {
 
-		User user = userRepository.findById(id).orElse(null);
+	    User user = userRepository.findById(id).orElse(null);
 
-		if (user == null) {
+	    if (user == null) {
+	        return "redirect:/airline/admin/dashboard";
+	    }
+
+	    model.addAttribute("user", user);
+
+	    return "Admin/admin-edit-user";
+	}
+
+	@PostMapping("/admin/users/update")
+	public String updateUser(@ModelAttribute User user) {
+
+		User existingUser = userRepository.findById(user.getUserId()).orElse(null);
+
+		if (existingUser == null) {
 			return "redirect:/airline/admin/dashboard";
 		}
+		user.setPassword(existingUser.getPassword());
+		user.setRole(existingUser.getRole());
+		user.setStatus(existingUser.getStatus());
+		user.setDob(existingUser.getDob());
 
-		model.addAttribute("user", user);
+		userRepository.save(user);
 
-		return "Admin/admin-edit-user";
+		return "redirect:/airline/admin/dashboard";
 	}
 
 	////////////// Activate User //////////////
@@ -506,40 +461,6 @@ public class Controller {
 
 			userRepository.save(user);
 		}
-
-		return "redirect:/airline/admin/dashboard";
-	}
-
-	@PostMapping("/admin/users/update")
-	public String updateUser(@Valid @ModelAttribute("user") User user, BindingResult result, Model model) {
-
-		User existingUser = userRepository.findById(user.getUserId()).orElse(null);
-
-		if (existingUser == null) {
-			return "redirect:/airline/admin/dashboard";
-		}
-
-		User duplicateEmail = userRepository.findByEmail(user.getEmail());
-
-		if (duplicateEmail != null && duplicateEmail.getUserId() != user.getUserId()) {
-
-			result.rejectValue("email", "duplicate", "Email already exists.");
-		}
-
-		if (result.hasErrors()) {
-
-			model.addAttribute("user", user);
-
-			return "Admin/admin-edit-user";
-		}
-
-		existingUser.setFirstName(user.getFirstName());
-		existingUser.setLastName(user.getLastName());
-		existingUser.setEmail(user.getEmail());
-		existingUser.setPhoneNumber(user.getPhoneNumber());
-		existingUser.setDob(user.getDob());
-
-		userRepository.save(existingUser);
 
 		return "redirect:/airline/admin/dashboard";
 	}
@@ -600,10 +521,9 @@ public class Controller {
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 
-		SecurityContextHolder.clearContext();
-
 		session.invalidate();
 
 		return "redirect:/airline/";
 	}
+
 }
