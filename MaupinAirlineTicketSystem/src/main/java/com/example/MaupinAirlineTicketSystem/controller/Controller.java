@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
 
 import com.example.MaupinAirlineTicketSystem.repository.AirportRepository;
 import com.example.MaupinAirlineTicketSystem.repository.SeatClassRepository;
@@ -30,6 +31,7 @@ import com.example.MaupinAirlineTicketSystem.service.BookingService;
 import com.example.MaupinAirlineTicketSystem.service.ReviewService;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @org.springframework.stereotype.Controller
 @RequestMapping("/airline")
@@ -202,14 +204,18 @@ public class Controller {
 	}
 
 	@PostMapping("/profile/update")
-	public String updateProfile(@ModelAttribute User user, @RequestParam String confirmPassword,
+	public String updateProfile(@Valid @ModelAttribute User user, BindingResult result,
+			@RequestParam String confirmPassword,
 			Authentication authentication, Model model) {
 
 		User loginUser = userRepository.findByEmail(authentication.getName());
 
 		if (loginUser == null) {
-
 			return "redirect:/airline/login";
+		}
+
+		if (result.hasErrors()) {
+			return "User/edit-profile";
 		}
 
 		if (!passwordEncoder.matches(confirmPassword, loginUser.getPassword())) {
