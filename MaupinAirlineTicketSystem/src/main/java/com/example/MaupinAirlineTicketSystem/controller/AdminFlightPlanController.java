@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.MaupinAirlineTicketSystem.entity.Airport;
 import com.example.MaupinAirlineTicketSystem.entity.Flight;
 import com.example.MaupinAirlineTicketSystem.entity.FlightPlan;
+import com.example.MaupinAirlineTicketSystem.entity.Promotion;
 import com.example.MaupinAirlineTicketSystem.service.AdminAirportService;
 import com.example.MaupinAirlineTicketSystem.service.AdminFlightPlanService;
 import com.example.MaupinAirlineTicketSystem.service.AdminFlightService;
+import com.example.MaupinAirlineTicketSystem.service.AdminPromotionService;
 
 import jakarta.validation.Valid;
 
@@ -34,15 +36,20 @@ public class AdminFlightPlanController {
 	@Autowired
 	AdminAirportService adminAirportService;
 
+	@Autowired
+	AdminPromotionService adminPromotionService;
+
 	@GetMapping("/admin/flightPlanForm")
 	public String create(Model model) {
 		FlightPlan fp = new FlightPlan();
 		List<Flight> flights = adminFlightService.getAllFlights();
 		List<Airport> airports = adminAirportService.getAllAirports();
+		List<Promotion> promotions = adminPromotionService.getAllPromotions();
 
 		model.addAttribute("flightPlan", fp);
 		model.addAttribute("flights", flights);
 		model.addAttribute("airports", airports);
+		model.addAttribute("promotions", promotions);
 
 		return "Admin/AddFlightPlan";
 	}
@@ -53,8 +60,10 @@ public class AdminFlightPlanController {
 
 		List<Flight> flights = adminFlightService.getAllFlights();
 		List<Airport> airports = adminAirportService.getAllAirports();
+		List<Promotion> promotions = adminPromotionService.getAllPromotions();
 		model.addAttribute("flights", flights);
 		model.addAttribute("airports", airports);
+		model.addAttribute("promotions", promotions);
 
 		if (result.hasErrors()) {
 			return "Admin/AddFlightPlan";
@@ -79,10 +88,12 @@ public class AdminFlightPlanController {
 		FlightPlan flightPlan = adminFlightPlanService.getFlightPlanById(id);
 		List<Flight> flights = adminFlightService.getAllFlights();
 		List<Airport> airports = adminAirportService.getAllAirports();
+		List<Promotion> promotions = adminPromotionService.getAllPromotions();
 
 		model.addAttribute("flightPlan", flightPlan);
 		model.addAttribute("flights", flights);
 		model.addAttribute("airports", airports);
+		model.addAttribute("promotions", promotions);
 
 		return "Admin/AddFlightPlan";
 	}
@@ -93,8 +104,10 @@ public class AdminFlightPlanController {
 
 		List<Flight> flights = adminFlightService.getAllFlights();
 		List<Airport> airports = adminAirportService.getAllAirports();
+		List<Promotion> promotions = adminPromotionService.getAllPromotions();
 		model.addAttribute("flights", flights);
 		model.addAttribute("airports", airports);
+		model.addAttribute("promotions", promotions);
 
 		if (result.hasErrors()) {
 			return "Admin/AddFlightPlan";

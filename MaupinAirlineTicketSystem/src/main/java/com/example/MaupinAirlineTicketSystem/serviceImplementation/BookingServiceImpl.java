@@ -120,20 +120,32 @@ public class BookingServiceImpl implements BookingService{
 	            * seatClassEntity.getPriceMultiplier()
 	            * passengers;
 
-	    Optional<Promotion> promotion =
+	    Promotion flightPlanPromotion = flightPlan.getPromotion();
+
+	    Optional<Promotion> globalPromotion =
 	            promotionRepository
 	            .findFirstByStatusAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
 	                    "Active",
 	                    LocalDateTime.now(),
 	                    LocalDateTime.now());
 
-	    if (promotion.isPresent()) {
+	    double totalDiscountPercent = 0;
 
-	        Promotion p = promotion.get();
+	    if (flightPlanPromotion != null) {
+	    	totalDiscountPercent += flightPlanPromotion.getPercentage();
+	    	booking.setPromotion(flightPlanPromotion);
+	    }
 
-	        total = total - (total * p.getPercentage() / 100);
+	    if (globalPromotion.isPresent()) {
+	    	Promotion gp = globalPromotion.get();
+	    	totalDiscountPercent += gp.getPercentage();
+	    	if (flightPlanPromotion == null) {
+	    		booking.setPromotion(gp);
+	    	}
+	    }
 
-	        booking.setPromotion(p);
+	    if (totalDiscountPercent > 0) {
+	    	total = total - (total * totalDiscountPercent / 100);
 	    }
 
 

@@ -198,7 +198,7 @@
               <label class="form-label text-uppercase fw-bold">Economy Seats</label>
               <div class="input-group">
                 <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-person"></i></span>
-                <input type="number" id="ecomonySeats" name="ecomonySeats" class="form-control border-start-0 seat-input" th:field="*{ecomonySeats}" min="0">
+                <input type="number" id="ecomonySeats" name="ecomonySeats" class="form-control border-start-0 seat-input" th:field="*{ecomonySeats}" min="0" readonly="readonly">
               </div>
             </div>
 
@@ -207,7 +207,7 @@
               <label class="form-label text-uppercase fw-bold">Business Seats</label>
               <div class="input-group">
                 <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-person-fill"></i></span>
-                <input type="number" id="businessSeats" name="businessSeats" class="form-control border-start-0 seat-input" th:field="*{businessSeats}" min="0">
+                <input type="number" id="businessSeats" name="businessSeats" class="form-control border-start-0 seat-input" th:field="*{businessSeats}" min="0" readonly="readonly">
               </div>
             </div>
 
@@ -216,7 +216,7 @@
               <label class="form-label text-uppercase fw-bold">First Class Seats</label>
               <div class="input-group">
                 <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-person-workspace"></i></span>
-                <input type="number" id="firseClassSeats" name="firseClassSeats" class="form-control border-start-0 seat-input" th:field="*{firseClassSeats}" min="0">
+                <input type="number" id="firseClassSeats" name="firseClassSeats" class="form-control border-start-0 seat-input" th:field="*{firseClassSeats}" min="0" readonly="readonly">
               </div>
             </div>
 
@@ -239,6 +239,21 @@
               <span class="text-danger small" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
             </div>
 
+            <!-- Promotion -->
+            <div class="mb-4">
+              <label class="form-label text-uppercase fw-bold">Promotion</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-tag"></i></span>
+                <select th:field="*{promotion}" class="form-select border-start-0">
+                  <option value="">No Promotion</option>
+                  <option th:each="p : ${promotions}" 
+                          th:value="${p.promotionId}" 
+                          th:text="${p.description} + ' (' + ${p.percentage} + '% off)'"></option>
+                </select>
+              </div>
+            </div>
+
+          </div>
           <div class="modal-footer">
             <a th:href="@{/airline/admin/flightPlans}" class="btn btn-light rounded-pill px-4">Cancel</a>
             <button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm">

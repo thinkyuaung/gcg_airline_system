@@ -317,7 +317,7 @@ body{
                 <div class="amount-box">
 
     <!-- Promotion exists -->
-    <div th:if="${payment.booking.promotion != null}">
+    <div th:if="${flightPlanPromotion != null or globalPromotion != null or payment.booking.promotion != null}">
 
         <p>Original Price</p>
 
@@ -326,19 +326,32 @@ body{
             <span th:text="${originalPrice}"></span>
         </h5>
 
-        <p class="text-success">
-
+<!-- Flight Plan Promotion -->
+        <div th:if="${flightPlanPromotion != null}" class="text-success small">
             <i class="bi bi-tag-fill"></i>
+            Flight Promo:
+            <span th:text="${flightPlanPromotion.percentage}"></span>
+            % OFF
+        </div>
 
-            Promotion:
+<!-- Global Promotion -->
+        <div th:if="${globalPromotion != null}" class="text-info small">
+            <i class="bi bi-megaphone-fill"></i>
+            Monthly Promo:
+            <span th:text="${globalPromotion.percentage}"></span>
+            % OFF
+        </div>
+
+        <!-- <div th:if="${payment.booking.promotion != null}" class="text-success small">
+            <i class="bi bi-tag-fill"></i>
+            Booking Promo:
             <span th:text="${payment.booking.promotion.percentage}"></span>
             % OFF
+        </div> -->
 
-        </p>
-
-        <h2>
+        <h2 class="mt-2">
             $
-            <span th:text="${payment.amount}"></span>
+            <span th:text="${finalPrice}"></span>
         </h2>
 
         <p class="text-muted">
@@ -349,11 +362,11 @@ body{
 
 
     <!-- No Promotion -->
-    <div th:if="${payment.booking.promotion == null}">
+    <div th:if="${flightPlanPromotion == null and globalPromotion == null and payment.booking.promotion == null}">
 
         <h2>
             $
-            <span th:text="${payment.amount}"></span>
+            <span th:text="${finalPrice}"></span>
         </h2>
 
     </div>
