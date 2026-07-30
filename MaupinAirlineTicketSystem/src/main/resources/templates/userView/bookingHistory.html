@@ -405,11 +405,6 @@ Success
 
 </div>
 
-
-
-
-
-
 <div class="row mt-3">
 
 
@@ -437,64 +432,34 @@ Departure
 
 
 
-
 <div class="col-md-4">
 
 
-<p>
-
-Seat Class
+<p> Seat Class
 
 <br>
-
 
 <b th:text="${booking.seatClass.className}">
 
 </b>
 
-
 </p>
 
-
 </div>
-
-
-
-
 
 <div class="col-md-4">
 
 
-<p>
+<p>Total<br><b>$
 
-Total
-
-<br>
-
-
-<b>
-
-$
-
-<span th:text="${booking.totalAmount}">
-
-</span>
-
-
+<span th:text="${booking.totalAmount}"></span>
 </b>
-
 
 </p>
 
-
 </div>
 
-
 </div>
-
-
-
-
 
 <div class="mt-3">
 
@@ -506,26 +471,33 @@ class="btn btn-primary">
 
 <i class="bi bi-eye"></i>
 
-View Details
+View Details</a>
 
+<a th:if="${booking.canCancel
+        and (booking.status=='PENDING'
+        or booking.status=='CONFIRMED'
+        or booking.status=='Issued'
+        or booking.status=='Success')}"
+   th:href="@{/airline/cancel/confirm/{id}(id=${booking.bookingId})}"
+   class="btn btn-outline-danger ms-2">
 
-</a>
-
-
-
-
-
-<a th:if="${booking.status=='PENDING' or booking.status=='Success' or booking.status=='Issued' or booking.status=='CONFIRMED'}"
-
-th:href="@{/airline/cancel/confirm/{id}(id=${booking.bookingId})}"
-
-class="btn btn-outline-danger ms-2">
-
-<i class="bi bi-x-circle"></i>
-
-Cancel
+    <i class="bi bi-x-circle"></i>
+    Cancel
 
 </a>
+
+<div th:if="${!booking.canCancel
+        and (booking.status=='PENDING'
+        or booking.status=='CONFIRMED'
+        or booking.status=='Issued'
+        or booking.status=='Success')}"
+     class="alert alert-warning mt-2 py-2">
+
+    <i class="bi bi-clock-history"></i>
+
+    Cancellation is unavailable because the flight departs within 24 hours.
+
+</div>
 
 <a th:if="${booking.status=='Pending Cancel'}"
 
@@ -536,6 +508,8 @@ class="btn btn-outline-warning ms-2" style="pointer-events:none;">
 Cancel Pending
 
 </a>
+
+
 
 <div th:if="${booking.status=='Being Booked' and booking.cancelDescription != null}" class="mt-2">
     <div class="alert alert-info py-2 px-3 mb-0 small">
@@ -549,28 +523,16 @@ Cancel Pending
     </div>
 </div>
 
-
-
 </div>
 
-
-
-
-
 </div>
-
-
-
-
 
 </div>
 
 
 </div>
-
 
 </section>
-
 
 </body>
 

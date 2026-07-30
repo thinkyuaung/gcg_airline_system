@@ -7,338 +7,2884 @@
 
 <title>Flight Results</title>
 
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 rel="stylesheet">
+
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
 rel="stylesheet">
 
- <link rel="stylesheet" th:href="@{/css/style.css}">
+
+<link rel="stylesheet" th:href="@{/css/style.css}">
+
+
 
 <style>
 
-body{
-    background:#f4f7fb;
-    font-family:'Segoe UI',sans-serif;
+
+/* =====================================================
+   GLOBAL FOUNDATION
+===================================================== */
+
+
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
 }
 
-.page-title{
-    font-size:32px;
-    font-weight:700;
-    color:#1d3557;
+
+
+body{
+
+    font-family:
+    'Inter',
+    Arial,
+    sans-serif;
+
+
+    background:
+
+    linear-gradient(
+        180deg,
+        #eef5ff 0%,
+        #f8fafc 300px,
+        #f5f7fb 100%
+    );
+
+
+    color:#0f172a;
+
 }
+
+
+
+
+.container{
+
+    max-width:1320px;
+
+}
+
+
+
+
+/* =====================================================
+   NAVBAR SUPPORT
+   DO NOT CHANGE NAVBAR HTML
+===================================================== */
+
+
+#mainNav{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:1050;
+
+}
+
+
+
+
+/* =====================================================
+   PROMOTION
+===================================================== */
+
+
+.top-promo-banner{
+
+
+    background:
+
+    linear-gradient(
+        90deg,
+        #ffd54f,
+        #ffb300
+    );
+
+
+    border:none;
+
+
+    box-shadow:
+
+    0 5px 15px rgba(0,0,0,.08);
+
+}
+
+
+
+.top-promo-banner strong{
+
+    color:#b91c1c;
+
+}
+
+
+
+
+/* =====================================================
+   SEARCH AREA
+===================================================== */
+
+
+.booking-card{
+
+
+    background:white;
+
+
+    border-radius:28px;
+
+
+    padding:30px;
+
+
+    margin-top:35px;
+
+
+    border:
+
+    1px solid #e5edf7;
+
+
+
+    box-shadow:
+
+    0 18px 45px rgba(15,23,42,.08);
+
+
+}
+
+
+
+
+.booking-card form{
+
+    width:100%;
+
+}
+
+
+
+/* top pills */
+
+
+.widget-pill{
+
+
+    border:none;
+
+
+    background:#f8fafc;
+
+
+    border:
+
+    1px solid #e2e8f0;
+
+
+
+    padding:11px 20px;
+
+
+    border-radius:999px;
+
+
+    color:#334155;
+
+
+    font-weight:600;
+
+
+    transition:.25s;
+
+
+}
+
+
+
+.widget-pill:hover{
+
+
+    background:#eff6ff;
+
+
+    color:#0755e8;
+
+
+    border-color:#0755e8;
+
+
+}
+
+
+
+
+
+/* =====================================================
+   INPUT BOXES
+===================================================== */
+
+
+
+.input-picker{
+
+
+    height:75px;
+
+
+    background:#f8fafc;
+
+
+    border-radius:18px;
+
+
+    padding:12px 16px;
+
+
+    border:
+
+    1px solid #e2e8f0;
+
+
+    transition:.25s;
+
+
+}
+
+
+
+.input-picker:hover{
+
+
+    background:white;
+
+
+    border-color:#2563eb;
+
+
+    box-shadow:
+
+    0 8px 25px rgba(37,99,235,.10);
+
+
+}
+
+
+
+
+.input-picker label{
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    gap:7px;
+
+
+    color:#64748b;
+
+
+    font-size:12px;
+
+
+    font-weight:700;
+
+
+    margin-bottom:5px;
+
+
+}
+
+
+
+
+.input-picker input,
+.input-picker select{
+
+
+    width:100%;
+
+
+    border:none!important;
+
+
+    background:transparent!important;
+
+
+    box-shadow:none!important;
+
+
+    font-size:15px;
+
+
+    font-weight:700;
+
+
+    color:#111827;
+
+
+}
+
+
+
+
+.input-picker input:focus,
+.input-picker select:focus{
+
+
+    outline:none;
+
+
+}
+
+
+
+
+/* =====================================================
+   SEARCH BUTTON
+===================================================== */
+
+
+.btn-search-flights{
+
+
+    height:55px;
+
+
+    padding:
+
+    0 35px;
+
+
+    border:none;
+
+
+    border-radius:18px;
+
+
+    background:
+
+
+    linear-gradient(
+
+        135deg,
+
+        #0755e8,
+
+        #003bb8
+
+    );
+
+
+    color:white;
+
+
+    font-weight:700;
+
+
+    box-shadow:
+
+
+    0 12px 30px rgba(7,85,232,.30);
+
+
+    transition:.3s;
+
+
+}
+
+
+
+.btn-search-flights:hover{
+
+
+    transform:
+
+    translateY(-3px);
+
+
+    box-shadow:
+
+
+    0 18px 35px rgba(7,85,232,.35);
+
+
+}
+
+
+
+
+/* =====================================================
+   SEARCH LAYOUT DESKTOP
+===================================================== */
+
+
+.search-fields{
+
+
+    display:grid;
+
+
+    grid-template-columns:
+
+    repeat(5,1fr);
+
+
+    gap:15px;
+
+
+    align-items:center;
+
+
+}
+
+
+
+
+
+@media(max-width:992px){
+
+
+.search-fields{
+
+
+    grid-template-columns:
+
+    repeat(2,1fr);
+
+
+}
+
+
+
+}
+
+
+
+
+@media(max-width:576px){
+
+
+.search-fields{
+
+
+    grid-template-columns:1fr;
+
+
+}
+
+
+
+.booking-card{
+
+
+    padding:20px;
+
+
+}
+
+
+
+}
+
+/* =====================================================
+   SEARCH SUMMARY PREMIUM
+===================================================== */
+
+
+.search-summary{
+
+
+    display:flex;
+
+
+    justify-content:space-between;
+
+
+    align-items:center;
+
+
+    gap:30px;
+
+
+    background:
+
+
+    linear-gradient(
+
+        135deg,
+
+        #0755e8,
+
+        #003bb8
+
+    );
+
+
+    color:white;
+
+
+    border-radius:28px;
+
+
+    padding:30px 35px;
+
+
+    margin-top:30px;
+
+
+    margin-bottom:30px;
+
+
+    box-shadow:
+
+
+    0 20px 45px rgba(7,85,232,.25);
+
+
+}
+
+
+
+
+.route{
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    gap:15px;
+
+
+    font-size:38px;
+
+
+    font-weight:900;
+
+
+    letter-spacing:-1px;
+
+
+}
+
+
+
+
+
+.route i{
+
+
+    font-size:28px;
+
+
+    opacity:.8;
+
+
+}
+
+
+
+
+
+.summary-info{
+
+
+    display:flex;
+
+
+    flex-wrap:wrap;
+
+
+    gap:12px;
+
+
+    margin-top:20px;
+
+
+}
+
+
+
+
+
+.summary-info span{
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    gap:7px;
+
+
+    background:
+
+
+    rgba(255,255,255,.15);
+
+
+    border:
+
+
+    1px solid rgba(255,255,255,.25);
+
+
+    padding:8px 15px;
+
+
+    border-radius:999px;
+
+
+    font-size:14px;
+
+
+    font-weight:600;
+
+
+}
+
+
+
+
+
+.summary-right{
+
+
+    text-align:center;
+
+
+}
+
+
+
+.result-number{
+
+
+    font-size:55px;
+
+
+    line-height:1;
+
+
+    font-weight:900;
+
+
+}
+
+
+
+
+
+.result-text{
+
+
+    margin-top:10px;
+
+
+    opacity:.85;
+
+
+    font-weight:600;
+
+
+}
+
+
+
+
+
+
+/* =====================================================
+   FLIGHT RESULTS WRAPPER
+===================================================== */
+
+
+
+.flight-results{
+
+
+    background:white;
+
+
+    border-radius:30px;
+
+
+    padding:35px;
+
+
+    margin-bottom:50px;
+
+
+    box-shadow:
+
+
+    0 20px 55px rgba(15,23,42,.10);
+
+
+}
+
+
+
+
+
+.results-title{
+
+
+    font-size:26px;
+
+
+    font-weight:800;
+
+
+    color:#0f172a;
+
+
+    margin-bottom:25px;
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   FLIGHT CARD
+===================================================== */
+
+
 
 .flight-card{
 
-    background:#fff;
-    border-radius:18px;
-    padding:25px;
-    box-shadow:0 8px 25px rgba(0,0,0,.08);
-    transition:.3s;
+
+    background:white;
+
+
+    border-radius:24px;
+
+
+    padding:30px;
+
+
     margin-bottom:25px;
 
+
+    border:
+
+
+    1px solid #e8eef8;
+
+
+    transition:.3s;
+
+
 }
+
+
+
 
 .flight-card:hover{
 
-    transform:translateY(-4px);
 
-    box-shadow:0 15px 35px rgba(0,0,0,.12);
+    transform:translateY(-5px);
+
+
+    box-shadow:
+
+
+    0 18px 45px rgba(15,23,42,.12);
+
 
 }
 
-.airline-icon{
+
+
+
+
+
+
+
+/* =====================================================
+   AIRLINE HEADER
+===================================================== */
+
+
+.flight-header{
+
+
+    display:flex;
+
+
+    justify-content:space-between;
+
+
+    align-items:center;
+
+
+    padding-bottom:25px;
+
+
+    border-bottom:
+
+
+    1px solid #eef2f7;
+
+
+}
+
+
+
+
+
+.airline-info{
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    gap:18px;
+
+
+}
+
+
+
+
+
+.airline-logo{
+
 
     width:70px;
+
+
     height:70px;
-    border-radius:50%;
-    background:#eef4ff;
+
+
+    border-radius:18px;
+
+
+    background:#f8fafc;
+
+
+    border:
+
+
+    1px solid #e2e8f0;
+
+
     display:flex;
+
+
     justify-content:center;
+
+
     align-items:center;
-    font-size:34px;
-    color:#0d6efd;
+
 
 }
 
-.airline-name{
 
-    font-size:20px;
-    font-weight:700;
 
-}
 
-.flight-number{
+.airline-logo img{
 
-    color:#6c757d;
-    font-size:14px;
 
-}
+    width:48px;
 
-.time{
 
-    font-size:34px;
-    font-weight:bold;
-    color:#1d3557;
+    height:48px;
+
+
+    object-fit:contain;
+
 
 }
 
-.date{
 
-    color:#6c757d;
-    font-size:14px;
 
-}
 
-.route-arrow{
+.airline-logo i{
+
 
     font-size:28px;
-    color:#0d6efd;
+
+
+    color:#0755e8;
+
 
 }
 
-.city{
+
+
+
+
+.airline-info h5{
+
+
+    margin:0;
+
+
+    font-size:20px;
+
+
+    font-weight:800;
+
+
+}
+
+
+
+
+
+.airline-info p{
+
+
+    margin:5px 0 0;
+
+
+    color:#64748b;
+
+
+    font-size:14px;
+
+
+}
+
+
+
+
+
+.flight-price{
+
+
+    text-align:right;
+
+
+}
+
+
+
+
+.flight-price small{
+
+
+    display:block;
+
+
+    color:#64748b;
+
+
+    font-size:13px;
+
+
+}
+
+
+
+
+.flight-price h2{
+
+
+    margin:5px 0 0;
+
+
+    font-size:38px;
+
+
+    font-weight:900;
+
+
+    color:#059669;
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   ROUTE SECTION
+===================================================== */
+
+
+.flight-route{
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    justify-content:center;
+
+
+    gap:40px;
+
+
+    padding:40px 0;
+
+
+}
+
+
+
+
+
+.airport-box{
+
+
+    min-width:140px;
+
+
+    text-align:center;
+
+
+}
+
+
+
+
+.airport-box h1{
+
+
+    margin:0;
+
+
+    font-size:38px;
+
+
+    font-weight:900;
+
+
+    color:#111827;
+
+
+}
+
+
+
+
+.airport-box p{
+
+
+    margin-top:8px;
+
+
+    color:#64748b;
+
 
     font-weight:600;
+
+
+}
+
+
+
+
+
+/* =====================================================
+   CENTER FLIGHT LINE
+===================================================== */
+
+
+.route-center{
+
+
+    flex:1;
+
+
+    max-width:380px;
+
+
+}
+
+
+
+
+
+.direct-label{
+
+
+    text-align:center;
+
+
+    color:#64748b;
+
+
+    font-size:13px;
+
+
+    font-weight:800;
+
+
+    margin-bottom:18px;
+
+
+}
+
+
+
+
+
+
+.route-line{
+
+
+    height:3px;
+
+
+    background:
+
+
+    linear-gradient(
+
+        90deg,
+
+        #0755e8,
+
+        #93c5fd,
+
+        #0755e8
+
+    );
+
+
+    position:relative;
+
+
+}
+
+
+
+
+
+.route-dot{
+
+
+    position:absolute;
+
+
+    width:12px;
+
+
+    height:12px;
+
+
+    border-radius:50%;
+
+
+    background:#0755e8;
+
+
+    top:-4px;
+
+
+}
+
+
+
+
+
+.route-dot.left{
+
+
+    left:0;
+
+
+}
+
+
+
+.route-dot.right{
+
+
+    right:0;
+
+
+}
+
+
+
+
+
+
+
+.route-plane{
+
+
+    position:absolute;
+
+
+    left:50%;
+
+
+    top:50%;
+
+
+    transform:
+
+
+    translate(-50%,-50%);
+
+
+    width:42px;
+
+
+    height:42px;
+
+
+    background:white;
+
+
+    border:
+
+
+    2px solid #dbeafe;
+
+
+    border-radius:50%;
+
+
+    display:flex;
+
+
+    justify-content:center;
+
+
+    align-items:center;
+
+
+    box-shadow:
+
+
+    0 8px 25px rgba(7,85,232,.2);
+
+
+}
+
+
+
+
+
+.route-plane i{
+
+
+    color:#0755e8;
+
+
     font-size:18px;
 
-}
 
-.price{
+    transform:rotate(90deg);
 
-    font-size:30px;
-    font-weight:bold;
-    color:#0d6efd;
 
 }
 
-.badge-seat{
 
-    background:#d1f7d6;
-    color:#198754;
-    padding:8px 14px;
-    border-radius:30px;
+
+
+
+
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+
+.flight-footer{
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    justify-content:space-between;
+
+
+    gap:20px;
+
+
+    padding-top:22px;
+
+
+    border-top:
+
+
+    1px solid #eef2f7;
+
+
+}
+
+
+
+
+
+.flight-date{
+
+
+    display:flex;
+
+
+    gap:8px;
+
+
+    align-items:center;
+
+
+    color:#64748b;
+
+
     font-weight:600;
 
-}
-
-.btn-detail{
-
-    border-radius:12px;
-    padding:12px 22px;
 
 }
 
-@media(max-width:768px){
 
-.time{
 
-font-size:28px;
+
+
+.seat-badge{
+
+
+    background:#ecfdf5;
+
+
+    color:#047857;
+
+
+    padding:10px 18px;
+
+
+    border-radius:999px;
+
+
+    font-weight:700;
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    gap:8px;
+
 
 }
 
-.airline-icon{
 
-margin-bottom:15px;
+
+
+
+
+
+.view-btn{
+
+
+    background:
+
+
+    linear-gradient(
+
+        135deg,
+
+        #0755e8,
+
+        #003bb8
+
+    );
+
+
+    color:white;
+
+
+    padding:13px 30px;
+
+
+    border-radius:999px;
+
+
+    text-decoration:none;
+
+
+    font-weight:700;
+
+
+    transition:.3s;
+
 
 }
 
+
+
+
+
+.view-btn:hover{
+
+
+    color:white;
+
+
+    transform:translateY(-3px);
+
+
 }
 
-/* Ensure Top Promotion Banner stays on top */
-.top-promo-banner {
-    background: linear-gradient(90deg, #ffed4a 0%, #ffc107 100%);
-    position: relative;
-    z-index: 1060; 
+
+
+
+
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+
+@media(max-width:992px){
+
+
+.search-summary{
+
+
+    flex-direction:column;
+
+
+    align-items:flex-start;
+
+
 }
 
-/* Push the fixed navbar down when the banner is visible */
-body:has(.top-promo-banner.show) #mainNav {
-    top: 40px; /* Adjust according to banner height */
-    transition: top 0.3s ease;
+
+
+.flight-header{
+
+
+    flex-direction:column;
+
+
+    align-items:flex-start;
+
+
+    gap:20px;
+
+
 }
 
-/* Reset navbar position when banner is closed */
-body:has(.top-promo-banner:not(.show)) #mainNav {
-    top: 0;
-    transition: top 0.3s ease;
+
+
+
+.flight-price{
+
+
+    text-align:left;
+
+
 }
 
-/* Styling for Top Promotion Banner */
-.top-promo-banner {
-    background: linear-gradient(90deg, #ffed4a 0%, #ffc107 100%);
+
+
+
+.flight-route{
+
+
+    flex-direction:column;
+
+
 }
+
+
+
+.route-center{
+
+
+    width:100%;
+
+
+}
+
+
+
+
+.flight-footer{
+
+
+    flex-direction:column;
+
+
+    align-items:flex-start;
+
+
+}
+
+
+
+
+}
+
+
+
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+
+@media(max-width:576px){
+
+
+
+.route{
+
+
+    font-size:26px;
+
+
+}
+
+
+
+.summary-right{
+
+
+    width:100%;
+
+
+    text-align:left;
+
+
+}
+
+
+
+.result-number{
+
+
+    font-size:42px;
+
+
+}
+
+
+
+
+.flight-results{
+
+
+    padding:20px;
+
+
+}
+
+
+
+.flight-card{
+
+
+    padding:20px;
+
+
+}
+
+
+
+
+.airline-logo{
+
+
+    width:60px;
+
+
+    height:60px;
+
+
+}
+
+
+
+.airline-logo img{
+
+
+    width:40px;
+
+
+    height:40px;
+
+
+}
+
+
+
+.airport-box h1{
+
+
+    font-size:30px;
+
+
+}
+
+
+
+.flight-price h2{
+
+
+    font-size:32px;
+
+
+}
+
+
+
+.view-btn{
+
+
+    width:100%;
+
+
+    text-align:center;
+
+
+}
+
+
+
+.seat-badge{
+
+
+    width:100%;
+
+
+    justify-content:center;
+
+
+}
+
+
+
+}
+
+/* =====================================================
+   FINAL PREMIUM TOUCHES
+===================================================== */
+
+
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+
+
+
+button,
+a,
+input,
+select{
+
+    transition:
+
+    all .25s ease;
+
+}
+
+
+
+
+
+
+/* remove bootstrap alert extra spacing */
+
+
+.alert{
+
+    margin-bottom:0;
+
+}
+
+
+
+
+
+
+/* =====================================================
+   FLIGHT CARD DETAILS
+===================================================== */
+
+
+
+.flight-card strong{
+
+
+    color:#0f172a;
+
+
+}
+
+
+
+
+.flight-card:hover .airline-logo{
+
+
+    background:#eff6ff;
+
+
+    border-color:#bfdbfe;
+
+
+}
+
+
+
+
+
+
+.flight-card:hover .route-plane{
+
+
+    box-shadow:
+
+
+    0 10px 30px rgba(7,85,232,.35);
+
+
+}
+
+
+
+
+
+
+/* =====================================================
+   SEARCH IMPROVEMENT
+===================================================== */
+
+
+
+.booking-card:hover{
+
+
+    box-shadow:
+
+
+    0 25px 60px rgba(15,23,42,.12);
+
+
+}
+
+
+
+
+.search-summary{
+
+
+    animation:
+
+
+    fadeUp .5s ease;
+
+
+}
+
+
+
+.flight-card{
+
+
+    animation:
+
+
+    fadeUp .45s ease;
+
+
+}
+
+
+
+
+
+
+@keyframes fadeUp{
+
+
+from{
+
+
+    opacity:0;
+
+
+    transform:translateY(15px);
+
+
+}
+
+
+
+to{
+
+
+    opacity:1;
+
+
+    transform:translateY(0);
+
+
+}
+
+
+
+}
+
+
+
+
+
+
+/* =====================================================
+   DESKTOP ALIGNMENT
+===================================================== */
+
+
+@media(min-width:1200px){
+
+
+
+.flight-route{
+
+
+    padding-left:30px;
+
+
+    padding-right:30px;
+
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+/* =====================================================
+   SMALL MOBILE FIXES
+===================================================== */
+
+
+@media(max-width:480px){
+
+
+
+.widget-pill{
+
+
+    padding:
+
+
+    10px 14px;
+
+
+    font-size:14px;
+
+
+}
+
+
+
+
+.booking-card{
+
+
+    margin-top:20px;
+
+
+}
+
+
+
+.search-summary{
+
+
+    padding:25px;
+
+
+}
+
+
+
+.route{
+
+
+    flex-wrap:wrap;
+
+
+}
+
+
+
+
+.flight-header{
+
+
+    width:100%;
+
+
+}
+
+
+
+.airline-info{
+
+
+    width:100%;
+
+
+}
+
+
+
+.flight-price{
+
+
+    width:100%;
+
+
+}
+
+
+
+}
+
+
 
 </style>
 
+
 </head>
 
+
+
 <body>
-<!-- TOP PROMOTION BANNER -->
-    <div class="alert alert-warning alert-dismissible fade show m-0 text-center rounded-0 border-0 py-2 top-promo-banner" role="alert">
-        <div class="container d-flex align-items-center justify-content-center gap-2">
-            <span class="badge bg-danger text-white fw-bold px-2 py-1">
-                <i class="bi bi-fire me-1"></i>PROMOTION
-            </span>
-            <span class="small fw-semibold text-dark">
-                Special Offer! August Promotion Get 30% OFF on your first flight booking. Use Code: <strong>MAUBIN30</strong>
-            </span>
-        </div>
-        <button type="button" class="btn-close py-2" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-<div th:replace="~{Fragments/header :: navbar}"></div>
 
-<div class="container py-5">
-    
-<div class="d-flex justify-content-between align-items-center mb-4">
 
-<h2 class="page-title">
-Available Flights
-</h2>
-<!-- Hello -->
-<a th:href="@{/airline/search}"
-class="btn btn-outline-primary">
-<i class="bi bi-search"></i>
-New Search
-</a>
+
+
+
+<!-- =====================================================
+     PROMOTION BANNER
+===================================================== -->
+
+
+<div class="alert alert-warning alert-dismissible fade show 
+m-0 text-center rounded-0 py-2 top-promo-banner"
+role="alert">
+
+
+<div class="container d-flex 
+justify-content-center align-items-center gap-2">
+
+
+<span class="badge bg-danger">
+
+
+<i class="bi bi-fire"></i>
+
+PROMOTION
+
+
+</span>
+
+
+
+<span class="fw-semibold small">
+
+
+Special Offer!
+August Promotion Get 30% OFF.
+Use Code:
+
+<strong>
+MAUBIN30
+</strong>
+
+
+</span>
+
+
 
 </div>
+
+
+
+<button type="button"
+class="btn-close"
+data-bs-dismiss="alert">
+
+</button>
+
+
+</div>
+
+
+
+
+
+<!-- =====================================================
+     ORIGINAL NAVBAR
+     DO NOT MODIFY
+===================================================== -->
+
+
+<div th:replace="~{Fragments/header :: navbar}"></div>
+
+
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+
+<div class="container">
+
+
+
+
+
+<!-- =====================================================
+     SEARCH FLIGHT
+===================================================== -->
+
+
+<section id="booking">
+
+
+<div class="booking-card">
+
+
+
+<form action="/airline/search"
+method="get">
+
+
+
+
+
+<div class="d-flex gap-3 mb-4">
+
+
+<button type="button"
+class="widget-pill">
+
+
+<i class="bi bi-airplane"></i>
+
+Flights
+
+
+</button>
+
+
+
+
+<button type="button"
+class="widget-pill">
+
+
+<i class="bi bi-people"></i>
+
+Travelers
+
+
+</button>
+
+
+
+
+
+<button type="button"
+class="widget-pill">
+
+
+<i class="bi bi-chair"></i>
+
+Seat Class
+
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+<div class="search-fields">
+
+
+
+
+
+<div class="input-picker">
+
+
+<label>
+
+<i class="bi bi-geo-alt-fill"></i>
+
+From
+
+</label>
+
+
+
+<select name="departureCity"
+class="form-select"
+required>
+
+
+<option value="">
+
+Select departure
+
+</option>
+
+
+
+<option th:each="airport:${airports}"
+th:value="${airport.city}"
+th:text="${airport.city + ' (' + airport.airportCode + ')'}">
+
+</option>
+
+
+</select>
+
+
+</div>
+
+
+
+
+
+<div class="input-picker">
+
+
+<label>
+
+<i class="bi bi-geo-alt-fill"></i>
+
+To
+
+</label>
+
+
+
+<select name="arrivalCity"
+class="form-select"
+required>
+
+
+<option value="">
+
+Select destination
+
+</option>
+
+
+
+<option th:each="airport:${airports}"
+th:value="${airport.city}"
+th:text="${airport.city + ' (' + airport.airportCode + ')'}">
+
+</option>
+
+
+</select>
+
+
+</div>
+
+
+
+
+
+<div class="input-picker">
+
+
+<label>
+
+<i class="bi bi-calendar-event"></i>
+
+Departure
+
+</label>
+
+
+
+<input type="date"
+name="departureDate"
+id="departureDate"
+th:min="${#temporals.format(#temporals.createNow(),'yyyy-MM-dd')}">
+
+
+</div>
+
+
+
+
+
+<div class="input-picker">
+
+
+<label>
+
+<i class="bi bi-person"></i>
+
+Passengers
+
+</label>
+
+
+
+<input type="number"
+name="passengers"
+value="1"
+min="1"
+max="50"
+required>
+
+
+</div>
+
+
+
+
+
+<div class="input-picker">
+
+
+<label>
+
+<i class="bi bi-chair"></i>
+
+Seat Class
+
+</label>
+
+
+
+<select name="seatClass"
+class="form-select">
+
+
+<option value="">
+Select Seat Class
+</option>
+
+
+<option value="Economy">
+Economy
+</option>
+
+
+<option value="Business">
+Business
+</option>
+
+
+<option value="First">
+First Class
+</option>
+
+
+</select>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+<div class="text-end mt-4">
+
+
+<button class="btn-search-flights">
+
+
+<i class="bi bi-search"></i>
+
+Search Flights
+
+
+</button>
+
+
+</div>
+
+
+
+
+</form>
+
+
+</div>
+
+
+</section>
+
+<!-- =====================================================
+     SEARCH SUMMARY
+===================================================== -->
+
+
+<div th:if="${!#lists.isEmpty(flightPlans)}"
+     class="search-summary">
+
+
+
+<div class="summary-left">
+
+
+
+<div class="route">
+
+
+<span th:text="${flightPlans[0].departureAirport.city}">
+</span>
+
+
+
+<i class="bi bi-arrow-right"></i>
+
+
+
+<span th:text="${flightPlans[0].arrivalAirport.city}">
+</span>
+
+
+
+</div>
+
+
+
+
+
+<div class="summary-info">
+
+
+
+<span>
+
+<i class="bi bi-calendar-event"></i>
+
+
+<span th:text="${#temporals.format(
+flightPlans[0].departureTime,
+'dd MMM yyyy')}">
+</span>
+
+
+</span>
+
+
+
+
+
+<span>
+
+<i class="bi bi-people"></i>
+
+
+<span th:text="${passengers}">
+</span>
+
+
+Passenger<span th:if="${passengers > 1}">
+s
+</span>
+
+
+</span>
+
+
+
+
+
+<span>
+
+<i class="bi bi-ticket-perforated"></i>
+
+
+<span th:text="${seatClass}">
+</span>
+
+
+</span>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="summary-right">
+
+
+<div class="result-number">
+
+
+<span th:text="${#lists.size(flightPlans)}">
+</span>
+
+
+</div>
+
+
+
+<div class="result-text">
+
+
+Flights Found
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- =====================================================
+     NO RESULT
+===================================================== -->
+
 
 <div th:if="${#lists.isEmpty(flightPlans)}">
 
-<div class="alert alert-warning">
 
-<h5>No flights found.</h5>
+<div class="alert alert-warning rounded-4 mt-4">
 
-<p>Please try another route or date.</p>
+
+<h5>
+No flights found.
+</h5>
+
+
+<p class="mb-0">
+
+Please try another route or date.
+
+</p>
+
 
 </div>
 
+
 </div>
+
+
+
+
+
+
+
+
+<!-- =====================================================
+     FLIGHT RESULT AREA
+===================================================== -->
+
+
+<div class="flight-results"
+     th:if="${!#lists.isEmpty(flightPlans)}">
+
+
+
+
+
+<h2 class="results-title">
+
+Available Flights
+
+</h2>
+
+
+
+
+
+
+<!-- =====================================================
+     FLIGHT CARD
+===================================================== -->
+
 
 <div class="flight-card"
-th:each="flightPlan : ${flightPlans}">
+     th:each="flightPlan:${flightPlans}">
 
-<div class="row align-items-center">
 
-<!-- Airline -->
 
-<div class="col-lg-2 text-center">
 
-<div class="airline-icon mx-auto">
 
-<i class="bi bi-airplane-fill"></i>
+<!-- ===============================
+     AIRLINE HEADER
+================================ -->
 
-</div>
 
-<div class="airline-name mt-3"
-th:text="${flightPlan.flight.airline.airlineName}">
-</div>
+<div class="flight-header">
 
-<div class="flight-number"
-th:text="${flightPlan.flight.flightNumber}">
-</div>
 
-</div>
 
-<!-- Route -->
+<div class="airline-info">
 
-<div class="col-lg-5">
 
-<div class="row text-center align-items-center">
 
-<div class="col">
+<div class="airline-logo">
 
-<div class="time"
-th:text="${#temporals.format(flightPlan.departureTime,'HH:mm')}">
-</div>
 
-<div class="date"
-th:text="${#temporals.format(flightPlan.departureTime,'yyyy-MM-dd')}">
-</div>
 
-<div class="city"
-th:text="${flightPlan.departureAirport.city}">
-</div>
+<img th:if="${flightPlan.flight.airline.logo != null}"
+
+th:src="@{'/photos/' + ${flightPlan.flight.airline.logo}}"
+
+th:alt="${flightPlan.flight.airline.airlineName}">
+
+
+
+
+
+<i th:unless="${flightPlan.flight.airline.logo != null}"
+
+class="bi bi-airplane-fill">
+
+</i>
+
+
 
 </div>
 
-<div class="col-2">
 
-<i class="bi bi-arrow-right route-arrow"></i>
+
+
+
+<div>
+
+
+<h5 th:text="${flightPlan.flight.airline.airlineName}">
+
+</h5>
+
+
+
+<p>
+
+
+Flight
+
+<strong th:text="${flightPlan.flight.flightNumber}">
+</strong>
+
+
+</p>
+
+
 
 </div>
 
-<div class="col">
 
-<div class="time"
-th:text="${#temporals.format(flightPlan.arrivalTime,'HH:mm')}">
-</div>
 
-<div class="date"
-th:text="${#temporals.format(flightPlan.arrivalTime,'yyyy-MM-dd')}">
-</div>
-
-<div class="city"
-th:text="${flightPlan.arrivalAirport.city}">
-</div>
 
 </div>
 
-</div>
 
-</div>
 
-<!-- Price -->
 
-<div class="col-lg-2 text-center">
 
-<div class="price">
+
+
+<!-- PRICE -->
+
+
+<div class="flight-price">
+
+
+<small>
+Starting from
+</small>
+
+
+
+<h2>
+
 
 $
 
 <span th:text="${flightPlan.price}">
 </span>
 
+
+</h2>
+
+
+
 </div>
 
-<div class="mt-2">
 
-<span class="badge-seat">
 
-<i class="bi bi-person-check-fill"></i>
+</div>
 
-<span th:text="${flightPlan.availableSeats}">
+
+
+
+
+
+
+
+
+<!-- ===============================
+     FLIGHT ROUTE
+================================ -->
+
+
+<div class="flight-route">
+
+
+
+
+
+
+<!-- DEPARTURE -->
+
+
+<div class="airport-box">
+
+
+<h1 th:text="${#temporals.format(
+flightPlan.departureTime,
+'HH:mm')}">
+
+</h1>
+
+
+
+<p th:text="${flightPlan.departureAirport.city}">
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- CENTER LINE -->
+
+
+<div class="route-center">
+
+
+
+<div class="direct-label">
+
+Direct
+
+</div>
+
+
+
+
+<div class="route-line">
+
+
+
+<span class="route-dot left">
 </span>
 
-Seats Left
+
+
+
+
+<div class="route-plane">
+
+
+<i class="bi bi-airplane-fill">
+
+</i>
+
+
+</div>
+
+
+
+
+
+<span class="route-dot right">
+</span>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ARRIVAL -->
+
+
+<div class="airport-box">
+
+
+<h1 th:text="${#temporals.format(
+flightPlan.arrivalTime,
+'HH:mm')}">
+
+</h1>
+
+
+
+<p th:text="${flightPlan.arrivalAirport.city}">
+
+</p>
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- ===============================
+     FOOTER
+================================ -->
+
+
+<div class="flight-footer">
+
+
+
+
+
+<div class="flight-date">
+
+
+<i class="bi bi-calendar3"></i>
+
+
+
+<span th:text="${#temporals.format(
+flightPlan.departureTime,
+'dd MMM yyyy')}">
 
 </span>
 
-</div>
+
+			</div>
+				<div class="seat-badge">
+
+				<i class="bi bi-person-check-fill"></i>
+				<span th:text="${flightPlan.availableSeats}"></span>
+				Seats Available
+				</div>
+
+				<a class="view-btn"
+					th:href="@{/airline/flight/{id}
+					(id=${flightPlan.flightPlanId},
+					passengers=${passengers},
+					seatClass=${seatClass})}">
+
+						View Details
+					<i class="bi bi-arrow-right"></i>
+				</a>
+			</div>
+		</div>
+	</div>
 
 </div>
 
-<!-- Button -->
-
-<div class="col-lg-3 text-center">
-
-<a class="btn btn-primary btn-detail"
-
-th:href="@{/airline/flight/{id}(id=${flightPlan.flightPlanId},passengers=${passengers},
-seatClass=${seatClass})}">
-
-View Details
-
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
 
 </body>
 
