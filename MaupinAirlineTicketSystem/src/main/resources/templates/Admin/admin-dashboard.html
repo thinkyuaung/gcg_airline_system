@@ -17,9 +17,10 @@
 
 <body>
 
+<!-- Shared Header Fragment -->
+<div th:replace="~{Fragments/header :: navbar}"></div>
 
 
-<div th:replace="~{fragments/header :: header}"></div>
 
 
 
@@ -59,10 +60,10 @@ Add User
 Add Admin
 </a>
 
-<a th:href="@{/airline/logout}" class="btn btn-outline-danger btn-sm rounded-3">
+<!-- <a th:href="@{/airline/logout}" class="btn btn-outline-danger btn-sm rounded-3">
 <i class="bi bi-box-arrow-right me-1"></i>
 Logout
-</a>
+</a> -->
 
 
 </div>
@@ -309,19 +310,16 @@ Action
 <td>
 
 
-<span th:if="${user.role=='ADMIN'}"
-class="badge bg-dark">
-
-ADMIN
-
+<span th:if="${user.role == 'SUPERADMIN'}" class="badge bg-dark">
+SUPERADMIN
 </span>
 
+<span th:if="${user.role == 'ADMIN'}" class="badge bg-primary">
+ADMIN
+</span>
 
-<span th:if="${user.role=='USER'}"
-class="badge bg-primary">
-
+<span th:if="${user.role == 'USER'}" class="badge bg-success">
 USER
-
 </span>
 
 
