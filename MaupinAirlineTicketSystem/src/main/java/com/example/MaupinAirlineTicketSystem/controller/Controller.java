@@ -541,5 +541,19 @@ public class Controller {
 
 		return "redirect:/airline/";
 	}
+	//footer link///
+	
+	@GetMapping("/GeneralFAQ")
+    public String generalFAQ() {
+        return "GeneralFAQ";
+    }
+	@GetMapping("/privacy-policy")
+    public String privacyPolicy() {
+        return "PrivacyPolicy";
+    }
+	@GetMapping("/terms")
+    public String terms() {
+        return "terms";
+    }
 
 }

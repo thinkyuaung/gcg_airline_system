@@ -12,9 +12,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
     <!-- Custom Main CSS File -->
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">   
     <link rel="stylesheet" th:href="@{/css/flight.css}">
-    
 </head>
 <body class="d-flex flex-column min-vh-100 bg-light">
 
@@ -24,13 +23,10 @@
     <!-- 🚀 Hero Banner Section -->
     <div class="hero-banner text-center">
         <div class="container py-3">
-            <h1 class="fw-bold display-5 mb-2">
-    Explore Available Flights
-</h1>
-
-<p class="lead opacity-90">
-    Search flights by airline and departure date to discover your next journey
-</p>
+            <h1 class="fw-bold display-5 mb-2">Explore Available Flights</h1>
+            <p class="lead opacity-90">
+                Search flights by airline and departure date to discover your next journey
+            </p>
         </div>
     </div>
 
@@ -38,58 +34,33 @@
     <div class="container mb-5">
         <div class="search-card-glass p-4 p-md-4">
             <form th:action="@{/airline/flights}" method="get">
+                <div class="row g-3 align-items-end">
+                    <!-- Airline -->
+                    <div class="col-md-4">
+                        <label class="form-label">Airline</label>
+                        <select class="form-select rounded-pill" name="airlineId">
+                            <option value="">All Airlines</option>
+                            <option th:each="airline : ${airlines}"
+                                    th:value="${airline.airlineId}"
+                                    th:text="${airline.airlineName}">
+                            </option>
+                        </select>
+                    </div>
 
-<div class="row g-3 align-items-end">
+                    <!-- Departure Date -->
+                    <div class="col-md-4">
+                        <label class="form-label">Departure Date</label>
+                        <input type="date" name="departDate" class="form-control rounded-pill">
+                    </div>
 
-    <!-- Airline -->
-    <div class="col-md-4">
-
-        <label class="form-label">
-            Airline
-        </label>
-
-        <select class="form-select rounded-pill" name="airlineId">
-
-            <option value="">All Airlines</option>
-
-            <option th:each="airline : ${airlines}"
-                    th:value="${airline.airlineId}"
-                    th:text="${airline.airlineName}">
-            </option>
-
-        </select>
-
-    </div>
-
-    <!-- Departure Date -->
-    <div class="col-md-4">
-
-        <label class="form-label">
-            Departure Date
-        </label>
-
-        <input type="date"
-               name="departDate"
-               class="form-control rounded-pill">
-
-    </div>
-
-    <!-- Search -->
-    <div class="col-md-4">
-
-        <button class="btn btn-primary rounded-pill w-100">
-
-            <i class="bi bi-search"></i>
-
-            Find Flights
-
-        </button>
-
-    </div>
-
-</div>
-
-</form>
+                    <!-- Search -->
+                    <div class="col-md-4">
+                        <button class="btn btn-primary rounded-pill w-100">
+                            <i class="bi bi-search"></i> Find Flights
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -97,114 +68,65 @@
     <div class="container my-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
-               <h3 class="fw-bold m-0 text-dark">
-    Flight Schedule
-</h3>
-
-<p class="text-secondary small m-0">
-    Browse available routes and choose your preferred flight
-</p>
+                <h3 class="fw-bold m-0 text-dark">Flight Schedule</h3>
+                <p class="text-secondary small m-0">Browse available routes and choose your preferred flight</p>
             </div>
-            <a th:href="@{/airline/flights}" class="btn btn-link text-decoration-none fw-bold text-primary">View All <i class="bi bi-arrow-right ms-1"></i></a>
+            <a th:href="@{/airline/flights}" class="btn btn-link text-decoration-none fw-bold text-primary">
+                View All <i class="bi bi-arrow-right ms-1"></i>
+            </a>
         </div>
 
         <div class="row g-4">
+            <div class="col-md-6 col-lg-4" th:each="flight : ${flights}">
+                <div class="card flight-card p-3">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="badge bg-primary-subtle text-primary rounded-pill">
+                            <span th:text="${flight.departureAirport.city}"></span>
+                            →
+                            <span th:text="${flight.arrivalAirport.city}"></span>
+                        </span>
+                        <span class="fw-bold fs-5 text-success">
+                            $<span th:text="${flight.price}"></span>
+                        </span>
+                    </div>
 
-<div class="col-md-6 col-lg-4"
-     th:each="flight : ${flights}">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h5 th:text="${#temporals.format(flight.departureTime,'HH:mm')}"></h5>
+                            <small th:text="${flight.departureAirport.airportCode}"></small>
+                        </div>
+                        <div class="text-center">
+                            <i class="bi bi-airplane"></i>
+                        </div>
+                        <div class="text-end">
+                            <h5 th:text="${#temporals.format(flight.arrivalTime,'HH:mm')}"></h5>
+                            <small th:text="${flight.arrivalAirport.airportCode}"></small>
+                        </div>
+                    </div>
 
-<div class="card flight-card p-3">
+                    <hr>
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
-
-        <span class="badge bg-primary-subtle text-primary rounded-pill">
-
-            <span th:text="${flight.departureAirport.city}"></span>
-
-            →
-
-            <span th:text="${flight.arrivalAirport.city}"></span>
-
-        </span>
-
-        <span class="fw-bold fs-5 text-success">
-
-            $
-
-            <span th:text="${flight.price}"></span>
-
-        </span>
-
-    </div>
-
-
-    <div class="d-flex justify-content-between">
-
-        <div>
-
-            <h5 th:text="${#temporals.format(flight.departureTime,'HH:mm')}"></h5>
-
-            <small th:text="${flight.departureAirport.airportCode}"></small>
-
+                    <div class="d-flex justify-content-between">
+                        <small>
+                            <i class="bi bi-building"></i>
+                            <span th:text="${flight.flight.airline.airlineName}"></span>
+                        </small>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="text-center">
-
-            <i class="bi bi-airplane"></i>
-
+        <!-- Empty State -->
+        <div class="text-center py-5" th:if="${#lists.isEmpty(flights)}">
+            <i class="bi bi-search fs-1 text-secondary"></i>
+            <h4>No Flights Available</h4>
+            <p>
+                We couldn't find flights matching your search.
+                Please try another airline or departure date.
+            </p>
         </div>
+    </div> <!-- FIXED: Closed container my-4 div here -->
 
-        <div class="text-end">
-
-            <h5 th:text="${#temporals.format(flight.arrivalTime,'HH:mm')}"></h5>
-
-            <small th:text="${flight.arrivalAirport.airportCode}"></small>
-
-        </div>
-
-    </div>
-
-    <hr>
-
-    <div class="d-flex justify-content-between">
-
-        <small>
-
-            <i class="bi bi-building"></i>
-
-            <span th:text="${flight.flight.airline.airlineName}"></span>
-
-        </small>
-
-       <!--  <a class="btn btn-outline-primary btn-sm rounded-pill"
-
-           th:href="@{/airline/flight/{id}(id=${flight.flightPlanId})}">
-
-           View Flight
-
-        </a> -->
-
-    </div>
-
-</div>
-
-</div>
-
-</div>
-           <div class="text-center py-5"
-     th:if="${#lists.isEmpty(flights)}">
-
-    <i class="bi bi-search fs-1 text-secondary"></i>
-
-   <h4>No Flights Available</h4>
-
-<p>
-    We couldn't find flights matching your search.
-    Please try another airline or departure date.
-</p>
-
-</div>
-     
     <!-- 🌟 Why Choose Us Section -->
     <div class="bg-white py-5 my-5 border-top border-bottom">
         <div class="container">
@@ -244,57 +166,11 @@
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="text-white pt-5 pb-4 mt-auto" style="background-color: #0a0f1d;">
-        <div class="container pt-3">
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-6">
-                    <div class="d-flex align-items-center gap-2 mb-3">
-                        <span class="bg-primary text-white p-2 rounded-3 d-inline-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
-                            <i class="bi bi-airplane-fill fs-6"></i>
-                        </span>
-                        <h4 class="m-0 fw-bold text-white">Maubin AirLine</h4>
-                    </div>
-                    <p class="text-secondary small pe-lg-4" style="color: #94a3b8 !important;">
-                        Crafting extraordinary journeys for extraordinary people. Your dream destination awaits.
-                    </p>
-                </div>
+    <!-- 🌐 Footer Section -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
-                <div class="col-lg-2 col-md-6 col-6">
-                    <h6 class="text-uppercase fw-bold mb-3 small tracking-wider" style="letter-spacing: 1px; color: #cbd5e1;">TRAVEL</h6>
-                    <ul class="list-unstyled d-flex flex-column gap-2 small">
-                        <li><a th:href="@{/airline/flights}" class="text-decoration-none" style="color: #94a3b8;">Flights</a></li>
-                        <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Hotels</a></li>
-                        <li><a th:href="@{/airline/packages}" class="text-decoration-none" style="color: #94a3b8;">Packages</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-2 col-md-6 col-6">
-                    <h6 class="text-uppercase fw-bold mb-3 small tracking-wider" style="letter-spacing: 1px; color: #cbd5e1;">COMPANY</h6>
-                    <ul class="list-unstyled d-flex flex-column gap-2 small">
-                        <li><a th:href="@{/airline/about}" class="text-decoration-none" style="color: #94a3b8;">About Us</a></li>
-                        <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Careers</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <h6 class="text-uppercase fw-bold mb-3 small tracking-wider" style="letter-spacing: 1px; color: #cbd5e1;">EXTRA LINKS</h6>
-                    <ul class="list-unstyled d-flex flex-column gap-2 small">
-                        <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Privacy Policy</a></li>
-                        <li><a th:href="@{/airline/support}" class="text-decoration-none" style="color: #94a3b8;">Support</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <hr class="my-4" style="border-color: #1e293b;">
-
-            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center small" style="color: #64748b;">
-                <p class="m-0">&copy; 2026 Maubin AirLine. All rights reserved.</p>
-                <p class="m-0 fw-semibold italic" style="color: #0ea5e9; font-style: italic;">Fly Far. Pay Less. Travel Better.</p>
-            </div>
-        </div>
-    </footer>
-
+    <!-- Bootstrap Bundle JS (FIXED: Moved inside body) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
