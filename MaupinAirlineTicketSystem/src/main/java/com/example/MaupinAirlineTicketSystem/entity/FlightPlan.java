@@ -47,6 +47,10 @@ public class FlightPlan {
 	private int businessSeats;
 	
 	private int firseClassSeats;
+	
+	@ManyToOne
+	@JoinColumn(name="promotion_id")
+	private Promotion promotion;
 
 	@DecimalMin(value = "5.0", message = "Price must be greater than 5 dollars")
 	private double price;
@@ -71,9 +75,16 @@ public class FlightPlan {
 
 	
 
-	public FlightPlan(int flightPlanId, LocalDateTime departureTime, LocalDateTime arrivalTime, Date flight_date,
-			int availableSeats, int ecomonySeats, int businessSeats, int firseClassSeats, double price, Flight flight,
-			Airport departureAirport, Airport arrivalAirport) {
+	
+
+	public FlightPlan(int flightPlanId, @NotNull(message = "Departure time is required") LocalDateTime departureTime,
+			@NotNull(message = "Arrival time is required") LocalDateTime arrivalTime,
+			@NotNull(message = "Flight date is required") Date flight_date, int availableSeats, int ecomonySeats,
+			int businessSeats, int firseClassSeats, Promotion promotion,
+			@DecimalMin(value = "5.0", message = "Price must be greater than 5 dollars") double price,
+			@NotNull(message = "Please select a flight") Flight flight,
+			@NotNull(message = "Please select a departure airport") Airport departureAirport,
+			@NotNull(message = "Please select an arrival airport") Airport arrivalAirport) {
 		super();
 		this.flightPlanId = flightPlanId;
 		this.departureTime = departureTime;
@@ -83,6 +94,7 @@ public class FlightPlan {
 		this.ecomonySeats = ecomonySeats;
 		this.businessSeats = businessSeats;
 		this.firseClassSeats = firseClassSeats;
+		this.promotion = promotion;
 		this.price = price;
 		this.flight = flight;
 		this.departureAirport = departureAirport;
@@ -187,6 +199,14 @@ public class FlightPlan {
 
 	public void setFirseClassSeats(int firseClassSeats) {
 		this.firseClassSeats = firseClassSeats;
+	}
+
+	public Promotion getPromotion() {
+		return promotion;
+	}
+
+	public void setPromotion(Promotion promotion) {
+		this.promotion = promotion;
 	}
 
 }

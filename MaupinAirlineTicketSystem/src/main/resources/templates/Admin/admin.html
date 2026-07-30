@@ -576,6 +576,7 @@ body {
 										<th>First Class</th>
 										<th>Available</th>
 										<th>Price</th>
+										<th>Promotion<th>
 										<th class="text-end">Actions</th>
 									</tr>
 								</thead>
@@ -624,6 +625,13 @@ body {
 
 										<td class="fw-bold text-dark"
 											th:text="${#numbers.formatDecimal(fp.price, 1, 2)}"></td>
+										<td>
+											<span
+											class="badge bg-dark-subtle text-dark-emphasis border fw-bold px-2 py-1 rounded-pill"
+											th:text="${fp.promotion.description}"></span>
+											 <span th:unless="${fp.promotion != null}"
+											class="text-muted small italic">No Promotion</span>
+										</td>
 										<td class="text-end">
 											<div class="d-inline-flex gap-2">
 												<a
