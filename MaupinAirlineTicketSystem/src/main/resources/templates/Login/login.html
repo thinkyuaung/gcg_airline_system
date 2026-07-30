@@ -45,6 +45,11 @@
 				or password.
 			</div>
 
+			<!-- Account Deleted / Custom Error -->
+			<div th:if="${error}" class="alert alert-danger text-center py-2">
+				<i class="bi bi-exclamation-triangle-fill me-2"></i> <span
+					th:text="${error}"></span>
+			</div>
 
 			<!-- Login Form (Backend binding preserved) -->
 			<form th:action="@{/airline/login}" method="post">

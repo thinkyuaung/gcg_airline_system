@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.MaupinAirlineTicketSystem.entity.Promotion;
 import com.example.MaupinAirlineTicketSystem.service.AdminPromotionService;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/airline")
@@ -39,7 +42,10 @@ public class AdminPromotionController {
 	}
 
 	@PostMapping("/admin/promotion")
-	public String savePromotion(@ModelAttribute("promotion") Promotion promotion) {
+	public String savePromotion(@Valid @ModelAttribute("promotion") Promotion promotion, BindingResult result) {
+		if (result.hasErrors()) {
+			return "Admin/PromotionForm";
+		}
 		adminPromotionService.savePromotion(promotion);
 		return "redirect:/airline/admin/promotions";
 	}
@@ -52,7 +58,10 @@ public class AdminPromotionController {
 	}
 
 	@PostMapping("/admin/promotion/update")
-	public String updatePromotion(@ModelAttribute("promotion") Promotion promotion) {
+	public String updatePromotion(@Valid @ModelAttribute("promotion") Promotion promotion, BindingResult result) {
+		if (result.hasErrors()) {
+			return "Admin/PromotionForm";
+		}
 		adminPromotionService.savePromotion(promotion);
 		return "redirect:/airline/admin/promotions";
 	}

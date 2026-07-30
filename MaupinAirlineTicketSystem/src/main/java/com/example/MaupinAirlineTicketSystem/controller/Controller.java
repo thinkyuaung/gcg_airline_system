@@ -1,5 +1,6 @@
 package com.example.MaupinAirlineTicketSystem.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,13 +65,10 @@ public class Controller {
 		model.addAttribute("airports", airportRepository.findAll());
 
 		model.addAttribute("seatClasses", seatClassRepository.findAll());
-
-		List<Promotion> activePromotions = promotionRepository.findByStatus("Active");
-		model.addAttribute("promotions", activePromotions);
-
-		model.addAttribute("currentPage", "home");
-
-		return "index";
+	    model.addAttribute("currentPage", "home");
+	    model.addAttribute("promotion", getCurrentPromotion());
+	    
+	    return "index";
 	}
 
 	public String index() {
@@ -84,18 +82,21 @@ public class Controller {
 
 		model.addAttribute("seatClasses", seatClassRepository.findAll());
 
-		List<Promotion> activePromotions = promotionRepository.findByStatus("Active");
-		model.addAttribute("promotions", activePromotions);
+		   model.addAttribute("promotion", getCurrentPromotion());
 
-		model.addAttribute("currentPage", "home");
+	    model.addAttribute("currentPage", "home");
 		return "index";
 	}
 
 	@GetMapping("/about")
-	public String about() {
-		return "about";
-	}
+	public String about(Model model) {
 
+	    model.addAttribute(
+	            "reviews",
+	            reviewService.getLatestReviews());
+
+	    return "about";
+	}
 	@GetMapping("/support")
 	public String support() {
 		return "support";
@@ -303,7 +304,7 @@ public class Controller {
 
 		User loginUser = userRepository.findByEmail(authentication.getName());
 
-		if (loginUser == null || !loginUser.getRole().equals("ADMIN")) {
+		if (loginUser == null || !loginUser.getRole().equals("SUPERADMIN")) {
 			return "redirect:/airline/index";
 		}
 
@@ -517,6 +518,21 @@ public class Controller {
 		return "redirect:/airline/admin/dashboard";
 	}
 	////////////// Logout //////////////
+
+	private Promotion getCurrentPromotion() {
+		LocalDateTime now = LocalDateTime.now();
+		List<Promotion> current = promotionRepository.findCurrentActivePromotions("Active", now);
+		if (!current.isEmpty()) {
+			return current.get(0);
+		}
+		LocalDateTime startOfMonth = now.withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
+		LocalDateTime endOfMonth = startOfMonth.plusMonths(1);
+		List<Promotion> monthPromos = promotionRepository.findPromotionsInMonth("Active", startOfMonth, endOfMonth);
+		if (!monthPromos.isEmpty()) {
+			return monthPromos.get(0);
+		}
+		return null;
+	}
 
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {

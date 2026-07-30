@@ -180,18 +180,17 @@
             </div>
             
              <!-- Airline -->
-            <div class="mb-4">
+             <div class="mb-4">
               <label class="form-label text-uppercase fw-bold">Airline</label>
               <div class="input-group">
-						<select name="airlineId" class="form-select mt-4" required>
+						<select th:field="*{airline}" class="form-select mt-4">
 							<option value="">Select Airline</option>
-							<option th:each="airline : ${airlines}" 
-									th:value="${airline.airlineId}" 
-									th:text="${airline.airlineName}"
-									th:selected="${flight.airline != null and flight.airline.airlineId == airline.airlineId}"></option>
-									
+							<option th:each="a : ${airlines}" 
+									th:value="${a.airlineId}" 
+									th:text="${a.airlineName}"></option>
 						</select>
               </div>
+              <span class="text-danger small" th:if="${#fields.hasErrors('airline')}" th:errors="*{airline}"></span>
             </div>
             
              <!-- Features -->
