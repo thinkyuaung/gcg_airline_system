@@ -1,901 +1,611 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-
 <meta charset="UTF-8">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Passenger Information</title>
 
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-rel="stylesheet">
+<!-- Existing Project CSS -->
+<link rel="stylesheet" th:href="@{/css/style.css}">
 
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
-rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
 
 <style>
 
-
 body{
-
-    background:#f4f7fb;
-
-    font-family:'Segoe UI',sans-serif;
-
-    color:#2c3e50;
-
+    font-family:'Source Sans 3',sans-serif;
+    background:#f3fcf0;
+    color:#161d16;
 }
 
+/* Container */
 
-
-.page-section{
-
-    padding:50px 20px;
-
-}
-
-
-
-.booking-card{
-
-    max-width:1000px;
-
+.page-container{
+    max-width:1280px;
     margin:auto;
-
-    background:white;
-
-    border-radius:25px;
-
-    padding:40px;
-
-    box-shadow:0 15px 40px rgba(0,0,0,.08);
-
+    padding:60px 15px;
 }
 
+/* Section */
 
+.section-label{
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:2px;
+    color:#2b6485;
+    text-transform:uppercase;
+}
 
 .page-title{
-
+    font-family:'Manrope',sans-serif;
+    font-size:42px;
     font-weight:700;
-
-    color:#1d3557;
-
+    color:#031f41;
 }
 
-
-
-.subtitle{
-
-    color:#6c757d;
-
+.section-description{
+    font-size:18px;
+    color:#666;
 }
 
+/* Cards */
 
-
-.section-card{
-
-    margin-top:30px;
-
-    padding:30px;
-
-    border-radius:18px;
-
-    background:#f9fbff;
-
-    border:1px solid #e7edf5;
-
-}
-
-
-
-.section-header{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-
-    font-weight:700;
-
-    font-size:20px;
-
-    margin-bottom:25px;
-
-    color:#0d6efd;
-
-}
-
-
-
-.section-header i{
-
-    font-size:24px;
-
-}
-
-
-
-.form-label{
-
-    font-weight:600;
-
-}
-
-
-
-.form-control{
-
-    height:48px;
-
+.custom-card{
+    background:#fff;
     border-radius:12px;
-
+    padding:32px;
+    box-shadow:0 .125rem .5rem rgba(0,0,0,.08);
+    margin-bottom:30px;
 }
 
-
-
-.readonly{
-
-    background:#eef2f7;
-
+.passenger-card{
+    transition:.25s;
 }
 
-
-
-.passenger-box{
-
-    background:white;
-
-    padding:25px;
-
-    border-radius:18px;
-
-    border:1px solid #e5e5e5;
-
-    margin-bottom:25px;
-
+.passenger-card:hover{
+    transform:translateY(-2px);
+    box-shadow:0 .5rem 1rem rgba(0,0,0,.12);
 }
 
+/* Section Titles */
 
-
-.passenger-title{
-
-    font-weight:700;
-
-    margin-bottom:20px;
-
-    color:#198754;
-
+.card-title{
+    font-family:'Manrope',sans-serif;
+    font-weight:600;
+    color:#031f41;
 }
 
-
+/* Passenger Number */
 
 .passenger-number{
-
-    display:inline-flex;
-
-    width:35px;
-
-    height:35px;
-
+    width:50px;
+    height:50px;
+    border-radius:10px;
+    background:#0d6efd;
+    color:#fff;
+    display:flex;
     align-items:center;
-
     justify-content:center;
-
-    border-radius:50%;
-
-    background:#198754;
-
-    color:white;
-
-    margin-right:10px;
-
-}
-
-
-
-.summary-box{
-
-    background:#fff8e7;
-
-    border-radius:18px;
-
-    padding:25px;
-
-    margin-top:30px;
-
-}
-
-
-
-.summary-title{
-
     font-weight:700;
-
+    font-size:18px;
 }
 
+/* Form */
 
-
-.btn-submit{
-
-    height:55px;
-
-    border-radius:15px;
-
+.form-label{
+    font-size:12px;
     font-weight:600;
-
-    font-size:17px;
-
+    letter-spacing:1px;
+    color:#666;
+    text-transform:uppercase;
 }
 
+.form-control{
+    border:none;
+    border-bottom:2px solid #ced4da;
+    border-radius:0;
+    background:transparent;
+}
+
+.form-control:focus{
+    box-shadow:none;
+    border-color:#2b6485;
+    background:transparent;
+}
+
+/* Sidebar */
+
+.summary-card{
+    position:sticky;
+    top:100px;
+}
+
+/* Buttons */
+
+.btn-primary-custom{
+    background:#0d6efd;
+    color:#fff;
+    border:none;
+    font-weight:600;
+    letter-spacing:1px;
+    padding:14px;
+    border-radius:8px;
+    transition:all .2s ease;
+}
+
+.btn-primary-custom:hover{
+    background:#0b5ed7;
+    color:#fff;
+}
+
+.btn-primary-custom:active{
+    background:#0a58ca !important;
+    transform:scale(.98);
+}
+
+.btn-back{
+    color:#666;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.btn-back:hover{
+    color:#031f41;
+}
+
+/* Contact Icon */
+
+.icon-circle{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#e7f3fb;
+    color:#2b6485;
+}
+
+/* Decorative left border */
+
+.border-accent{
+    border-left:5px solid #2b6485;
+}
+
+/* Hide scrollbar */
+
+::-webkit-scrollbar{
+    display:none;
+}
 
 </style>
 
-
 </head>
-
 
 <body>
 
+<!-- =====================================================
+     ORIGINAL NAVBAR
+===================================================== -->
+<div th:replace="~{Fragments/header :: navbar}"></div>
 
-<section class="page-section">
-
-
-<div class="booking-card">
-
-
-<h2 class="page-title">
-
-<i class="bi bi-person-vcard"></i>
-
-Passenger Information
-
-</h2>
-
-
-<p class="subtitle">
-
-Please enter passenger details exactly as shown on passport.
-
-</p>
-
+<main>
 
 <form th:action="@{/airline/passenger/save}" method="post">
 
-<input type="hidden"
-       name="bookingId"
-       th:value="${booking.bookingId}">
+<input type="hidden" name="bookingId" th:value="${booking.bookingId}">
 
-<!-- CUSTOMER INFORMATION -->
+<div class="page-container">
 
-<div class="section-card">
+    <div class="row">
 
+        <!-- ================= LEFT COLUMN ================= -->
+        <div class="col-lg-8">
 
-<div class="section-header">
+            <!-- Page Header -->
+            <div class="mb-5">
 
-<i class="bi bi-person-circle"></i>
+                <div class="section-label mb-2">
+                    Booking Stage 02
+                </div>
 
-Customer Data
+                <h1 class="page-title mb-3">
+                    Passenger Details
+                </h1>
 
-</div>
+                <p class="section-description">
+                    Please enter passenger details exactly as shown on passport.
+                </p>
 
+            </div>
 
+            <!-- Primary Contact -->
+            <div class="custom-card border-accent">
 
-<div class="row g-3">
+                <div class="d-flex align-items-center mb-4">
 
+                    <div class="icon-circle me-3">
+                        <span class="material-symbols-outlined">
+                            alternate_email
+                        </span>
+                    </div>
 
-<div class="col-md-6">
+                    <div>
+                        <h3 class="card-title mb-1">
+                            Primary Contact
+                        </h3>
 
+                        <small class="text-muted">
+                            Booking confirmation will be sent to this contact.
+                        </small>
+                    </div>
 
-<label class="form-label">
+                </div>
 
-First Name
+                <div class="row g-4">
 
-</label>
+                    <div class="col-md-6">
 
+                        <label class="form-label">
+                            Email Address
+                        </label>
 
-<input type="text"
+                        <input
+                                type="email"
+                                class="form-control"
+                                readonly
+                                th:value="${booking.user.email}">
 
-class="form-control readonly"
+                    </div>
 
-th:value="${booking.user.firstName}"
+                    <div class="col-md-6">
 
-readonly>
+                        <label class="form-label">
+                            Phone Number
+                        </label>
 
+                        <input
+                                type="tel"
+                                class="form-control"
+                                readonly
+                                th:value="${booking.user.phoneNumber}">
 
-</div>
+                    </div>
 
+                </div>
 
+            </div>
+            
+            <!-- Passenger List -->
+	<div>
 
-
-<div class="col-md-6">
-
-
-<label class="form-label">
-
-Last Name
-
-</label>
-
-
-<input type="text"
-
-class="form-control readonly"
-
-th:value="${booking.user.lastName}"
-
-readonly>
-
-
-</div>
-
-
-
-
-<div class="col-md-6">
-
-
-<label class="form-label">
-
-Email Address
-
-</label>
-
-
-<input type="email"
-
-class="form-control readonly"
-
-th:value="${booking.user.email}"
-
-readonly>
-
-
-</div>
-
-
-
-
-<div class="col-md-6">
-
-
-<label class="form-label">
-
-Phone Number
-
-</label>
-
-
-<input type="text"
-
-class="form-control readonly"
-
-th:value="${booking.user.phoneNumber}"
-
-readonly>
-
-
-</div>
-
-
-
-
-<div class="col-md-6">
-
-
-<label class="form-label">
-
-Passport Number
-
-</label>
-
-
-<input type="text"
-
-class="form-control readonly"
-
-th:value="${booking.user.passport}"
-
-readonly>
-
-
-</div>
-
-
-
-
-<div class="col-md-6">
-
-
-<label class="form-label">
-
-Date of Birth
-
-</label>
-
-
-<input type="text"
-
-class="form-control readonly"
-
-th:value="${booking.user.dob}"
-
-readonly>
-
-
-</div>
-
-
-
-</div>
-
-
-</div>
-
-<!-- ================= PASSENGER INFORMATION SECTION ================= -->
-
-<div class="section-card mt-4">
-
-    <div class="section-header">
-
-        <div>
-            <h4>
-                <i class="bi bi-people-fill"></i>
-                Passenger Information
-            </h4>
-
-            <p>
-                Please provide passenger details exactly as shown on the passport.
-            </p>
-        </div>
-
+    <div class="alert alert-info d-flex align-items-center">
+        <i class="bi bi-info-circle-fill me-2"></i>
+        The first passenger's information is filled from your account. You can edit it if another person is traveling.
     </div>
 
+    <div
+        th:each="i : ${#numbers.sequence(1, booking.passengers)}"
+        class="custom-card passenger-card">
 
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-start mb-4">
 
-    <div class="alert alert-info">
+            <div class="d-flex align-items-center">
 
-        <i class="bi bi-info-circle-fill"></i>
+                <div class="passenger-number me-3"
+                     th:text="${#numbers.formatInteger(i,2)}">
+                </div>
 
-        The first passenger information is filled from your account.
-        You can edit it if another person is traveling.
+                <div>
 
-    </div>
+                    <h4 class="card-title mb-1">
+                        Passenger
+                        <span th:text="${i}"></span>
+                    </h4>
 
+                    <small class="text-muted">
+                        Enter exactly as shown on passport
+                    </small>
 
+                </div>
 
-
-    <!-- Passenger Loop -->
-
-    <div th:each="i : ${#numbers.sequence(1, booking.passengers)}"
-         class="passenger-card">
-
-
-        <div class="passenger-title">
-
-            <span class="number-circle"
-                  th:text="${i}">
-            </span>
-
-
-            <h5>
-
-                Passenger
-                <span th:text="${i}"></span>
-
-            </h5>
-
+            </div>
 
         </div>
 
-
-
-
+        <!-- Form -->
         <div class="row g-4">
 
-
             <!-- First Name -->
-
             <div class="col-md-6">
 
-                <label>
+                <label class="form-label">
                     First Name
                 </label>
 
-
-                <div class="input-group">
-
-                    <span class="input-group-text">
-                        <i class="bi bi-person"></i>
-                    </span>
-
-
-                    <input type="text"
-                           class="form-control"
-                           name="firstName"
-                           th:value="${i==1 ? booking.user.firstName : ''}"
-                           required>
-
-                </div>
+                <input
+                    type="text"
+                    class="form-control"
+                    name="firstName"
+                    placeholder="Enter First Name"
+                    required
+                    th:value="${i==1 ? booking.user.firstName : ''}">
 
             </div>
 
-
-
-
-
             <!-- Last Name -->
-
             <div class="col-md-6">
 
-
-                <label>
+                <label class="form-label">
                     Last Name
                 </label>
 
-
-                <div class="input-group">
-
-
-                    <span class="input-group-text">
-                        <i class="bi bi-person-vcard"></i>
-                    </span>
-
-
-                    <input type="text"
-                           class="form-control"
-                           name="lastName"
-                           th:value="${i==1 ? booking.user.lastName : ''}"
-                           required>
-
-
-                </div>
-
+                <input
+                    type="text"
+                    class="form-control"
+                    name="lastName"
+                    placeholder="Enter Last Name"
+                    required
+                    th:value="${i==1 ? booking.user.lastName : ''}">
 
             </div>
-
-
-
-
-
-
-
-            <!-- Passport -->
-
-            <div class="col-md-6">
-
-
-                <label>
-                    Passport Number
-                </label>
-
-
-                <div class="input-group">
-
-
-                    <span class="input-group-text">
-
-                        <i class="bi bi-passport"></i>
-
-                    </span>
-
-
-                    <input type="text"
-                           class="form-control"
-                           name="passport"
-                           th:value="${i==1 ? booking.user.passport : ''}"
-                           placeholder="Enter passport number"
-                           required>
-
-
-                </div>
-
-
-            </div>
-
-
-
-
-
-
 
             <!-- DOB -->
-
             <div class="col-md-6">
 
-
-                <label>
+                <label class="form-label">
                     Date of Birth
                 </label>
 
-
-                <div class="input-group">
-
-
-                    <span class="input-group-text">
-
-                        <i class="bi bi-calendar-event"></i>
-
-                    </span>
-
-
-                    <input type="date"
-                           class="form-control"
-                           name="dob"
-                           th:value="${i==1 ? booking.user.dob : ''}"
-                           required>
-
-
-                </div>
-
+                <input
+                    type="date"
+                    class="form-control"
+                    name="dob"
+                    required
+                    th:value="${i==1 ? booking.user.dob : ''}">
 
             </div>
 
+            <!-- Passport -->
+            <div class="col-md-6">
 
+                <label class="form-label">
+                    Passport Number
+                </label>
 
+                <input
+                    type="text"
+                    class="form-control"
+                    name="passport"
+                    placeholder="Passport Number"
+                    required
+                    th:value="${i==1 ? booking.user.passport : ''}">
+
+            </div>
 
         </div>
 
-
     </div>
-
-
 
 </div>
 
+<!-- ================= TERMS ================= -->
 
-
-
-
-<!-- ================= CONTACT INFORMATION ================= -->
-
-
-<div class="section-card mt-4">
-
-
-    <div class="section-header">
-
-
-        <div>
-
-
-            <h4>
-
-                <i class="bi bi-envelope-paper"></i>
-
-                Contact Information
-
-            </h4>
-
-
-            <p>
-                Booking confirmation will be sent to this contact.
-            </p>
-
-
-        </div>
-
-
-    </div>
-
-
-
-
-
-    <div class="row g-4">
-
-
-        <div class="col-md-6">
-
-
-            <label>
-                Email Address
-            </label>
-
-
-            <div class="input-group">
-
-
-                <span class="input-group-text">
-
-                    <i class="bi bi-envelope"></i>
-
-                </span>
-
-
-                <input type="email"
-                       class="form-control"
-                       th:value="${booking.user.email}"
-                       readonly>
-
-
-            </div>
-
-
-        </div>
-
-
-
-
-
-        <div class="col-md-6">
-
-
-            <label>
-                Phone Number
-            </label>
-
-
-            <div class="input-group">
-
-
-                <span class="input-group-text">
-
-                    <i class="bi bi-telephone"></i>
-
-                </span>
-
-
-                <input type="text"
-                       class="form-control"
-                       th:value="${booking.user.phoneNumber}"
-                       readonly>
-
-
-            </div>
-
-
-        </div>
-
-
-
-    </div>
-
-
-
-</div>
-
-
-<!-- ===================== TERMS ===================== -->
-
-
-<div class="terms-box mt-4">
-
+<div class="custom-card">
 
     <div class="form-check">
 
-        <input class="form-check-input"
-               type="checkbox"
-               required
-               id="terms">
+        <input
+            class="form-check-input"
+            type="checkbox"
+            id="terms"
+            required>
 
+        <label
+            class="form-check-label"
+            for="terms">
 
-        <label class="form-check-label"
-               for="terms">
-
-            I confirm that all passenger information is correct
-            and matches the travel documents.
+            I confirm that all passenger information is correct and matches the travel documents.
 
         </label>
 
+    </div>
+
+</div>
+
+</div>
+<!-- End Left Column -->
+
+
+<!-- ================= RIGHT COLUMN ================= -->
+
+<div class="col-lg-4">
+
+    <div class="custom-card summary-card">
+
+        <div class="d-flex align-items-center mb-4">
+
+            <div class="icon-circle me-3">
+                <span class="material-symbols-outlined">
+                    confirmation_number
+                </span>
+            </div>
+
+            <h3 class="card-title mb-0">
+                Booking Summary
+            </h3>
+
+        </div>
+
+        <table class="table table-borderless">
+
+            <tr>
+                <td class="text-muted">
+                    Booking Reference
+                </td>
+
+                <td class="text-end fw-semibold"
+                    th:text="${booking.bookingId}">
+                </td>
+            </tr>
+
+            <tr>
+                <td class="text-muted">
+                    Passengers
+                </td>
+
+                <td class="text-end fw-semibold"
+                    th:text="${booking.passengers}">
+                </td>
+            </tr>
+
+        </table>
+
+        <hr>
+
+        <div class="row text-center mb-4">
+
+            <div class="col-6">
+
+                <span class="material-symbols-outlined text-primary">
+                    verified_user
+                </span>
+
+                <div class="small text-muted mt-1">
+                    SECURE ENCRYPTION
+                </div>
+
+            </div>
+
+            <div class="col-6">
+
+                <span class="material-symbols-outlined text-primary">
+                    support_agent
+                </span>
+
+                <div class="small text-muted mt-1">
+                    24/7 CONCIERGE
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="d-grid gap-2">
+
+            <button
+                type="submit"
+                class="btn btn-primary-custom">
+
+                CONTINUE TO PAYMENT
+
+                <span class="material-symbols-outlined align-middle ms-1">
+                    arrow_forward
+                </span>
+
+            </button>
+
+            <a
+                th:href="@{/airline/history}"
+                class="btn btn-outline-secondary">
+
+                <span class="material-symbols-outlined align-middle me-1">
+                    arrow_back
+                </span>
+
+                Back
+
+            </a>
+
+        </div>
 
     </div>
 
+</div>
+<!-- End Right Column -->
 
 </div>
-
-
-
-<!-- ===================== BUTTON ===================== -->
-
-
-<div class="action-area">
-
-
-    <a th:href="@{/airline/history}"
-       class="btn btn-outline-secondary">
-
-
-        <i class="bi bi-arrow-left"></i>
-
-        Back
-
-
-    </a>
-
-
-
-    <button type="submit"
-            class="btn btn-primary">
-
-
-        Continue to Payment
-
-        <i class="bi bi-arrow-right"></i>
-
-
-    </button>
-
+<!-- End Row -->
 
 </div>
-
-
+<!-- End Container -->
 
 </form>
 
+</main>
 
-</div>
+<!-- =====================================================
+     FOOTER
+===================================================== -->
 
-</section>
+<footer class="w-100 py-4" style="background:#0f172a;">
+
+    <div class="container">
+
+        <hr class="my-4" style="border-color:#1e293b;">
+
+        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center small"
+             style="color:#64748b;">
+
+            <p class="m-0">
+                &copy; 2026 Maubin AirLine. All rights reserved.
+            </p>
+
+            <p class="m-0 fw-semibold fst-italic"
+               style="color:#0ea5e9;">
+
+                Fly Far. Pay Less. Travel Better.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</footer>
 
 
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 
+<!-- Input focus effect -->
 <script>
 
+document.querySelectorAll(".form-control").forEach(function(input){
 
-// =========================
-// Copy customer information
-// =========================
+    input.addEventListener("focus", function(){
 
+        let card = input.closest(".custom-card");
 
-function useCustomerInfo(){
+        if(card){
+            card.style.boxShadow =
+            "0 10px 30px -5px rgba(3,31,65,0.15)";
+        }
 
-
-    document.getElementById("firstName1").value =
-        document.getElementById("customerFirstName").value;
-
-
-
-    document.getElementById("lastName1").value =
-        document.getElementById("customerLastName").value;
+    });
 
 
+    input.addEventListener("blur", function(){
 
-    document.getElementById("passport1").value =
-        document.getElementById("customerPassport").value;
+        let card = input.closest(".custom-card");
 
+        if(card){
+            card.style.boxShadow = "";
+        }
 
+    });
 
-    document.getElementById("dob1").value =
-        document.getElementById("customerDOB").value;
-
-
-}
-
-
-
-// =========================
-// Passenger counter
-// =========================
-
-
-function showPassengerNumber(){
-
-
-    let count =
-        document.querySelectorAll(".passenger-card").length;
-
-
-    document.getElementById("passengerCount")
-    .innerHTML =
-    count + " Passenger(s)";
-
-
-}
-
-
-showPassengerNumber();
-
+});
 
 </script>
 
 
-
 </body>
-
-
 </html>

@@ -37,14 +37,16 @@ public class FlightSearchServiceImpl implements FlightSearchService{
 	    public List<FlightPlan> searchFlights(
 	            String departureCity,
 	            String arrivalCity,
-	            LocalDate departureDate) {
+	            LocalDate departureDate
+	            ) {
 
 	        return flightPlanRepository
 	                .findByDepartureAirport_CityAndArrivalAirport_CityAndDepartureTimeBetween(
 	                        departureCity,
 	                        arrivalCity,
 	                        departureDate.atStartOfDay(),
-	                        departureDate.atTime(23,59,59));
+	                        departureDate.atTime(23,59,59)                  
+	                );
 	    }
 
 	    @Override

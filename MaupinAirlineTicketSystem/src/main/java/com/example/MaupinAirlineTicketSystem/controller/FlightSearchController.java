@@ -47,15 +47,23 @@ public class FlightSearchController {
 
 		List<FlightPlan> flightPlans =
 				flightSearchService.searchFlights(
-						departureCity,
-						arrivalCity,
-						departureDate
+				        departureCity,
+				        arrivalCity,
+				        departureDate
 				);
 
 		model.addAttribute("flightPlans", flightPlans);
+
+		model.addAttribute("departureCity", departureCity);
+		model.addAttribute("arrivalCity", arrivalCity);
+		model.addAttribute("departureDate", departureDate);
+
 		model.addAttribute("passengers", passengers);
 		model.addAttribute("seatClass", seatClass);
 
+		model.addAttribute("airlines", flightSearchService.getAllAirlines());
+
+		model.addAttribute("totalResults", flightPlans.size());
 		return "userview/searchResult";
 	}
 }

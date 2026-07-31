@@ -101,6 +101,7 @@ public class FlightDetailController {
 	    model.addAttribute("multiplier", multiplier);
 	    model.addAttribute("totalPrice", totalPrice);
 
+	    
 	    return "userview/flightDetail";
 	}
 }
