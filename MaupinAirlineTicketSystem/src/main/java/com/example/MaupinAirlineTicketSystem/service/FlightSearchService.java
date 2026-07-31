@@ -16,7 +16,8 @@ public interface FlightSearchService {
 	List<FlightPlan> searchFlights(
             String departureCity,
             String arrivalCity,
-            LocalDate departureDate);
+            LocalDate departureDate
+           );
 	
 	List<Airport> getAllAirports();
 	

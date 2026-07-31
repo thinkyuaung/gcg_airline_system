@@ -79,7 +79,6 @@ public class FlightDetailController {
 	    model.addAttribute("seatClass", seatClass);
 	    model.addAttribute("multiplier", multiplier);
 	    model.addAttribute("totalPrice", totalPrice);
-	    model.addAttribute("totalPrice", totalPrice);
 	    
 	    return "userview/flightDetail";
 	}

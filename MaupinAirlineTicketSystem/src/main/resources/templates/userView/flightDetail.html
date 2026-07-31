@@ -1,641 +1,1062 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
 
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Flight Detail</title>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
-      rel="stylesheet">
+<!-- Bootstrap 5 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+
+<!-- Project CSS -->
 <link rel="stylesheet" th:href="@{/css/style.css}">
+
+
+<!-- Fonts (same as previous passenger page) -->
+
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+
+
+<!-- Material Symbols -->
+
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap" rel="stylesheet">
+
+
 
 <style>
 
-:root{
-    --primary:#2563eb;
-    --primary-light:#eff6ff;
-    --bg:#f5f7fb;
-    --card:#ffffff;
-    --border:#e8edf5;
-    --text:#1f2937;
-    --muted:#6b7280;
-    --success:#16a34a;
-}
+/* ==========================
+   GLOBAL
+========================== */
 
-*{
-    box-sizing:border-box;
+html,body{
+    margin:0;
+    padding:0;
 }
 
 body{
-    margin:0;
-    background:var(--bg);
-    font-family:"Segoe UI",sans-serif;
-    color:var(--text);
+
+    font-family:'Source Sans 3',sans-serif;
+
+    background:#faf8ff;
+
+    color:#191b23;
+
+    overscroll-behavior:none;
+
 }
 
-.container{
-    max-width:1100px;
+
+h1,h2,h3,h4,h5,h6{
+
+    font-family:'Manrope',sans-serif;
+
 }
 
-.main-card{
-    background:var(--card);
-    border-radius:22px;
-    padding:28px;
-    box-shadow:0 12px 35px rgba(15,23,42,.08);
+
+::-webkit-scrollbar{
+    display:none;
 }
 
-/* -----------------------------
-   Header
-------------------------------*/
 
-.airline-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
+/* ==========================
+   NAVBAR SUPPORT
+========================== */
+
+#mainNav{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:1050;
+
 }
 
-.airline-info{
-    display:flex;
-    align-items:center;
+
+/* ==========================
+   CONTAINER
+========================== */
+
+.flight-container{
+
+    max-width:1280px;
+
+    margin:auto;
+
+    padding:48px;
+
 }
 
-.airline-icon{
-    width:62px;
-    height:62px;
-    border-radius:16px;
-    background:var(--primary-light);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    color:var(--primary);
-    font-size:28px;
-    margin-right:18px;
-}
 
-.airline-name{
-    font-size:26px;
+/* ==========================
+   TEXT SYSTEM
+========================== */
+
+
+.display-title{
+
+    font-family:'Manrope',sans-serif;
+
+    font-size:48px;
+
     font-weight:700;
-    margin-bottom:2px;
+
 }
 
-.flight-number{
-    color:var(--muted);
-    font-size:15px;
-}
 
-.flight-badge{
-    background:var(--primary-light);
-    color:var(--primary);
-    padding:10px 18px;
-    border-radius:50px;
-    font-weight:600;
-    font-size:14px;
-}
+.headline-md{
 
-/* -----------------------------
-   Flight Timeline
-------------------------------*/
-
-.timeline{
-    background:#fafcff;
-    border:1px solid var(--border);
-    border-radius:18px;
-    padding:20px;
-    margin-top:20px;
-    margin-bottom:25px;
-}
-
-.time{
-    font-size:34px;
-    font-weight:700;
-    line-height:1;
-}
-
-.date{
-    color:var(--muted);
-    font-size:13px;
-    margin-top:8px;
-}
-
-.city{
-    font-size:19px;
-    font-weight:600;
-    margin-top:6px;
-}
-
-.flight-arrow{
-    color:var(--primary);
-    font-size:34px;
-}
-
-/* -----------------------------
-   Section Title
-------------------------------*/
-
-.section-title{
-    font-size:20px;
-    font-weight:700;
-    margin-bottom:18px;
-}
-
-/* -----------------------------
-   Feature Cards
-------------------------------*/
-
-.feature{
-    border:1px solid var(--border);
-    border-radius:16px;
-    background:white;
-    padding:18px 12px;
-    text-align:center;
-    transition:.25s;
-    height:100%;
-}
-
-.feature:hover{
-    transform:translateY(-3px);
-    box-shadow:0 8px 18px rgba(0,0,0,.06);
-}
-
-.feature i{
     font-size:24px;
-    margin-bottom:8px;
+
+    font-weight:600;
+
 }
 
-.feature span{
-    display:block;
-    font-weight:600;
+
+.body-lg{
+
+    font-size:18px;
+
+    line-height:28px;
+
+}
+
+
+.body-md{
+
+    font-size:16px;
+
+    line-height:24px;
+
+}
+
+
+.label-sm{
+
     font-size:14px;
-}
 
-/* -----------------------------
-   Fare Benefits
-------------------------------*/
-
-.benefit-list{
-    border-radius:16px;
-    overflow:hidden;
-    border:1px solid var(--border);
-}
-
-.benefit-list .list-group-item{
-    border:none;
-    border-bottom:1px solid var(--border);
-    padding:14px 18px;
-}
-
-.benefit-list .list-group-item:last-child{
-    border-bottom:none;
-}
-
-.benefit-list i{
-    color:var(--primary);
-    margin-right:10px;
-}
-
-/* -----------------------------
-   Summary Card
-------------------------------*/
-
-.summary{
-    background:#fbfcfe;
-    border:1px solid var(--border);
-    border-radius:18px;
-    padding:22px;
-}
-
-.summary h4{
-    margin-bottom:18px;
-    font-size:22px;
-    font-weight:700;
-}
-
-.summary table td{
-    border:none;
-    padding:10px 0;
-}
-
-.summary table td:last-child{
-    text-align:right;
     font-weight:600;
+
+    letter-spacing:.05em;
+
 }
 
-.total-row{
-    border-top:1px solid var(--border);
-    margin-top:12px;
-    padding-top:16px;
+
+
+/* ==========================
+   COLORS (UNCHANGED)
+========================== */
+
+
+.text-primary-custom{
+
+    color:#004ac6;
+
+}
+
+
+.bg-primary-custom{
+
+    background:#004ac6;
+
+    color:white;
+
+}
+
+
+.surface-card{
+
+    background:#ffffff;
+
+    border-radius:12px;
+
+    box-shadow:0 .125rem .5rem rgba(0,0,0,.08);
+
+}
+
+
+/* ==========================
+   FLIGHT HEADER
+========================== */
+
+
+.flight-icon{
+
+    width:64px;
+
+    height:64px;
+
+    border-radius:12px;
+
+    background:#004ac6;
+
     display:flex;
-    justify-content:space-between;
+
     align-items:center;
+
+    justify-content:center;
+
+    color:white;
+
+    font-size:32px;
+
 }
 
-.total-label{
-    font-size:18px;
+
+/* ==========================
+   TIMELINE
+========================== */
+
+
+.timeline-line{
+
+    height:2px;
+
+    background:#e1e2ed;
+
+    position:absolute;
+
+    width:100%;
+
+}
+
+
+.timeline-dot{
+
+    width:12px;
+
+    height:12px;
+
+    background:#004ac6;
+
+    border-radius:50%;
+
+}
+
+
+.timeline-plane{
+
+    color:#004ac6;
+
+    background:#ffffff;
+
+    font-size:28px;
+
+}
+
+
+
+/* ==========================
+   AMENITIES
+========================== */
+
+
+.amenity-card{
+
+    background:#f3f3fe;
+
+    border-radius:12px;
+
+    padding:24px;
+
+    transition:.3s;
+
+}
+
+
+.amenity-card:hover{
+
+    background:white;
+
+    box-shadow:0 .5rem 1rem rgba(0,74,198,.08);
+
+}
+
+
+
+/* ==========================
+   SIDEBAR
+========================== */
+
+
+.summary-card{
+
+    position:sticky;
+
+    top:90px;
+
+}
+
+
+.price-total{
+
+    font-size:48px;
+
     font-weight:700;
+
+    color:#004ac6;
+
 }
 
-.total-price{
-    font-size:34px;
-    color:var(--primary);
-    font-weight:700;
-}
 
-/* -----------------------------
-   Promotion
-------------------------------*/
 
-.promo-box{
-    margin-top:18px;
-    border-radius:14px;
-}
+/* ==========================
+   BUTTON
+========================== */
 
-/* -----------------------------
-   Policy
-------------------------------*/
 
-.policy{
-    margin-top:25px;
-    background:#fff8e7;
-    border-left:5px solid #f59e0b;
-    padding:18px;
-    border-radius:14px;
-}
+.btn-book{
 
-.policy h5{
-    margin-bottom:10px;
-    font-weight:700;
-}
+    background:#004ac6;
 
-/* -----------------------------
-   Book Button
-------------------------------*/
+    color:white;
 
-.book-btn{
-    margin-top:24px;
-    border-radius:14px;
-    font-size:18px;
-    font-weight:600;
-    padding:14px;
-}
-
-/* -----------------------------
-   Divider
-------------------------------*/
-
-.soft-divider{
-    margin:28px 0;
     border:none;
-    border-top:1px solid var(--border);
-}
 
-/* -----------------------------
-   Responsive
-------------------------------*/
+    padding:16px;
 
-@media(max-width:768px){
+    border-radius:12px;
 
-.airline-header{
-    flex-direction:column;
-    align-items:flex-start;
-    gap:15px;
-}
+    font-family:'Manrope',sans-serif;
 
-.airline-name{
-    font-size:22px;
-}
+    font-weight:600;
 
-.time{
-    font-size:28px;
-}
-
-.flight-arrow{
-    transform:rotate(90deg);
-    margin:15px 0;
-}
-
-.total-price{
-    font-size:28px;
-}
-
-.main-card{
-    padding:20px;
-}
+    transition:.2s;
 
 }
+
+
+.btn-book:hover{
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+
 
 </style>
+
 
 </head>
 
 <body>
 
-<!-- Include Shared Header Fragment -->
+
+<!-- =====================================================
+     ORIGINAL NAVBAR
+     DO NOT MODIFY
+===================================================== -->
+
 <div th:replace="~{Fragments/header :: navbar}"></div>
 
 
-<div class="container py-5">
 
-<div class="main-card">
+<main>
 
-<!-- Airline Header -->
 
-<div class="airline-header">
+<div class="flight-container">
 
-    <div class="airline-info">
 
-        <div class="airline-icon">
-            <i class="bi bi-airplane-fill"></i>
-        </div>
+    <!-- ==========================
+         Breadcrumb
+    =========================== -->
 
-        <div>
-            <div class="airline-name"
-                 th:text="${flightPlan.flight.airline.airlineName}">
-            </div>
+    <nav class="d-flex align-items-center gap-2 label-sm text-uppercase mb-5"
+         style="letter-spacing:2px;color:#737686;">
 
-            <div class="flight-number"
-                 th:text="${flightPlan.flight.flightNumber}">
-            </div>
-        </div>
 
-    </div>
-
-    <div class="flight-badge">
-        <i class="bi bi-ticket-perforated-fill"></i>
-        Flight
-    </div>
-
-</div>
-
-<hr class="soft-divider">
-
-<!-- Flight Timeline -->
-
-<div class="timeline">
-
-    <div class="row align-items-center text-center">
-
-        <div class="col-md">
-
-            <div class="time"
-                 th:text="${#temporals.format(flightPlan.departureTime,'HH:mm')}">
-            </div>
-
-            <div class="date"
-                 th:text="${#temporals.format(flightPlan.departureTime,'dd MMM yyyy')}">
-            </div>
-
-            <div class="city"
-                 th:text="${flightPlan.departureAirport.city}">
-            </div>
-
-        </div>
-
-        <div class="col-md-2 my-3 my-md-0">
-
-            <i class="bi bi-arrow-right-circle-fill flight-arrow"></i>
-
-        </div>
-
-        <div class="col-md">
-
-            <div class="time"
-                 th:text="${#temporals.format(flightPlan.arrivalTime,'HH:mm')}">
-            </div>
-
-            <div class="date"
-                 th:text="${#temporals.format(flightPlan.arrivalTime,'dd MMM yyyy')}">
-            </div>
-
-            <div class="city"
-                 th:text="${flightPlan.arrivalAirport.city}">
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-<hr class="soft-divider">
-
-<!-- Aircraft Features -->
-
-<h4 class="section-title">
-    Aircraft Features
-</h4>
-
-<div class="row g-3">
-
-    <div class="col-6 col-lg-3"
-         th:if="${flightPlan.flight.wifi==1}">
-
-        <div class="feature">
-
-            <i class="bi bi-wifi text-primary"></i>
-
-            <span>Wi-Fi</span>
-
-        </div>
-
-    </div>
-
-    <div class="col-6 col-lg-3"
-         th:if="${flightPlan.flight.meal==1}">
-
-        <div class="feature">
-
-            <i class="bi bi-cup-hot-fill text-warning"></i>
-
-            <span>Meal</span>
-
-        </div>
-
-    </div>
-
-    <div class="col-6 col-lg-3"
-         th:if="${flightPlan.flight.entertainment==1}">
-
-        <div class="feature">
-
-            <i class="bi bi-tv-fill text-danger"></i>
-
-            <span>Entertainment</span>
-
-        </div>
-
-    </div>
-
-    <div class="col-6 col-lg-3"
-         th:if="${flightPlan.flight.charging==1}">
-
-        <div class="feature">
-
-            <i class="bi bi-battery-charging text-success"></i>
-
-            <span>Charging</span>
-
-        </div>
-
-    </div>
-
-</div>
-
-<hr class="soft-divider">
-
-<!-- Fare Benefits -->
-
-<h4 class="section-title">
-    Fare Benefits
-</h4>
-
-<ul class="list-group benefit-list mb-4">
-
-    <li class="list-group-item">
-        <i class="bi bi-briefcase-fill"></i>
-        1 Carry-on Bag
-    </li>
-
-    <li class="list-group-item">
-        <i class="bi bi-suitcase-lg-fill"></i>
-        1 Checked Bag
-    </li>
-
-    <li class="list-group-item">
-        <i class="bi bi-person-workspace"></i>
-        Seat selection for a fee
-    </li>
-
-    <li class="list-group-item">
-        <i class="bi bi-arrows-angle-expand"></i>
-        Extra legroom for a fee
-    </li>
-
-    <li class="list-group-item">
-        <i class="bi bi-arrow-repeat"></i>
-        Ticket changes for a fee
-    </li>
-
-</ul>
-
-<!-- Price Summary -->
-
-<div class="summary">
-
-    <h4>Price Summary</h4>
-
-    <table class="table">
-
-        <tr>
-            <td>Passengers</td>
-            <td th:text="${passengers}"></td>
-        </tr>
-
-        <tr>
-            <td>Cabin</td>
-            <td th:text="${seatClass}"></td>
-        </tr>
-
-        <tr>
-            <td>Base Fare</td>
-            <td>
-                $<span th:text="${flightPlan.price}"></span>
-            </td>
-        </tr>
-
-        <tr>
-            <td>Multiplier</td>
-            <td th:text="${multiplier}"></td>
-        </tr>
-
-    </table>
-
-    <div class="total-row">
-
-        <span class="total-label">
-            Total Price
+        <span>
+            Search
         </span>
 
-        <span class="total-price">
-            $<span th:text="${totalPrice}"></span>
+
+        <span class="material-symbols-outlined"
+              style="font-size:14px;">
+            chevron_right
         </span>
 
+
+        <span>
+            Select Flight
+        </span>
+
+
+        <span class="material-symbols-outlined"
+              style="font-size:14px;">
+            chevron_right
+        </span>
+
+
+        <span class="text-primary-custom">
+            Booking Details
+        </span>
+
+
+    </nav>
+
+
+
+
+
+<div class="row g-4 pb-5">
+
+
+
+<!-- ==========================
+     MAIN CONTENT
+========================== -->
+
+
+<div class="col-lg-8">
+
+<!-- ==========================
+     FLIGHT HEADER
+========================== -->
+
+<section class="surface-card p-4 position-relative overflow-hidden mb-5">
+
+    <div class="position-absolute rounded-circle"
+         style="
+         width:130px;
+         height:130px;
+         background:rgba(0,74,198,.05);
+         right:-40px;
+         top:-40px;">
     </div>
 
-    <div
-        th:if="${promotion != null}"
-        class="alert alert-success promo-box mb-0 mt-4">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-4 position-relative">
 
-        <i class="bi bi-tag-fill me-2"></i>
+        <div class="d-flex align-items-center gap-4">
 
-        Promotion Applied!
+            <div class="flight-icon shadow">
+                <span class="material-symbols-outlined">
+                    flight_takeoff
+                </span>
 
-        <strong
-            th:text="${promotion.percentage + '% OFF'}">
-        </strong>
+            </div>
 
+            <div>
+
+                <div class="d-flex align-items-center flex-wrap gap-3 mb-2">
+
+                    <span class="headline-md"
+                          th:text="${flightPlan.flight.airline.airlineName}">
+                    </span>
+
+                    <span class="badge rounded-pill px-3 py-2"
+                          style="
+                          background:#ededf9;
+                          color:#004ac6;
+                          font-size:14px;"
+                          th:text="${seatClass}">
+                    </span>
+                </div>
+                <p class="body-md mb-0"
+                   style="color:#434655;">
+
+                    Flight
+
+                    <span th:text="${flightPlan.flight.flightNumber}">
+                    </span>
+
+                    &bull;
+
+                    Non-stop
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+            <!-- Flight Timeline -->
+      
+<section class="surface-card p-5 mb-5">
+
+
+<div class="row align-items-center g-4">
+
+    <!-- ======================
+         DEPARTURE
+    ======================= -->
+
+    <div class="col-md-3">
+
+        <div class="display-title mb-1"
+             th:text="${#temporals.format(flightPlan.departureTime,'HH:mm')}">
+        </div>
+
+        <div class="headline-md text-primary-custom mb-2"
+             th:text="${flightPlan.departureAirport.airportCode}">
+        </div>
+
+        <div class="body-md fw-semibold mb-1">
+
+            <span th:text="${flightPlan.departureAirport.city}">
+            </span>
+
+        </div>
+
+        <div class="label-sm"
+             style="color:#737686;"
+             th:text="${#temporals.format(flightPlan.departureTime,'dd MMM yyyy')}">
+        </div>
+
+    </div>
+
+    <!-- ======================
+         ROUTE GRAPHIC
+    ======================= -->
+
+    <div class="col-md-6">
+
+        <div class="position-relative d-flex align-items-center justify-content-center py-4">
+
+            <!-- line -->
+
+            <div class="timeline-line">
+            </div>
+
+            <!-- departure dot -->
+
+            <div class="timeline-dot position-absolute start-0">
+            </div>
+
+            <!-- plane -->
+
+            <div class="position-relative px-3">
+
+                <span class="material-symbols-outlined timeline-plane"
+                      style="
+                      font-variation-settings:'FILL' 1;
+                      transform:rotate(90deg);">
+
+                    flight
+
+                </span>
+
+            </div>
+
+            <!-- arrival dot -->
+
+            <div class="timeline-dot position-absolute end-0">
+            </div>
+
+        </div>
+
+        <div class="text-center label-sm text-uppercase"
+             style="
+             letter-spacing:2px;
+             color:#737686;">
+
+            Direct Flight
+
+        </div>
+
+    </div>
+
+    <!-- ======================
+         ARRIVAL
+    ======================= -->
+
+    <div class="col-md-3 text-md-end">
+
+
+        <div class="display-title mb-1"
+             th:text="${#temporals.format(flightPlan.arrivalTime,'HH:mm')}">
+        </div>
+
+        <div class="headline-md text-primary-custom mb-2"
+             th:text="${flightPlan.arrivalAirport.airportCode}">
+        </div>
+
+        <div class="body-md fw-semibold mb-1">
+
+            <span th:text="${flightPlan.arrivalAirport.city}">
+            </span>
+
+        </div>
+
+        <div class="label-sm"
+             style="color:#737686;"
+             th:text="${#temporals.format(flightPlan.arrivalTime,'dd MMM yyyy')}">
+        </div>
     </div>
 
 </div>
 
-<!-- Cancellation Policy -->
+</section>
 
-<div class="policy">
+            <!-- Onboard Experience — cards bound to code1's flight amenity flags -->
+           
+<section class="mb-5">
 
-    <h5>
-        <i class="bi bi-shield-check me-2"></i>
-        Cancellation Policy
-    </h5>
+    <div class="d-flex align-items-center mb-4">
 
-    <p class="mb-0">
-        Cancellation is allowed only if the scheduled departure time is more than
-        <strong>24 hours</strong> away.
-        Refunds are not available for cancellations made within
-        <strong>24 hours</strong> before departure.
-    </p>
+        <h3 class="headline-md mb-0">
+            Onboard Experience
+        </h3>
+
+        <div class="flex-grow-1 ms-4"
+             style="height:1px;background:#ededf9;">
+        </div>
+
+    </div>
+
+    <div class="row g-4">
+
+        <!-- WIFI -->
+
+        <div class="col-6 col-md-3"
+             th:if="${flightPlan.flight.wifi==1}">
+
+            <div class="amenity-card h-100">
+                <span class="material-symbols-outlined text-primary-custom mb-3"
+                      style="font-size:32px;">
+                    wifi
+                </span>
+
+                <div class="body-md fw-semibold mb-1">
+                    Wi-Fi
+                </div>
+
+                <p class="small mb-0"
+                   style="color:#737686;">
+                    Stay connected onboard
+                </p>
+            </div>
+
+        </div>
+
+        <!-- MEAL -->
+
+        <div class="col-6 col-md-3"
+             th:if="${flightPlan.flight.meal==1}">
+
+            <div class="amenity-card h-100">
+
+                <span class="material-symbols-outlined text-primary-custom mb-3"
+                      style="font-size:32px;">
+                    restaurant
+                </span>
+
+                <div class="body-md fw-semibold mb-1">
+                    Meal Service
+                </div>
+
+                <p class="small mb-0"
+                   style="color:#737686;">
+                    Meal included on this flight
+                </p>
+            </div>
+
+        </div>
+
+        <!-- ENTERTAINMENT -->
+
+        <div class="col-6 col-md-3"
+             th:if="${flightPlan.flight.entertainment==1}">
+
+            <div class="amenity-card h-100">
+                <span class="material-symbols-outlined text-primary-custom mb-3"
+                      style="font-size:32px;">
+                    tv
+                </span>
+
+                <div class="body-md fw-semibold mb-1">
+                    Entertainment
+                </div>
+
+                <p class="small mb-0"
+                   style="color:#737686;">
+
+                    In-seat entertainment system
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- CHARGING -->
+
+        <div class="col-6 co-md-3"
+             th:if="${flightPlan.flight.charging==1}">
+
+            <div class="amenity-card h-100">
+
+                <span class="material-symbols-outlined text-primary-custom mb-3"
+                      style="font-size:32px;">
+                    usb
+                </span>
+
+                <div class="body-md fw-semibold mb-1">
+                    Charging
+                </div>
+
+                <p class="small mb-0"
+                   style="color:#737686;">
+                    Power available at your seat
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================
+     FARE BENEFITS
+========================== -->
+
+<section class="surface-card p-5 mb-5"
+         style="background:#f3f3fe;">
+
+<div class="row g-5">
+    <!-- INCLUDED -->
+
+    <div class="col-md-6">
+
+        <h3 class="headline-md mb-4">
+            Included
+        </h3>
+
+        <div class="d-flex flex-column gap-3">
+
+            <div class="d-flex align-items-center gap-3">
+
+                <span class="material-symbols-outlined text-primary-custom">
+                    check_circle
+                </span>
+
+                <span class="body-md">
+                    2x Checked Bags (23kg each)
+                </span>
+
+            </div>
+
+            <div class="d-flex align-items-center gap-3">
+                <span class="material-symbols-outlined text-primary-custom">
+                    check_circle
+                </span>
+
+                <span class="body-md">
+                    Lounge Access (T5 Galleries)
+                </span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- EXTRA FEES -->
+
+    <div class="col-md-6">
+
+        <h3 class="headline-md mb-4 opacity-75">
+            Additional Fees Apply
+        </h3>
+
+        <div class="d-flex flex-column gap-3">
+
+            <div class="d-flex align-items-center gap-3"
+                 style="color:#737686;">
+
+                <span class="material-symbols-outlined">
+                    payments
+                </span>
+
+                <span class="body-md">
+                    Seat selection
+                </span>
+
+            </div>
+
+            <div class="d-flex align-items-center gap-3"
+                 style="color:#737686;">
+
+                <span class="material-symbols-outlined">
+                    payments
+                </span>
+                <span class="body-md">
+                    Extra legroom
+                </span>
+            </div>
+
+            <div class="d-flex align-items-center gap-3"
+                 style="color:#737686;">
+
+                <span class="material-symbols-outlined">
+                    payments
+                </span>
+                <span class="body-md">
+                    Ticket changes
+                </span>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+ </div>
+        <!-- Sidebar: Sticky Price Summary -->
+
+<div class="col-lg-4">
+
+    <aside class="summary-card">
+
+        <div class="surface-card overflow-hidden">
+
+            <!-- SUMMARY DETAILS -->
+
+            <div class="p-4 border-bottom"
+                 style="border-color:#ededf9 !important;">
+
+
+                <h4 class="headline-md mb-4">
+                    Price Summary
+                </h4>
+
+                <div class="d-flex flex-column gap-3">
+
+                    <div class="d-flex justify-content-between">
+
+                        <span style="color:#737686;">
+                            Passengers
+                        </span>
+
+                        <span class="fw-semibold"
+                              th:text="${passengers}">
+                        </span>
+
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+
+                        <span style="color:#737686;">
+                            Cabin
+                        </span>
+
+                        <span class="fw-semibold"
+                              th:text="${seatClass}">
+                        </span>
+
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+
+                        <span style="color:#737686;">
+                            Base Fare
+                        </span>
+
+                        <span class="fw-semibold">
+                            $
+                            <span th:text="${flightPlan.price}">
+                            </span>
+
+                        </span>
+
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <span style="color:#737686;">
+                            Multiplier
+                        </span>
+
+                        <span class="fw-semibold"
+                              th:text="${multiplier}">
+                        </span>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- TOTAL -->
+
+            <div class="p-4"
+                 style="background:rgba(0,74,198,.05);">
+
+                <div class="d-flex justify-content-between align-items-end mb-4">
+
+                    <div>
+
+                        <div class="label-sm text-uppercase"
+                             style="color:#737686;">
+                            Total Price
+                        </div>
+
+                        <div class="price-total">
+                            $
+                            <span th:text="${totalPrice}">
+                            </span>
+
+                        </div>
+                    </div>
+
+                    <div class="text-end"
+                         th:if="${promotion != null}">
+
+                        <span class="fw-bold"
+                              style="color:#004ac6;"
+                              th:text="${promotion.percentage + '% OFF'}">
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <!-- Cancellation Notice -->
+
+                <div class="rounded p-3 mb-4 d-flex gap-3"
+                     style="
+                     background:rgba(255,218,214,.5);
+                     color:#93000a;">
+
+                    <span class="material-symbols-outlined">
+                        info
+                    </span>
+
+                    <p class="small mb-0">
+
+                        Cancellation is allowed only if the scheduled departure time is more than
+                        <strong>24 hours</strong>
+                        away.
+
+                        Refunds are not available for cancellations made within
+                        <strong>24 hours</strong>
+                        before departure.
+
+                    </p>
+
+                </div>
+
+                <!-- BOOKING FORM -->
+
+                <form th:action="@{/airline/booking/reserve}"
+                      method="get">
+
+                    <input type="hidden"
+                           name="flightPlanId"
+                           th:value="${flightPlan.flightPlanId}">
+
+                    <input type="hidden"
+                           name="seatClass"
+                           th:value="${seatClass}">
+
+                    <input type="hidden"
+                           name="passengers"
+                           th:value="${passengers}">
+
+                    <button type="submit"
+                            class="btn-book w-100 d-flex align-items-center justify-content-center gap-2">
+
+                        Book Now
+
+                        <span class="material-symbols-outlined">
+                            arrow_forward
+                        </span>
+
+                    </button>
+
+                </form>
+
+            </div>
+
+            <!-- SECURITY -->
+
+            <div class="p-4 text-center">
+
+                <div class="d-flex justify-content-center align-items-center gap-2"
+                     style="color:#737686;">
+
+                    <span class="material-symbols-outlined"
+                          style="font-size:16px;">
+                        verified_user
+                    </span>
+
+                    <span class="label-sm">
+                        Secure encrypted transaction
+                    </span>
+
+                </div>
+            </div>
+
+        </div>
+
+    </aside>
 
 </div>
 
-<!-- Booking Form -->
+</div>    <!-- End Row -->
 
-<form th:action="@{/airline/booking/reserve}" method="get">
+</div>  <!-- End Container -->
 
-    <input
-        type="hidden"
-        name="flightPlanId"
-        th:value="${flightPlan.flightPlanId}">
+</main>
 
-    <input
-        type="hidden"
-        name="seatClass"
-        th:value="${seatClass}">
+ <!-- Footer -->
+    <footer class="text-white pt-5 pb-4 mt-auto" style="background-color: #0a0f1d;">
+        <div class="container pt-3">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <span class="bg-primary text-white p-2 rounded-3 d-inline-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                            <i class="bi bi-airplane-fill fs-6"></i>
+                        </span>
+                        <h4 class="m-0 fw-bold text-white">Maubin AirLine</h4>
+                    </div>
+                    <p class="text-secondary small pe-lg-4" style="color: #94a3b8 !important;">
+                        Crafting extraordinary journeys for extraordinary people. Your dream destination awaits.
+                    </p>
+                </div>
 
-    <input
-        type="hidden"
-        name="passengers"
-        th:value="${passengers}">
+                <div class="col-lg-2 col-md-6 col-6">
+                    <h6 class="text-uppercase fw-bold mb-3 small tracking-wider" style="letter-spacing: 1px; color: #cbd5e1;">TRAVEL</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2 small">
+                        <li><a th:href="@{/airline/flights}" class="text-decoration-none" style="color: #94a3b8;">Flights</a></li>
+                        <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Hotels</a></li>
+                        <li><a th:href="@{/airline/packages}" class="text-decoration-none" style="color: #94a3b8;">Packages</a></li>
+                    </ul>
+                </div>
 
-    <button
-        type="submit"
-        class="btn btn-primary w-100 book-btn">
+                <div class="col-lg-2 col-md-6 col-6">
+                    <h6 class="text-uppercase fw-bold mb-3 small tracking-wider" style="letter-spacing: 1px; color: #cbd5e1;">COMPANY</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2 small">
+                        <li><a th:href="@{/airline/about}" class="text-decoration-none" style="color: #94a3b8;">About Us</a></li>
+                        <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Careers</a></li>
+                    </ul>
+                </div>
 
-        <i class="bi bi-credit-card-fill me-2"></i>
+                <div class="col-lg-4 col-md-6">
+                    <h6 class="text-uppercase fw-bold mb-3 small tracking-wider" style="letter-spacing: 1px; color: #cbd5e1;">EXTRA LINKS</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2 small">
+                        <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Privacy Policy</a></li>
+                        <li><a th:href="@{/airline/support}" class="text-decoration-none" style="color: #94a3b8;">Support</a></li>
+                    </ul>
+                </div>
+            </div>
 
-        Book Now
+            <hr class="my-4" style="border-color: #1e293b;">
 
-    </button>
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center small" style="color: #64748b;">
+                <p class="m-0">&copy; 2026 Maubin AirLine. All rights reserved.</p>
+                <p class="m-0 fw-semibold italic" style="color: #0ea5e9; font-style: italic;">Fly Far. Pay Less. Travel Better.</p>
+            </div>
+        </div>
+    </footer>
 
-</form>
-
-</div>
-
-</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
-
 </html>
