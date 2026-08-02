@@ -1,5 +1,6 @@
 package com.example.MaupinAirlineTicketSystem.controller;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -135,6 +136,11 @@ public class Controller {
 			@RequestParam(value = "pendingPassengers", required = false) Integer pendingPassengers,
 			@RequestParam(value = "pendingSeatClass", required = false) String pendingSeatClass, HttpSession session) {
 
+		if (user.getDob() != null && user.getDob().isAfter(LocalDate.now().minusYears(18))) {
+
+			result.rejectValue("dob", "error.user", "You must be at least 18 years old to create an account.");
+
+		}
 		if (result.hasErrors()) {
 			return "Login/signup";
 		}
