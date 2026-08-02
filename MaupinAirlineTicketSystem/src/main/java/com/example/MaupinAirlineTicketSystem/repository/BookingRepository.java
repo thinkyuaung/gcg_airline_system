@@ -16,5 +16,16 @@ public interface BookingRepository extends JpaRepository<Booking, Integer>{
 
 	 List<Booking> findByStatusNot(String status);
 	 
-	 List<Booking> findByUser(User user);
+	    List<Booking> findByUser(User user);
+
+	 	 
+	 List<Booking> findByUser_UserId(int userId);
+
+	 List<Booking> findByUser_UserIdAndStatus(
+	         int userId,
+	         String status);
+
+	 List<Booking> findByUser_UserIdAndStatusNot(
+	         int userId,
+	         String status);
 }
