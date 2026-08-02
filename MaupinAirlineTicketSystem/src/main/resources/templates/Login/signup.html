@@ -72,70 +72,87 @@
 							</div>
 
 							<!-- Passport & Date of Birth -->
-							<div class="row g-3 mb-3">
-								<div class="col-md-6">
-									<label class="form-label small fw-semibold text-secondary">Passport
-										Number</label> <input type="text" class="form-control glass-input"
-										th:field="*{passport}" placeholder="N1234567" required>
-								</div>
+<div class="row g-3 mb-3">
 
-								<div class="col-md-6">
-									<label class="form-label small fw-semibold text-secondary">Date
-										of Birth</label> <input type="date" class="form-control glass-input"
-										th:field="*{dob}"
-										th:attr="max=${#dates.format(#dates.createNow(),'yyyy-MM-dd')}"
-										required>
+    <div class="col-md-6">
+        <label class="form-label small fw-semibold text-secondary">
+            Passport Number
+        </label>
 
-									<div class="text-danger small mt-1"
-										th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}">
-									</div>
-								</div>
-							</div>
+        <input type="text"
+               class="form-control glass-input"
+               th:field="*{passport}"
+               placeholder="N1234567"
+               required>
 
-							<!-- Email Address -->
-							<div class="mb-3">
-								<label class="form-label small fw-semibold text-secondary">Email
-									Address</label> <input type="email" class="form-control glass-input"
-									th:field="*{email}" placeholder="name@example.com" required>
+        <div class="text-danger small mt-1"
+             th:if="${#fields.hasErrors('passport')}"
+             th:errors="*{passport}">
+        </div>
+    </div>
 
-								<div class="text-danger small mt-1"
-									th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
-								</div>
-							</div>
+    <div class="col-md-6">
+        <label class="form-label small fw-semibold text-secondary">
+            Date of Birth
+        </label>
 
-							<!-- Phone Number -->
-							<div class="mb-3">
-								<label class="form-label small fw-semibold text-secondary">Phone
-									Number</label> <input type="text" class="form-control glass-input"
-									th:field="*{phoneNumber}" placeholder="09123456789" required>
+        <input type="date" class="form-control glass-input"
+       th:field="*{dob}"
+       th:attr="max=${#dates.format(#dates.createNow(),'yyyy-MM-dd')}"
+       required>
+       
+        <div class="text-danger small mt-1"
+             th:if="${#fields.hasErrors('dob')}"
+             th:errors="*{dob}">
+        </div>
+    </div>
 
-								<div class="text-danger small mt-1"
-									th:if="${#fields.hasErrors('phoneNumber')}"
-									th:errors="*{phoneNumber}"></div>
-							</div>
+</div>
 
-							<!-- Password -->
-							<div class="mb-4">
-								<label class="form-label small fw-semibold text-secondary">Password</label>
-								<input type="password" class="form-control glass-input"
-									th:field="*{password}" placeholder="••••••••" required>
-							</div>
+					<!-- Email Address -->
+					<div class="mb-3">
+						<label class="form-label small fw-semibold text-secondary">Email
+							Address</label> <input type="email" class="form-control glass-input"
+							th:field="*{email}" placeholder="name@example.com" required>
 
-							<!-- Submit Button -->
-							<button type="submit" class="btn btn-glass-primary w-100 mb-3">Create
-								Account</button>
-						</form>
-
-						<!-- Footer Links -->
-						<div class="text-center mt-2">
-							<span class="small text-secondary">Already have an
-								account? </span> <a th:href="@{/airline/login}"
-								class="small text-decoration-none fw-bold text-primary">Login</a>
+						<div class="text-danger small mt-1"
+							th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
 						</div>
-
 					</div>
+
+					<!-- Phone Number -->
+					<div class="mb-3">
+						<label class="form-label small fw-semibold text-secondary">Phone
+							Number</label> <input type="text" class="form-control glass-input"
+							th:field="*{phoneNumber}" placeholder="09123456789" required>
+
+						<div class="text-danger small mt-1"
+							th:if="${#fields.hasErrors('phoneNumber')}"
+							th:errors="*{phoneNumber}"></div>
+					</div>
+
+					<!-- Password -->
+					<div class="mb-4">
+						<label class="form-label small fw-semibold text-secondary">Password</label>
+						<input type="password" class="form-control glass-input"
+							th:field="*{password}" placeholder="••••••••" required>
+					</div>
+
+					<!-- Submit Button -->
+					<button type="submit" class="btn btn-glass-primary w-100 mb-3">Create
+						Account</button>
+					</form>
+
+					<!-- Footer Links -->
+					<div class="text-center mt-2">
+						<span class="small text-secondary">Already have an account?
+						</span> <a th:href="@{/airline/login}"
+							class="small text-decoration-none fw-bold text-primary">Login</a>
+					</div>
+
 				</div>
 			</div>
+		</div>
 		</div>
 	</main>
 

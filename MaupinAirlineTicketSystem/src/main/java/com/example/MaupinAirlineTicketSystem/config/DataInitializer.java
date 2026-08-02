@@ -16,90 +16,82 @@ import com.example.MaupinAirlineTicketSystem.repository.UserRepository;
 @Configuration
 public class DataInitializer {
 
-	@Bean
-	CommandLineRunner init(UserRepository repo, SeatClassRepository seatClassRepo, PasswordEncoder encoder) {
+    @Bean
+    CommandLineRunner init(UserRepository repo, SeatClassRepository seatClassRepo, PasswordEncoder encoder) {
 
-		return args -> {
+        return args -> {
 
-			if (repo.findByEmail("admin@gmail.com") == null) {
+            // SUPER ADMIN ACCOUNT
+            if (repo.findByEmail("superadmin@gmail.com") == null) {
 
-				User admin = new User();
+                User superAdmin = new User();
 
-				admin.setFirstName("Admin");
-				admin.setLastName("Account");
-				admin.setPassport("ADMIN001");
-				admin.setDob(LocalDate.of(1990, 1, 1));
+                superAdmin.setFirstName("Super");
+                superAdmin.setLastName("Admin");
+                superAdmin.setPassport("SUPERADMIN001");
+                superAdmin.setDob(LocalDate.of(1985, 1, 1));
 
-				admin.setEmail("admin@gmail.com");
+                superAdmin.setEmail("superadmin@gmail.com");
+                superAdmin.setPassword(encoder.encode("superadmin123"));
 
-				admin.setPassword(encoder.encode("admin123"));
+                superAdmin.setPhoneNumber("0999999999");
 
-				admin.setPhoneNumber("0900000000");
+                superAdmin.setRole("SUPERADMIN");
+                superAdmin.setStatus("active");
 
-				admin.setRole("ADMIN");
+                repo.save(superAdmin);
 
-				admin.setStatus("active");
+                System.out.println("Super Admin account created!");
+            }
 
-				repo.save(admin);
 
-				System.out.println("Admin account created!");
-			}
-			//superadmin
-			if (repo.findByEmail("superadmin@gmail.com") == null) {
+            // ADMIN ACCOUNT
+            if (repo.findByEmail("admin@gmail.com") == null) {
 
-				User admin = new User();
+                User admin = new User();
 
-				admin.setFirstName("Super Admin");
-				admin.setLastName("Account");
-				admin.setPassport("SUPERADMIN001");
-				admin.setDob(LocalDate.of(1990, 1, 1));
+                admin.setFirstName("Admin");
+                admin.setLastName("Account");
+                admin.setPassport("ADMIN001");
+                admin.setDob(LocalDate.of(1990, 1, 1));
 
-				admin.setEmail("superadmin@gmail.com");
+                admin.setEmail("admin@gmail.com");
+                admin.setPassword(encoder.encode("admin123"));
 
-				admin.setPassword(encoder.encode("superadmin123"));
+                admin.setPhoneNumber("0900000000");
 
-				admin.setPhoneNumber("0900000000");
+                admin.setRole("ADMIN");
+                admin.setStatus("active");
 
-				admin.setRole("SUPERADMIN");
+                repo.save(admin);
 
-				admin.setStatus("active");
+                System.out.println("Admin account created!");
+            }
 
-				repo.save(admin);
 
-				System.out.println("Super Admin account created!");
-			}
+            // USER ACCOUNT
+            if (repo.findByEmail("user@gmail.com") == null) {
 
-			if (repo.findByEmail("user@gmail.com") == null) {
+                User user = new User();
 
-				User user = new User();
+                user.setFirstName("Test");
+                user.setLastName("User");
+                user.setPassport("USER001");
+                user.setDob(LocalDate.of(2000, 1, 1));
 
-				user.setFirstName("Test");
-				user.setLastName("User");
-				user.setPassport("USER001");
-				user.setDob(LocalDate.of(2000, 1, 1));
+                user.setEmail("user@gmail.com");
+                user.setPassword(encoder.encode("user123"));
 
-				user.setEmail("user@gmail.com");
+                user.setPhoneNumber("0911111111");
 
-				user.setPassword(encoder.encode("user123"));
+                user.setRole("USER");
+                user.setStatus("active");
 
-				user.setPhoneNumber("0911111111");
+                repo.save(user);
 
-				user.setRole("USER");
+                System.out.println("User account created!");
+            }
 
-				user.setStatus("active");
-
-				repo.save(user);
-
-				System.out.println("User account created!");
-			}
-
-//			if (seatClassRepo.count() == 0) {
-//				seatClassRepo.save(new SeatClass(1, "Economy", 20, 1.0));
-//				seatClassRepo.save(new SeatClass(2, "Business", 25, 2.0));
-//				seatClassRepo.save(new SeatClass(3, "First Class", 30, 3.0));
-//				System.out.println("Seat classes created!");
-//			}
-
-		};
-	}
+        };
+    }
 }

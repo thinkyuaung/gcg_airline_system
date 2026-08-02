@@ -130,12 +130,39 @@ public class Controller {
 	}
 
 	@PostMapping("/signup")
-	public String signup(@Valid @ModelAttribute User user, BindingResult result, Model model,
+	public String signup(@Valid @ModelAttribute("user") User user, BindingResult result,
 			@RequestParam(value = "pendingFlightPlanId", required = false) Integer pendingFlightPlanId,
 			@RequestParam(value = "pendingPassengers", required = false) Integer pendingPassengers,
 			@RequestParam(value = "pendingSeatClass", required = false) String pendingSeatClass, HttpSession session) {
 
 		if (result.hasErrors()) {
+			return "Login/signup";
+		}
+
+		User existingEmail = userRepository.findByEmail(user.getEmail());
+
+		if (existingEmail != null) {
+
+			if (existingEmail.getStatus().equals("inactive")) {
+
+				existingEmail.setFirstName(user.getFirstName());
+				existingEmail.setLastName(user.getLastName());
+				existingEmail.setPassport(user.getPassport());
+				existingEmail.setDob(user.getDob());
+				existingEmail.setEmail(user.getEmail());
+				existingEmail.setPhoneNumber(user.getPhoneNumber());
+
+				existingEmail.setPassword(passwordEncoder.encode(user.getPassword()));
+
+				existingEmail.setRole("USER");
+				existingEmail.setStatus("active");
+
+				userRepository.save(existingEmail);
+
+				return "redirect:/airline/login";
+			}
+
+			result.rejectValue("email", "error.user", "Email already exists.");
 
 			return "Login/signup";
 		}
@@ -143,6 +170,7 @@ public class Controller {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 
 		user.setRole("USER");
+
 		user.setStatus("active");
 
 		userRepository.save(user);
@@ -472,23 +500,33 @@ public class Controller {
 	@PostMapping("/admin/users/update")
 	public String updateUser(@Valid @ModelAttribute User user, BindingResult result, Model model) {
 
-		if (result.hasErrors()) {
-
-			return "Admin/admin-edit-user";
-		}
-
 		User existingUser = userRepository.findById(user.getUserId()).orElse(null);
 
 		if (existingUser == null) {
 			return "redirect:/airline/admin/dashboard";
 		}
 
-		user.setPassword(existingUser.getPassword());
-		user.setRole(existingUser.getRole());
-		user.setStatus(existingUser.getStatus());
-		user.setDob(user.getDob());
+		if (result.hasErrors()) {
 
-		userRepository.save(user);
+			model.addAttribute("user", user);
+
+			return "Admin/admin-edit-user";
+		}
+
+		existingUser.setFirstName(user.getFirstName());
+		existingUser.setLastName(user.getLastName());
+		existingUser.setPassport(user.getPassport());
+		if (user.getDob() != null) {
+			existingUser.setDob(user.getDob());
+		}
+		existingUser.setEmail(user.getEmail());
+		existingUser.setPhoneNumber(user.getPhoneNumber());
+
+		existingUser.setPassword(existingUser.getPassword());
+		existingUser.setRole(existingUser.getRole());
+		existingUser.setStatus(existingUser.getStatus());
+
+		userRepository.save(existingUser);
 
 		return "redirect:/airline/admin/dashboard";
 	}

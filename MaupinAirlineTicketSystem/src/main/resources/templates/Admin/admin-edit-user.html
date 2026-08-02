@@ -105,7 +105,20 @@
 
 							</div>
 
+							<!-- Passport Number -->
+							
+							<div class="mb-3">
 
+								<label class="form-label fw-semibold"> Passport Number </label>
+
+								<input type="text" class="form-control" th:field="*{passport}"
+									required>
+
+								<div class="text-danger small mt-1"
+									th:if="${#fields.hasErrors('passport')}"
+									th:errors="*{passport}"></div>
+
+							</div>
 
 							<!-- Date of Birth -->
 
@@ -118,7 +131,8 @@
 
 									<span class="input-group-text"> <i
 										class="bi bi-calendar"></i>
-									</span> <input type="date"  class="form-control" th:field="*{dob}"  th:attr="max=${#dates.format(#dates.createNow(),'yyyy-MM-dd')}">
+									</span> <input type="date" class="form-control" th:field="*{dob}"
+										th:attr="max=${#dates.format(#dates.createNow(),'yyyy-MM-dd')}">
 
 								</div>
 
