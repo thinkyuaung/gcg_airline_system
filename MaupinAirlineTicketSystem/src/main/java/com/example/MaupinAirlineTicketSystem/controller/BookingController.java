@@ -17,6 +17,7 @@ import com.example.MaupinAirlineTicketSystem.repository.UserRepository;
 import com.example.MaupinAirlineTicketSystem.service.BookingService;
 
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/airline")
@@ -47,7 +48,7 @@ public class BookingController {
 	}
 
 	@GetMapping("/booking/complete")
-	public String completeBooking(HttpSession session) {
+	public String completeBooking(HttpSession session, RedirectAttributes redirectAttributes) {
 
 	    Integer flightPlanId = (Integer) session.getAttribute("pendingFlightPlanId");
 	    Integer passengers = (Integer) session.getAttribute("pendingPassengers");
@@ -61,39 +62,57 @@ public class BookingController {
 	    session.removeAttribute("pendingPassengers");
 	    session.removeAttribute("pendingSeatClass");
 
-	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    User user = userRepository.findByEmail(auth.getName());
+	    try {
+		    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		    User user = userRepository.findByEmail(auth.getName());
 
-	    Booking booking = bookingService.createBooking(
-	            flightPlanId,
-	            seatClass,
-	            passengers,
-	            user
-	    );
+		    Booking booking = bookingService.createBooking(
+		            flightPlanId,
+		            seatClass,
+		            passengers,
+		            user
+		    );
 
-	    return "redirect:/airline/passenger/" + booking.getBookingId();
+		    return "redirect:/airline/passenger/" + booking.getBookingId();
+	    } catch (RuntimeException e) {
+	        redirectAttributes.addFlashAttribute("bookingError", e.getMessage());
+	        return redirectToBookingError(redirectAttributes, flightPlanId, passengers, seatClass);
+	    }
 	}
+
+    private String redirectToBookingError(RedirectAttributes redirectAttributes,
+            int flightPlanId, int passengers, String seatClass) {
+        redirectAttributes.addAttribute("passengers", passengers);
+        redirectAttributes.addAttribute("seatClass", seatClass);
+        return "redirect:/airline/flight/" + flightPlanId;
+    }
 
     @PostMapping("/booking")
     public String booking(
             @RequestParam int flightPlanId,
             @RequestParam int passengers,
             @RequestParam String seatClass,
-            Principal principal
+            Principal principal,
+            RedirectAttributes redirectAttributes
            ){
 
-    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    	User user = userRepository.findByEmail(auth.getName());
+    	try {
+	    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    	User user = userRepository.findByEmail(auth.getName());
 
-        Booking booking =
-                bookingService.createBooking(
-                        flightPlanId,
-                        seatClass,
-                        passengers,
-                        user
-                );
+	        Booking booking =
+	                bookingService.createBooking(
+	                        flightPlanId,
+	                        seatClass,
+	                        passengers,
+	                        user
+	                );
 
-        return "redirect:/airline/passenger/" + booking.getBookingId();
+	        return "redirect:/airline/passenger/" + booking.getBookingId();
+    	} catch (RuntimeException e) {
+    		redirectAttributes.addFlashAttribute("bookingError", e.getMessage());
+    		return redirectToBookingError(redirectAttributes, flightPlanId, passengers, seatClass);
+    	}
 
     }
 

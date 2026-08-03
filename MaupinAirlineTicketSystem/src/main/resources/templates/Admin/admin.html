@@ -13,9 +13,9 @@
 
 <style>
 body {
-	background-color: #f9f9f4;
-	color: #212529;
-	font-family: system-ui, -apple-system, sans-serif;
+	background-color: #f8fafc;
+	color: #1e293b;
+	font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 	overflow-x: hidden;
 }
 
@@ -42,9 +42,9 @@ body {
 	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
-/* Sidebar Layout Fixes */
+/* Sidebar Layout */
 .admin-sidebar {
-	background-color: #1e293b;
+	background-color: #0f172a;
 	box-shadow: 4px 0 24px rgba(0, 0, 0, 0.05);
 	z-index: 100;
 	overflow-y: auto;
@@ -86,87 +86,198 @@ body {
 	align-items: center;
 	gap: 0.75rem;
 	padding: 0.8rem 1.25rem;
-	color: #cccccc;
+	color: #94a3b8;
 	text-decoration: none;
-	border-radius: 8px;
+	border-radius: 10px;
 	font-weight: 500;
 	cursor: pointer;
 	transition: all 0.2s ease;
 }
 
 .admin-nav-link:hover, .admin-nav-link.active {
-	background-color: #0d6efd;
+	background-color: #2563eb;
 	color: #ffffff !important;
-	box-shadow: 0 4px 12px rgba(13, 110, 253, 0.25);
+	box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
 }
 
 .admin-nav-link.text-danger:hover {
-	background-color: #dc3545 !important;
+	background-color: #ef4444 !important;
 	color: #ffffff !important;
-	box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+	box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
 }
 
 .hidden-section {
 	display: none !important;
 }
 
-/* Cell borders & styling enhancement */
+/* Modern Action Buttons */
+.btn-primary-gradient {
+	background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+	color: #ffffff;
+	border: none;
+	font-weight: 600;
+	letter-spacing: 0.3px;
+	box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+	transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary-gradient:hover {
+	background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+	color: #ffffff;
+	transform: translateY(-2px);
+	box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+}
+
+.btn-action {
+	padding: 0.4rem 0.9rem;
+	font-size: 0.8125rem;
+	font-weight: 600;
+	border-radius: 50rem;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	transition: all 0.2s ease;
+	border: 1px solid transparent;
+}
+
+.btn-action-view {
+	background-color: #f0f9ff;
+	color: #0284c7;
+	border-color: #bae6fd;
+}
+.btn-action-view:hover {
+	background-color: #0284c7;
+	color: #ffffff;
+	box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+	transform: translateY(-1px);
+}
+
+.btn-action-edit {
+	background-color: #f8fafc;
+	color: #475569;
+	border-color: #cbd5e1;
+}
+.btn-action-edit:hover {
+	background-color: #475569;
+	color: #ffffff;
+	box-shadow: 0 4px 12px rgba(71, 85, 105, 0.3);
+	transform: translateY(-1px);
+}
+
+.btn-action-approve {
+	background-color: #f0fdf4;
+	color: #16a34a;
+	border-color: #bbf7d0;
+}
+.btn-action-approve:hover {
+	background-color: #16a34a;
+	color: #ffffff;
+	box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+	transform: translateY(-1px);
+}
+
+.btn-action-danger {
+	background-color: #fef2f2;
+	color: #dc2626;
+	border-color: #fecaca;
+}
+.btn-action-danger:hover {
+	background-color: #dc2626;
+	color: #ffffff;
+	box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+	transform: translateY(-1px);
+}
+
+/* =========================================================
+   REALISTIC & NATURAL DROPDOWN / FILTER INPUT STYLING
+   ========================================================= */
+.table-filter-card {
+	background: #ffffff;
+	border-bottom: 1px solid #e2e8f0;
+	padding: 1.15rem 1.25rem;
+}
+
+.custom-input-group {
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
+.custom-input-group .input-icon {
+	position: absolute;
+	left: 14px;
+	color: #64748b;
+	font-size: 0.95rem;
+	pointer-events: none;
+	transition: color 0.2s ease;
+	z-index: 5;
+}
+
+.custom-filter-input, .custom-filter-select {
+	padding-left: 2.6rem !important;
+	height: 42px;
+	font-size: 0.875rem;
+	font-weight: 500;
+	color: #1e293b;
+	background-color: #f8fafc;
+	border: 1px solid #cbd5e1;
+	border-radius: 8px !important;
+	transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Natural Dropdown Custom Arrow Implementation */
+.custom-filter-select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%3C475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 12px center;
+	background-size: 16px 16px;
+	padding-right: 2.5rem !important;
+	cursor: pointer;
+}
+
+.custom-filter-input:hover, .custom-filter-select:hover {
+	background-color: #ffffff;
+	border-color: #94a3b8;
+}
+
+.custom-filter-input:focus, .custom-filter-select:focus {
+	background-color: #ffffff;
+	border-color: #2563eb;
+	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+	outline: none;
+}
+
+.custom-input-group:focus-within .input-icon {
+	color: #2563eb;
+}
+
+/* Table Formatting */
 .table-bordered th, .table-bordered td {
-	border: 1px solid #dee2e6 !important;
-	padding: 0.75rem 1rem !important;
+	border: 1px solid #f1f5f9 !important;
+	padding: 0.85rem 1rem !important;
 }
 
 .table thead th {
-	background-color: #f1f5f9 !important;
-	border-bottom: 2px solid #cbd5e1 !important;
-}
-
-.custom-premium-table tbody tr, .custom-flightplan-table tbody tr,
-	.custom-airline-table tbody tr, .custom-airport-table tbody tr {
-	transition: background-color 0.15s ease;
-}
-
-.custom-premium-table tbody tr:hover, .custom-flightplan-table tbody tr:hover,
-	.custom-airline-table tbody tr:hover, .custom-airport-table tbody tr:hover
-	{
 	background-color: #f8fafc !important;
+	color: #64748b;
+	font-size: 0.75rem;
+	letter-spacing: 0.5px;
+	border-bottom: 2px solid #e2e8f0 !important;
 }
 
-.fw-mono {
-	font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
-		"Courier New", monospace;
-}
-
-.flat-btn, .flat-btn:focus, .flat-btn:active {
-	box-shadow: none !important;
-	outline: none !important;
-	transition: all 0.2s ease;
-}
-
-.airline-logo-frame {
-	width: 45px;
-	height: 45px;
-	border-radius: 50% !important;
-	overflow: hidden;
-	padding: 0 !important;
-}
-
-.airline-logo-frame img {
-	width: 100%;
-	height: 100%;
-	border-radius: 50% !important;
-	object-fit: cover;
-}
-
+/* Circle Logo Container */
 .circle-logo-container {
-	width: 50px;
-	height: 50px;
+	width: 40px;
+	height: 40px;
 	border-radius: 50% !important;
 	overflow: hidden;
-	border: 2px solid #0d6efd;
+	border: 2px solid #2563eb;
 	display: inline-flex;
 	align-items: center;
-	justify-content: center; /* fixed */
+	justify-content: center;
 	background-color: #f8fafc;
 }
 
@@ -174,132 +285,42 @@ body {
 	width: 100% !important;
 	height: 100% !important;
 	object-fit: cover !important;
-	border-radius: 50% !important;
 }
-/* Premium Card Styles Core Injection */
+
+/* Dashboard Cards */
 .premium-card {
 	position: relative;
 	background: #ffffff;
-	border: 1px solid rgba(0, 0, 0, 0.03);
+	border: 1px solid #f1f5f9;
 	border-radius: 16px;
-	box-shadow: 0 10px 30px rgba(165, 163, 153, 0.06);
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
 	padding: 24px 20px;
-	margin-top: 25px;
-	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	transition: all 0.3s ease;
 }
 
 .premium-card:hover {
-	transform: translateY(-6px);
-	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-	border-color: rgba(13, 110, 253, 0.1);
+	transform: translateY(-4px);
+	box-shadow: 0 20px 30px rgba(0, 0, 0, 0.06);
 }
 
 .glow-icon-box {
 	position: absolute;
 	top: -20px;
 	left: 24px;
-	width: 60px;
-	height: 60px;
+	width: 56px;
+	height: 56px;
 	border-radius: 14px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	color: white;
-	font-size: 26px;
-	transition: transform 0.3s ease;
+	font-size: 24px;
 }
 
-.premium-card:hover .glow-icon-box {
-	transform: scale(1.1) rotate(5deg);
-}
-
-.pulse-dot {
-	width: 8px;
-	height: 8px;
-	background-color: #ffc107;
-	border-radius: 50%;
-	display: inline-block;
-	box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7);
-	animation: pulse 1.6s infinite;
-}
-
-/* Keyframe animation fixed */
-@keyframes pulse {
-    0% {
-        transform: scale(0.95);
-        box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7);
-    }
-
-    70% {
-        transform: scale(1);
-        box-shadow: 0 0 0 8px rgba(255, 193, 7, 0);
-    }
-
-    100% {
-        transform: scale(0.95);
-        box-shadow: 0 0 0 0 rgba(255, 193, 7, 0);
-    }
-}
-/* @
-keyframes pulse { 0% {
-	transform: scale(0.95);
-	box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7);
-}
-
-70
-%
-{
-transform
-:
-scale(
-1
-);
-box-shadow
-:
-0
-0
-0
-8px
-rgba(
-255
-,
-193
-,
-7
-,
-0
-);
-}
-100
-%
-{
-transform
-:
-scale(
-0.95
-);
-box-shadow
-:
-0
-0
-0
-0
-rgba(
-255
-,
-193
-,
-7
-,
-0
-);
-}
-} */
 .premium-chart-wrapper {
 	position: relative;
 	height: 360px;
 	width: 100%;
-	padding-bottom: 25px;
 }
 </style>
 </head>
@@ -308,17 +329,14 @@ rgba(
 	<div class="container-fluid">
 		<div class="row">
 
+			<!-- Sidebar -->
 			<nav class="col-md-3 col-lg-2 d-md-block admin-sidebar px-3 py-4">
-				<!-- Brand Header with Official Logo -->
 				<div class="text-center mb-4">
-
-					<!-- BRAND LOGO -->
 					<a th:href="@{/airline/}">
-						<div th:href="@{/airline/}"
-							class="d-inline-flex align-items-center justify-content-center bg-white shadow-sm rounded-circle mb-3 overflow-hidden p-2"
-							style="width: 72px; height: 72px; border: 1px solid rgba(186, 230, 253, 0.8);">
+						<div class="d-inline-flex align-items-center justify-content-center bg-white shadow-sm rounded-circle mb-3 overflow-hidden p-2"
+							style="width: 60px; height: 60px;">
 							<img th:src="@{/images/Maubin AirLine.png}"
-								alt="Maubin AirLine Logo" class="img-fluid"
+								alt="Maubin AirLine Logo" class="img-fluid" 
 								style="max-height: 100%; object-fit: contain;">
 						</div>
 					</a>
@@ -328,8 +346,7 @@ rgba(
 						class="fw-bold fs-5 text-white">AirLine Admin</span>
 				</div>
 
-
-				<hr class="text-white">
+				<hr class="text-secondary">
 				<div class="d-flex flex-column gap-2">
 
 					<a th:href="@{/airline/}" class="admin-nav-link"
@@ -356,32 +373,25 @@ rgba(
 						onclick="switchTab('promotions')" id="tab-promotions"
 						class="admin-nav-link"
 						th:classappend="${activeTab == 'promotions'} ? ' active' : ''"><i
-						class="bi bi-receipt"></i> View Promotions </a> <a
+						class="bi bi-tag-fill"></i> View Promotions </a> <a
 						th:href="@{/airline/admin/airlines}"
 						onclick="switchTab('airline')" id="tab-airline"
 						class="admin-nav-link"
 						th:classappend="${activeTab == 'airline'} ? ' active' : ''"><i
-						class="bi bi-receipt"></i>AirLine</a> <a
+						class="bi bi-building"></i> Airline</a> <a
 						th:href="@{/airline/admin/airports}"
 						onclick="switchTab('airport')" id="tab-airport"
 						class="admin-nav-link"
 						th:classappend="${activeTab == 'airport'} ? ' active' : ''"><i
 						class="bi bi-geo-alt-fill"></i> Air Port</a>
 
-					<hr class="my-3 text-white">
+					<hr class="my-3 text-secondary">
 
 					<a sec:authorize="hasRole('SUPERADMIN')"
 						th:href="@{/airline/admin/dashboard}" class="admin-nav-link"
-						style="background-color: #0d6efd; color: #fff;"> <i
+						style="background-color: #2563eb; color: #fff;"> <i
 						class="bi bi-bar-chart-fill"></i> Super Admin Dashboard
 					</a>
-
-					<!-- Exit Portal -->
-					<!--  <a th:href="@{/airline/}" 
-   class="admin-nav-link">
-    <i class="bi bi-arrow-left-circle"></i>
-    Back to Home
-</a>-->
 
 					<a th:href="@{/airline/logout}" class="admin-nav-link text-danger">
 						<i class="bi bi-box-arrow-right"></i> Exit Portal
@@ -389,268 +399,196 @@ rgba(
 				</div>
 			</nav>
 
+			<!-- Main Content -->
 			<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
 
-
-
+				<!-- Dashboard Section -->
 				<div id="section-dashboard"
 					th:classappend="${activeTab != null} ? 'hidden-section' : ''">
-
-
-					<!-- Summary Cards -->
 					<div class="row g-4 mb-5">
-						<!-- Card 1 -->
 						<div class="col-12 col-sm-6 col-xl-3">
 							<div class="premium-card">
 								<div class="glow-icon-box bg-dark">
 									<i class="bi bi-building"></i>
 								</div>
 								<div class="text-end">
-									<span class="text-secondary small fw-medium">Available
-										Airlines</span>
+									<span class="text-secondary small fw-medium">Available Airlines</span>
 									<h2 class="fw-bold m-0 mt-1 text-dark"
 										th:text="${availableAirlines != null ? availableAirlines : '4'}">4</h2>
 								</div>
-								<div
-									class="mt-4 pt-2 border-top d-flex justify-content-between align-items-center">
+								<div class="mt-4 pt-2 border-top d-flex justify-content-between align-items-center">
 									<span class="text-muted small"><span
 										class="text-success fw-bold" th:text="${lastlyAddedAirline}"></span>
-										lastly added</span> <i class="bi bi-chevron-right text-muted small"></i>
+										lastly added</span> 
 								</div>
 							</div>
 						</div>
 
-						<!-- Card 2 -->
 						<div class="col-12 col-sm-6 col-xl-3">
 							<div class="premium-card">
 								<div class="glow-icon-box bg-success">
 									<i class="bi bi-airplane-fill"></i>
 								</div>
 								<div class="text-end">
-									<span class="text-secondary small fw-medium">Available
-										Flights</span>
+									<span class="text-secondary small fw-medium">Available Flights</span>
 									<h2 class="fw-bold m-0 mt-1 text-dark"
 										th:text="${availableFlights != null ? availableFlights : '8'}">8</h2>
 								</div>
-								<div
-									class="mt-4 pt-2 border-top d-flex justify-content-between align-items-center">
+								<div class="mt-4 pt-2 border-top d-flex justify-content-between align-items-center">
 									<span class="text-muted small">Flight No : <span
 										class="text-success fw-bold" th:text="${lastlyAddedFlight}"></span>
 										lastly added
-									</span> <i class="bi bi-chevron-right text-muted small"></i>
+									</span> 
 								</div>
 							</div>
 						</div>
 
-						<!-- Card 3 -->
 						<div class="col-12 col-sm-6 col-xl-3">
 							<div class="premium-card">
-								<div class="glow-icon-box"
-									style="background: linear-gradient(135deg, #800040, #ad1457);">
+								<div class="glow-icon-box" style="background: #800040;">
 									<i class="bi bi-ticket-perforated-fill"></i>
 								</div>
 								<div class="text-end">
-									<span class="text-secondary small fw-medium">Total
-										Bookings</span>
+									<span class="text-secondary small fw-medium">Total Bookings</span>
 									<h2 class="fw-bold m-0 mt-1 text-dark"
 										th:text="${totalBookings != null ? totalBookings : '40'}">40</h2>
 								</div>
-								<div
-									class="mt-4 pt-2 border-top d-flex justify-content-between align-items-center">
+								<div class="mt-4 pt-2 border-top d-flex justify-content-between align-items-center">
 									<span class="text-muted small">From <span
 										class="text-primary fw-bold" th:text="${totalUsers}"></span>
 										Registrations
-									</span> <i class="bi bi-chevron-right text-muted small"></i>
+									</span>
 								</div>
 							</div>
 						</div>
 
-						<!-- Card 4 -->
 						<div class="col-12 col-sm-6 col-xl-3">
 							<div class="premium-card">
 								<div class="glow-icon-box bg-primary">
 									<i class="bi bi-currency-exchange"></i>
 								</div>
 								<div class="text-end">
-									<span class="text-secondary small fw-medium">Total
-										Earnings</span>
+									<span class="text-secondary small fw-medium">Total Earnings</span>
 									<h2 class="fw-bold m-0 mt-1 text-primary"
-										th:text="'$ ' + ${#numbers.formatDecimal(totalEarnings, 1, 2)}">$
-										236,968</h2>
+										th:text="'$ ' + ${#numbers.formatDecimal(totalEarnings, 1, 2)}">$ 236,968</h2>
 								</div>
-								<div
-									class="mt-4 pt-2 border-top d-flex justify-content-between align-items-center">
+								<div class="mt-4 pt-2 border-top d-flex justify-content-between align-items-center">
 									<span class="text-muted small">Today: <span
-										class="text-success fw-bold">$ 18,010</span></span> <span
-										class="badge bg-success-subtle text-success rounded-pill px-2 py-0.5"
+										class="text-success fw-bold">$ 18,010</span></span>
+									<span class="badge bg-success-subtle text-success rounded-pill px-2 py-0.5"
 										style="font-size: 0.75rem;">+12%</span>
 								</div>
 							</div>
 						</div>
 					</div>
 
-					<!-- Advanced Premium Charts Section -->
 					<div class="premium-card p-4">
-						<div
-							class="d-flex justify-content-between align-items-center mb-4">
+						<div class="d-flex justify-content-between align-items-center mb-4">
 							<h3 class="text-dark fw-bold m-0">Booking Analytics</h3>
-							<div class="d-flex align-items-center gap-2">
-								<span class="pulse-dot"></span> <span
-									class="text-muted small fw-medium">Live Server Telemetry</span>
-							</div>
 						</div>
 						<div class="row g-5">
-							<!-- Left Column: Bookings per Month -->
 							<div class="col-lg-6 border-end pe-lg-4">
-								<h5 class="text-center fw-bold text-secondary mb-3">Bookings
-									Per Month</h5>
+								<h5 class="text-center fw-bold text-secondary mb-3">Bookings Per Month</h5>
 								<div class="premium-chart-wrapper">
 									<canvas id="bookingsMonthChart"></canvas>
 								</div>
 							</div>
-
-							<!-- Right Column: Booking Status Breakdown -->
 							<div class="col-lg-6 ps-lg-4">
-								<h5 class="text-center fw-bold text-secondary mb-3">Booking
-									Status Distribution</h5>
+								<h5 class="text-center fw-bold text-secondary mb-3">Booking Status Distribution</h5>
 								<div class="premium-chart-wrapper">
 									<canvas id="bookingStatusChart"></canvas>
 								</div>
-							</div>
+							</div> 
 						</div>
 					</div>
-
 				</div>
 
 				<!-- Manage Flights -->
 				<div id="section-flights"
 					th:classappend="${activeTab != 'flights'} ? 'hidden-section'">
-
-					<div
-						class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+					<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
 						<h4 class="fw-bold m-0">
-							<i class="bi bi-airplane-fill text-primary"></i> Flight
-							Scheduling Operations
+							<i class="bi bi-airplane-fill text-primary"></i> Flight Scheduling Operations
 						</h4>
-						<a th:href="@{/airline/admin/flightForm}"><button
-								class="btn btn-primary btn-sm px-4 rounded-pill">
-								<i class="bi bi-plus-circle"></i> Add New Flight
-							</button></a>
+						<a th:href="@{/airline/admin/flightForm}">
+							<button class="btn btn-primary-gradient px-4 py-2 rounded-pill">
+								<i class="bi bi-plus-circle me-1"></i> Add New Flight
+							</button>
+						</a>
 					</div>
 
-					<div class="card border rounded-4 bg-white overflow-hidden">
-						<div class="d-flex flex-wrap align-items-center gap-2 p-3 border-bottom">
-							<div class="position-relative flex-grow-1" style="max-width: 300px;">
-								<i class="bi bi-search position-absolute top-50 translate-middle-y ms-3 text-muted"></i>
-								<input type="text" id="searchFlights"
-									oninput="filterFlights()"
-									class="form-control ps-5 rounded-pill"
+					<div class="card border rounded-4 bg-white overflow-hidden shadow-sm">
+						<div class="table-filter-card d-flex flex-wrap align-items-center gap-3">
+							<div class="custom-input-group flex-grow-1" style="max-width: 300px;">
+								<i class="bi bi-search input-icon"></i>
+								<input type="text" id="searchFlights" oninput="filterFlights()"
+									class="form-control custom-filter-input"
 									placeholder="Search flight number...">
 							</div>
-							<select id="filterFlightAirline" onchange="filterFlights()"
-								class="form-select rounded-pill" style="max-width: 220px;">
-								<option value="">All Airlines</option>
-							</select>
+							<div class="custom-input-group flex-grow-1" style="max-width: 240px;">
+								<i class="bi bi-building input-icon"></i>
+								<select id="filterFlightAirline" onchange="filterFlights()"
+									class="form-select custom-filter-select">
+									<option value="">All Airlines</option>
+								</select>
+							</div>
 						</div>
 						<div class="table-responsive">
-
 							<table id="flightsTable" class="table table-bordered align-middle table-hover m-0">
 								<thead>
-									<tr class="text-muted small fw-bold">
+									<tr class="text-uppercase fw-bold">
 										<th>FLIGHT NUMBER</th>
 										<th>AIRLINE</th>
 										<th>FLIGHT FEATURES</th>
 										<th>ECONOMY</th>
 										<th>BUSINESS</th>
 										<th>FIRST CLASS</th>
-										<th>Total Seats</th>
+										<th>TOTAL SEATS</th>
 										<th>STATUS</th>
-										<th>ACTIONS</th>
+										<th class="text-end">ACTIONS</th>
 									</tr>
 								</thead>
-
 								<tbody>
 									<tr th:each="f: ${flights}">
-										<!-- 1. Flight Number -->
 										<td><span
 											class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded-2"
 											th:text="${f.flightNumber}"></span></td>
-
-										<!-- 2. Airline Name -->
 										<td class="fw-semibold text-dark"><span
 											th:if="${f.airline != null}"
 											th:text="${f.airline.airlineName}"></span> <span
-											th:unless="${f.airline != null}" class="text-muted small">No
-												Airline</span></td>
-
-
+											th:unless="${f.airline != null}" class="text-muted small">No Airline</span></td>
 										<td>
 											<div class="d-inline-flex align-items-center gap-2">
-												<!-- WiFi Icon -->
-												<i class="bi bi-wifi text-primary fs-5" title="WiFi"
-													data-bs-toggle="tooltip"
-													th:if="${f.wifi == 1 or f.wifi == true}"></i>
-
-												<!-- Meal Icon -->
-												<i class="bi bi-cup-hot-fill text-warning fs-5" title="Meal"
-													data-bs-toggle="tooltip"
-													th:if="${f.meal == 1 or f.meal == true}"></i>
-
-												<!-- Charging Icon -->
-												<i class="bi bi-battery-charging text-success fs-5"
-													title="Charging" data-bs-toggle="tooltip"
-													th:if="${f.charging == 1 or f.charging == true}"></i>
-
-												<!-- Entertainment Icon -->
-												<i class="bi bi-tv-fill text-danger fs-5"
-													title="Entertainment" data-bs-toggle="tooltip"
-													th:if="${f.entertainment == 1 or f.entertainment == true}"></i>
-
-												<!-- Default Badge when no features selected -->
-												<span
-													th:if="${(f.wifi == 0 or f.wifi == null) and (f.meal == 0 or f.meal == null) and (f.charging == 0 or f.charging == null) and (f.entertainment == 0 or f.entertainment == null)}"
-													class="badge bg-secondary-subtle text-secondary px-2 py-1 small">
-													No Features </span>
+												<i class="bi bi-wifi text-primary fs-5" title="WiFi" data-bs-toggle="tooltip" th:if="${f.wifi == 1 or f.wifi == true}"></i>
+												<i class="bi bi-cup-hot-fill text-warning fs-5" title="Meal" data-bs-toggle="tooltip" th:if="${f.meal == 1 or f.meal == true}"></i>
+												<i class="bi bi-battery-charging text-success fs-5" title="Charging" data-bs-toggle="tooltip" th:if="${f.charging == 1 or f.charging == true}"></i>
+												<i class="bi bi-tv-fill text-danger fs-5" title="Entertainment" data-bs-toggle="tooltip" th:if="${f.entertainment == 1 or f.entertainment == true}"></i>
+												<span th:if="${(f.wifi == 0 or f.wifi == null) and (f.meal == 0 or f.meal == null) and (f.charging == 0 or f.charging == null) and (f.entertainment == 0 or f.entertainment == null)}"
+													class="badge bg-secondary-subtle text-secondary px-2 py-1 small">No Features</span>
 											</div>
 										</td>
-
-										<!-- 4. Economy Seats -->
 										<td th:text="${f.ecomonySeats}"></td>
-
-										<!-- 5. Business Seats -->
 										<td th:text="${f.businessSeats}"></td>
-
-										<!-- 6. First Class Seats -->
 										<td th:text="${f.firseClassSeats}"></td>
-
-										<!-- 7. Total Seats -->
 										<td th:text="${f.totalSeats}"></td>
-
-										<!-- 5. Flight Status Dynamic Badge -->
-										<td><span class="badge"
-											th:classappend="${f.status == 'Active' ? 'bg-success-subtle text-success' : 'bg-success-subtle text-success'}"
-											th:text="${f.status != null ? f.status : 'N/A'}"> </span></td>
-
-										<!-- 6. Action Buttons -->
-										<td><a
-											th:href="@{/airline/admin/flight/detail/{id}(id=${f.flightId})}"
-											class="btn btn-sm btn-outline-info rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
-											<i class="bi bi-eye"></i> View
-										</a> <a
-											th:href="@{/airline/admin/flight/edit/{id}(id=${f.flightId})}"
-											class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
-												<i class="bi bi-pencil"></i> Edit
-										</a> 
-										<!-- <a
-											th:href="@{/airline/admin/flight/delete/{id}(id=${f.flightId})}"
-											class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn"
-											onclick="return confirm('Are me sure you want to delete this flight?')">
-												<i class="bi bi-x-circle"></i> Delete
-										</a> -->
+										<td><span class="badge bg-success-subtle text-success px-2 py-1 rounded-pill"
+											th:text="${f.status != null ? f.status : 'N/A'}"></span></td>
+										<td class="text-end">
+											<div class="d-inline-flex gap-2">
+												<a th:href="@{/airline/admin/flight/detail/{id}(id=${f.flightId})}" class="btn-action btn-action-view">
+													<i class="bi bi-eye"></i> View
+												</a> 
+												<a th:href="@{/airline/admin/flight/edit/{id}(id=${f.flightId})}" class="btn-action btn-action-edit">
+													<i class="bi bi-pencil"></i> Edit
+												</a> 
+											</div>
 										</td>
 									</tr>
 								</tbody>
 							</table>
+						</div>
+						<div class="d-flex justify-content-end px-3 py-2 border-top">
+							<nav><ul id="flightsPagination" class="pagination pagination-sm mb-0"></ul></nav>
 						</div>
 					</div>
 				</div>
@@ -658,46 +596,48 @@ rgba(
 				<!-- Flight Plans -->
 				<div id="section-flightPlans"
 					th:classappend="${activeTab != 'flightPlans'} ? 'hidden-section'">
-
-					<div
-						class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+					<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
 						<h4 class="fw-bold m-0">
-							<i class="bi bi-calendar-range-fill text-primary"></i> Flight
-							Plan Operations
+							<i class="bi bi-calendar-range-fill text-primary"></i> Flight Plan Operations
 						</h4>
-						<a th:href="@{/airline/admin/flightPlanForm}"><button
-								class="btn btn-primary btn-sm px-4 rounded-pill">
-								<i class="bi bi-plus-circle"></i> Add New Flight Plan
-							</button></a>
+						<a th:href="@{/airline/admin/flightPlanForm}">
+							<button class="btn btn-primary-gradient px-4 py-2 rounded-pill">
+								<i class="bi bi-plus-circle me-1"></i> Add New Flight Plan
+							</button>
+						</a>
 					</div>
-					<div class="card border rounded-4 bg-white overflow-hidden">
-						<div class="d-flex flex-wrap align-items-center gap-2 p-3 border-bottom">
-							<div class="position-relative flex-grow-1" style="max-width: 220px;">
-								<i class="bi bi-search position-absolute top-50 translate-middle-y ms-3 text-muted"></i>
-								<input type="text" id="searchFlightPlans"
-									oninput="filterFlightPlans()"
-									class="form-control ps-5 rounded-pill"
-									placeholder="Search flight number...">
+					<div class="card border rounded-4 bg-white overflow-hidden shadow-sm">
+						<div class="table-filter-card d-flex flex-wrap align-items-center gap-3">
+							<div class="custom-input-group flex-grow-1" style="max-width: 220px;">
+								<i class="bi bi-search input-icon"></i>
+								<input type="text" id="searchFlightPlans" oninput="filterFlightPlans()"
+									class="form-control custom-filter-input"
+									placeholder="Search flight no...">
 							</div>
-							<input type="date" id="filterFlightPlanDate" onchange="filterFlightPlans()"
-								class="form-control rounded-pill" style="max-width: 190px;"
-								title="Filter by flight date">
-							<select id="filterFlightPlanDepAirport" onchange="filterFlightPlans()"
-								class="form-select rounded-pill" style="max-width: 230px;">
-								<option value="">All Departure Airports</option>
-							</select>
-							<select id="filterFlightPlanArrAirport" onchange="filterFlightPlans()"
-								class="form-select rounded-pill" style="max-width: 230px;">
-								<option value="">All Arrival Airports</option>
-							</select>
+							<div class="custom-input-group flex-grow-1" style="max-width: 190px;">
+								<i class="bi bi-calendar3 input-icon"></i>
+								<input type="date" id="filterFlightPlanDate" onchange="filterFlightPlans()"
+									class="form-control custom-filter-input" title="Filter by date">
+							</div>
+							<div class="custom-input-group flex-grow-1" style="max-width: 240px;">
+								<i class="bi bi-geo-alt input-icon"></i>
+								<select id="filterFlightPlanDepAirport" onchange="filterFlightPlans()"
+									class="form-select custom-filter-select">
+									<option value="">All Departure Airports</option>
+								</select>
+							</div>
+							<div class="custom-input-group flex-grow-1" style="max-width: 240px;">
+								<i class="bi bi-geo-fill input-icon"></i>
+								<select id="filterFlightPlanArrAirport" onchange="filterFlightPlans()"
+									class="form-select custom-filter-select">
+									<option value="">All Arrival Airports</option>
+								</select>
+							</div>
 						</div>
 						<div class="table-responsive">
-
-							<table id="flightPlansTable"
-								class="table table-bordered align-middle table-hover m-0 custom-flightplan-table">
+							<table id="flightPlansTable" class="table table-bordered align-middle table-hover m-0">
 								<thead>
-									<tr class="text-secondary small fw-bold text-uppercase"
-										style="letter-spacing: 0.5px;">
+									<tr class="text-uppercase fw-bold">
 										<th>Flight</th>
 										<th>Departure Airport</th>
 										<th>Arrival Airport</th>
@@ -713,125 +653,95 @@ rgba(
 										<th class="text-end">Actions</th>
 									</tr>
 								</thead>
-
 								<tbody>
 									<tr th:each="fp : ${flightPlans}">
 										<td><span th:if="${fp.flight != null}"
 											class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded-2"
 											th:text="${fp.flight.flightNumber}"></span> <span
 											th:unless="${fp.flight != null}"
-											class="badge bg-danger-subtle text-danger fw-bold px-2 py-1 rounded-2">No
-												Flight</span></td>
-
+											class="badge bg-danger-subtle text-danger fw-bold px-2 py-1 rounded-2">No Flight</span></td>
 										<td class="fw-semibold text-dark"><span
 											th:if="${fp.departureAirport != null}"
 											th:text="${fp.departureAirport.airportName}"></span> <span
 											th:unless="${fp.departureAirport != null}"
-											class="text-muted small italic">N/A</span></td>
-
+											class="text-muted small">N/A</span></td>
 										<td class="fw-semibold text-dark"><span
 											th:if="${fp.arrivalAirport != null}"
 											th:text="${fp.arrivalAirport.airportName}"></span> <span
 											th:unless="${fp.arrivalAirport != null}"
-											class="text-muted small italic">N/A</span></td>
-
-										<td class="text-secondary small"><span
-											class="d-inline-flex align-items-center gap-1"><span
-												th:text="${#temporals.format(fp.departureTime, 'yyyy-MM-dd HH:mm')}"></span>
-										</span></td>
-
-										<td class="text-secondary small"><span
-											class="d-inline-flex align-items-center gap-1"> <span
-												th:text="${#temporals.format(fp.arrivalTime, 'yyyy-MM-dd HH:mm')}"></span>
-										</span></td>
-
-										<td class="text-dark fw-medium"
-											th:text="${#dates.format(fp.flight_date, 'yyyy-MM-dd')}"></td>
-
+											class="text-muted small">N/A</span></td>
+										<td class="text-secondary small"><span th:text="${#temporals.format(fp.departureTime, 'yyyy-MM-dd HH:mm')}"></span></td>
+										<td class="text-secondary small"><span th:text="${#temporals.format(fp.arrivalTime, 'yyyy-MM-dd HH:mm')}"></span></td>
+										<td class="text-dark fw-medium" th:text="${#dates.format(fp.flight_date, 'yyyy-MM-dd')}"></td>
 										<td th:text="${fp.ecomonySeats}"></td>
 										<td th:text="${fp.businessSeats}"></td>
 										<td th:text="${fp.firseClassSeats}"></td>
-
-										<td><span
-											class="badge bg-dark-subtle text-dark-emphasis border fw-bold px-2 py-1 rounded-pill"
-											th:text="${fp.availableSeats}"></span></td>
-
-										<td class="fw-bold text-dark"
-											th:text="${#numbers.formatDecimal(fp.price, 1, 2)}"></td>
-										<td><span
-											th:if="${fp.promotion != null}"
-											class="badge bg-dark-subtle text-dark-emphasis border fw-bold px-2 py-1 rounded-pill"
+										<td><span class="badge bg-dark-subtle text-dark border fw-bold px-2 py-1 rounded-pill" th:text="${fp.availableSeats}"></span></td>
+										<td class="fw-bold text-dark" th:text="${#numbers.formatDecimal(fp.price, 1, 2)}"></td>
+										<td><span th:if="${fp.promotion != null}"
+											class="badge bg-dark-subtle text-dark border fw-bold px-2 py-1 rounded-pill"
 											th:text="${fp.promotion.description}"></span> <span
 											th:unless="${fp.promotion != null}"
-											class="text-muted small italic">No Promotion</span></td>
+											class="text-muted small">No Promotion</span></td>
 										<td class="text-end">
 											<div class="d-inline-flex gap-2">
-												<a
-													th:href="@{/airline/admin/flightPlan/detail/{id}(id=${fp.flightPlanId})}"
-													class="btn btn-sm btn-outline-info rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
+												<a th:href="@{/airline/admin/flightPlan/detail/{id}(id=${fp.flightPlanId})}" class="btn-action btn-action-view">
 													<i class="bi bi-eye"></i> View
-												</a> <a
-													th:href="@{/airline/admin/flightPlan/edit/{id}(id=${fp.flightPlanId})}"
-													class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
+												</a> 
+												<a th:href="@{/airline/admin/flightPlan/edit/{id}(id=${fp.flightPlanId})}" class="btn-action btn-action-edit">
 													<i class="bi bi-pencil-square"></i> Edit
 												</a> 
-												<!-- <a
-													th:href="@{/airline/admin/flightPlan/delete/{id}(id=${fp.flightPlanId})}"
-													class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn"
-													onclick="return confirm('Are you sure you want to delete this flight plan?')">
-													<i class="bi bi-trash3"></i> Delete
-												</a> -->
 											</div>
 										</td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
+						<div class="d-flex justify-content-end px-3 py-2 border-top">
+							<nav><ul id="flightPlansPagination" class="pagination pagination-sm mb-0"></ul></nav>
+						</div>
 					</div>
 				</div>
 
-				<!-- Bookings -->
+				<!-- Bookings Section -->
 				<div id="section-bookings"
 					th:classappend="${activeTab != 'bookings'} ? 'hidden-section'">
-					<h5 class="fw-bold mb-4 text-dark d-flex align-items-center gap-2">
-						<i class="bi bi-receipt-cutoff text-primary fs-5"></i> <span>Passenger
-							Ticket Bookings</span>
-					</h5>
+					<h4 class="fw-bold mb-4 text-dark d-flex align-items-center gap-2">
+						<i class="bi bi-receipt-cutoff text-primary"></i> <span>Passenger Ticket Bookings</span>
+					</h4>
 
-					<div class="card border rounded-4 bg-white overflow-hidden">
-						<div class="d-flex flex-wrap align-items-center gap-2 p-3 border-bottom">
-							<div class="position-relative flex-grow-1" style="max-width: 240px;">
-								<i class="bi bi-person position-absolute top-50 translate-middle-y ms-3 text-muted"></i>
-								<input type="text" id="searchBookingPassenger"
-									oninput="filterBookings()"
-									class="form-control ps-5 rounded-pill"
+					<div class="card border rounded-4 bg-white overflow-hidden shadow-sm">
+						<div class="table-filter-card d-flex flex-wrap align-items-center gap-3">
+							<div class="custom-input-group flex-grow-1" style="max-width: 240px;">
+								<i class="bi bi-person input-icon"></i>
+								<input type="text" id="searchBookingPassenger" oninput="filterBookings()"
+									class="form-control custom-filter-input"
 									placeholder="Search passenger...">
 							</div>
-							<div class="position-relative flex-grow-1" style="max-width: 200px;">
-								<i class="bi bi-airplane position-absolute top-50 translate-middle-y ms-3 text-muted"></i>
-								<input type="text" id="searchBookingFlight"
-									oninput="filterBookings()"
-									class="form-control ps-5 rounded-pill"
+							<div class="custom-input-group flex-grow-1" style="max-width: 200px;">
+								<i class="bi bi-airplane input-icon"></i>
+								<input type="text" id="searchBookingFlight" oninput="filterBookings()"
+									class="form-control custom-filter-input"
 									placeholder="Search flight...">
 							</div>
-							<select id="filterBookingStatus" onchange="filterBookings()"
-								class="form-select rounded-pill" style="max-width: 200px;">
-								<option value="">All Statuses</option>
-								<option>PENDING</option>
-								<option>Success</option>
-								<option>Issued</option>
-								<option>Pending Cancel</option>
-								<option>CANCELLED</option>
-								<option>Being Booked</option>
-							</select>
+							<div class="custom-input-group flex-grow-1" style="max-width: 200px;">
+								<i class="bi bi-funnel input-icon"></i>
+								<select id="filterBookingStatus" onchange="filterBookings()"
+									class="form-select custom-filter-select">
+									<option value="">All Statuses</option>
+									<option>PENDING</option>
+									<option>Success</option>
+									<option>Issued</option>
+									<option>Pending Cancel</option>
+									<option>CANCELLED</option>
+									<option>Being Booked</option>
+								</select>
+							</div>
 						</div>
 						<div class="table-responsive">
-
-							<table id="bookingsTable"
-								class="table table-bordered align-middle table-hover m-0 custom-premium-table">
+							<table id="bookingsTable" class="table table-bordered align-middle table-hover m-0">
 								<thead>
-									<tr class="text-secondary small fw-bold text-uppercase"
-										style="letter-spacing: 0.5px;">
+									<tr class="text-uppercase fw-bold">
 										<th>Passenger</th>
 										<th>Flight</th>
 										<th>Class</th>
@@ -841,154 +751,127 @@ rgba(
 										<th>Payment SS</th>
 										<th>Total Amount</th>
 										<th>Status</th>
+										<th>Created</th>
 										<th class="text-end">Action</th>
 									</tr>
 								</thead>
-
 								<tbody>
 									<tr th:each="b : ${bookings}">
-										<td><span th:if="${b.user != null}"
-											th:text="${b.user.firstName} + ' ' + ${b.user.lastName}"></span>
-											<span th:unless="${b.user != null}">N/A</span></td>
-										<td><span
-											th:if="${b.flightPlan != null and b.flightPlan.flight != null}"
-											class="fw-bold text-primary"
-											th:text="${b.flightPlan.flight.flightNumber}"></span> <span
-											th:unless="${b.flightPlan != null and b.flightPlan.flight != null}">N/A</span>
-										</td>
-										<td><span th:if="${b.seatClass != null}"
-											th:text="${b.seatClass.className}"></span> <span
-											th:unless="${b.seatClass != null}">N/A</span></td>
+										<td><span th:if="${b.user != null}" th:text="${b.user.firstName} + ' ' + ${b.user.lastName}"></span> <span th:unless="${b.user != null}">N/A</span></td>
+										<td><span th:if="${b.flightPlan != null and b.flightPlan.flight != null}" class="fw-bold text-primary" th:text="${b.flightPlan.flight.flightNumber}"></span> <span th:unless="${b.flightPlan != null and b.flightPlan.flight != null}">N/A</span></td>
+										<td><span th:if="${b.seatClass != null}" th:text="${b.seatClass.className}"></span> <span th:unless="${b.seatClass != null}">N/A</span></td>
 										<td th:text="${b.passengers}"></td>
 										<td th:text="${b.seatClass != null ? b.seatClass.className : 'N/A'}"></td>
-										<td><span
-											th:if="${b.flightPlan != null and b.flightPlan.departureAirport != null}"
-											th:text="${b.flightPlan.departureAirport.airportName}"></span>
-											<span
-											th:unless="${b.flightPlan != null and b.flightPlan.departureAirport != null}">N/A</span>
-										</td>
-										<td><span
-											th:if="${b.payment != null and b.payment.paymentScreenshot != null}"
-											class="small text-decoration-none"> <i
-												class="bi bi-image text-info"></i> Uploaded
-										</span> <span
-											th:unless="${b.payment != null and b.payment.paymentScreenshot != null}"
-											class="text-muted small"> <i class="bi bi-image"></i>
-												None
-										</span></td>
+										<td><span th:if="${b.flightPlan != null and b.flightPlan.departureAirport != null}" th:text="${b.flightPlan.departureAirport.airportName}"></span> <span th:unless="${b.flightPlan != null and b.flightPlan.departureAirport != null}">N/A</span></td>
+										<td><span th:if="${b.payment != null and b.payment.paymentScreenshot != null}" class="small"><i class="bi bi-image text-info"></i> Uploaded</span> <span th:unless="${b.payment != null and b.payment.paymentScreenshot != null}" class="text-muted small"><i class="bi bi-image"></i> None</span></td>
 										<td th:text="${b.totalAmount}"></td>
 										<td>
 											<span class="badge" 
-												th:classappend="${b.status == 'PENDING'} ? 'bg-warning text-dark' : (${b.status == 'Success' or b.status == 'Issued'} ? 'bg-success' : (${b.status == 'Pending Cancel'} ? 'bg-warning text-dark' : (${b.status == 'CANCELLED'} ? 'bg-secondary' : (${b.status == 'Being Booked'} ? 'bg-info text-dark' : 'bg-secondary'))))"
+												th:classappend="${b.status == 'PENDING'} ? 'bg-warning text-dark' : (${b.status == 'Success'} ? 'bg-primary' : (${b.status == 'Issued'} ? 'bg-info text-dark' : (${b.status == 'Pending Cancel'} ? 'bg-warning text-dark' : (${b.status == 'CANCELLED'} ? 'bg-secondary' : (${b.status == 'Being Booked'} ? 'bg-dark' : 'bg-secondary')))))"
 												th:text="${b.status}"></span>
-											<small th:if="${b.status == 'Being Booked' and b.cancelDescription != null}" 
-												class="d-block text-muted mt-1" th:text="${b.cancelDescription}"></small>
 										</td>
-										<td>
-										
-											<a
-												th:href="@{/airline/admin/booking/detail/{id}(id=${b.bookingId})}"
-												class="">
+										<td class="text-secondary small">
+											<span th:if="${b.bookingDate != null}"
+												th:text="${#temporals.format(b.bookingDate, 'yyyy-MM-dd HH:mm')}"></span>
+											<span th:unless="${b.bookingDate != null}" class="text-muted small">N/A</span>
+										</td>
+										<td class="text-nowrap">
+											<a th:href="@{/airline/admin/booking/detail/{id}(id=${b.bookingId})}">
 												<button
-												class="btn btn-sm btn-outline-secondary py-0 px-2 shadow-sm"><i class="bi bi-eye"></i> View</button>
+												class="btn btn-sm btn-outline-secondary rounded-pill px-3 shadow-sm"><i class="bi bi-eye"></i> View</button>
 											</a>
-											<a th:if="${b.status == 'PENDING'}"
-												th:href="@{/airline/admin/booking/approve/{id}(id=${b.bookingId})}"
-												class="">
-												<button
-												class="btn btn-sm btn-primary py-0 px-2 shadow-sm"><i class="bi bi-boxes"></i> Approve</button>
-											</a>
+											<button th:if="${b.status == 'PENDING'}" type="button"
+												class="btn btn-sm btn-outline-primary rounded-pill px-3 shadow-sm"
+												data-bs-toggle="modal" data-bs-target="#approveBookingModal"
+												th:attr="data-booking-id=${b.bookingId}">
+												<i class="bi bi-boxes"></i> Approve</button>
 											<a th:if="${b.status == 'PENDING'}"
 												th:href="@{/airline/admin/booking/issue/{id}(id=${b.bookingId})}"
-												class="">
-												<button
-												class="btn btn-sm btn-danger py-0 px-2 shadow-sm"><i
-												class="bi bi-qr-code"></i>  Issued</button>
-											</a>
-											<a th:if="${b.status == 'Pending Cancel'}"
-												th:href="@{/airline/admin/booking/approve-cancel/{id}(id=${b.bookingId})}"
-												class="">
-												<button
-												class="btn btn-sm btn-success py-0 px-2 shadow-sm"><i class="bi bi-check-circle"></i> Approve Cancel</button>
-											</a>
+												class="btn btn-sm btn-primary rounded-pill px-3 shadow-sm">
+												<i class="bi bi-qr-code"></i> Issued</a>
+											<button th:if="${b.status == 'Pending Cancel'}" type="button"
+												class="btn btn-sm btn-primary rounded-pill px-3 shadow-sm"
+												data-bs-toggle="modal" data-bs-target="#approveCancelModal"
+												th:attr="data-booking-id=${b.bookingId}">
+												<i class="bi bi-check-circle"></i> Approve Cancel</button>
 											<a th:if="${b.status == 'Pending Cancel'}"
 												th:href="@{/airline/admin/booking/issue-cancel/{id}(id=${b.bookingId})}"
-												class="">
-												<button
-												class="btn btn-sm btn-danger py-0 px-2 shadow-sm"><i class="bi bi-x-circle"></i> Reject Cancel</button>
-											</a>
+												class="btn btn-sm btn-outline-danger rounded-pill px-3 shadow-sm">
+												<i class="bi bi-x-circle"></i> Reject Cancel</a>
 										</td>
-									</tr>
-									<tr th:if="${#lists.isEmpty(bookings)}">
-										<td colspan="10" class="text-center text-muted py-4">No bookings found.</td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
+						<div class="d-flex justify-content-end px-3 py-2 border-top">
+							<nav><ul id="bookingsPagination" class="pagination pagination-sm mb-0"></ul></nav>
+						</div>
 					</div>
 				</div>
 
-				<!-- Promotions -->
-
+				<!-- Promotions Section -->
 				<div id="section-promotions"
 					th:classappend="${activeTab != 'promotions'} ? 'hidden-section'">
-					<div
-						class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+					<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
 						<h4 class="fw-bold m-0">
 							<i class="bi bi-tag-fill text-primary"></i> Flight Promotions
 						</h4>
-						<a th:href="@{/airline/admin/promotionForm}"><button
-								class="btn btn-primary btn-sm px-4 rounded-pill">
-								<i class="bi bi-plus-circle"></i> Add New Promotion
-							</button></a>
+						<a th:href="@{/airline/admin/promotionForm}">
+							<button class="btn btn-primary-gradient px-4 py-2 rounded-pill">
+								<i class="bi bi-plus-circle me-1"></i> Add New Promotion
+							</button>
+						</a>
 					</div>
-					<div class="content-card bg-white">
-						<div class="d-flex flex-wrap align-items-center gap-2 pb-3">
-							<label class="small fw-bold text-muted m-0">Start Date</label>
-							<input type="date" id="filterPromoStartDate" onchange="filterPromotions()"
-								class="form-control rounded-pill" style="max-width: 190px;">
-							<label class="small fw-bold text-muted m-0">End Date</label>
-							<input type="date" id="filterPromoEndDate" onchange="filterPromotions()"
-								class="form-control rounded-pill" style="max-width: 190px;">
+					<div class="card border rounded-4 bg-white overflow-hidden shadow-sm">
+						<div class="table-filter-card d-flex flex-wrap align-items-center gap-3">
+							<div class="custom-input-group flex-grow-1" style="max-width: 220px;">
+								<i class="bi bi-calendar-event input-icon"></i>
+								<input type="date" id="filterPromoStartDate" onchange="filterPromotions()"
+									class="form-control custom-filter-input" title="Start Date">
+							</div>
+							<div class="custom-input-group flex-grow-1" style="max-width: 220px;">
+								<i class="bi bi-calendar-check input-icon"></i>
+								<input type="date" id="filterPromoEndDate" onchange="filterPromotions()"
+									class="form-control custom-filter-input" title="End Date">
+							</div>
 						</div>
 						<div class="table-responsive">
-							<table id="promotionsTable" class="table align-middle table-hover m-0">
-								<thead class="table-light">
-									<tr class="text-muted small fw-bold">
+							<table id="promotionsTable" class="table table-bordered align-middle table-hover m-0">
+								<thead>
+									<tr class="text-uppercase fw-bold">
 										<th>START DATE</th>
 										<th>END DATE</th>
 										<th>STATUS</th>
 										<th>DESCRIPTION</th>
 										<th>PERCENTAGE</th>
-										<th>ACTIONS</th>
+										<th class="text-end">ACTIONS</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr th:each="p : ${promotions}">
-										<td
-											th:text="${#temporals.format(p.startDate, 'yyyy-MM-dd HH:mm')}"></td>
-										<td
-											th:text="${#temporals.format(p.endDate, 'yyyy-MM-dd HH:mm')}"></td>
-										<td><span class="badge"
+										<td th:text="${#temporals.format(p.startDate, 'yyyy-MM-dd HH:mm')}"></td>
+										<td th:text="${#temporals.format(p.endDate, 'yyyy-MM-dd HH:mm')}"></td>
+										<td><span class="badge px-2 py-1 rounded-pill"
 											th:classappend="${p.status == 'Active'} ? 'bg-success' : (${p.status == 'Inactive'} ? 'bg-secondary' : 'bg-danger')"
 											th:text="${p.status}"></span></td>
 										<td th:text="${p.description}"></td>
 										<td th:text="${p.percentage}"></td>
-										<td>
-											<a th:href="@{/airline/admin/promotion/detail/{id}(id=${p.promotionId})}"
-												class="btn btn-sm btn-outline-info py-0 px-2"><i
-													class="bi bi-eye"></i> View</a>
-											<a th:href="@{/airline/admin/promotion/edit/{id}(id=${p.promotionId})}"
-												class="btn btn-sm btn-outline-secondary py-0 px-2"><i
-													class="bi bi-pencil"></i> Edit</a>
-											<!-- <a th:href="@{/airline/admin/promotion/delete/{id}(id=${p.promotionId})}"
-												class="btn btn-sm btn-outline-danger py-0 px-2"
-												onclick="return confirm('Are you sure you want to delete this promotion?')"><i
-													class="bi bi-x-circle"></i> Delete</a> -->
+										<td class="text-end">
+											<div class="d-inline-flex gap-2">
+												<a th:href="@{/airline/admin/promotion/detail/{id}(id=${p.promotionId})}" class="btn-action btn-action-view">
+													<i class="bi bi-eye"></i> View
+												</a>
+												<a th:href="@{/airline/admin/promotion/edit/{id}(id=${p.promotionId})}" class="btn-action btn-action-edit">
+													<i class="bi bi-pencil"></i> Edit
+												</a>
+											</div>
 										</td>
 									</tr>
 								</tbody>
 							</table>
+						</div>
+						<div class="d-flex justify-content-end px-3 py-2 border-top">
+							<nav><ul id="promotionsPagination" class="pagination pagination-sm mb-0"></ul></nav>
 						</div>
 					</div>
 				</div>
@@ -996,70 +879,57 @@ rgba(
 				<!-- Airline Management -->
 				<div id="section-airline"
 					th:classappend="${activeTab != 'airline'} ? 'hidden-section'">
-					<div
-						class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+					<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
 						<h4 class="fw-bold m-0">
 							<i class="bi bi-building text-primary"></i> Airline Management
 						</h4>
-						<button class="btn btn-primary btn-sm px-4 rounded-pill"
-							data-bs-toggle="modal" data-bs-target="#addAirlineModal">
-							<a th:href="@{/airline/admin/airlineForm}"
-								class="text-white text-decoration-none"><i
-								class="bi bi-plus-circle"></i> Add New Airline</a>
-						</button>
+						<a th:href="@{/airline/admin/airlineForm}">
+							<button class="btn btn-primary-gradient px-4 py-2 rounded-pill">
+								<i class="bi bi-plus-circle me-1"></i> Add New Airline
+							</button>
+						</a>
 					</div>
-				<div class="card border rounded-4 bg-white overflow-hidden">
-						<div class="d-flex flex-wrap align-items-center gap-2 p-3 border-bottom">
-							<input type="text" id="searchAirlineName"
-								oninput="filterAirlines()"
-								class="form-control rounded-pill"
-								style="max-width: 260px;" placeholder="Search airline name...">
-							<input type="text" id="searchAirlineCode"
-								oninput="filterAirlines()"
-								class="form-control rounded-pill"
-								style="max-width: 200px;" placeholder="Search airline code...">
+					<div class="card border rounded-4 bg-white overflow-hidden shadow-sm">
+						<div class="table-filter-card d-flex flex-wrap align-items-center gap-3">
+							<div class="custom-input-group flex-grow-1" style="max-width: 260px;">
+								<i class="bi bi-building input-icon"></i>
+								<input type="text" id="searchAirlineName" oninput="filterAirlines()"
+									class="form-control custom-filter-input" placeholder="Search airline name...">
+							</div>
+							<div class="custom-input-group flex-grow-1" style="max-width: 200px;">
+								<i class="bi bi-hash input-icon"></i>
+								<input type="text" id="searchAirlineCode" oninput="filterAirlines()"
+									class="form-control custom-filter-input" placeholder="Search airline code...">
+							</div>
 						</div>
 						<div class="table-responsive">
-
-							<table id="airlinesTable"
-								class="table table-bordered align-middle table-hover m-0 custom-airline-table">
+							<table id="airlinesTable" class="table table-bordered align-middle table-hover m-0">
 								<thead>
-									<tr class="text-secondary small fw-bold text-uppercase"
-										style="letter-spacing: 0.5px;">
+									<tr class="text-uppercase fw-bold">
 										<th class="text-center">Logo</th>
 										<th>Airline Code</th>
 										<th>Airline Name</th>
 										<th>Country</th>
 
-										<th class="text-end">Actions</th>
+										<th class="text-center">Actions</th>
 									</tr>
 								</thead>
-
 								<tbody>
 									<tr th:each="al : ${airline}">
 										<td class="text-center">
-
 											<div th:if="${al.logo != null}" class="circle-logo-container">
 												<img alt="Airline Logo" th:src="@{'/photos/' + ${al.logo}}">
-											</div> <span th:unless="${al.logo != null}"
-											class="text-muted small italic">No Logo</span>
+											</div> <span th:unless="${al.logo != null}" class="text-muted small">No Logo</span>
 										</td>
-										<td><span
-											class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded-2"
-											th:text="${al.airlineCode}"></span></td>
-										<td><span class="fw-semibold text-dark"
-											th:text="${al.airlineName}"></span></td>
+										<td><span class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded-2" th:text="${al.airlineCode}"></span></td>
+										<td><span class="fw-semibold text-dark" th:text="${al.airlineName}"></span></td>
 										<td class="text-secondary" th:text="${al.country}"></td>
-
 										<td class="text-end">
 											<div class="d-inline-flex gap-2">
-												<a
-													th:href="@{/airline/admin/airline/detail/{id}(id=${al.airlineId})}"
-													class="btn btn-sm btn-outline-info rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
+												<a th:href="@{/airline/admin/airline/detail/{id}(id=${al.airlineId})}" class="btn-action btn-action-view">
 													<i class="bi bi-eye"></i> View
-												</a> <a
-													th:href="@{/airline/admin/airline/edit/{id}(id=${al.airlineId})}"
-													class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
+												</a> 
+												<a th:href="@{/airline/admin/airline/edit/{id}(id=${al.airlineId})}" class="btn-action btn-action-edit">
 													<i class="bi bi-pencil-square"></i> Edit
 												</a>
 											</div>
@@ -1068,82 +938,64 @@ rgba(
 								</tbody>
 							</table>
 						</div>
+						<div class="d-flex justify-content-end px-3 py-2 border-top">
+							<nav><ul id="airlinesPagination" class="pagination pagination-sm mb-0"></ul></nav>
+						</div>
 					</div>
 				</div>
-				<!-- Airline -->
 
 				<!-- Airport Terminals -->
-				<div th:classappend="${activeTab != 'airport'} ? 'hidden-section'"
-					id="section-airport">
-					<div
-						class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+				<div th:classappend="${activeTab != 'airport'} ? 'hidden-section'" id="section-airport">
+					<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
 						<h4 class="fw-bold m-0">
 							<i class="bi bi-geo-alt-fill text-primary"></i> Airport Terminals
 						</h4>
-						<a href="/airline/admin/airportForm"
-							class="btn btn-primary btn-sm px-4 rounded-pill text-white text-decoration-none">
-							<i class="bi bi-plus-circle"></i> Add New Airport
+						<a href="/airline/admin/airportForm">
+							<button class="btn btn-primary-gradient px-4 py-2 rounded-pill">
+								<i class="bi bi-plus-circle me-1"></i> Add New Airport
+							</button>
 						</a>
 					</div>
 
-					<div class="card border rounded-4 bg-white overflow-hidden">
-						<div class="d-flex flex-wrap align-items-center gap-2 p-3 border-bottom">
-							<input type="text" id="searchAirportCode"
-								oninput="filterAirports()"
-								class="form-control rounded-pill"
-								style="max-width: 200px;" placeholder="Search airport code...">
-							<input type="text" id="searchAirportName"
-								oninput="filterAirports()"
-								class="form-control rounded-pill"
-								style="max-width: 260px;" placeholder="Search airport name...">
+					<div class="card border rounded-4 bg-white overflow-hidden shadow-sm">
+						<div class="table-filter-card d-flex flex-wrap align-items-center gap-3">
+							<div class="custom-input-group flex-grow-1" style="max-width: 200px;">
+								<i class="bi bi-hash input-icon"></i>
+								<input type="text" id="searchAirportCode" oninput="filterAirports()"
+									class="form-control custom-filter-input" placeholder="Search airport code...">
+							</div>
+							<div class="custom-input-group flex-grow-1" style="max-width: 260px;">
+								<i class="bi bi-geo-alt input-icon"></i>
+								<input type="text" id="searchAirportName" oninput="filterAirports()"
+									class="form-control custom-filter-input" placeholder="Search airport name...">
+							</div>
 						</div>
 						<div class="table-responsive">
-
-							
-							<table id="airportsTable"
-								class="table table-bordered align-middle table-hover m-0 custom-airport-table">
+							<table id="airportsTable" class="table table-bordered align-middle table-hover m-0">
 								<thead>
-									<tr class="text-secondary small fw-bold text-uppercase"
-										style="letter-spacing: 0.5px;">
+									<tr class="text-uppercase fw-bold">
 										<th class="text-center">Image</th>
 										<th>Airport Code</th>
 										<th>Airport Name</th>
 										<th>City</th>
 										<th class="text-end">Actions</th>
-
-
 									</tr>
 								</thead>
-
 								<tbody>
 									<tr th:each="ap : ${airport}">
-										<!-- <td class="py-3">
- 
-											<div th:if="${al.logo != null}" class="circle-logo-container">
-												<img alt="Airport Image" th:src="@{'/photos/' + ${al.logo}}">
-											</div> <span th:unless="${al.logo != null}"
-											class="text-muted small italic">No Logo</span>
-										</td> -->
-										<td class="text-center"><img th:if="${ap.image != null}"
-											alt="Logo" class="circle-logo-container"
-											th:src="@{'/photos/'+${ap.image}}"> <span
-											th:unless="${ap.image != null}"
-											class="text-muted small italic">No Logo</span></td>
-										<td><span
-											class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded-2"
-											th:text="${ap.airportCode}"></span></td>
-										<td><span class="fw-semibold text-dark"
-											th:text="${ap.airportName}"></span></td>
+										<td class="text-center">
+											<img th:if="${ap.image != null}" alt="Logo" class="circle-logo-container" th:src="@{'/photos/'+${ap.image}}">
+											<span th:unless="${ap.image != null}" class="text-muted small">No Logo</span>
+										</td>
+										<td><span class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded-2" th:text="${ap.airportCode}"></span></td>
+										<td><span class="fw-semibold text-dark" th:text="${ap.airportName}"></span></td>
 										<td class="text-secondary" th:text="${ap.city}"></td>
 										<td class="text-end">
 											<div class="d-inline-flex gap-2">
-												<a
-													th:href="@{/airline/admin/airport/detail/{id}(id=${ap.airportId})}"
-													class="btn btn-sm btn-outline-info rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
+												<a th:href="@{/airline/admin/airport/detail/{id}(id=${ap.airportId})}" class="btn-action btn-action-view">
 													<i class="bi bi-eye"></i> View
-												</a> <a
-													th:href="@{/airline/admin/airport/edit/{id}(id=${ap.airportId})}"
-													class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
+												</a> 
+												<a th:href="@{/airline/admin/airport/edit/{id}(id=${ap.airportId})}" class="btn-action btn-action-edit">
 													<i class="bi bi-pencil-square"></i> Edit
 												</a>
 											</div>
@@ -1152,10 +1004,59 @@ rgba(
 								</tbody>
 							</table>
 						</div>
+						<div class="d-flex justify-content-end px-3 py-2 border-top">
+							<nav><ul id="airportsPagination" class="pagination pagination-sm mb-0"></ul></nav>
+						</div>
 					</div>
 				</div>
 
 			</main>
+		</div>
+	</div>
+
+	<!-- Approve Booking Modal -->
+	<div class="modal fade" id="approveBookingModal" tabindex="-1"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content rounded-3">
+				<div class="modal-header">
+					<h5 class="modal-title fw-bold"><i class="bi bi-boxes text-primary"></i> Approve Booking</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p class="mb-0">Are you sure you want to approve this booking? The booking will be confirmed and the customer will receive their eTicket.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-light rounded-pill px-4"
+						data-bs-dismiss="modal">Cancel</button>
+					<a id="approveBookingConfirm" href="#"
+						class="btn btn-primary rounded-pill px-4"><i class="bi bi-check-circle"></i> Approve</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Approve Cancel Modal -->
+	<div class="modal fade" id="approveCancelModal" tabindex="-1"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content rounded-3">
+				<div class="modal-header">
+					<h5 class="modal-title fw-bold"><i class="bi bi-check-circle text-success"></i> Approve Cancellation</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p class="mb-0">Are you sure you want to approve this cancellation? The booking will be cancelled, the seats restored and the customer will receive a confirmation email.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-light rounded-pill px-4"
+						data-bs-dismiss="modal">Cancel</button>
+					<a id="approveCancelConfirm" href="#"
+						class="btn btn-primary rounded-pill px-4"><i class="bi bi-check-circle"></i> Approve Cancel</a>
+				</div>
+			</div>
 		</div>
 	</div>
 
@@ -1201,6 +1102,21 @@ rgba(
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 	<script>
+    document.querySelectorAll('.modal').forEach(function (m) {
+      m.addEventListener('show.bs.modal', function (e) {
+        var btn = e.relatedTarget;
+        if (!btn || !btn.hasAttribute('data-booking-id')) return;
+        var id = btn.getAttribute('data-booking-id');
+        if (m.id === 'approveBookingModal') {
+          document.getElementById('approveBookingConfirm').href = '/airline/admin/booking/approve/' + id;
+        } else if (m.id === 'approveCancelModal') {
+          document.getElementById('approveCancelConfirm').href = '/airline/admin/booking/approve-cancel/' + id;
+        }
+      });
+    });
+	</script>
+
+	<script>
     function switchTab(tabName) {
       document.getElementById('section-dashboard').classList.add('hidden-section');
       document.getElementById('section-flights').classList.add('hidden-section');
@@ -1210,7 +1126,6 @@ rgba(
       document.getElementById('section-airline').classList.add('hidden-section');
       document.getElementById('section-airport').classList.add('hidden-section');
      
-      
       if (tabName === 'dashboard') {
         document.getElementById('section-dashboard').classList.remove('hidden-section');
       } else if (tabName === 'flights') {
@@ -1228,7 +1143,6 @@ rgba(
         document.getElementById('section-airport').classList.remove('hidden-section');
       }
       
- 
       document.querySelectorAll('.admin-nav-link').forEach(link => link.classList.remove('active'));
       document.getElementById(`tab-${tabName}`).classList.add('active');
     }
@@ -1238,8 +1152,69 @@ rgba(
       rows.forEach(function (row) {
         const cells = row.querySelectorAll('td');
         if (cells.length === 0) return;
-        row.style.display = predicate(cells) ? '' : 'none';
+        const matches = predicate(cells);
+        row.dataset.hidden = matches ? '0' : '1';
+        row.style.display = matches ? '' : 'none';
       });
+      refreshPager(tableId);
+    }
+
+    var tablePagers = {
+      flightsTable: { pageSize: 8 },
+      flightPlansTable: { pageSize: 8 },
+      bookingsTable: { pageSize: 8 },
+      promotionsTable: { pageSize: 8 },
+      airlinesTable: { pageSize: 8 },
+      airportsTable: { pageSize: 8 }
+    };
+
+    function refreshPager(tableId) {
+      const cfg = tablePagers[tableId];
+      const table = document.getElementById(tableId);
+      const pagEl = document.getElementById(tableId.replace('Table', 'Pagination'));
+      if (!cfg || !table || !pagEl) return;
+
+      const rows = Array.from(table.querySelectorAll('tbody tr'));
+      const visible = rows.filter(function (r) { return r.dataset.hidden !== '1'; });
+      const totalPages = Math.max(1, Math.ceil(visible.length / cfg.pageSize));
+      if (!cfg.page || cfg.page > totalPages) cfg.page = 1;
+
+      const start = (cfg.page - 1) * cfg.pageSize;
+      const end = start + cfg.pageSize;
+      visible.forEach(function (r, i) {
+        r.style.display = (i >= start && i < end) ? '' : 'none';
+      });
+
+      pagEl.innerHTML = '';
+      if (totalPages <= 1) return;
+
+      const ul = document.createElement('ul');
+      ul.className = 'pagination pagination-sm m-0';
+
+      function addBtn(label, page, disabled, active) {
+        const li = document.createElement('li');
+        li.className = 'page-item' + (disabled ? ' disabled' : '') + (active ? ' active' : '');
+        const a = document.createElement('a');
+        a.className = 'page-link';
+        a.href = '#';
+        a.textContent = label;
+        if (!disabled) {
+          a.addEventListener('click', function (e) {
+            e.preventDefault();
+            cfg.page = page;
+            refreshPager(tableId);
+          });
+        }
+        li.appendChild(a);
+        ul.appendChild(li);
+      }
+
+      addBtn('Previous', cfg.page - 1, cfg.page === 1, false);
+      for (let p = 1; p <= totalPages; p++) {
+        addBtn(String(p), p, false, p === cfg.page);
+      }
+      addBtn('Next', cfg.page + 1, cfg.page === totalPages, false);
+      pagEl.appendChild(ul);
     }
 
     function cellText(cells, i) {
@@ -1332,11 +1307,20 @@ rgba(
       populateSelectFromColumn('filterFlightAirline', 'flightsTable', 1);
       populateSelectFromColumn('filterFlightPlanDepAirport', 'flightPlansTable', 1);
       populateSelectFromColumn('filterFlightPlanArrAirport', 'flightPlansTable', 2);
+
+      Object.keys(tablePagers).forEach(function (tableId) {
+        const table = document.getElementById(tableId);
+        if (!table) return;
+        table.querySelectorAll('tbody tr').forEach(function (row) {
+          if (!row.dataset.hidden) row.dataset.hidden = '0';
+        });
+        tablePagers[tableId].page = 1;
+        refreshPager(tableId);
+      });
     });
   </script>
 
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 	<script th:inline="javascript">
     /*<![CDATA[*/
     document.addEventListener("DOMContentLoaded", function () {
@@ -1346,7 +1330,6 @@ rgba(
         const statusLabels = /*[[${chartBookingStatusLabels}]]*/ [];
         const statusData = /*[[${chartBookingStatusData}]]*/ [];
 
-        // Bookings Per Month - Line Chart
         const lineCanvas = document.getElementById('bookingsMonthChart');
         if (lineCanvas && Array.isArray(monthLabels) && Array.isArray(monthData) && monthLabels.length > 0) {
             new Chart(lineCanvas.getContext('2d'), {
@@ -1356,11 +1339,11 @@ rgba(
                     datasets: [{
                         label: 'Bookings',
                         data: monthData,
-                        borderColor: '#0d6efd',
-                        backgroundColor: 'rgba(13, 110, 253, 0.1)',
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
                         fill: true,
                         tension: 0.3,
-                        pointBackgroundColor: '#0d6efd',
+                        pointBackgroundColor: '#2563eb',
                         pointRadius: 4,
                         borderWidth: 2.5
                     }]
@@ -1383,13 +1366,12 @@ rgba(
             });
         }
 
-        // Booking Status Distribution - Doughnut Chart
         const doughnutCanvas = document.getElementById('bookingStatusChart');
         if (doughnutCanvas && Array.isArray(statusLabels) && Array.isArray(statusData) && statusLabels.length > 0) {
             const statusColors = {
                 'PENDING': '#ffc107',
-                'Success': '#198754',
-                'Issued': '#0d6efd',
+                'Success': '#0d6efd',
+                'Issued': '#0dcaf0',
                 'CANCELLED': '#dc3545',
                 'Pending Cancel': '#fd7e14',
                 'Being Booked': '#6f42c1'
@@ -1400,7 +1382,7 @@ rgba(
                     labels: statusLabels,
                     datasets: [{
                         data: statusData,
-                        backgroundColor: statusLabels.map(l => statusColors[l] || '#6c757d'),
+                        backgroundColor: statusLabels.map(l => statusColors[l] || '#64748b'),
                         borderWidth: 2,
                         borderColor: '#ffffff'
                     }]
