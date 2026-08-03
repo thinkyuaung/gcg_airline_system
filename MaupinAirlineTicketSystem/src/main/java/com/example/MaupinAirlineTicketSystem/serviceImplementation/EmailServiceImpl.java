@@ -12,6 +12,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.example.MaupinAirlineTicketSystem.entity.Booking;
+import com.example.MaupinAirlineTicketSystem.entity.User;
+import com.example.MaupinAirlineTicketSystem.repository.UserRepository;
 import com.example.MaupinAirlineTicketSystem.service.EmailService;
 
 import jakarta.mail.MessagingException;
@@ -23,9 +25,20 @@ public class EmailServiceImpl implements EmailService {
 	@Autowired
 	private JavaMailSender mailSender;
 
+	@Autowired
+	private UserRepository userRepository;
+
 	@Override
 	public void sendTicketEmail(Booking booking, String serialCode) {
-		String toEmail = booking.getUser().getEmail();
+		User user = booking.getUser() != null
+				? userRepository.findById(booking.getUser().getUserId()).orElse(booking.getUser())
+				: null;
+
+		if (user == null) {
+			return;
+		}
+
+		String toEmail = user.getEmail();
 		String subject = "Your Flight Ticket - " + booking.getFlightPlan().getFlight().getFlightNumber();
 
 		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd MMM yyyy, hh:mm a");
@@ -38,7 +51,7 @@ public class EmailServiceImpl implements EmailService {
 		String arrTime = booking.getFlightPlan().getArrivalTime().format(fmt);
 		String cls = booking.getSeatClass().getClassName();
 		//String seat = booking.getSeatNumber() != null ? booking.getSeatNumber() : "N/A";
-		String name = booking.getUser().getFirstName() + " " + booking.getUser().getLastName();
+		String name = user.getFirstName() + " " + user.getLastName();
 		double amount = booking.getTotalAmount();
 
 		String htmlBody = "<div style='font-family:Arial,sans-serif;max-width:600px;margin:auto;border:1px solid #e0e0e0;border-radius:10px;overflow:hidden'>"

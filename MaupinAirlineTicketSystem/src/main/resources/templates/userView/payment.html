@@ -11,42 +11,33 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
 	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap" rel="stylesheet">
 	
     <style>
-        *{
+       *{
     margin:0;
     padding:0;
     box-sizing:border-box;
 }
 
 body{
-    background:linear-gradient(135deg,#edf5ff,#f8fbff);
-    font-family:'Segoe UI',sans-serif;
+    font-family:'Source Sans 3',sans-serif;
+    background:#faf8ff;
+    color:#191b23;
     min-height:100vh;
-    padding:25px;
-}
-
-/* ---------- Main Container ---------- */
-
-body{
-    background:linear-gradient(135deg,#eef5ff,#f8fbff);
-    font-family:'Segoe UI',sans-serif;
-    min-height:100vh;
-    margin:0;
-    padding:0;
-
     display:flex;
     flex-direction:column;
 }
 
-body{
-    background:linear-gradient(135deg,#eef5ff,#f8fbff);
-    margin:0;
-    padding:0;
+h1,h2,h3,h4,h5,h6{
+    font-family:'Manrope',sans-serif;
 }
 
+/* ---------- Main Container ---------- */
+
 .page-content{
-    min-height:100vh;
+    flex:1;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -59,51 +50,115 @@ body{
 }
 
 .payment-card{
-    border-radius:18px;
+    border-radius:12px;
     overflow:hidden;
     background:#fff;
-    box-shadow:0 8px 25px rgba(0,0,0,.08);
+    box-shadow:0 .125rem .5rem rgba(0,0,0,.08);
 }
 
 /* ---------- Header ---------- */
 
 .header-section{
-    padding:16px 24px;
-    background:linear-gradient(135deg,#0057D9,#4D8DFF);
-    color:white;
+    padding:24px 32px;
+    background:#fff;
+    border-bottom:1px solid #ededf9;
+    color:#191b23;
 }
 
 .header-section h2{
     font-size:24px;
+    font-weight:700;
     margin:0;
+    color:#031f41;
+}
+
+.header-section h2 i{
+    color:#004ac6;
 }
 
 .header-section p{
     font-size:13px;
     margin-top:3px;
+    color:#737686;
+}
+
+.header-section .btn-link:hover{
+    color:#2563eb !important;
+    gap:8px;
 }
 
 .amount-box{
-    padding:10px 18px;
+    padding:16px 20px;
     border-radius:12px;
-    background:rgba(255,255,255,.15);
+    background:#ededf9;
+    text-align:right;
 }
 
-.amount-box h2{
+.amount-box h2, .amount-box h5{
+    color:#004ac6;
+}
+
+.amount-box p{
+    color:#737686;
+    font-size:13px;
+}
+
+/* Floating Back Button */
+
+.btn-float-back{
+    position:fixed;
+    top:24px;
+    left:24px;
+    z-index:1050;
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    background:#fff;
+    color:#2b6485;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 .25rem .75rem rgba(3,31,65,.15);
+    border:none;
+    transition:.2s ease;
+    text-decoration:none;
+}
+
+.btn-float-back:hover{
+    background:#2b6485;
+    color:#fff;
+    transform:translateY(-2px);
+    box-shadow:0 .5rem 1rem rgba(3,31,65,.25);
+}
+
+.btn-float-back:active{
+    transform:scale(.95);
+}
+
+.btn-float-back .material-symbols-outlined{
     font-size:24px;
-    margin:0;
 }
 
+@media (max-width:576px){
+    .btn-float-back{
+        top:16px;
+        left:16px;
+        width:42px;
+        height:42px;
+    }
+}
 /* ---------- Content ---------- */
 
 .content{
-    padding:18px 22px;
+    padding:24px 32px;
 }
 
 .section-title{
     font-size:18px;
+    font-weight:600;
     margin-bottom:12px;
 }
+
 
 /* ---------- Payment Methods ---------- */
 
@@ -111,46 +166,49 @@ body{
     height:52px;
     border-radius:12px;
     font-size:15px;
-    border:2px solid #E5ECF8;
+    font-weight:600;
+    border:2px solid #ededf9;
+    background:#f3f3fe;
+    color:#191b23;
     transition:.25s;
-
     display:flex;
     justify-content:center;
     align-items:center;
-
     cursor:pointer;
     text-align:center;
 }
 
 .method-card.active{
-    background:linear-gradient(135deg,#0057D9,#3A86FF);
-    color:#fff;
-    border-color:#0057D9;
-    font-weight:600;
+    background:#ededf9;
+    color:#004ac6;
+    border-color:#004ac6;
 }
 
 .method-card:hover{
     transform:translateY(-2px);
-     border-color:#3A86FF;
+    border-color:#004ac6;
+    box-shadow:0 .5rem 1rem rgba(0,74,198,.08);
 }
 
 .payment-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:15px;
-    margin-top:15px;
+    gap:20px;
+    margin-top:20px;
 }
 
 /* ---------- Panels ---------- */
 
 .panel{
-    padding:18px;
-    border-radius:16px;
-    border:1px solid #E8EEF6;
+    padding:24px;
+    border-radius:12px;
+    background:#f3f3fe;
+    border:none;
 }
 
 .panel-title{
     font-size:18px;
+    font-weight:600;
     margin-bottom:12px;
 }
 
@@ -162,19 +220,26 @@ body{
     display:block;
     margin:auto;
     object-fit:contain;
+    background:#fff;
+    border-radius:12px;
+    padding:8px;
 }
 
 .wallet-name{
     font-size:18px;
+    font-weight:600;
     margin-top:12px;
+    color:#004ac6;
 }
 
 .phone-number{
     font-size:20px;
+    font-weight:700;
 }
 
 .panel hr{
-    margin:12px 0;
+    margin:16px 0;
+    border-color:#e1e2ed;
 }
 
 .panel .small{
@@ -184,21 +249,26 @@ body{
 /* ---------- Upload ---------- */
 
 .upload-box{
-    padding:18px;
-    border-radius:14px;
+    padding:24px;
+    border-radius:12px;
+    background:#fff;
+    text-align:center;
 }
 
 .upload-box i{
     font-size:38px;
+    color:#004ac6;
 }
 
 .upload-box h4{
     font-size:18px;
+    font-weight:600;
     margin-top:10px;
 }
 
 .upload-box p{
     font-size:13px;
+    color:#737686;
 }
 
 /* ---------- File Input ---------- */
@@ -207,13 +277,15 @@ body{
     padding:8px 12px;
     font-size:14px;
     margin-top:12px;
+    border:1px solid #e1e2ed;
+    border-radius:8px;
 }
 
 /* ---------- Button ---------- */
 
 .btn-payment{
     width:100%;
-    height:46px;
+    height:48px;
     margin-top:14px;
 
     display:flex;
@@ -222,13 +294,20 @@ body{
 
     white-space:nowrap;
 
+    font-family:'Manrope',sans-serif;
     font-size:15px;
     font-weight:600;
 
     border:none;
-    border-radius:10px;
+    border-radius:12px;
+    color:#fff;
 
-    background:linear-gradient(90deg,#0057D9,#3A86FF);
+    background:#004ac6;
+    transition:.2s;
+}
+
+.btn-payment:hover{
+    background:#2563eb;
 }
 
 .btn-payment i{
@@ -238,9 +317,11 @@ body{
 /* ---------- Info ---------- */
 
 .info-box{
-    margin-top:14px;
-    padding:12px;
+    margin-top:16px;
+    padding:16px;
     font-size:13px;
+    background:#fff;
+    border-radius:12px;
 }
 
 .info-box ul{
@@ -250,6 +331,7 @@ body{
 
 .info-box li{
     margin-bottom:4px;
+    color:#434655;
 }
 
 /* ---------- Mobile ---------- */
@@ -263,22 +345,23 @@ body{
     .header-section .d-flex{
         flex-direction:column;
         gap:12px;
+        align-items:flex-start !important;
     }
 
 }
 
 @media(max-width:576px){
 
-    body{
+    .page-content{
         padding:10px;
     }
 
     .content{
-        padding:15px;
+        padding:20px;
     }
 
     .header-section{
-        padding:15px;
+        padding:20px;
     }
 
 }
@@ -292,6 +375,19 @@ body{
 
 <div class="page-content">
 
+<button
+    type="button"
+    class="btn-float-back"
+    onclick="history.back()"
+    aria-label="Go back"
+    title="Go back">
+
+    <span class="material-symbols-outlined">
+        arrow_back
+    </span>
+
+</button>
+
 <div class="payment-wrapper">
 
        <div class="payment-card">
@@ -302,7 +398,6 @@ body{
             <div class="d-flex justify-content-between align-items-center header-flex">
 
                 <div>
-
                     <h2>
                         <i class="bi bi-credit-card-2-front-fill"></i>
                         Complete Your Payment
@@ -314,25 +409,16 @@ body{
 
                 </div>
 
-                <div class="amount-box">
+               <div class="amount-box">
 
     <!-- Promotion exists -->
     <div th:if="${flightPlanPromotion != null or globalPromotion != null or payment.booking.promotion != null}">
 
-        <p>Original Price</p>
+        <p class="mb-1">Original Price</p>
 
-        <h5>
-            $
-            <span th:text="${originalPrice}"></span>
+        <h5 class="text-decoration-line-through" style="color:#737686; font-weight:600;">
+            $<span th:text="${originalPrice}"></span>
         </h5>
-
-<!-- Flight Plan Promotion -->
-        <div th:if="${flightPlanPromotion != null}" class="text-success small">
-            <i class="bi bi-tag-fill"></i>
-            Flight Promo:
-            <span th:text="${flightPlanPromotion.percentage}"></span>
-            % OFF
-        </div>
 
 <!-- Global Promotion -->
         <div th:if="${globalPromotion != null}" class="text-info small">
@@ -354,7 +440,7 @@ body{
             <span th:text="${finalPrice}"></span>
         </h2>
 
-        <p class="text-muted">
+        <p class="mb-0" style="color:#737686;">
             Final Price
         </p>
 
@@ -372,10 +458,8 @@ body{
     </div>
 
 </div>
-            </div>
 
-        </div>
-
+</div>
         <!-- CONTENT -->
         <div class="content">
 
@@ -541,42 +625,33 @@ body{
                          UPLOAD
                     ========================== -->
 
-                    <div class="panel">
+                  <div class="panel">
 
-                        <h3 class="panel-title text-center">
+    <h3 class="panel-title text-center">
+        <i class="bi bi-cloud-arrow-up"></i>
+        Upload Payment Proof
+    </h3>
 
-                            <i class="bi bi-cloud-arrow-up"></i>
-                            Upload Payment Proof
+    <div class="upload-box">
 
-                        </h3>
+        <i class="bi bi-cloud-upload"></i>
 
-                        <div class="upload-box">
+        <p class="text-muted mt-3 mb-0">
+            PNG, JPG or JPEG — screenshot of your completed transfer
+        </p>
 
-                            <i class="bi bi-cloud-upload"></i>
+        <input
+            type="file"
+            class="form-control"
+            name="screenshot"
+            accept="image/*"
+            required>
 
-                            <h4 class="mt-4">
-                                Upload Screenshot
-                            </h4>
+        <button type="submit" class="btn-payment">
+            <span>Submit Payment</span>
+        </button>
 
-                            <p class="text-muted">
-
-                                PNG, JPG or JPEG
-
-                            </p>
-
-                            <input
-                                    type="file"
-                                    class="form-control"
-                                    name="screenshot"
-                                    accept="image/*"
-                                    required>
-
-                            <button type="submit" class="btn-payment">
-    							<i class="bi bi-check-circle-fill"></i>
-    							<span>Submit Payment</span>
-							</button>
-
-                        </div>
+    </div>
 
                         <div class="info-box">
 
@@ -622,6 +697,19 @@ body{
     </div>
 
 </div>
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer >
+
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center small" style="color: #64748b;">
+                <p class="m-0">&copy; 2026 Maubin AirLine. All rights reserved.</p>
+                <p class="m-0 fw-semibold italic" style="color: #0ea5e9; font-style: italic;">Fly Far. Pay Less. Travel Better.</p>
+            </div>
+        </div>
+    </footer>
 
     <script>
 

@@ -67,6 +67,15 @@ public class AdminBookingController {
 		return "redirect:/airline/admin/bookings";
 	}
 
+	@GetMapping("/admin/booking/detail/{id}")
+	public String bookingDetail(@PathVariable("id") int id, Model model) {
+		Booking booking = adminBookingService.getBookingById(id);
+		if (booking != null) {
+			model.addAttribute("booking", booking);
+		}
+		return "Admin/bookingDetail";
+	}
+
 	@GetMapping("/admin/booking/issue/{id}")
 	public String issueBookingForm(@PathVariable("id") int id, Model model) {
 		Booking booking = adminBookingService.getBookingById(id);

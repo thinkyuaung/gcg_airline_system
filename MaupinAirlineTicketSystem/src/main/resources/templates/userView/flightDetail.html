@@ -150,7 +150,50 @@ h1,h2,h3,h4,h5,h6{
 }
 
 
+/* Floating Back Button */
 
+.btn-float-back{
+    position:fixed;
+    top:24px;
+    left:24px;
+    z-index:1050;
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    background:#fff;
+    color:#2b6485;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 .25rem .75rem rgba(3,31,65,.15);
+    border:none;
+    transition:.2s ease;
+    text-decoration:none;
+}
+
+.btn-float-back:hover{
+    background:#2b6485;
+    color:#fff;
+    transform:translateY(-2px);
+    box-shadow:0 .5rem 1rem rgba(3,31,65,.25);
+}
+
+.btn-float-back:active{
+    transform:scale(.95);
+}
+
+.btn-float-back .material-symbols-outlined{
+    font-size:24px;
+}
+
+@media (max-width:576px){
+    .btn-float-back{
+        top:16px;
+        left:16px;
+        width:42px;
+        height:42px;
+    }
+}
 /* ==========================
    COLORS (UNCHANGED)
 ========================== */
@@ -363,50 +406,52 @@ h1,h2,h3,h4,h5,h6{
 
 <main>
 
-
 <div class="flight-container">
 
+<button
+    type="button"
+    class="btn-float-back"
+    onclick="history.back()"
+    aria-label="Go back"
+    title="Go back">
 
+    <span class="material-symbols-outlined">
+        arrow_back
+    </span>
+
+</button>
     <!-- ==========================
          Breadcrumb
     =========================== -->
 
     <nav class="d-flex align-items-center gap-2 label-sm text-uppercase mb-5"
-         style="letter-spacing:2px;color:#737686;">
+     style="letter-spacing:2px;color:#737686;">
 
+    <a th:href="@{/airline/}"
+       class="text-decoration-none"
+       style="color:inherit;">
+        Search
+    </a>
 
-        <span>
-            Search
-        </span>
+    <span class="material-symbols-outlined" style="font-size:14px;">
+        chevron_right
+    </span>
 
+    <a th:href="@{/airline/flights}"
+       class="text-decoration-none"
+       style="color:inherit;">
+        Select Flight
+    </a>
 
-        <span class="material-symbols-outlined"
-              style="font-size:14px;">
-            chevron_right
-        </span>
+    <span class="material-symbols-outlined" style="font-size:14px;">
+        chevron_right
+    </span>
 
+    <span class="text-primary-custom">
+        Booking Details
+    </span>
 
-        <span>
-            Select Flight
-        </span>
-
-
-        <span class="material-symbols-outlined"
-              style="font-size:14px;">
-            chevron_right
-        </span>
-
-
-        <span class="text-primary-custom">
-            Booking Details
-        </span>
-
-
-    </nav>
-
-
-
-
+</nav>
 
 <div class="row g-4 pb-5">
 
@@ -434,58 +479,11 @@ h1,h2,h3,h4,h5,h6{
          top:-40px;">
     </div>
 
-    <div
-        th:if="${flightPlanPromotion != null or globalPromotion != null}"
-        class="promo-box mt-4">
-
-
-    <div class="d-flex flex-wrap align-items-center justify-content-between gap-4 position-relative">
-
-
-        <div th:if="${flightPlanPromotion != null}"
-             class="alert alert-success mb-2">
-            <i class="bi bi-tag-fill me-2"></i>
-            Flight Promo:
-            <strong th:text="${flightPlanPromotion.percentage + '% OFF'}"></strong>
-            <span class="d-block small" th:text="${flightPlanPromotion.description}"></span>
-        </div>
-
-        <div th:if="${globalPromotion != null}"
-             class="alert alert-info mb-0">
-            <i class="bi bi-megaphone-fill me-2"></i>
-            Monthly Promo:
-            <strong th:text="${globalPromotion.percentage + '% OFF'}"></strong>
-            <span class="d-block small" th:text="${globalPromotion.description}"></span>
-        </div>
-
-    <!-- PROMOTION -->
-    <div th:if="${flightPlanPromotion != null or globalPromotion != null}"
-         class="mb-4 position-relative">
-
-        <div th:if="${globalPromotion != null}"
-             class="alert alert-info mb-0">
-
-            <i class="bi bi-megaphone-fill me-2"></i>
-
-            Monthly Promo:
-
-
-            <strong th:text="${globalPromotion.percentage + '% OFF'}">
-            </strong>
-
-            <span class="d-block small"
-                  th:text="${globalPromotion.description}">
-            </span>
-
-        </div>
-
-    </div>
-
-
-
+    
+   
+        
     <!-- FLIGHT INFORMATION -->
     <div class="d-flex align-items-center gap-4 position-relative">
-
 
         <div class="flight-icon shadow">
 
@@ -494,8 +492,6 @@ h1,h2,h3,h4,h5,h6{
             </span>
 
         </div>
-
-
 
         <div>
 
@@ -752,7 +748,7 @@ h1,h2,h3,h4,h5,h6{
 
         <!-- CHARGING -->
 
-        <div class="col-6 co-md-3"
+        <div class="col-6 col-md-3"
              th:if="${flightPlan.flight.charging==1}">
 
             <div class="amenity-card h-100">
@@ -928,6 +924,31 @@ h1,h2,h3,h4,h5,h6{
                         </span>
 
                     </div>
+                    
+                    <!-- PROMOTION (moved here from flight header) -->
+<div class="d-flex justify-content-between"
+     th:if="${flightPlanPromotion != null or globalPromotion != null}">
+
+    <span style="color:#737686;">
+        Promotion
+    </span>
+
+    <span class="fw-semibold text-primary-custom">
+        <span th:if="${flightPlanPromotion != null}"
+              th:text="${flightPlanPromotion.percentage + '% OFF'}">
+        </span>
+        <span th:if="${flightPlanPromotion == null and globalPromotion != null}"
+              th:text="${globalPromotion.percentage + '% OFF'}">
+        </span>
+    </span>
+
+</div>
+
+<div class="small"
+     style="color:#004ac6;"
+     th:if="${globalPromotion != null and flightPlanPromotion == null}"
+     th:text="${globalPromotion.description}">
+</div>
 
                     <div class="d-flex justify-content-between">
                         <span style="color:#737686;">
@@ -942,6 +963,7 @@ h1,h2,h3,h4,h5,h6{
                 </div>
             </div>
 
+				
             <!-- TOTAL -->
 
             <div class="p-4"
@@ -1119,3 +1141,4 @@ h1,h2,h3,h4,h5,h6{
 
 </body>
 </html>
+

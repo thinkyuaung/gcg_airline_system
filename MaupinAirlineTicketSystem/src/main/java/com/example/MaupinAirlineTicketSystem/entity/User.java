@@ -11,6 +11,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Past;
 @Entity
 @Table(name = "users")
@@ -20,20 +21,30 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int userId;
+	
 	@NotBlank(message = "First name is required.")
+	@Size(max = 30, message = "First name must not exceed 30 characters.")
 	@Pattern(
-		    regexp = "^[A-Za-z ]+$",
-		    message = "First name must contain only letters."
-		)
-		private String firstName;;
+	    regexp = "^[A-Za-z ]+$",
+	    message = "First name must contain only letters."
+	)
+	private String firstName;
 	
 	@NotBlank(message = "Last name is required.")
+	@Size(max = 30, message = "Last name must not exceed 30 characters.")
 	@Pattern(
-			 regexp = "^[A-Za-z ]+$",
-			 message = "Last name must contain only letters."
-			)
-		private String lastName;
+	    regexp = "^[A-Za-z ]+$",
+	    message = "Last name must contain only letters."
+	)
+	private String lastName;
 	
+	@NotBlank(message = "Passport number is required.")
+	@Size(max = 20, message = "Passport number must not exceed 20 characters.")
+	@Pattern(
+	    regexp = "^[A-Za-z0-9]+$",
+	    message = "Passport number must contain only letters and numbers."
+	)
+	@Column(unique = true, nullable = false, length = 20)
 	private String passport;
 	
 	@Past(message = "Date of Birth cannot be in the future.")

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Booking Detail</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <style>
+        body { background: #f4f7fb; font-family: 'Segoe UI', sans-serif; }
+        .detail-card { border: none; border-radius: 18px; box-shadow: 0 8px 25px rgba(0,0,0,.08); overflow: hidden; }
+        .detail-header { background: linear-gradient(135deg, #0057D9, #3A86FF); color: white; padding: 22px 26px; }
+        .detail-body { padding: 26px; }
+        .section-title { font-size: 16px; font-weight: 700; margin: 26px 0 14px; color: #1f2937; }
+        .section-title:first-child { margin-top: 0; }
+        .info-label { font-size: 12px; color: #6b7280; text-transform: uppercase; font-weight: 600; }
+        .info-value { font-size: 15px; font-weight: 600; color: #1f2937; }
+        .reason-box { background: #fff8e7; border-left: 5px solid #f59e0b; padding: 16px; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-light">
+
+<div th:replace="~{Fragments/header :: navbar}"></div>
+
+<div class="container py-4">
+    <div class="card detail-card">
+        <div class="detail-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div>
+                <h4 class="mb-0 fw-bold"><i class="bi bi-receipt me-2"></i>Booking Detail</h4>
+                <small class="opacity-75">Booking ID: <span th:text="${booking.bookingId}"></span></small>
+            </div>
+            <span class="badge bg-light text-dark fs-6"
+                  th:text="${booking.status}"></span>
+        </div>
+
+        <div class="detail-body">
+
+            <!-- Cancellation Request -->
+            <div th:if="${booking.status == 'Pending Cancel' and booking.cancelDescription != null}" class="reason-box mb-3">
+                <div class="fw-bold text-warning-emphasis mb-1">
+                    <i class="bi bi-hourglass-split me-2"></i>Cancellation Requested
+                </div>
+                <p class="mb-0 text-dark" th:text="${booking.cancelDescription}"></p>
+            </div>
+
+            <!-- User -->
+            <div class="section-title"><i class="bi bi-person me-2"></i>Passenger / User</div>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="info-label">Name</div>
+                    <div class="info-value" th:text="${booking.user != null ? (booking.user.firstName + ' ' + booking.user.lastName) : 'N/A'}"></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-label">Email</div>
+                    <div class="info-value" th:text="${booking.user != null ? booking.user.email : 'N/A'}"></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-label">Phone</div>
+                    <div class="info-value" th:text="${booking.user != null ? booking.user.phoneNumber : 'N/A'}"></div>
+                </div>
+            </div>
+
+            <!-- Flight -->
+            <div class="section-title"><i class="bi bi-airplane me-2"></i>Flight</div>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="info-label">Airline</div>
+                    <div class="info-value" th:text="${booking.flightPlan != null and booking.flightPlan.flight != null and booking.flightPlan.flight.airline != null ? booking.flightPlan.flight.airline.airlineName : 'N/A'}"></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-label">Flight Number</div>
+                    <div class="info-value" th:text="${booking.flightPlan != null and booking.flightPlan.flight != null ? booking.flightPlan.flight.flightNumber : 'N/A'}"></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-label">Booking Code</div>
+                    <div class="info-value" th:text="${booking.bookingCode != null ? booking.bookingCode : 'N/A'}"></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-label">Route</div>
+                    <div class="info-value">
+                        <span th:text="${booking.flightPlan != null and booking.flightPlan.departureAirport != null ? booking.flightPlan.departureAirport.city : 'N/A'}"></span>
+                        <i class="bi bi-arrow-right mx-1"></i>
+                        <span th:text="${booking.flightPlan != null and booking.flightPlan.arrivalAirport != null ? booking.flightPlan.arrivalAirport.city : 'N/A'}"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-label">Departure</div>
+                    <div class="info-value" th:text="${booking.flightPlan != null and booking.flightPlan.departureTime != null ? #temporals.format(booking.flightPlan.departureTime, 'dd MMM yyyy, HH:mm') : 'N/A'}"></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-label">Arrival</div>
+                    <div class="info-value" th:text="${booking.flightPlan != null and booking.flightPlan.arrivalTime != null ? #temporals.format(booking.flightPlan.arrivalTime, 'dd MMM yyyy, HH:mm') : 'N/A'}"></div>
+                </div>
+            </div>
+
+            <!-- Booking -->
+            <div class="section-title"><i class="bi bi-ticket-perforated me-2"></i>Booking</div>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="info-label">Seat Class</div>
+                    <div class="info-value" th:text="${booking.seatClass != null ? booking.seatClass.className : 'N/A'}"></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-label">Passengers</div>
+                    <div class="info-value" th:text="${booking.passengers}"></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-label">Total Amount</div>
+                    <div class="info-value">$<span th:text="${#numbers.formatDecimal(booking.totalAmount, 1, 2)}"></span></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-label">Booking Date</div>
+                    <div class="info-value" th:text="${booking.bookingDate != null ? #temporals.format(booking.bookingDate, 'dd MMM yyyy, HH:mm') : 'N/A'}"></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-label">Payment Status</div>
+                    <div class="info-value" th:text="${booking.payment != null ? booking.payment.paymentStatus : 'N/A'}"></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-label">Payment Method</div>
+                    <div class="info-value" th:text="${booking.payment != null and booking.payment.paymentMethod != null ? booking.payment.paymentMethod : 'N/A'}"></div>
+                </div>
+            </div>
+
+            <div th:if="${booking.payment != null and booking.payment.paymentScreenshot != null}" class="mt-3">
+                <div class="info-label mb-1">Payment Screenshot</div>
+                <img th:src="@{'/photos/payment/' + ${booking.payment.paymentScreenshot}}"
+                     alt="Payment Screenshot" class="img-fluid rounded border" style="max-width:220px;">
+            </div>
+
+            <!-- Actions -->
+            <div class="d-flex gap-2 mt-4 flex-wrap">
+                <a th:href="@{/airline/admin/bookings}" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left me-1"></i>Back to Bookings
+                </a>
+                <a th:if="${booking.status == 'Pending Cancel'}"
+                   th:href="@{/airline/admin/booking/approve-cancel/{id}(id=${booking.bookingId})}"
+                   class="btn btn-success">
+                    <i class="bi bi-check-circle me-1"></i>Approve Cancel
+                </a>
+                <a th:if="${booking.status == 'Pending Cancel'}"
+                   th:href="@{/airline/admin/booking/issue-cancel/{id}(id=${booking.bookingId})}"
+                   class="btn btn-danger">
+                    <i class="bi bi-x-circle me-1"></i>Reject Cancel
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

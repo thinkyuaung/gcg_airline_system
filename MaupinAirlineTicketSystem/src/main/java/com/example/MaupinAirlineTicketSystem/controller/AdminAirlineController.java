@@ -93,6 +93,15 @@ public class AdminAirlineController {
 		return "Admin/AddAirline";
 	}
 
+	@GetMapping("/admin/airline/detail/{id}")
+	public String airlineDetail(@PathVariable("id") int id, Model model) {
+		Airline airline = adminAirlineService.getAirlineById(id);
+		if (airline != null) {
+			model.addAttribute("airline", airline);
+		}
+		return "Admin/airlineDetail";
+	}
+
 	
 	@GetMapping("/admin/airline/delete/{id}")
 	public String deleteAirline(@PathVariable("id") int id) {
@@ -168,6 +177,15 @@ public class AdminAirlineController {
 		Airport airport = adminAirportService.getAirportById(id);
 		model.addAttribute("airport", airport); 
 		return "Admin/AddAirport";
+	}
+
+	@GetMapping("/admin/airport/detail/{id}")
+	public String airportDetail(@PathVariable("id") int id, Model model) {
+		Airport airport = adminAirportService.getAirportById(id);
+		if (airport != null) {
+			model.addAttribute("airport", airport);
+		}
+		return "Admin/airportDetail";
 	}
 
 	@GetMapping("/admin/airport/delete/{id}")

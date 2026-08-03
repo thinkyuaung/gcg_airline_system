@@ -53,6 +53,51 @@ body{
     color:#666;
 }
 
+/* Floating Back Button */
+
+.btn-float-back{
+    position:fixed;
+    top:24px;
+    left:24px;
+    z-index:1050;
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    background:#fff;
+    color:#2b6485;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 .25rem .75rem rgba(3,31,65,.15);
+    border:none;
+    transition:.2s ease;
+    text-decoration:none;
+}
+
+.btn-float-back:hover{
+    background:#2b6485;
+    color:#fff;
+    transform:translateY(-2px);
+    box-shadow:0 .5rem 1rem rgba(3,31,65,.25);
+}
+
+.btn-float-back:active{
+    transform:scale(.95);
+}
+
+.btn-float-back .material-symbols-outlined{
+    font-size:24px;
+}
+
+@media (max-width:576px){
+    .btn-float-back{
+        top:16px;
+        left:16px;
+        width:42px;
+        height:42px;
+    }
+}
+
 /* Cards */
 
 .custom-card{
@@ -196,6 +241,19 @@ body{
 
 <main>
 
+<button
+    type="button"
+    class="btn-float-back"
+    onclick="history.back()"
+    aria-label="Go back"
+    title="Go back">
+
+    <span class="material-symbols-outlined">
+        arrow_back
+    </span>
+
+</button>
+
 <form th:action="@{/airline/passenger/save}" method="post">
 
 <input type="hidden" name="bookingId" th:value="${booking.bookingId}">
@@ -258,7 +316,8 @@ body{
                         <input
                                 type="email"
                                 class="form-control"
-                                readonly
+                                name="email"
+                                pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
                                 th:value="${booking.user.email}">
 
                     </div>
@@ -272,7 +331,10 @@ body{
                         <input
                                 type="tel"
                                 class="form-control"
-                                readonly
+                                name="phoneNumber"
+                                pattern="[0-9+\-\s]{7,15}"
+    							maxlength="15"
+    							title="Phone number must be 7-15 digits, and may include spaces, + or -"
                                 th:value="${booking.user.phoneNumber}">
 
                     </div>
@@ -335,6 +397,9 @@ body{
                     name="firstName"
                     placeholder="Enter First Name"
                     required
+                    pattern="[A-Za-z\s\-']+"
+    				maxlength="50"
+    				title="Only letters, spaces, hyphens, and apostrophes are allowed"
                     th:value="${i==1 ? booking.user.firstName : ''}">
 
             </div>
@@ -352,6 +417,9 @@ body{
                     name="lastName"
                     placeholder="Enter Last Name"
                     required
+                    pattern="[A-Za-z\s\-']+"
+    				maxlength="50"
+   					title="Only letters, spaces, hyphens, and apostrophes are allowed"
                     th:value="${i==1 ? booking.user.lastName : ''}">
 
             </div>
@@ -385,6 +453,9 @@ body{
                     name="passport"
                     placeholder="Passport Number"
                     required
+                    pattern="[A-Za-z0-9]{6,9}"
+    				maxlength="9"
+    				title="Passport number must be 6 to 9 letters/digits"
                     th:value="${i==1 ? booking.user.passport : ''}">
 
             </div>
@@ -405,6 +476,7 @@ body{
             class="form-check-input"
             type="checkbox"
             id="terms"
+            name="termsAccepted"
             required>
 
         <label
@@ -511,18 +583,6 @@ body{
 
             </button>
 
-            <a
-                th:href="@{/airline/history}"
-                class="btn btn-outline-secondary">
-
-                <span class="material-symbols-outlined align-middle me-1">
-                    arrow_back
-                </span>
-
-                Back
-
-            </a>
-
         </div>
 
     </div>
@@ -544,31 +604,55 @@ body{
      FOOTER
 ===================================================== -->
 
-<footer class="w-100 py-4" style="background:#0f172a;">
+<footer class="text-white pt-5 pb-4 mt-auto" style="background-color: #0a0f1d;">
+        <div class="container pt-3">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <span class="bg-primary text-white p-2 rounded-3 d-inline-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                            <i class="bi bi-airplane-fill fs-6"></i>
+                        </span>
+                        <h4 class="m-0 fw-bold text-white">Maubin AirLine</h4>
+                    </div>
+                    <p class="text-secondary small pe-lg-4" style="color: #94a3b8 !important;">
+                        Crafting extraordinary journeys for extraordinary people. Your dream destination awaits.
+                    </p>
+                </div>
 
-    <div class="container">
+                <div class="col-lg-2 col-md-6 col-6">
+                    <h6 class="text-uppercase fw-bold mb-3 small tracking-wider" style="letter-spacing: 1px; color: #cbd5e1;">TRAVEL</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2 small">
+                        <li><a th:href="@{/airline/flights}" class="text-decoration-none" style="color: #94a3b8;">Flights</a></li>
+                        <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Hotels</a></li>
+                        <li><a th:href="@{/airline/packages}" class="text-decoration-none" style="color: #94a3b8;">Packages</a></li>
+                    </ul>
+                </div>
 
-        <hr class="my-4" style="border-color:#1e293b;">
+                <div class="col-lg-2 col-md-6 col-6">
+                    <h6 class="text-uppercase fw-bold mb-3 small tracking-wider" style="letter-spacing: 1px; color: #cbd5e1;">COMPANY</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2 small">
+                        <li><a th:href="@{/airline/about}" class="text-decoration-none" style="color: #94a3b8;">About Us</a></li>
+                        <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Careers</a></li>
+                    </ul>
+                </div>
 
-        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center small"
-             style="color:#64748b;">
+                <div class="col-lg-4 col-md-6">
+                    <h6 class="text-uppercase fw-bold mb-3 small tracking-wider" style="letter-spacing: 1px; color: #cbd5e1;">EXTRA LINKS</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2 small">
+                        <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Privacy Policy</a></li>
+                        <li><a th:href="@{/airline/support}" class="text-decoration-none" style="color: #94a3b8;">Support</a></li>
+                    </ul>
+                </div>
+            </div>
 
-            <p class="m-0">
-                &copy; 2026 Maubin AirLine. All rights reserved.
-            </p>
+            <hr class="my-4" style="border-color: #1e293b;">
 
-            <p class="m-0 fw-semibold fst-italic"
-               style="color:#0ea5e9;">
-
-                Fly Far. Pay Less. Travel Better.
-
-            </p>
-
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center small" style="color: #64748b;">
+                <p class="m-0">&copy; 2026 Maubin AirLine. All rights reserved.</p>
+                <p class="m-0 fw-semibold italic" style="color: #0ea5e9; font-style: italic;">Fly Far. Pay Less. Travel Better.</p>
+            </div>
         </div>
-
-    </div>
-
-</footer>
+    </footer>
 
 
 <!-- Bootstrap JS -->

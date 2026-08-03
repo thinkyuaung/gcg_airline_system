@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,7 +28,7 @@ body {
 	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
 	transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-  
+
 .stat-card:hover {
 	transform: translateY(-2px);
 	box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
@@ -43,9 +44,15 @@ body {
 
 /* Sidebar Layout Fixes */
 .admin-sidebar {
-	background-color:#1e293b;
+	background-color: #1e293b;
 	box-shadow: 4px 0 24px rgba(0, 0, 0, 0.05);
 	z-index: 100;
+	overflow-y: auto;
+	height: 100vh;
+}
+
+.admin-sidebar .fw-bold {
+	white-space: nowrap;
 }
 
 @media ( min-width : 768px) {
@@ -107,7 +114,6 @@ body {
 .table-bordered th, .table-bordered td {
 	border: 1px solid #dee2e6 !important;
 	padding: 0.75rem 1rem !important;
-	
 }
 
 .table thead th {
@@ -160,7 +166,7 @@ body {
 	border: 2px solid #0d6efd;
 	display: inline-flex;
 	align-items: center;
-	justify-content: center;   /* fixed */
+	justify-content: center; /* fixed */
 	background-color: #f8fafc;
 }
 
@@ -219,20 +225,76 @@ body {
 
 /* Keyframe animation fixed */
 @keyframes pulse {
-	0% {
-		transform: scale(0.95);
-		box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7);
-	}
-	70% {
-		transform: scale(1);
-		box-shadow: 0 0 0 8px rgba(255, 193, 7, 0);
-	}
-	100% {
-		transform: scale(0.95);
-		box-shadow: 0 0 0 0 rgba(255, 193, 7, 0);
-	}
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7);
+    }
+
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 8px rgba(255, 193, 7, 0);
+    }
+
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(255, 193, 7, 0);
+    }
+}
+/* @
+keyframes pulse { 0% {
+	transform: scale(0.95);
+	box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7);
 }
 
+70
+%
+{
+transform
+:
+scale(
+1
+);
+box-shadow
+:
+0
+0
+0
+8px
+rgba(
+255
+,
+193
+,
+7
+,
+0
+);
+}
+100
+%
+{
+transform
+:
+scale(
+0.95
+);
+box-shadow
+:
+0
+0
+0
+0
+rgba(
+255
+,
+193
+,
+7
+,
+0
+);
+}
+} */
 .premium-chart-wrapper {
 	position: relative;
 	height: 360px;
@@ -247,27 +309,33 @@ body {
 		<div class="row">
 
 			<nav class="col-md-3 col-lg-2 d-md-block admin-sidebar px-3 py-4">
-			<!-- Brand Header with Official Logo -->
-			<div class="text-center mb-4">
-				
-				<!-- BRAND LOGO -->
-            <a th:href="@{/airline/}">
-              <div th:href="@{/airline/}"
-					class="d-inline-flex align-items-center justify-content-center bg-white shadow-sm rounded-circle mb-3 overflow-hidden p-2"
-					style="width: 72px; height: 72px; border: 1px solid rgba(186, 230, 253, 0.8);">
-					<img th:src="@{/images/Maubin AirLine.png}" 
-						alt="Maubin AirLine Logo" class="img-fluid"
-						style="max-height: 100%; object-fit: contain;">
+				<!-- Brand Header with Official Logo -->
+				<div class="text-center mb-4">
+
+					<!-- BRAND LOGO -->
+					<a th:href="@{/airline/}">
+						<div th:href="@{/airline/}"
+							class="d-inline-flex align-items-center justify-content-center bg-white shadow-sm rounded-circle mb-3 overflow-hidden p-2"
+							style="width: 72px; height: 72px; border: 1px solid rgba(186, 230, 253, 0.8);">
+							<img th:src="@{/images/Maubin AirLine.png}"
+								alt="Maubin AirLine Logo" class="img-fluid"
+								style="max-height: 100%; object-fit: contain;">
+						</div>
+					</a>
 				</div>
-            </a>
-			</div>
 				<div class="d-flex align-items-center gap-2 mb-4 px-2">
 					<i class="bi bi-shield-lock-fill text-primary fs-4"></i> <span
 						class="fw-bold fs-5 text-white">AirLine Admin</span>
 				</div>
+
+
 				<hr class="text-white">
 				<div class="d-flex flex-column gap-2">
-					<a th:href="@{/airline/admin}" id="tab-dashboard"
+
+					<a th:href="@{/airline/}" class="admin-nav-link"
+						th:classappend="${activeTab == 'home'} ? ' active' : ''"> <i
+						class="bi bi-house-door-fill"></i> Home Page
+					</a> <a th:href="@{/airline/admin}" id="tab-dashboard"
 						class="admin-nav-link"
 						th:classappend="${activeTab == null} ? ' active' : ''"> <i
 						class="bi bi-speedometer2"></i> Dashboard
@@ -283,14 +351,12 @@ body {
 						onclick="switchTab('bookings')" id="tab-bookings"
 						class="admin-nav-link"
 						th:classappend="${activeTab == 'bookings'} ? ' active' : ''"><i
-						class="bi bi-receipt"></i> View Bookings</a> 
-					 <a th:href="@{/airline/admin/promotions}"
+						class="bi bi-receipt"></i> View Bookings</a> <a
+						th:href="@{/airline/admin/promotions}"
 						onclick="switchTab('promotions')" id="tab-promotions"
 						class="admin-nav-link"
 						th:classappend="${activeTab == 'promotions'} ? ' active' : ''"><i
-						class="bi bi-receipt"></i> View Promotions
-					</a>
-					<a
+						class="bi bi-receipt"></i> View Promotions </a> <a
 						th:href="@{/airline/admin/airlines}"
 						onclick="switchTab('airline')" id="tab-airline"
 						class="admin-nav-link"
@@ -304,18 +370,27 @@ body {
 
 					<hr class="my-3 text-white">
 
-					<a sec:authorize="hasRole('SUPERADMIN')" th:href="@{/airline/admin/dashboard}"
-						class="admin-nav-link" style="background-color:#0d6efd; color:#fff;">
-						<i class="bi bi-bar-chart-fill"></i> Admin Dashboard
+					<a sec:authorize="hasRole('SUPERADMIN')"
+						th:href="@{/airline/admin/dashboard}" class="admin-nav-link"
+						style="background-color: #0d6efd; color: #fff;"> <i
+						class="bi bi-bar-chart-fill"></i> Super Admin Dashboard
 					</a>
 
-					<a th:href="@{/airline/logout}"
-						class="admin-nav-link text-danger"><i
-						class="bi bi-box-arrow-left"></i> Exit Portal</a>
+					<!-- Exit Portal -->
+					<!--  <a th:href="@{/airline/}" 
+   class="admin-nav-link">
+    <i class="bi bi-arrow-left-circle"></i>
+    Back to Home
+</a>-->
+
+					<a th:href="@{/airline/logout}" class="admin-nav-link text-danger">
+						<i class="bi bi-box-arrow-right"></i> Exit Portal
+					</a>
 				</div>
 			</nav>
 
 			<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+
 
 
 				<div id="section-dashboard"
@@ -336,10 +411,11 @@ body {
 									<h2 class="fw-bold m-0 mt-1 text-dark"
 										th:text="${availableAirlines != null ? availableAirlines : '4'}">4</h2>
 								</div>
-								<div class="mt-4 pt-2 border-top d-flex justify-content-between align-items-center">
+								<div
+									class="mt-4 pt-2 border-top d-flex justify-content-between align-items-center">
 									<span class="text-muted small"><span
-										class="text-success fw-bold" th:text="${lastlyAddedAirline}"></span> lastly added</span> <i
-										class="bi bi-chevron-right text-muted small"></i>
+										class="text-success fw-bold" th:text="${lastlyAddedAirline}"></span>
+										lastly added</span> <i class="bi bi-chevron-right text-muted small"></i>
 								</div>
 							</div>
 						</div>
@@ -359,7 +435,8 @@ body {
 								<div
 									class="mt-4 pt-2 border-top d-flex justify-content-between align-items-center">
 									<span class="text-muted small">Flight No : <span
-										class="text-success fw-bold" th:text="${lastlyAddedFlight}"></span> lastly added
+										class="text-success fw-bold" th:text="${lastlyAddedFlight}"></span>
+										lastly added
 									</span> <i class="bi bi-chevron-right text-muted small"></i>
 								</div>
 							</div>
@@ -381,7 +458,8 @@ body {
 								<div
 									class="mt-4 pt-2 border-top d-flex justify-content-between align-items-center">
 									<span class="text-muted small">From <span
-										class="text-primary fw-bold" th:text="${totalUsers}"></span> Registrations
+										class="text-primary fw-bold" th:text="${totalUsers}"></span>
+										Registrations
 									</span> <i class="bi bi-chevron-right text-muted small"></i>
 								</div>
 							</div>
@@ -396,7 +474,9 @@ body {
 								<div class="text-end">
 									<span class="text-secondary small fw-medium">Total
 										Earnings</span>
-									<h2 class="fw-bold m-0 mt-1 text-primary" th:text="'$ ' + ${#numbers.formatDecimal(totalEarnings, 1, 2)}">$ 236,968</h2>
+									<h2 class="fw-bold m-0 mt-1 text-primary"
+										th:text="'$ ' + ${#numbers.formatDecimal(totalEarnings, 1, 2)}">$
+										236,968</h2>
 								</div>
 								<div
 									class="mt-4 pt-2 border-top d-flex justify-content-between align-items-center">
@@ -459,9 +539,22 @@ body {
 					</div>
 
 					<div class="card border rounded-4 bg-white overflow-hidden">
+						<div class="d-flex flex-wrap align-items-center gap-2 p-3 border-bottom">
+							<div class="position-relative flex-grow-1" style="max-width: 300px;">
+								<i class="bi bi-search position-absolute top-50 translate-middle-y ms-3 text-muted"></i>
+								<input type="text" id="searchFlights"
+									oninput="filterFlights()"
+									class="form-control ps-5 rounded-pill"
+									placeholder="Search flight number...">
+							</div>
+							<select id="filterFlightAirline" onchange="filterFlights()"
+								class="form-select rounded-pill" style="max-width: 220px;">
+								<option value="">All Airlines</option>
+							</select>
+						</div>
 						<div class="table-responsive">
 
-							<table class="table table-bordered align-middle table-hover m-0">
+							<table id="flightsTable" class="table table-bordered align-middle table-hover m-0">
 								<thead>
 									<tr class="text-muted small fw-bold">
 										<th>FLIGHT NUMBER</th>
@@ -490,7 +583,7 @@ body {
 											th:unless="${f.airline != null}" class="text-muted small">No
 												Airline</span></td>
 
-										
+
 										<td>
 											<div class="d-inline-flex align-items-center gap-2">
 												<!-- WiFi Icon -->
@@ -540,15 +633,21 @@ body {
 
 										<!-- 6. Action Buttons -->
 										<td><a
+											th:href="@{/airline/admin/flight/detail/{id}(id=${f.flightId})}"
+											class="btn btn-sm btn-outline-info rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
+											<i class="bi bi-eye"></i> View
+										</a> <a
 											th:href="@{/airline/admin/flight/edit/{id}(id=${f.flightId})}"
 											class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
 												<i class="bi bi-pencil"></i> Edit
-										</a> <a
+										</a> 
+										<!-- <a
 											th:href="@{/airline/admin/flight/delete/{id}(id=${f.flightId})}"
 											class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn"
 											onclick="return confirm('Are me sure you want to delete this flight?')">
 												<i class="bi bi-x-circle"></i> Delete
-										</a></td>
+										</a> -->
+										</td>
 									</tr>
 								</tbody>
 							</table>
@@ -572,9 +671,29 @@ body {
 							</button></a>
 					</div>
 					<div class="card border rounded-4 bg-white overflow-hidden">
+						<div class="d-flex flex-wrap align-items-center gap-2 p-3 border-bottom">
+							<div class="position-relative flex-grow-1" style="max-width: 220px;">
+								<i class="bi bi-search position-absolute top-50 translate-middle-y ms-3 text-muted"></i>
+								<input type="text" id="searchFlightPlans"
+									oninput="filterFlightPlans()"
+									class="form-control ps-5 rounded-pill"
+									placeholder="Search flight number...">
+							</div>
+							<input type="date" id="filterFlightPlanDate" onchange="filterFlightPlans()"
+								class="form-control rounded-pill" style="max-width: 190px;"
+								title="Filter by flight date">
+							<select id="filterFlightPlanDepAirport" onchange="filterFlightPlans()"
+								class="form-select rounded-pill" style="max-width: 230px;">
+								<option value="">All Departure Airports</option>
+							</select>
+							<select id="filterFlightPlanArrAirport" onchange="filterFlightPlans()"
+								class="form-select rounded-pill" style="max-width: 230px;">
+								<option value="">All Arrival Airports</option>
+							</select>
+						</div>
 						<div class="table-responsive">
 
-							<table
+							<table id="flightPlansTable"
 								class="table table-bordered align-middle table-hover m-0 custom-flightplan-table">
 								<thead>
 									<tr class="text-secondary small fw-bold text-uppercase"
@@ -590,7 +709,7 @@ body {
 										<th>First Class</th>
 										<th>Available</th>
 										<th>Price</th>
-										<th>Promotion<th>
+										<th>Promotion</th>
 										<th class="text-end">Actions</th>
 									</tr>
 								</thead>
@@ -639,25 +758,29 @@ body {
 
 										<td class="fw-bold text-dark"
 											th:text="${#numbers.formatDecimal(fp.price, 1, 2)}"></td>
-										<td>
-											<span
+										<td><span
+											th:if="${fp.promotion != null}"
 											class="badge bg-dark-subtle text-dark-emphasis border fw-bold px-2 py-1 rounded-pill"
-											th:text="${fp.promotion.description}"></span>
-											 <span th:unless="${fp.promotion != null}"
-											class="text-muted small italic">No Promotion</span>
-										</td>
+											th:text="${fp.promotion.description}"></span> <span
+											th:unless="${fp.promotion != null}"
+											class="text-muted small italic">No Promotion</span></td>
 										<td class="text-end">
 											<div class="d-inline-flex gap-2">
 												<a
+													th:href="@{/airline/admin/flightPlan/detail/{id}(id=${fp.flightPlanId})}"
+													class="btn btn-sm btn-outline-info rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
+													<i class="bi bi-eye"></i> View
+												</a> <a
 													th:href="@{/airline/admin/flightPlan/edit/{id}(id=${fp.flightPlanId})}"
 													class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
 													<i class="bi bi-pencil-square"></i> Edit
-												</a> <a
+												</a> 
+												<!-- <a
 													th:href="@{/airline/admin/flightPlan/delete/{id}(id=${fp.flightPlanId})}"
 													class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn"
 													onclick="return confirm('Are you sure you want to delete this flight plan?')">
 													<i class="bi bi-trash3"></i> Delete
-												</a>
+												</a> -->
 											</div>
 										</td>
 									</tr>
@@ -676,9 +799,35 @@ body {
 					</h5>
 
 					<div class="card border rounded-4 bg-white overflow-hidden">
+						<div class="d-flex flex-wrap align-items-center gap-2 p-3 border-bottom">
+							<div class="position-relative flex-grow-1" style="max-width: 240px;">
+								<i class="bi bi-person position-absolute top-50 translate-middle-y ms-3 text-muted"></i>
+								<input type="text" id="searchBookingPassenger"
+									oninput="filterBookings()"
+									class="form-control ps-5 rounded-pill"
+									placeholder="Search passenger...">
+							</div>
+							<div class="position-relative flex-grow-1" style="max-width: 200px;">
+								<i class="bi bi-airplane position-absolute top-50 translate-middle-y ms-3 text-muted"></i>
+								<input type="text" id="searchBookingFlight"
+									oninput="filterBookings()"
+									class="form-control ps-5 rounded-pill"
+									placeholder="Search flight...">
+							</div>
+							<select id="filterBookingStatus" onchange="filterBookings()"
+								class="form-select rounded-pill" style="max-width: 200px;">
+								<option value="">All Statuses</option>
+								<option>PENDING</option>
+								<option>Success</option>
+								<option>Issued</option>
+								<option>Pending Cancel</option>
+								<option>CANCELLED</option>
+								<option>Being Booked</option>
+							</select>
+						</div>
 						<div class="table-responsive">
 
-							<table
+							<table id="bookingsTable"
 								class="table table-bordered align-middle table-hover m-0 custom-premium-table">
 								<thead>
 									<tr class="text-secondary small fw-bold text-uppercase"
@@ -698,37 +847,35 @@ body {
 
 								<tbody>
 									<tr th:each="b : ${bookings}">
-										<td>
-											<span th:if="${b.user != null}" th:text="${b.user.firstName} + ' ' + ${b.user.lastName}"></span>
-											<span th:unless="${b.user != null}">N/A</span>
+										<td><span th:if="${b.user != null}"
+											th:text="${b.user.firstName} + ' ' + ${b.user.lastName}"></span>
+											<span th:unless="${b.user != null}">N/A</span></td>
+										<td><span
+											th:if="${b.flightPlan != null and b.flightPlan.flight != null}"
+											class="fw-bold text-primary"
+											th:text="${b.flightPlan.flight.flightNumber}"></span> <span
+											th:unless="${b.flightPlan != null and b.flightPlan.flight != null}">N/A</span>
 										</td>
-										<td>
-											<span th:if="${b.flightPlan != null and b.flightPlan.flight != null}" 
-												class="fw-bold text-primary" 
-												th:text="${b.flightPlan.flight.flightNumber}"></span>
-											<span th:unless="${b.flightPlan != null and b.flightPlan.flight != null}">N/A</span>
-										</td>
-										<td>
-											<span th:if="${b.seatClass != null}" th:text="${b.seatClass.className}"></span>
-											<span th:unless="${b.seatClass != null}">N/A</span>
-										</td>
+										<td><span th:if="${b.seatClass != null}"
+											th:text="${b.seatClass.className}"></span> <span
+											th:unless="${b.seatClass != null}">N/A</span></td>
 										<td th:text="${b.passengers}"></td>
-										<td th:text="${b.seatClass.className}"></td>
-										<td>
-											<span th:if="${b.flightPlan != null and b.flightPlan.departureAirport != null}" 
-												th:text="${b.flightPlan.departureAirport.airportName}"></span>
-											<span th:unless="${b.flightPlan != null and b.flightPlan.departureAirport != null}">N/A</span>
+										<td th:text="${b.seatClass != null ? b.seatClass.className : 'N/A'}"></td>
+										<td><span
+											th:if="${b.flightPlan != null and b.flightPlan.departureAirport != null}"
+											th:text="${b.flightPlan.departureAirport.airportName}"></span>
+											<span
+											th:unless="${b.flightPlan != null and b.flightPlan.departureAirport != null}">N/A</span>
 										</td>
-										<td>
-											<span th:if="${b.payment != null and b.payment.paymentScreenshot != null}" 
-												class="small text-decoration-none">
-												<i class="bi bi-image text-info"></i> Uploaded
-											</span>
-											<span th:unless="${b.payment != null and b.payment.paymentScreenshot != null}" 
-												class="text-muted small">
-												<i class="bi bi-image"></i> None
-											</span>
-										</td>
+										<td><span
+											th:if="${b.payment != null and b.payment.paymentScreenshot != null}"
+											class="small text-decoration-none"> <i
+												class="bi bi-image text-info"></i> Uploaded
+										</span> <span
+											th:unless="${b.payment != null and b.payment.paymentScreenshot != null}"
+											class="text-muted small"> <i class="bi bi-image"></i>
+												None
+										</span></td>
 										<td th:text="${b.totalAmount}"></td>
 										<td>
 											<span class="badge" 
@@ -739,6 +886,12 @@ body {
 										</td>
 										<td>
 										
+											<a
+												th:href="@{/airline/admin/booking/detail/{id}(id=${b.bookingId})}"
+												class="">
+												<button
+												class="btn btn-sm btn-outline-secondary py-0 px-2 shadow-sm"><i class="bi bi-eye"></i> View</button>
+											</a>
 											<a th:if="${b.status == 'PENDING'}"
 												th:href="@{/airline/admin/booking/approve/{id}(id=${b.bookingId})}"
 												class="">
@@ -767,22 +920,22 @@ body {
 										</td>
 									</tr>
 									<tr th:if="${#lists.isEmpty(bookings)}">
-										<td colspan="9" class="text-center text-muted py-4">No bookings found.</td>
+										<td colspan="10" class="text-center text-muted py-4">No bookings found.</td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
 					</div>
 				</div>
- 
- <!-- Promotions -->
- 
-  <div id="section-promotions" th:classappend="${activeTab != 'promotions'} ? 'hidden-section'">
+
+				<!-- Promotions -->
+
+				<div id="section-promotions"
+					th:classappend="${activeTab != 'promotions'} ? 'hidden-section'">
 					<div
 						class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
 						<h4 class="fw-bold m-0">
-							<i class="bi bi-tag-fill text-primary"></i> Flight
-							Promotions
+							<i class="bi bi-tag-fill text-primary"></i> Flight Promotions
 						</h4>
 						<a th:href="@{/airline/admin/promotionForm}"><button
 								class="btn btn-primary btn-sm px-4 rounded-pill">
@@ -790,8 +943,16 @@ body {
 							</button></a>
 					</div>
 					<div class="content-card bg-white">
+						<div class="d-flex flex-wrap align-items-center gap-2 pb-3">
+							<label class="small fw-bold text-muted m-0">Start Date</label>
+							<input type="date" id="filterPromoStartDate" onchange="filterPromotions()"
+								class="form-control rounded-pill" style="max-width: 190px;">
+							<label class="small fw-bold text-muted m-0">End Date</label>
+							<input type="date" id="filterPromoEndDate" onchange="filterPromotions()"
+								class="form-control rounded-pill" style="max-width: 190px;">
+						</div>
 						<div class="table-responsive">
-							<table class="table align-middle table-hover m-0">
+							<table id="promotionsTable" class="table align-middle table-hover m-0">
 								<thead class="table-light">
 									<tr class="text-muted small fw-bold">
 										<th>START DATE</th>
@@ -804,23 +965,26 @@ body {
 								</thead>
 								<tbody>
 									<tr th:each="p : ${promotions}">
-										<td th:text="${#temporals.format(p.startDate, 'yyyy-MM-dd HH:mm')}"></td>
-										<td th:text="${#temporals.format(p.endDate, 'yyyy-MM-dd HH:mm')}"></td>
-										<td>
-											<span class="badge" 
-												th:classappend="${p.status == 'Active'} ? 'bg-success' : (${p.status == 'Inactive'} ? 'bg-secondary' : 'bg-danger')"
-												th:text="${p.status}"></span>
-										</td>
+										<td
+											th:text="${#temporals.format(p.startDate, 'yyyy-MM-dd HH:mm')}"></td>
+										<td
+											th:text="${#temporals.format(p.endDate, 'yyyy-MM-dd HH:mm')}"></td>
+										<td><span class="badge"
+											th:classappend="${p.status == 'Active'} ? 'bg-success' : (${p.status == 'Inactive'} ? 'bg-secondary' : 'bg-danger')"
+											th:text="${p.status}"></span></td>
 										<td th:text="${p.description}"></td>
 										<td th:text="${p.percentage}"></td>
 										<td>
+											<a th:href="@{/airline/admin/promotion/detail/{id}(id=${p.promotionId})}"
+												class="btn btn-sm btn-outline-info py-0 px-2"><i
+													class="bi bi-eye"></i> View</a>
 											<a th:href="@{/airline/admin/promotion/edit/{id}(id=${p.promotionId})}"
 												class="btn btn-sm btn-outline-secondary py-0 px-2"><i
 													class="bi bi-pencil"></i> Edit</a>
-											<a th:href="@{/airline/admin/promotion/delete/{id}(id=${p.promotionId})}"
+											<!-- <a th:href="@{/airline/admin/promotion/delete/{id}(id=${p.promotionId})}"
 												class="btn btn-sm btn-outline-danger py-0 px-2"
 												onclick="return confirm('Are you sure you want to delete this promotion?')"><i
-													class="bi bi-x-circle"></i> Delete</a>
+													class="bi bi-x-circle"></i> Delete</a> -->
 										</td>
 									</tr>
 								</tbody>
@@ -845,9 +1009,19 @@ body {
 						</button>
 					</div>
 				<div class="card border rounded-4 bg-white overflow-hidden">
+						<div class="d-flex flex-wrap align-items-center gap-2 p-3 border-bottom">
+							<input type="text" id="searchAirlineName"
+								oninput="filterAirlines()"
+								class="form-control rounded-pill"
+								style="max-width: 260px;" placeholder="Search airline name...">
+							<input type="text" id="searchAirlineCode"
+								oninput="filterAirlines()"
+								class="form-control rounded-pill"
+								style="max-width: 200px;" placeholder="Search airline code...">
+						</div>
 						<div class="table-responsive">
- 
-							<table
+
+							<table id="airlinesTable"
 								class="table table-bordered align-middle table-hover m-0 custom-airline-table">
 								<thead>
 									<tr class="text-secondary small fw-bold text-uppercase"
@@ -856,15 +1030,15 @@ body {
 										<th>Airline Code</th>
 										<th>Airline Name</th>
 										<th>Country</th>
-										
+
 										<th class="text-end">Actions</th>
 									</tr>
 								</thead>
- 
+
 								<tbody>
 									<tr th:each="al : ${airline}">
 										<td class="text-center">
- 
+
 											<div th:if="${al.logo != null}" class="circle-logo-container">
 												<img alt="Airline Logo" th:src="@{'/photos/' + ${al.logo}}">
 											</div> <span th:unless="${al.logo != null}"
@@ -876,10 +1050,14 @@ body {
 										<td><span class="fw-semibold text-dark"
 											th:text="${al.airlineName}"></span></td>
 										<td class="text-secondary" th:text="${al.country}"></td>
-									
+
 										<td class="text-end">
 											<div class="d-inline-flex gap-2">
 												<a
+													th:href="@{/airline/admin/airline/detail/{id}(id=${al.airlineId})}"
+													class="btn btn-sm btn-outline-info rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
+													<i class="bi bi-eye"></i> View
+												</a> <a
 													th:href="@{/airline/admin/airline/edit/{id}(id=${al.airlineId})}"
 													class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
 													<i class="bi bi-pencil-square"></i> Edit
@@ -909,10 +1087,20 @@ body {
 					</div>
 
 					<div class="card border rounded-4 bg-white overflow-hidden">
+						<div class="d-flex flex-wrap align-items-center gap-2 p-3 border-bottom">
+							<input type="text" id="searchAirportCode"
+								oninput="filterAirports()"
+								class="form-control rounded-pill"
+								style="max-width: 200px;" placeholder="Search airport code...">
+							<input type="text" id="searchAirportName"
+								oninput="filterAirports()"
+								class="form-control rounded-pill"
+								style="max-width: 260px;" placeholder="Search airport name...">
+						</div>
 						<div class="table-responsive">
 
 							
-							<table
+							<table id="airportsTable"
 								class="table table-bordered align-middle table-hover m-0 custom-airport-table">
 								<thead>
 									<tr class="text-secondary small fw-bold text-uppercase"
@@ -923,7 +1111,7 @@ body {
 										<th>City</th>
 										<th class="text-end">Actions</th>
 
-							
+
 									</tr>
 								</thead>
 
@@ -936,11 +1124,11 @@ body {
 											</div> <span th:unless="${al.logo != null}"
 											class="text-muted small italic">No Logo</span>
 										</td> -->
-									<td class="text-center"><img th:if="${ap.image != null}" alt="Logo" class="circle-logo-container"
-											th:src="@{'/photos/'+${ap.image}}" >
-											<span th:unless="${ap.image != null}"
-											class="text-muted small italic">No Logo</span>
-										</td>
+										<td class="text-center"><img th:if="${ap.image != null}"
+											alt="Logo" class="circle-logo-container"
+											th:src="@{'/photos/'+${ap.image}}"> <span
+											th:unless="${ap.image != null}"
+											class="text-muted small italic">No Logo</span></td>
 										<td><span
 											class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded-2"
 											th:text="${ap.airportCode}"></span></td>
@@ -950,6 +1138,10 @@ body {
 										<td class="text-end">
 											<div class="d-inline-flex gap-2">
 												<a
+													th:href="@{/airline/admin/airport/detail/{id}(id=${ap.airportId})}"
+													class="btn btn-sm btn-outline-info rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
+													<i class="bi bi-eye"></i> View
+												</a> <a
 													th:href="@{/airline/admin/airport/edit/{id}(id=${ap.airportId})}"
 													class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
 													<i class="bi bi-pencil-square"></i> Edit
@@ -1040,6 +1232,107 @@ body {
       document.querySelectorAll('.admin-nav-link').forEach(link => link.classList.remove('active'));
       document.getElementById(`tab-${tabName}`).classList.add('active');
     }
+
+    function filterRows(tableId, predicate) {
+      const rows = document.querySelectorAll('#' + tableId + ' tbody tr');
+      rows.forEach(function (row) {
+        const cells = row.querySelectorAll('td');
+        if (cells.length === 0) return;
+        row.style.display = predicate(cells) ? '' : 'none';
+      });
+    }
+
+    function cellText(cells, i) {
+      return cells[i] ? (cells[i].textContent || '') : '';
+    }
+
+    function filterFlights() {
+      const q = (document.getElementById('searchFlights').value || '').toLowerCase();
+      const airline = document.getElementById('filterFlightAirline').value;
+      filterRows('flightsTable', function (cells) {
+        return cellText(cells, 0).toLowerCase().indexOf(q) > -1
+          && (airline === '' || cellText(cells, 1).toLowerCase().indexOf(airline.toLowerCase()) > -1);
+      });
+    }
+
+    function filterFlightPlans() {
+      const q = (document.getElementById('searchFlightPlans').value || '').toLowerCase();
+      const date = document.getElementById('filterFlightPlanDate').value;
+      const dep = document.getElementById('filterFlightPlanDepAirport').value;
+      const arr = document.getElementById('filterFlightPlanArrAirport').value;
+      filterRows('flightPlansTable', function (cells) {
+        const dateCell = cellText(cells, 5).trim();
+        return cellText(cells, 0).toLowerCase().indexOf(q) > -1
+          && (date === '' || dateCell.indexOf(date) === 0)
+          && (dep === '' || cellText(cells, 1).toLowerCase().indexOf(dep.toLowerCase()) > -1)
+          && (arr === '' || cellText(cells, 2).toLowerCase().indexOf(arr.toLowerCase()) > -1);
+      });
+    }
+
+    function filterBookings() {
+      const passenger = (document.getElementById('searchBookingPassenger').value || '').toLowerCase();
+      const flight = (document.getElementById('searchBookingFlight').value || '').toLowerCase();
+      const status = document.getElementById('filterBookingStatus').value.toLowerCase();
+      filterRows('bookingsTable', function (cells) {
+        return cellText(cells, 0).toLowerCase().indexOf(passenger) > -1
+          && cellText(cells, 1).toLowerCase().indexOf(flight) > -1
+          && (status === '' || cellText(cells, 8).toLowerCase().indexOf(status) > -1);
+      });
+    }
+
+    function filterPromotions() {
+      const start = document.getElementById('filterPromoStartDate').value;
+      const end = document.getElementById('filterPromoEndDate').value;
+      filterRows('promotionsTable', function (cells) {
+        const startCell = cellText(cells, 0).trim();
+        const endCell = cellText(cells, 1).trim();
+        return (start === '' || startCell.indexOf(start) === 0)
+          && (end === '' || endCell.indexOf(end) === 0);
+      });
+    }
+
+    function filterAirlines() {
+      const name = (document.getElementById('searchAirlineName').value || '').toLowerCase();
+      const code = (document.getElementById('searchAirlineCode').value || '').toLowerCase();
+      filterRows('airlinesTable', function (cells) {
+        return cellText(cells, 2).toLowerCase().indexOf(name) > -1
+          && cellText(cells, 1).toLowerCase().indexOf(code) > -1;
+      });
+    }
+
+    function filterAirports() {
+      const code = (document.getElementById('searchAirportCode').value || '').toLowerCase();
+      const name = (document.getElementById('searchAirportName').value || '').toLowerCase();
+      filterRows('airportsTable', function (cells) {
+        return cellText(cells, 1).toLowerCase().indexOf(code) > -1
+          && cellText(cells, 2).toLowerCase().indexOf(name) > -1;
+      });
+    }
+
+    function populateSelectFromColumn(selectId, tableId, colIndex) {
+      const sel = document.getElementById(selectId);
+      if (!sel) return;
+      const seen = {};
+      const rows = document.querySelectorAll('#' + tableId + ' tbody tr');
+      rows.forEach(function (row) {
+        const cell = row.querySelectorAll('td')[colIndex];
+        if (!cell) return;
+        const v = (cell.textContent || '').trim();
+        if (v && !seen[v]) {
+          seen[v] = true;
+          const o = document.createElement('option');
+          o.value = v;
+          o.textContent = v;
+          sel.appendChild(o);
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      populateSelectFromColumn('filterFlightAirline', 'flightsTable', 1);
+      populateSelectFromColumn('filterFlightPlanDepAirport', 'flightPlansTable', 1);
+      populateSelectFromColumn('filterFlightPlanArrAirport', 'flightPlansTable', 2);
+    });
   </script>
 
 	<script
@@ -1055,7 +1348,7 @@ body {
 
         // Bookings Per Month - Line Chart
         const lineCanvas = document.getElementById('bookingsMonthChart');
-        if (lineCanvas && monthLabels.length > 0) {
+        if (lineCanvas && Array.isArray(monthLabels) && Array.isArray(monthData) && monthLabels.length > 0) {
             new Chart(lineCanvas.getContext('2d'), {
                 type: 'line',
                 data: {
@@ -1092,7 +1385,7 @@ body {
 
         // Booking Status Distribution - Doughnut Chart
         const doughnutCanvas = document.getElementById('bookingStatusChart');
-        if (doughnutCanvas && statusLabels.length > 0) {
+        if (doughnutCanvas && Array.isArray(statusLabels) && Array.isArray(statusData) && statusLabels.length > 0) {
             const statusColors = {
                 'PENDING': '#ffc107',
                 'Success': '#198754',

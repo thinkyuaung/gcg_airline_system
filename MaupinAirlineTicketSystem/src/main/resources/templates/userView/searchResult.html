@@ -9,6 +9,7 @@
 <!-- Fonts / Icons (Material Symbols come from code2's design; Bootstrap Icons kept in case the header fragment relies on them) -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
 <!-- Bootstrap 5 -->
@@ -22,23 +23,26 @@
    DESIGN TOKENS (from code2)
 ===================================================== */
 :root {
-    --bs-primary: #031632;
-    --bs-primary-rgb: 3, 22, 50;
-    --bs-secondary: #0058bc;
-    --bs-secondary-rgb: 0, 88, 188;
-    --bs-body-bg: #f8f9ff;
-    --bs-body-font-family: 'Inter', sans-serif;
-    --bs-border-color: rgba(117, 119, 126, 0.2);
+    --bs-primary: #004ac6;
+    --bs-primary-rgb: 0, 74, 198;
+    --bs-secondary: #004ac6;
+    --bs-secondary-rgb: 0, 74, 198;
+    --bs-body-bg: #faf8ff;
+    --bs-body-font-family: 'Source Sans 3', sans-serif;
+    --bs-border-color: rgba(117, 119, 126, 0.15);
 }
 
 *{ box-sizing: border-box; }
 
-html{ scroll-behavior: smooth; }
+html{
+    scroll-behavior: smooth;
+    scroll-padding-top: 90px;
+}
 
 body{
     background-color: var(--bs-body-bg);
-    color:#0b1c30;
-    font-family:'Inter', sans-serif;
+    color:#191b23;
+    font-family:'Source Sans 3', sans-serif;
 }
 
 .material-symbols-outlined{
@@ -46,14 +50,15 @@ body{
     font-size: 20px;
 }
 
-/* =====================================================
-   NAVBAR SUPPORT
-   DO NOT CHANGE NAVBAR HTML (fragment from code1)
-===================================================== */
-#mainNav{
-    position:sticky;
-    top:0;
-    z-index:1050;
+h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
+    font-family:'Manrope', sans-serif;
+}
+
+#mainNav{ top:0; z-index:1050; }
+#stickyHeader{ position:sticky; top:0; z-index:1050; }
+#booking{
+    scroll-margin-top:140px; /* promo (~48px) + navbar (~72px) + buffer */
+    margin-top:48px;
 }
 
 /* =====================================================
@@ -64,15 +69,11 @@ body{
     border:none;
     box-shadow: 0 5px 15px rgba(0,0,0,.08);
 }
-.top-promo-banner strong{
-    color:#b91c1c;
-}
+.top-promo-banner strong{ color:#b91c1c; }
 .alert{ margin-bottom:0; }
 
 /* =====================================================
-   SEARCH / BOOKING FORM
-   (functionality + Thymeleaf bindings from code1,
-   restyled to match code2's palette)
+   SEARCH / MODIFY SEARCH AREA
 ===================================================== */
 .booking-card{
     background:white;
@@ -91,10 +92,7 @@ body{
     border:1px solid var(--bs-border-color);
     transition:.2s;
 }
-.input-picker:hover{
-    background:white;
-    border-color:var(--bs-secondary);
-}
+.input-picker:hover{ background:white; border-color:var(--bs-secondary); }
 .input-picker label{
     display:flex;
     align-items:center;
@@ -125,6 +123,7 @@ body{
     gap:14px;
     align-items:center;
 }
+
 @media(max-width:992px){ .search-fields{ grid-template-columns:repeat(2,1fr); } }
 @media(max-width:576px){ .search-fields{ grid-template-columns:1fr; } .booking-card{ padding:1.25rem; } }
 
@@ -139,9 +138,7 @@ body{
 }
 .btn-search-flights:hover{ background:#1a2b48; }
 
-/* =====================================================
-   SEARCH SUMMARY (design lifted from code2)
-===================================================== */
+/* Search summary card — this is what "turns into" the form */
 .search-summary{
     background-color:#eff4ff;
     border-radius:1.25rem;
@@ -149,10 +146,39 @@ body{
     margin-top:1.5rem;
 }
 
+/* Floating Back Button */
+.btn-float-back{
+    position:fixed;
+    top:24px;
+    left:24px;
+    z-index:1050;
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    background:#fff;
+    color:#2b6485;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 .25rem .75rem rgba(3,31,65,.15);
+    border:none;
+    transition:.2s ease;
+    text-decoration:none;
+}
+.btn-float-back:hover{
+    background:#2b6485;
+    color:#fff;
+    transform:translateY(-2px);
+    box-shadow:0 .5rem 1rem rgba(3,31,65,.25);
+}
+.btn-float-back:active{ transform:scale(.95); }
+.btn-float-back .material-symbols-outlined{ font-size:24px; }
+@media (max-width:576px){
+    .btn-float-back{ top:16px; left:16px; width:42px; height:42px; }
+}
+
 /* =====================================================
    SIDEBAR FILTERS
-   Frontend-only design from code2 - no backend model
-   supplies filter facets yet, so these are static UI.
 ===================================================== */
 .filter-title{
     font-weight:600;
@@ -161,37 +187,53 @@ body{
     margin-bottom:1rem;
 }
 
+.time-filter-btn.active{
+    background:var(--bs-primary);
+    color:#fff;
+    border-color:var(--bs-primary);
+}
+
 /* =====================================================
-   FLIGHT CARD (design from code2, data from code1)
+   FLIGHT CARD
 ===================================================== */
 .flight-card{
     transition: transform .2s, box-shadow .2s;
     border:1px solid var(--bs-border-color);
     border-radius:1rem;
+    margin-bottom:1.25rem;
 }
+.flight-results > .flight-card:last-child{ margin-bottom:0; }
 .flight-card:hover{
     transform: translateY(-4px);
     box-shadow: 0 1rem 3rem rgba(0,0,0,.1)!important;
 }
-.flight-card.featured{
-    border-left:6px solid var(--bs-secondary);
-}
+.flight-card.featured{ border-left:6px solid var(--bs-secondary); }
 
+/* Airline logo — normalized white box so any admin-uploaded logo (any
+   size/aspect/background) sits consistently, with a guaranteed fallback
+   if the image fails to load or no logo is set */
 .airline-logo-box{
     width:56px;
     height:56px;
-    background:#031632;
+    background:#fff;
+    border:1px solid var(--bs-border-color);
     border-radius:.75rem;
     display:flex;
     align-items:center;
     justify-content:center;
-    padding:8px;
+    padding:6px;
+    flex-shrink:0;
+    overflow:hidden;
 }
 .airline-logo-box img{
-    width:100%;
-    height:100%;
+    max-width:100%;
+    max-height:100%;
+    width:auto;
+    height:auto;
     object-fit:contain;
-    filter:invert(1);
+}
+.airline-logo-box .logo-fallback{
+    color:var(--bs-primary);
 }
 
 .flight-path-line{
@@ -210,16 +252,13 @@ body{
     transform:translateY(-50%);
 }
 
-/* =====================================================
-   EMPTY / NO RESULTS STATE (styled per code2's empty state)
-===================================================== */
 .empty-state{
     border-style:dashed!important;
     background:rgba(255,255,255,.6);
 }
 
 footer{
-    background-color:var(--bs-primary);
+    background-color:#0a0f1d;
     color:rgba(255,255,255,.7);
     padding:4rem 0;
     margin-top:3rem;
@@ -242,124 +281,141 @@ footer a:hover{ color:#fff; }
 <!-- =====================================================
      PROMOTION BANNER (unchanged from code1)
 ===================================================== -->
-<div class="alert alert-warning alert-dismissible fade show m-0 text-center rounded-0 py-2 top-promo-banner" role="alert">
-    <div class="container d-flex justify-content-center align-items-center gap-2">
-        <span class="badge bg-danger">
-            <i class="bi bi-fire"></i> PROMOTION
-        </span>
-        <span class="fw-semibold small">
-            Special Offer! August Promotion Get 30% OFF. Use Code: <strong>MAUBIN30</strong>
-        </span>
+<div id="stickyHeader" style="position:sticky; top:0; z-index:1050;">
+
+    <div th:if="${promotion != null}" class="alert alert-warning alert-dismissible fade show m-0 text-center rounded-0 border-0 py-2 top-promo-banner" role="alert">
+        <div class="container d-flex align-items-center justify-content-center gap-2">
+            <span class="badge bg-danger text-white fw-bold px-2 py-1">
+                <i class="bi bi-fire me-1"></i>PROMOTION
+            </span>
+            <span class="small fw-semibold text-dark" th:text="${promotion.description}"></span>
+        </div>
+        <button type="button" class="btn-close py-2" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
+    <div th:replace="~{Fragments/header :: navbar}"></div>
+
 </div>
 
-<!-- =====================================================
-     ORIGINAL NAVBAR
-     DO NOT MODIFY (fragment from code1)
-===================================================== -->
-<div th:replace="~{Fragments/header :: navbar}"></div>
+<button
+    type="button"
+    class="btn-float-back"
+    onclick="history.back()"
+    aria-label="Go back"
+    title="Go back">
+
+    <span class="material-symbols-outlined">
+        arrow_back
+    </span>
+
+</button>
 
 <div class="container">
 
     <!-- =====================================================
-         SEARCH FORM
-         Thymeleaf bindings + endpoint kept from code1,
-         restyled to match code2's palette/typography.
+         SEARCH AREA
+         One container that is either the summary OR the editable
+         form — clicking "Modify Search" swaps it in place instead
+         of stacking both on top of each other.
     ===================================================== -->
     <section id="booking">
-      <div class="collapse" id="bookingFormCollapse" th:classappend="${#lists.isEmpty(flightPlans)} ? ' show' : ''">
-        <div class="booking-card">
-            <form action="/airline/search" method="get">
-                <div class="search-fields">
-                    <div class="input-picker">
-                        <label><span class="material-symbols-outlined" style="font-size:16px;">flight_takeoff</span> From</label>
-                        <select name="departureCity" class="form-select" required>
-                            <option value="">Select departure</option>
-                            <option th:each="airport:${airports}"
-                                    th:value="${airport.city}"
-                                    th:text="${airport.city + ' (' + airport.airportCode + ')'}"></option>
-                        </select>
+
+        <!-- Editable search form (hidden by default when there are results) -->
+        <div class="collapse" id="bookingFormCollapse" th:classappend="${#lists.isEmpty(flightPlans)} ? ' show' : ''">
+            <div class="booking-card">
+                <form action="/airline/search" method="get">
+                    <div class="search-fields">
+                        <div class="input-picker">
+                            <label><span class="material-symbols-outlined" style="font-size:16px;">flight_takeoff</span> From</label>
+                            <select name="departureCity" class="form-select" required>
+                                <option value="">Select departure</option>
+                                <option th:each="airport:${airports}"
+                                        th:value="${airport.city}"
+                                        th:text="${airport.city + ' (' + airport.airportCode + ')'}"></option>
+                            </select>
+                        </div>
+
+                        <div class="input-picker">
+                            <label><span class="material-symbols-outlined" style="font-size:16px;">flight_land</span> To</label>
+                            <select name="arrivalCity" class="form-select" required>
+                                <option value="">Select destination</option>
+                                <option th:each="airport:${airports}"
+                                        th:value="${airport.city}"
+                                        th:text="${airport.city + ' (' + airport.airportCode + ')'}"></option>
+                            </select>
+                        </div>
+
+                        <div class="input-picker">
+                            <label><span class="material-symbols-outlined" style="font-size:16px;">calendar_month</span> Departure</label>
+                            <input type="date" name="departureDate" id="departureDate"
+                                   th:min="${#temporals.format(#temporals.createNow(),'yyyy-MM-dd')}">
+                        </div>
+
+                        <div class="input-picker">
+                            <label><span class="material-symbols-outlined" style="font-size:16px;">person</span> Passengers</label>
+                            <input type="number" name="passengers" value="1" min="1" max="50" required>
+                        </div>
+
+                        <div class="input-picker">
+                            <label><span class="material-symbols-outlined" style="font-size:16px;">airline_seat_recline_extra</span> Seat Class</label>
+                            <select name="seatClass" class="form-select">
+                                <option value="">Select Seat Class</option>
+                                <option value="Economy">Economy</option>
+                                <option value="Business">Business</option>
+                                <option value="First">First Class</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <div class="input-picker">
-                        <label><span class="material-symbols-outlined" style="font-size:16px;">flight_land</span> To</label>
-                        <select name="arrivalCity" class="form-select" required>
-                            <option value="">Select destination</option>
-                            <option th:each="airport:${airports}"
-                                    th:value="${airport.city}"
-                                    th:text="${airport.city + ' (' + airport.airportCode + ')'}"></option>
-                        </select>
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        <button type="button"
+                                th:if="${!#lists.isEmpty(flightPlans)}"
+                                class="btn btn-outline-secondary"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#bookingFormCollapse">
+                            Cancel
+                        </button>
+                        <button class="btn-search-flights">
+                            <span class="material-symbols-outlined" style="font-size:18px;">search</span> Search Flights
+                        </button>
                     </div>
-
-                    <div class="input-picker">
-                        <label><span class="material-symbols-outlined" style="font-size:16px;">calendar_month</span> Departure</label>
-                        <input type="date" name="departureDate" id="departureDate"
-                               th:min="${#temporals.format(#temporals.createNow(),'yyyy-MM-dd')}">
-                    </div>
-
-                    <div class="input-picker">
-                        <label><span class="material-symbols-outlined" style="font-size:16px;">person</span> Passengers</label>
-                        <input type="number" name="passengers" value="1" min="1" max="50" required>
-                    </div>
-
-                    <div class="input-picker">
-                        <label><span class="material-symbols-outlined" style="font-size:16px;">airline_seat_recline_extra</span> Seat Class</label>
-                        <select name="seatClass" class="form-select">
-                            <option value="">Select Seat Class</option>
-                            <option value="Economy">Economy</option>
-                            <option value="Business">Business</option>
-                            <option value="First">First Class</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="text-end mt-4">
-                    <button class="btn-search-flights">
-                        <span class="material-symbols-outlined" style="font-size:18px;">search</span> Search Flights
-                    </button>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-      </div>
+
+        <!-- Summary card (shown by default when there are results; hidden while the form above is open) -->
+        <div th:if="${!#lists.isEmpty(flightPlans)}" id="searchSummaryWrapper" class="search-summary d-flex flex-wrap align-items-center justify-content-between gap-4">
+            <div class="d-flex align-items-center gap-4 gap-md-5">
+                <div class="d-flex align-items-center gap-3">
+                    <div>
+                        <div class="h5 mb-0 fw-bold" th:text="${flightPlans[0].departureAirport.city}"></div>
+                        <div class="text-secondary small fw-bold" th:text="${flightPlans[0].departureAirport.airportCode}"></div>
+                    </div>
+                    <span class="material-symbols-outlined text-secondary fs-2">trending_flat</span>
+                    <div>
+                        <div class="h5 mb-0 fw-bold" th:text="${flightPlans[0].arrivalAirport.city}"></div>
+                        <div class="text-secondary small fw-bold" th:text="${flightPlans[0].arrivalAirport.airportCode}"></div>
+                    </div>
+                </div>
+                <div class="vr d-none d-md-block" style="height:40px;opacity:.1;"></div>
+                <div>
+                    <div class="fw-bold text-primary small"
+                         th:text="${#temporals.format(flightPlans[0].departureTime,'EEE, dd MMM yyyy')}"></div>
+                    <div class="text-muted small">
+                        <span th:text="${passengers}"></span> Passenger<span th:if="${passengers > 1}">s</span> &bull;
+                        <span th:text="${seatClass}"></span>
+                    </div>
+                </div>
+            </div>
+            <button type="button" id="modifySearchBtn" class="btn btn-primary d-flex align-items-center gap-2 px-4 py-2">
+                <span class="material-symbols-outlined fs-6">edit</span> Modify Search
+            </button>
+        </div>
+
     </section>
 
     <!-- =====================================================
-         SEARCH SUMMARY
-         Layout/design from code2, data bound from code1's model
-    ===================================================== -->
-    <div th:if="${!#lists.isEmpty(flightPlans)}" class="search-summary d-flex flex-wrap align-items-center justify-content-between gap-4">
-        <div class="d-flex align-items-center gap-4 gap-md-5">
-            <div class="d-flex align-items-center gap-3">
-                <div>
-                    <div class="h5 mb-0 fw-bold" th:text="${flightPlans[0].departureAirport.city}"></div>
-                    <div class="text-secondary small fw-bold" th:text="${flightPlans[0].departureAirport.airportCode}"></div>
-                </div>
-                <span class="material-symbols-outlined text-secondary fs-2">trending_flat</span>
-                <div>
-                    <div class="h5 mb-0 fw-bold" th:text="${flightPlans[0].arrivalAirport.city}"></div>
-                    <div class="text-secondary small fw-bold" th:text="${flightPlans[0].arrivalAirport.airportCode}"></div>
-                </div>
-            </div>
-            <div class="vr d-none d-md-block" style="height:40px;opacity:.1;"></div>
-            <div>
-                <div class="fw-bold text-primary small"
-                     th:text="${#temporals.format(flightPlans[0].departureTime,'EEE, dd MMM yyyy')}"></div>
-                <div class="text-muted small">
-                    <span th:text="${passengers}"></span> Passenger<span th:if="${passengers > 1}">s</span> &bull;
-                    <span th:text="${seatClass}"></span>
-                </div>
-            </div>
-        </div>
-        <a href="#booking" class="btn btn-primary d-flex align-items-center gap-2 px-4 py-2"
-           data-bs-toggle="collapse" data-bs-target="#bookingFormCollapse"
-           aria-expanded="false" aria-controls="bookingFormCollapse">
-            <span class="material-symbols-outlined fs-6">edit</span> Modify Search
-        </a>
-    </div>
-
-    <!-- =====================================================
-         NO RESULTS (kept from code1, styled with code2's empty state)
+         NO RESULTS
     ===================================================== -->
     <div th:if="${#lists.isEmpty(flightPlans)}" class="text-center py-5 border rounded-5 mt-4 empty-state">
         <div class="bg-light rounded-circle d-inline-flex p-4 mb-4">
@@ -371,52 +427,54 @@ footer a:hover{ color:#fff; }
 
     <!-- =====================================================
          RESULTS AREA
-         Sidebar filters (frontend-only, no backend facets supplied)
-         + flight cards (design from code2, data from code1)
     ===================================================== -->
     <div th:if="${!#lists.isEmpty(flightPlans)}" class="row g-4 mt-1 mb-5">
 
-        <!-- Sidebar Filters — static frontend UI, not wired to backend -->
+        <!-- Sidebar Filters -->
         <aside class="col-lg-3">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="h5 mb-0 fw-bold text-primary">Filters</h2>
-                <button type="button" class="btn btn-link btn-sm text-secondary p-0 text-decoration-none fw-medium">Reset all</button>
+                <button type="button" id="resetFiltersBtn" class="btn btn-link btn-sm text-secondary p-0 text-decoration-none fw-medium">Reset all</button>
             </div>
 
             <div class="card p-3 shadow-none mb-3">
                 <div class="filter-title">Price range</div>
                 <div class="px-2">
-                    <input class="form-range" id="priceRange" type="range" min="150" max="800">
+                    <input class="form-range" id="priceRange" type="range" min="150" max="800" value="800">
                     <div class="d-flex justify-content-between small text-muted mt-2">
                         <span>$150</span>
-                        <span>$800+</span>
+                        <span id="priceRangeValue">$800+</span>
                     </div>
                 </div>
             </div>
 
+            <!-- Stops — all current flights are direct, so this is left as static/informational for now -->
             <div class="card p-3 shadow-none mb-3">
                 <div class="filter-title">Stops</div>
                 <div class="form-check mb-2 d-flex justify-content-between align-items-center">
                     <div>
-                        <input class="form-check-input" type="checkbox" id="nonStop" checked>
+                        <input class="form-check-input" type="checkbox" id="nonStop" checked disabled>
                         <label class="form-check-label" for="nonStop">Non-stop</label>
                     </div>
                 </div>
                 <div class="form-check d-flex justify-content-between align-items-center">
                     <div>
-                        <input class="form-check-input" type="checkbox" id="oneStop">
-                        <label class="form-check-label" for="oneStop">1 stop</label>
+                        <input class="form-check-input" type="checkbox" id="oneStop" disabled>
+                        <label class="form-check-label text-muted" for="oneStop">1 stop (unavailable)</label>
                     </div>
                 </div>
             </div>
 
             <div class="card p-3 shadow-none">
                 <div class="filter-title">Departure Time</div>
-                <div class="row g-2">
-                    <div class="col-6"><button type="button" class="btn btn-outline-light text-muted border w-100 btn-sm py-2">Morning</button></div>
-                    <div class="col-6"><button type="button" class="btn btn-primary w-100 btn-sm py-2">Afternoon</button></div>
-                    <div class="col-6"><button type="button" class="btn btn-outline-light text-muted border w-100 btn-sm py-2">Evening</button></div>
-                    <div class="col-6"><button type="button" class="btn btn-outline-light text-muted border w-100 btn-sm py-2">Night</button></div>
+                <div class="row g-2" id="timeFilterGroup">
+                    <div class="col-6"><button type="button" data-bucket="morning" class="time-filter-btn btn btn-outline-light text-muted border w-100 btn-sm py-2">Morning</button></div>
+                    <div class="col-6"><button type="button" data-bucket="afternoon" class="time-filter-btn btn btn-outline-light text-muted border w-100 btn-sm py-2">Afternoon</button></div>
+                    <div class="col-6"><button type="button" data-bucket="evening" class="time-filter-btn btn btn-outline-light text-muted border w-100 btn-sm py-2">Evening</button></div>
+                    <div class="col-6"><button type="button" data-bucket="night" class="time-filter-btn btn btn-outline-light text-muted border w-100 btn-sm py-2">Night</button></div>
+                </div>
+                <div class="small text-muted mt-2" style="font-size:11px;">
+                    Morning 5am–12pm &bull; Afternoon 12–5pm &bull; Evening 5–9pm &bull; Night 9pm–5am
                 </div>
             </div>
         </aside>
@@ -424,10 +482,9 @@ footer a:hover{ color:#fff; }
         <!-- Results Column -->
         <div class="col-lg-9">
 
-            <!-- Sort bar — result count is bound to backend, sort buttons are static frontend UI -->
             <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
                 <span class="text-muted small fw-medium">
-                    Showing <span th:text="${#lists.size(flightPlans)}"></span> available flight<span th:if="${#lists.size(flightPlans) > 1}">s</span>
+                    Showing <span id="visibleCount" th:text="${#lists.size(flightPlans)}"></span> available flight<span th:if="${#lists.size(flightPlans) > 1}">s</span>
                 </span>
                 <div class="d-flex align-items-center gap-3">
                     <span class="text-muted small fw-bold text-uppercase">Sort by:</span>
@@ -439,10 +496,11 @@ footer a:hover{ color:#fff; }
                 </div>
             </div>
 
-            <div class="flight-results">
+            <div class="flight-results" id="flightResults">
                 <div class="card flight-card shadow-sm border-0 bg-white"
                      th:each="flightPlan,iter:${flightPlans}"
-                     th:classappend="${iter.first} ? 'featured' : ''">
+                     th:classappend="${iter.first} ? 'featured' : ''"
+                     th:attr="data-price=${flightPlan.price}, data-hour=${#temporals.format(flightPlan.departureTime,'HH')}">
                     <div class="card-body p-4">
                         <div class="row align-items-center g-4">
 
@@ -451,9 +509,10 @@ footer a:hover{ color:#fff; }
                                 <div class="airline-logo-box">
                                     <img th:if="${flightPlan.flight.airline.logo != null}"
                                          th:src="@{'/photos/' + ${flightPlan.flight.airline.logo}}"
-                                         th:alt="${flightPlan.flight.airline.airlineName}">
-                                    <span th:unless="${flightPlan.flight.airline.logo != null}"
-                                          class="material-symbols-outlined text-white fs-2">flight</span>
+                                         th:alt="${flightPlan.flight.airline.airlineName}"
+                                         onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+                                    <span class="material-symbols-outlined logo-fallback fs-2"
+                                          th:style="${flightPlan.flight.airline.logo != null} ? 'display:none' : 'display:inline-flex'">flight</span>
                                 </div>
                                 <div>
                                     <div class="fw-bold text-primary" th:text="${flightPlan.flight.airline.airlineName}"></div>
@@ -475,7 +534,6 @@ footer a:hover{ color:#fff; }
                                             <div class="flight-path-dot end-0"></div>
                                             <span class="material-symbols-outlined text-secondary bg-white px-2" style="transform:rotate(90deg);">flight_takeoff</span>
                                         </div>
-                                        <!-- Direct label kept as-is: current backend model exposes no layover data -->
                                         <div class="text-secondary small mt-2 fw-bold">Direct</div>
                                     </div>
                                     <div class="flex-shrink-0">
@@ -493,8 +551,12 @@ footer a:hover{ color:#fff; }
 
                             <!-- Price / CTA -->
                             <div class="col-12 col-md-3 text-md-end border-md-start border-light ps-md-4">
-                                <div class="text-muted small">Starting from</div>
-                                <div class="h1 fw-bold text-primary mb-3">$<span th:text="${flightPlan.price}"></span></div>
+
+                                <div class="mb-3">
+                                    <div class="text-muted small">Starting from</div>
+                                    <div class="h1 fw-bold text-primary mb-0">$<span th:text="${flightPlan.price}"></span></div>
+                                </div>
+
                                 <a class="btn btn-primary w-100 fw-bold py-2 rounded-3"
                                    th:href="@{/airline/flight/{id}(id=${flightPlan.flightPlanId}, passengers=${passengers}, seatClass=${seatClass})}">
                                     Select
@@ -505,14 +567,23 @@ footer a:hover{ color:#fff; }
                     </div>
                 </div>
             </div>
+
+            <!-- Shown when filters hide every result -->
+            <div id="noFilterMatches" class="text-center py-5 border rounded-4 empty-state d-none">
+                <div class="bg-light rounded-circle d-inline-flex p-3 mb-3">
+                    <span class="material-symbols-outlined text-secondary fs-2">filter_alt_off</span>
+                </div>
+                <h5 class="fw-bold text-primary">No flights match these filters.</h5>
+                <p class="text-muted mb-0">Try widening your price range or clearing a time filter.</p>
+            </div>
+
         </div>
     </div>
 </div>
 
 <!-- =====================================================
-     FOOTER — static frontend UI carried over from code2's design
+     FOOTER
 ===================================================== -->
- <!-- Footer -->
     <footer class="text-white pt-5 pb-4 mt-auto" style="background-color: #0a0f1d;">
         <div class="container pt-3">
             <div class="row g-4">
@@ -565,5 +636,113 @@ footer a:hover{ color:#fff; }
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    /* =====================================================
+       3. Combine search summary + modify search into one area
+    ===================================================== */
+    const bookingCollapseEl = document.getElementById("bookingFormCollapse");
+    const bookingCollapse = new bootstrap.Collapse(bookingCollapseEl, { toggle: false });
+    const summaryWrapper = document.getElementById("searchSummaryWrapper");
+    const modifyBtn = document.getElementById("modifySearchBtn");
+
+    if (modifyBtn) {
+        modifyBtn.addEventListener("click", function () {
+            if (summaryWrapper) summaryWrapper.classList.add("d-none");
+            bookingCollapse.show();
+        });
+    }
+
+    bookingCollapseEl.addEventListener("shown.bs.collapse", function () {
+        if (summaryWrapper) summaryWrapper.classList.add("d-none");
+        const header = document.getElementById("stickyHeader");
+        const headerHeight = header ? header.offsetHeight : 90;
+        const target = document.getElementById("booking");
+        const targetPosition = target.getBoundingClientRect().top + window.scrollY - headerHeight - 16;
+        window.scrollTo({ top: targetPosition, behavior: "smooth" });
+    });
+
+    bookingCollapseEl.addEventListener("hidden.bs.collapse", function () {
+        if (summaryWrapper) summaryWrapper.classList.remove("d-none");
+    });
+
+    /* =====================================================
+       4. Price range + departure time filters
+    ===================================================== */
+    const priceRange = document.getElementById("priceRange");
+    const priceRangeValue = document.getElementById("priceRangeValue");
+    const timeButtons = document.querySelectorAll(".time-filter-btn");
+    const resetBtn = document.getElementById("resetFiltersBtn");
+    const cards = Array.from(document.querySelectorAll("#flightResults .flight-card"));
+    const visibleCountEl = document.getElementById("visibleCount");
+    const noMatchesEl = document.getElementById("noFilterMatches");
+
+    function bucketForHour(hour) {
+        if (hour >= 5 && hour < 12) return "morning";
+        if (hour >= 12 && hour < 17) return "afternoon";
+        if (hour >= 17 && hour < 21) return "evening";
+        return "night";
+    }
+
+    function applyFilters() {
+        const maxPrice = priceRange ? parseFloat(priceRange.value) : Infinity;
+        const activeBuckets = Array.from(timeButtons)
+            .filter(b => b.classList.contains("active"))
+            .map(b => b.dataset.bucket);
+
+        let visible = 0;
+
+        cards.forEach(card => {
+            const price = parseFloat(card.dataset.price);
+            const hour = parseInt(card.dataset.hour, 10);
+            const bucket = bucketForHour(hour);
+
+            const priceOk = isNaN(price) || price <= maxPrice;
+            const timeOk = activeBuckets.length === 0 || activeBuckets.includes(bucket);
+
+            const show = priceOk && timeOk;
+            card.classList.toggle("d-none", !show);
+            if (show) visible++;
+        });
+
+        if (visibleCountEl) visibleCountEl.textContent = visible;
+        if (noMatchesEl) noMatchesEl.classList.toggle("d-none", visible !== 0);
+    }
+
+    if (priceRange) {
+        priceRange.addEventListener("input", function () {
+            const val = parseInt(priceRange.value, 10);
+            priceRangeValue.textContent = val >= 800 ? "$800+" : "$" + val;
+            applyFilters();
+        });
+    }
+
+    timeButtons.forEach(btn => {
+        btn.addEventListener("click", function () {
+            btn.classList.toggle("active");
+            btn.classList.toggle("btn-outline-light");
+            btn.classList.toggle("text-muted");
+            applyFilters();
+        });
+    });
+
+    if (resetBtn) {
+        resetBtn.addEventListener("click", function () {
+            if (priceRange) {
+                priceRange.value = priceRange.max;
+                priceRangeValue.textContent = "$" + priceRange.max + "+";
+            }
+            timeButtons.forEach(btn => {
+                btn.classList.remove("active");
+                btn.classList.add("btn-outline-light", "text-muted");
+            });
+            applyFilters();
+        });
+    }
+
+    applyFilters();
+});
+</script>
 </body>
 </html>

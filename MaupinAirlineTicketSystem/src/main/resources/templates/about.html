@@ -15,6 +15,19 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
      <link rel="stylesheet" th:href="@{/css/about.css}">
 </head>
+<style>
+.testi-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #f1f3f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+    font-size: 30px;
+}
+</style>
 <body>
 
    <!-- Include Shared Header Fragment -->
@@ -385,11 +398,9 @@
 
                 <!-- Default Avatar -->
 
-                <img class="testi-avatar"
-
-                     src="/images/default-user.png"
-
-                     alt="User">
+               <div class="testi-avatar">
+    <i class="bi bi-person-fill"></i>
+</div>
 
                 <div>
 
