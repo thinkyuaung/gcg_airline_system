@@ -523,9 +523,22 @@ rgba(
 					</div>
 
 					<div class="card border rounded-4 bg-white overflow-hidden">
+						<div class="d-flex flex-wrap align-items-center gap-2 p-3 border-bottom">
+							<div class="position-relative flex-grow-1" style="max-width: 300px;">
+								<i class="bi bi-search position-absolute top-50 translate-middle-y ms-3 text-muted"></i>
+								<input type="text" id="searchFlights"
+									oninput="filterFlights()"
+									class="form-control ps-5 rounded-pill"
+									placeholder="Search flight number...">
+							</div>
+							<select id="filterFlightAirline" onchange="filterFlights()"
+								class="form-select rounded-pill" style="max-width: 220px;">
+								<option value="">All Airlines</option>
+							</select>
+						</div>
 						<div class="table-responsive">
 
-							<table class="table table-bordered align-middle table-hover m-0">
+							<table id="flightsTable" class="table table-bordered align-middle table-hover m-0">
 								<thead>
 									<tr class="text-muted small fw-bold">
 										<th>FLIGHT NUMBER</th>
@@ -604,6 +617,10 @@ rgba(
 
 										<!-- 6. Action Buttons -->
 										<td><a
+											th:href="@{/airline/admin/flight/detail/{id}(id=${f.flightId})}"
+											class="btn btn-sm btn-outline-info rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
+											<i class="bi bi-eye"></i> View
+										</a> <a
 											th:href="@{/airline/admin/flight/edit/{id}(id=${f.flightId})}"
 											class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
 												<i class="bi bi-pencil"></i> Edit
@@ -636,9 +653,29 @@ rgba(
 							</button></a>
 					</div>
 					<div class="card border rounded-4 bg-white overflow-hidden">
+						<div class="d-flex flex-wrap align-items-center gap-2 p-3 border-bottom">
+							<div class="position-relative flex-grow-1" style="max-width: 220px;">
+								<i class="bi bi-search position-absolute top-50 translate-middle-y ms-3 text-muted"></i>
+								<input type="text" id="searchFlightPlans"
+									oninput="filterFlightPlans()"
+									class="form-control ps-5 rounded-pill"
+									placeholder="Search flight number...">
+							</div>
+							<input type="date" id="filterFlightPlanDate" onchange="filterFlightPlans()"
+								class="form-control rounded-pill" style="max-width: 190px;"
+								title="Filter by flight date">
+							<select id="filterFlightPlanDepAirport" onchange="filterFlightPlans()"
+								class="form-select rounded-pill" style="max-width: 230px;">
+								<option value="">All Departure Airports</option>
+							</select>
+							<select id="filterFlightPlanArrAirport" onchange="filterFlightPlans()"
+								class="form-select rounded-pill" style="max-width: 230px;">
+								<option value="">All Arrival Airports</option>
+							</select>
+						</div>
 						<div class="table-responsive">
 
-							<table
+							<table id="flightPlansTable"
 								class="table table-bordered align-middle table-hover m-0 custom-flightplan-table">
 								<thead>
 									<tr class="text-secondary small fw-bold text-uppercase"
@@ -654,8 +691,7 @@ rgba(
 										<th>First Class</th>
 										<th>Available</th>
 										<th>Price</th>
-										<th>Promotion
-										<th>
+										<th>Promotion</th>
 										<th class="text-end">Actions</th>
 									</tr>
 								</thead>
@@ -712,6 +748,10 @@ rgba(
 										<td class="text-end">
 											<div class="d-inline-flex gap-2">
 												<a
+													th:href="@{/airline/admin/flightPlan/detail/{id}(id=${fp.flightPlanId})}"
+													class="btn btn-sm btn-outline-info rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
+													<i class="bi bi-eye"></i> View
+												</a> <a
 													th:href="@{/airline/admin/flightPlan/edit/{id}(id=${fp.flightPlanId})}"
 													class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
 													<i class="bi bi-pencil-square"></i> Edit
@@ -739,9 +779,35 @@ rgba(
 					</h5>
 
 					<div class="card border rounded-4 bg-white overflow-hidden">
+						<div class="d-flex flex-wrap align-items-center gap-2 p-3 border-bottom">
+							<div class="position-relative flex-grow-1" style="max-width: 240px;">
+								<i class="bi bi-person position-absolute top-50 translate-middle-y ms-3 text-muted"></i>
+								<input type="text" id="searchBookingPassenger"
+									oninput="filterBookings()"
+									class="form-control ps-5 rounded-pill"
+									placeholder="Search passenger...">
+							</div>
+							<div class="position-relative flex-grow-1" style="max-width: 200px;">
+								<i class="bi bi-airplane position-absolute top-50 translate-middle-y ms-3 text-muted"></i>
+								<input type="text" id="searchBookingFlight"
+									oninput="filterBookings()"
+									class="form-control ps-5 rounded-pill"
+									placeholder="Search flight...">
+							</div>
+							<select id="filterBookingStatus" onchange="filterBookings()"
+								class="form-select rounded-pill" style="max-width: 200px;">
+								<option value="">All Statuses</option>
+								<option>PENDING</option>
+								<option>Success</option>
+								<option>Issued</option>
+								<option>Pending Cancel</option>
+								<option>CANCELLED</option>
+								<option>Being Booked</option>
+							</select>
+						</div>
 						<div class="table-responsive">
 
-							<table
+							<table id="bookingsTable"
 								class="table table-bordered align-middle table-hover m-0 custom-premium-table">
 								<thead>
 									<tr class="text-secondary small fw-bold text-uppercase"
@@ -791,41 +857,50 @@ rgba(
 												None
 										</span></td>
 										<td th:text="${b.totalAmount}"></td>
-										<td><span class="badge"
-											th:classappend="${b.status == 'PENDING'} ? 'bg-warning text-dark' : (${b.status == 'Success' or b.status == 'Issued'} ? 'bg-success' : (${b.status == 'Pending Cancel'} ? 'bg-warning text-dark' : (${b.status == 'CANCELLED'} ? 'bg-secondary' : (${b.status == 'Being Booked'} ? 'bg-info text-dark' : 'bg-secondary'))))"
-											th:text="${b.status}"></span> <small
-											th:if="${b.status == 'Being Booked' and b.cancelDescription != null}"
-											class="d-block text-muted mt-1"
-											th:text="${b.cancelDescription}"></small></td>
-										<td><a th:if="${b.status == 'PENDING'}"
-											th:href="@{/airline/admin/booking/approve/{id}(id=${b.bookingId})}"
-											class="">
-												<button class="btn btn-sm btn-primary py-0 px-2 shadow-sm">
-													<i class="bi bi-boxes"></i> Approve
-												</button>
-										</a> <a th:if="${b.status == 'PENDING'}"
-											th:href="@{/airline/admin/booking/issue/{id}(id=${b.bookingId})}"
-											class="">
-												<button class="btn btn-sm btn-danger py-0 px-2 shadow-sm">
-													<i class="bi bi-qr-code"></i> Issued
-												</button>
-										</a> <a th:if="${b.status == 'Pending Cancel'}"
-											th:href="@{/airline/admin/booking/approve-cancel/{id}(id=${b.bookingId})}"
-											class="">
-												<button class="btn btn-sm btn-success py-0 px-2 shadow-sm">
-													<i class="bi bi-check-circle"></i> Approve Cancel
-												</button>
-										</a> <a th:if="${b.status == 'Pending Cancel'}"
-											th:href="@{/airline/admin/booking/issue-cancel/{id}(id=${b.bookingId})}"
-											class="">
-												<button class="btn btn-sm btn-danger py-0 px-2 shadow-sm">
-													<i class="bi bi-x-circle"></i> Reject Cancel
-												</button>
-										</a></td>
+										<td>
+											<span class="badge" 
+												th:classappend="${b.status == 'PENDING'} ? 'bg-warning text-dark' : (${b.status == 'Success' or b.status == 'Issued'} ? 'bg-success' : (${b.status == 'Pending Cancel'} ? 'bg-warning text-dark' : (${b.status == 'CANCELLED'} ? 'bg-secondary' : (${b.status == 'Being Booked'} ? 'bg-info text-dark' : 'bg-secondary'))))"
+												th:text="${b.status}"></span>
+											<small th:if="${b.status == 'Being Booked' and b.cancelDescription != null}" 
+												class="d-block text-muted mt-1" th:text="${b.cancelDescription}"></small>
+										</td>
+										<td>
+										
+											<a
+												th:href="@{/airline/admin/booking/detail/{id}(id=${b.bookingId})}"
+												class="">
+												<button
+												class="btn btn-sm btn-outline-secondary py-0 px-2 shadow-sm"><i class="bi bi-eye"></i> View</button>
+											</a>
+											<a th:if="${b.status == 'PENDING'}"
+												th:href="@{/airline/admin/booking/approve/{id}(id=${b.bookingId})}"
+												class="">
+												<button
+												class="btn btn-sm btn-primary py-0 px-2 shadow-sm"><i class="bi bi-boxes"></i> Approve</button>
+											</a>
+											<a th:if="${b.status == 'PENDING'}"
+												th:href="@{/airline/admin/booking/issue/{id}(id=${b.bookingId})}"
+												class="">
+												<button
+												class="btn btn-sm btn-danger py-0 px-2 shadow-sm"><i
+												class="bi bi-qr-code"></i>  Issued</button>
+											</a>
+											<a th:if="${b.status == 'Pending Cancel'}"
+												th:href="@{/airline/admin/booking/approve-cancel/{id}(id=${b.bookingId})}"
+												class="">
+												<button
+												class="btn btn-sm btn-success py-0 px-2 shadow-sm"><i class="bi bi-check-circle"></i> Approve Cancel</button>
+											</a>
+											<a th:if="${b.status == 'Pending Cancel'}"
+												th:href="@{/airline/admin/booking/issue-cancel/{id}(id=${b.bookingId})}"
+												class="">
+												<button
+												class="btn btn-sm btn-danger py-0 px-2 shadow-sm"><i class="bi bi-x-circle"></i> Reject Cancel</button>
+											</a>
+										</td>
 									</tr>
 									<tr th:if="${#lists.isEmpty(bookings)}">
-										<td colspan="9" class="text-center text-muted py-4">No
-											bookings found.</td>
+										<td colspan="10" class="text-center text-muted py-4">No bookings found.</td>
 									</tr>
 								</tbody>
 							</table>
@@ -848,8 +923,16 @@ rgba(
 							</button></a>
 					</div>
 					<div class="content-card bg-white">
+						<div class="d-flex flex-wrap align-items-center gap-2 pb-3">
+							<label class="small fw-bold text-muted m-0">Start Date</label>
+							<input type="date" id="filterPromoStartDate" onchange="filterPromotions()"
+								class="form-control rounded-pill" style="max-width: 190px;">
+							<label class="small fw-bold text-muted m-0">End Date</label>
+							<input type="date" id="filterPromoEndDate" onchange="filterPromotions()"
+								class="form-control rounded-pill" style="max-width: 190px;">
+						</div>
 						<div class="table-responsive">
-							<table class="table align-middle table-hover m-0">
+							<table id="promotionsTable" class="table align-middle table-hover m-0">
 								<thead class="table-light">
 									<tr class="text-muted small fw-bold">
 										<th>START DATE</th>
@@ -871,14 +954,18 @@ rgba(
 											th:text="${p.status}"></span></td>
 										<td th:text="${p.description}"></td>
 										<td th:text="${p.percentage}"></td>
-										<td><a
-											th:href="@{/airline/admin/promotion/edit/{id}(id=${p.promotionId})}"
-											class="btn btn-sm btn-outline-secondary py-0 px-2"><i
-												class="bi bi-pencil"></i> Edit</a> <a
-											th:href="@{/airline/admin/promotion/delete/{id}(id=${p.promotionId})}"
-											class="btn btn-sm btn-outline-danger py-0 px-2"
-											onclick="return confirm('Are you sure you want to delete this promotion?')"><i
-												class="bi bi-x-circle"></i> Delete</a></td>
+										<td>
+											<a th:href="@{/airline/admin/promotion/detail/{id}(id=${p.promotionId})}"
+												class="btn btn-sm btn-outline-info py-0 px-2"><i
+													class="bi bi-eye"></i> View</a>
+											<a th:href="@{/airline/admin/promotion/edit/{id}(id=${p.promotionId})}"
+												class="btn btn-sm btn-outline-secondary py-0 px-2"><i
+													class="bi bi-pencil"></i> Edit</a>
+											<a th:href="@{/airline/admin/promotion/delete/{id}(id=${p.promotionId})}"
+												class="btn btn-sm btn-outline-danger py-0 px-2"
+												onclick="return confirm('Are you sure you want to delete this promotion?')"><i
+													class="bi bi-x-circle"></i> Delete</a>
+										</td>
 									</tr>
 								</tbody>
 							</table>
@@ -901,10 +988,20 @@ rgba(
 								class="bi bi-plus-circle"></i> Add New Airline</a>
 						</button>
 					</div>
-					<div class="card border rounded-4 bg-white overflow-hidden">
+				<div class="card border rounded-4 bg-white overflow-hidden">
+						<div class="d-flex flex-wrap align-items-center gap-2 p-3 border-bottom">
+							<input type="text" id="searchAirlineName"
+								oninput="filterAirlines()"
+								class="form-control rounded-pill"
+								style="max-width: 260px;" placeholder="Search airline name...">
+							<input type="text" id="searchAirlineCode"
+								oninput="filterAirlines()"
+								class="form-control rounded-pill"
+								style="max-width: 200px;" placeholder="Search airline code...">
+						</div>
 						<div class="table-responsive">
 
-							<table
+							<table id="airlinesTable"
 								class="table table-bordered align-middle table-hover m-0 custom-airline-table">
 								<thead>
 									<tr class="text-secondary small fw-bold text-uppercase"
@@ -937,6 +1034,10 @@ rgba(
 										<td class="text-end">
 											<div class="d-inline-flex gap-2">
 												<a
+													th:href="@{/airline/admin/airline/detail/{id}(id=${al.airlineId})}"
+													class="btn btn-sm btn-outline-info rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
+													<i class="bi bi-eye"></i> View
+												</a> <a
 													th:href="@{/airline/admin/airline/edit/{id}(id=${al.airlineId})}"
 													class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
 													<i class="bi bi-pencil-square"></i> Edit
@@ -966,10 +1067,20 @@ rgba(
 					</div>
 
 					<div class="card border rounded-4 bg-white overflow-hidden">
+						<div class="d-flex flex-wrap align-items-center gap-2 p-3 border-bottom">
+							<input type="text" id="searchAirportCode"
+								oninput="filterAirports()"
+								class="form-control rounded-pill"
+								style="max-width: 200px;" placeholder="Search airport code...">
+							<input type="text" id="searchAirportName"
+								oninput="filterAirports()"
+								class="form-control rounded-pill"
+								style="max-width: 260px;" placeholder="Search airport name...">
+						</div>
 						<div class="table-responsive">
 
-
-							<table
+							
+							<table id="airportsTable"
 								class="table table-bordered align-middle table-hover m-0 custom-airport-table">
 								<thead>
 									<tr class="text-secondary small fw-bold text-uppercase"
@@ -1007,6 +1118,10 @@ rgba(
 										<td class="text-end">
 											<div class="d-inline-flex gap-2">
 												<a
+													th:href="@{/airline/admin/airport/detail/{id}(id=${ap.airportId})}"
+													class="btn btn-sm btn-outline-info rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
+													<i class="bi bi-eye"></i> View
+												</a> <a
 													th:href="@{/airline/admin/airport/edit/{id}(id=${ap.airportId})}"
 													class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1 flat-btn">
 													<i class="bi bi-pencil-square"></i> Edit
@@ -1097,6 +1212,107 @@ rgba(
       document.querySelectorAll('.admin-nav-link').forEach(link => link.classList.remove('active'));
       document.getElementById(`tab-${tabName}`).classList.add('active');
     }
+
+    function filterRows(tableId, predicate) {
+      const rows = document.querySelectorAll('#' + tableId + ' tbody tr');
+      rows.forEach(function (row) {
+        const cells = row.querySelectorAll('td');
+        if (cells.length === 0) return;
+        row.style.display = predicate(cells) ? '' : 'none';
+      });
+    }
+
+    function cellText(cells, i) {
+      return cells[i] ? (cells[i].textContent || '') : '';
+    }
+
+    function filterFlights() {
+      const q = (document.getElementById('searchFlights').value || '').toLowerCase();
+      const airline = document.getElementById('filterFlightAirline').value;
+      filterRows('flightsTable', function (cells) {
+        return cellText(cells, 0).toLowerCase().indexOf(q) > -1
+          && (airline === '' || cellText(cells, 1).toLowerCase().indexOf(airline.toLowerCase()) > -1);
+      });
+    }
+
+    function filterFlightPlans() {
+      const q = (document.getElementById('searchFlightPlans').value || '').toLowerCase();
+      const date = document.getElementById('filterFlightPlanDate').value;
+      const dep = document.getElementById('filterFlightPlanDepAirport').value;
+      const arr = document.getElementById('filterFlightPlanArrAirport').value;
+      filterRows('flightPlansTable', function (cells) {
+        const dateCell = cellText(cells, 5).trim();
+        return cellText(cells, 0).toLowerCase().indexOf(q) > -1
+          && (date === '' || dateCell.indexOf(date) === 0)
+          && (dep === '' || cellText(cells, 1).toLowerCase().indexOf(dep.toLowerCase()) > -1)
+          && (arr === '' || cellText(cells, 2).toLowerCase().indexOf(arr.toLowerCase()) > -1);
+      });
+    }
+
+    function filterBookings() {
+      const passenger = (document.getElementById('searchBookingPassenger').value || '').toLowerCase();
+      const flight = (document.getElementById('searchBookingFlight').value || '').toLowerCase();
+      const status = document.getElementById('filterBookingStatus').value.toLowerCase();
+      filterRows('bookingsTable', function (cells) {
+        return cellText(cells, 0).toLowerCase().indexOf(passenger) > -1
+          && cellText(cells, 1).toLowerCase().indexOf(flight) > -1
+          && (status === '' || cellText(cells, 8).toLowerCase().indexOf(status) > -1);
+      });
+    }
+
+    function filterPromotions() {
+      const start = document.getElementById('filterPromoStartDate').value;
+      const end = document.getElementById('filterPromoEndDate').value;
+      filterRows('promotionsTable', function (cells) {
+        const startCell = cellText(cells, 0).trim();
+        const endCell = cellText(cells, 1).trim();
+        return (start === '' || startCell.indexOf(start) === 0)
+          && (end === '' || endCell.indexOf(end) === 0);
+      });
+    }
+
+    function filterAirlines() {
+      const name = (document.getElementById('searchAirlineName').value || '').toLowerCase();
+      const code = (document.getElementById('searchAirlineCode').value || '').toLowerCase();
+      filterRows('airlinesTable', function (cells) {
+        return cellText(cells, 2).toLowerCase().indexOf(name) > -1
+          && cellText(cells, 1).toLowerCase().indexOf(code) > -1;
+      });
+    }
+
+    function filterAirports() {
+      const code = (document.getElementById('searchAirportCode').value || '').toLowerCase();
+      const name = (document.getElementById('searchAirportName').value || '').toLowerCase();
+      filterRows('airportsTable', function (cells) {
+        return cellText(cells, 1).toLowerCase().indexOf(code) > -1
+          && cellText(cells, 2).toLowerCase().indexOf(name) > -1;
+      });
+    }
+
+    function populateSelectFromColumn(selectId, tableId, colIndex) {
+      const sel = document.getElementById(selectId);
+      if (!sel) return;
+      const seen = {};
+      const rows = document.querySelectorAll('#' + tableId + ' tbody tr');
+      rows.forEach(function (row) {
+        const cell = row.querySelectorAll('td')[colIndex];
+        if (!cell) return;
+        const v = (cell.textContent || '').trim();
+        if (v && !seen[v]) {
+          seen[v] = true;
+          const o = document.createElement('option');
+          o.value = v;
+          o.textContent = v;
+          sel.appendChild(o);
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      populateSelectFromColumn('filterFlightAirline', 'flightsTable', 1);
+      populateSelectFromColumn('filterFlightPlanDepAirport', 'flightPlansTable', 1);
+      populateSelectFromColumn('filterFlightPlanArrAirport', 'flightPlansTable', 2);
+    });
   </script>
 
 	<script
