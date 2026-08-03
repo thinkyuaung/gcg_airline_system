@@ -144,6 +144,8 @@ public class AdminBookingController {
 			cancellation.setRefundAmount(booking.getTotalAmount());
 			cancellation.setBooking(booking);
 			cancellationRepository.save(cancellation);
+
+			emailService.sendCancellationApprovedEmail(booking, cancellation.getReason());
 		}
 		return "redirect:/airline/admin/bookings";
 	}
@@ -179,12 +181,16 @@ public class AdminBookingController {
 			@PathVariable("id") int id,
 			@RequestParam("description") String description) {
 		Booking booking = bookingRepository.findById(id).orElse(null);
-		if (booking != null && "Pending Cancel".equals(booking.getStatus())) {
-			booking.setStatus("Success");
-			booking.setCancelDescription(description);
-			bookingRepository.save(booking);
-			emailService.sendCancellationRejectedEmail(booking, description);
+		
+		if (consumeSeats(booking)) {
+			if (booking != null && "Pending Cancel".equals(booking.getStatus())) {
+				booking.setStatus("Success");
+				booking.setCancelDescription(description);
+				bookingRepository.save(booking);
+				emailService.sendCancellationRejectedEmail(booking, description);
+			}
 		}
+		
 		return "redirect:/airline/admin/bookings";
 	}
 }
