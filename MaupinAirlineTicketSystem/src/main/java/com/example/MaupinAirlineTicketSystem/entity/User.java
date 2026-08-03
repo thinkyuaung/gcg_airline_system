@@ -23,7 +23,7 @@ public class User {
 	private int userId;
 	
 	@NotBlank(message = "First name is required.")
-	@Size(max = 50, message = "First name must not exceed 50 characters.")
+	@Size(max = 30, message = "First name must not exceed 30 characters.")
 	@Pattern(
 	    regexp = "^[A-Za-z ]+$",
 	    message = "First name must contain only letters."
@@ -31,7 +31,7 @@ public class User {
 	private String firstName;
 	
 	@NotBlank(message = "Last name is required.")
-	@Size(max = 50, message = "Last name must not exceed 50 characters.")
+	@Size(max = 30, message = "Last name must not exceed 30 characters.")
 	@Pattern(
 	    regexp = "^[A-Za-z ]+$",
 	    message = "Last name must contain only letters."
@@ -39,7 +39,7 @@ public class User {
 	private String lastName;
 	
 	@NotBlank(message = "Passport number is required.")
-	@Size(max = 20, message = "Passport number must not exceed 20 characters.")
+	@Size(max = 12, message = "Passport number must not exceed 12 characters.")
 	@Pattern(
 	    regexp = "^[A-Za-z0-9]+$",
 	    message = "Passport number must contain only letters and numbers."

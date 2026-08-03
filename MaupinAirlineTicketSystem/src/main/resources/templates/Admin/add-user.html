@@ -26,8 +26,10 @@ rel="stylesheet">
 
 <div class="mb-3">
 <label>First Name</label>
-<input class="form-control"
+<input type="text"
        th:field="*{firstName}"
+       class="form-control"
+       maxlength="30"
        required>
 
 <div class="text-danger small"
@@ -39,8 +41,10 @@ rel="stylesheet">
 
 <div class="mb-3">
 <label>Last Name</label>
-<input class="form-control"
+<input type="text"
        th:field="*{lastName}"
+       class="form-control"
+       maxlength="30"
        required>
 
 <div class="text-danger small"
@@ -52,7 +56,11 @@ rel="stylesheet">
 
 <div class="mb-3">
 <label>Passport</label>
-<input class="form-control" th:field="*{passport}" required>
+<input type="text"
+       th:field="*{passport}"
+       class="form-control"
+       maxlength="12"
+       required>
 </div>
 
 

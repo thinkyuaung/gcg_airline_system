@@ -52,8 +52,12 @@
 							<div class="row g-3 mb-3">
 								<div class="col-md-6">
 									<label class="form-label small fw-semibold text-secondary">First
-										Name</label> <input type="text" class="form-control glass-input"
-										th:field="*{firstName}" placeholder="John" required>
+										Name</label> <input type="text"
+       class="form-control glass-input"
+       th:field="*{firstName}"
+       placeholder="John"
+       required
+       maxlength="30">
 
 									<div class="text-danger small mt-1"
 										th:if="${#fields.hasErrors('firstName')}"
@@ -62,8 +66,12 @@
 
 								<div class="col-md-6">
 									<label class="form-label small fw-semibold text-secondary">Last
-										Name</label> <input type="text" class="form-control glass-input"
-										th:field="*{lastName}" placeholder="Doe" required>
+										Name</label> <input type="text"
+       class="form-control glass-input"
+       th:field="*{lastName}"
+       placeholder="Doe"
+       required
+       maxlength="30">
 
 									<div class="text-danger small mt-1"
 										th:if="${#fields.hasErrors('lastName')}"
@@ -80,11 +88,11 @@
         </label>
 
         <input type="text"
-               class="form-control glass-input"
-               th:field="*{passport}"
-               placeholder="N1234567"
-               required>
-
+       class="form-control glass-input"
+       th:field="*{passport}"
+       placeholder="N1234567"
+       required
+       maxlength="12">
         <div class="text-danger small mt-1"
              th:if="${#fields.hasErrors('passport')}"
              th:errors="*{passport}">
