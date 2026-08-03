@@ -62,7 +62,10 @@ rel="stylesheet">
        maxlength="20"
        required>
 </div>
-
+<div class="text-danger small"
+     th:if="${#fields.hasErrors('passport')}"
+     th:errors="*{passport}">
+</div>
 
 <div class="mb-3">
 <label>Date of Birth</label>

@@ -511,35 +511,29 @@ public class Controller {
 	}
 
 	@PostMapping("/admin/users/update")
-	public String updateUser(@Valid @ModelAttribute User user, BindingResult result, Model model) {
-
-		User existingUser = userRepository.findById(user.getUserId()).orElse(null);
-
-		if (existingUser == null) {
-			return "redirect:/airline/admin/dashboard";
-		}
+	public String updateUser(@Valid @ModelAttribute User user, BindingResult result) {
 
 		if (result.hasErrors()) {
+			return "Admin/admin-edit-user";
+		}
+		User existingEmail = userRepository.findByEmail(user.getEmail());
 
-			model.addAttribute("user", user);
+		if (existingEmail != null && existingEmail.getUserId() != user.getUserId()) {
+
+			result.rejectValue("email", "error.user", "Email already exists.");
+
+			return "Admin/admin-edit-user";
+		}
+		User existingPassport = userRepository.findByPassport(user.getPassport());
+
+		if (existingPassport != null && existingPassport.getUserId() != user.getUserId()) {
+
+			result.rejectValue("passport", "error.user", "Passport number already exists.");
 
 			return "Admin/admin-edit-user";
 		}
 
-		existingUser.setFirstName(user.getFirstName());
-		existingUser.setLastName(user.getLastName());
-		existingUser.setPassport(user.getPassport());
-		if (user.getDob() != null) {
-			existingUser.setDob(user.getDob());
-		}
-		existingUser.setEmail(user.getEmail());
-		existingUser.setPhoneNumber(user.getPhoneNumber());
-
-		existingUser.setPassword(existingUser.getPassword());
-		existingUser.setRole(existingUser.getRole());
-		existingUser.setStatus(existingUser.getStatus());
-
-		userRepository.save(existingUser);
+		userRepository.save(user);
 
 		return "redirect:/airline/admin/dashboard";
 	}
@@ -577,7 +571,20 @@ public class Controller {
 	public String saveUser(@Valid @ModelAttribute User user, BindingResult result) {
 
 		if (result.hasErrors()) {
+			return "Admin/add-user";
+		}
 
+		User existingEmail = userRepository.findByEmail(user.getEmail());
+
+		if (existingEmail != null) {
+			result.rejectValue("email", "error.user", "Email already exists.");
+			return "Admin/add-user";
+		}
+
+		User existingPassport = userRepository.findByPassport(user.getPassport());
+
+		if (existingPassport != null) {
+			result.rejectValue("passport", "error.user", "Passport number already exists.");
 			return "Admin/add-user";
 		}
 
@@ -608,7 +615,19 @@ public class Controller {
 	public String saveAdmin(@Valid @ModelAttribute User user, BindingResult result) {
 
 		if (result.hasErrors()) {
+			return "Admin/add-admin";
+		}
+		User existingEmail = userRepository.findByEmail(user.getEmail());
 
+		if (existingEmail != null) {
+			result.rejectValue("email", "error.user", "Email already exists.");
+			return "Admin/add-admin";
+		}
+
+		User existingPassport = userRepository.findByPassport(user.getPassport());
+
+		if (existingPassport != null) {
+			result.rejectValue("passport", "error.user", "Passport number already exists.");
 			return "Admin/add-admin";
 		}
 
