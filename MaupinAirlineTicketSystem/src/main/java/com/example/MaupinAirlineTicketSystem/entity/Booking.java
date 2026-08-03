@@ -33,6 +33,8 @@ public class Booking {
 	    private String country;
 	    
 	    private int passengers;
+
+	    private boolean seatsConsumed;
 	    
 	    @Transient
 	    public boolean isCanCancel() {
@@ -156,6 +158,14 @@ public class Booking {
 
 		public void setPassengers(int passengers) {
 			this.passengers = passengers;
+		}
+
+		public boolean isSeatsConsumed() {
+			return seatsConsumed;
+		}
+
+		public void setSeatsConsumed(boolean seatsConsumed) {
+			this.seatsConsumed = seatsConsumed;
 		}
 
 		public User getUser() {

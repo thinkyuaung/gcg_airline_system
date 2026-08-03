@@ -208,4 +208,26 @@ public class FlightPlan {
 		this.promotion = promotion;
 	}
 
+	public void reduceSeats(String className, int count) {
+		applySeatChange(className, -count);
+	}
+
+	public void restoreSeats(String className, int count) {
+		applySeatChange(className, count);
+	}
+
+	private void applySeatChange(String className, int delta) {
+		this.availableSeats += delta;
+		if (className == null) {
+			return;
+		}
+		if (className.equalsIgnoreCase("Economy")) {
+			this.ecomonySeats += delta;
+		} else if (className.equalsIgnoreCase("Business")) {
+			this.businessSeats += delta;
+		} else if (className.equalsIgnoreCase("First Class") || className.equalsIgnoreCase("First")) {
+			this.firseClassSeats += delta;
+		}
+	}
+
 }
