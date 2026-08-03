@@ -587,6 +587,9 @@ body {
 								</tbody>
 							</table>
 						</div>
+						<div class="d-flex justify-content-end px-3 py-2 border-top">
+							<nav><ul id="flightsPagination" class="pagination pagination-sm mb-0"></ul></nav>
+						</div>
 					</div>
 				</div>
 
@@ -694,6 +697,9 @@ body {
 								</tbody>
 							</table>
 						</div>
+						<div class="d-flex justify-content-end px-3 py-2 border-top">
+							<nav><ul id="flightPlansPagination" class="pagination pagination-sm mb-0"></ul></nav>
+						</div>
 					</div>
 				</div>
 
@@ -745,6 +751,7 @@ body {
 										<th>Payment SS</th>
 										<th>Total Amount</th>
 										<th>Status</th>
+										<th>Created</th>
 										<th class="text-end">Action</th>
 									</tr>
 								</thead>
@@ -762,6 +769,11 @@ body {
 											<span class="badge" 
 												th:classappend="${b.status == 'PENDING'} ? 'bg-warning text-dark' : (${b.status == 'Success'} ? 'bg-primary' : (${b.status == 'Issued'} ? 'bg-info text-dark' : (${b.status == 'Pending Cancel'} ? 'bg-warning text-dark' : (${b.status == 'CANCELLED'} ? 'bg-secondary' : (${b.status == 'Being Booked'} ? 'bg-dark' : 'bg-secondary')))))"
 												th:text="${b.status}"></span>
+										</td>
+										<td class="text-secondary small">
+											<span th:if="${b.bookingDate != null}"
+												th:text="${#temporals.format(b.bookingDate, 'yyyy-MM-dd HH:mm')}"></span>
+											<span th:unless="${b.bookingDate != null}" class="text-muted small">N/A</span>
 										</td>
 										<td class="text-nowrap">
 											<a th:href="@{/airline/admin/booking/detail/{id}(id=${b.bookingId})}">
@@ -790,6 +802,9 @@ body {
 									</tr>
 								</tbody>
 							</table>
+						</div>
+						<div class="d-flex justify-content-end px-3 py-2 border-top">
+							<nav><ul id="bookingsPagination" class="pagination pagination-sm mb-0"></ul></nav>
 						</div>
 					</div>
 				</div>
@@ -854,6 +869,9 @@ body {
 									</tr>
 								</tbody>
 							</table>
+						</div>
+						<div class="d-flex justify-content-end px-3 py-2 border-top">
+							<nav><ul id="promotionsPagination" class="pagination pagination-sm mb-0"></ul></nav>
 						</div>
 					</div>
 				</div>
@@ -920,6 +938,9 @@ body {
 								</tbody>
 							</table>
 						</div>
+						<div class="d-flex justify-content-end px-3 py-2 border-top">
+							<nav><ul id="airlinesPagination" class="pagination pagination-sm mb-0"></ul></nav>
+						</div>
 					</div>
 				</div>
 
@@ -982,6 +1003,9 @@ body {
 									</tr>
 								</tbody>
 							</table>
+						</div>
+						<div class="d-flex justify-content-end px-3 py-2 border-top">
+							<nav><ul id="airportsPagination" class="pagination pagination-sm mb-0"></ul></nav>
 						</div>
 					</div>
 				</div>
@@ -1128,8 +1152,69 @@ body {
       rows.forEach(function (row) {
         const cells = row.querySelectorAll('td');
         if (cells.length === 0) return;
-        row.style.display = predicate(cells) ? '' : 'none';
+        const matches = predicate(cells);
+        row.dataset.hidden = matches ? '0' : '1';
+        row.style.display = matches ? '' : 'none';
       });
+      refreshPager(tableId);
+    }
+
+    var tablePagers = {
+      flightsTable: { pageSize: 8 },
+      flightPlansTable: { pageSize: 8 },
+      bookingsTable: { pageSize: 8 },
+      promotionsTable: { pageSize: 8 },
+      airlinesTable: { pageSize: 8 },
+      airportsTable: { pageSize: 8 }
+    };
+
+    function refreshPager(tableId) {
+      const cfg = tablePagers[tableId];
+      const table = document.getElementById(tableId);
+      const pagEl = document.getElementById(tableId.replace('Table', 'Pagination'));
+      if (!cfg || !table || !pagEl) return;
+
+      const rows = Array.from(table.querySelectorAll('tbody tr'));
+      const visible = rows.filter(function (r) { return r.dataset.hidden !== '1'; });
+      const totalPages = Math.max(1, Math.ceil(visible.length / cfg.pageSize));
+      if (!cfg.page || cfg.page > totalPages) cfg.page = 1;
+
+      const start = (cfg.page - 1) * cfg.pageSize;
+      const end = start + cfg.pageSize;
+      visible.forEach(function (r, i) {
+        r.style.display = (i >= start && i < end) ? '' : 'none';
+      });
+
+      pagEl.innerHTML = '';
+      if (totalPages <= 1) return;
+
+      const ul = document.createElement('ul');
+      ul.className = 'pagination pagination-sm m-0';
+
+      function addBtn(label, page, disabled, active) {
+        const li = document.createElement('li');
+        li.className = 'page-item' + (disabled ? ' disabled' : '') + (active ? ' active' : '');
+        const a = document.createElement('a');
+        a.className = 'page-link';
+        a.href = '#';
+        a.textContent = label;
+        if (!disabled) {
+          a.addEventListener('click', function (e) {
+            e.preventDefault();
+            cfg.page = page;
+            refreshPager(tableId);
+          });
+        }
+        li.appendChild(a);
+        ul.appendChild(li);
+      }
+
+      addBtn('Previous', cfg.page - 1, cfg.page === 1, false);
+      for (let p = 1; p <= totalPages; p++) {
+        addBtn(String(p), p, false, p === cfg.page);
+      }
+      addBtn('Next', cfg.page + 1, cfg.page === totalPages, false);
+      pagEl.appendChild(ul);
     }
 
     function cellText(cells, i) {
@@ -1222,6 +1307,16 @@ body {
       populateSelectFromColumn('filterFlightAirline', 'flightsTable', 1);
       populateSelectFromColumn('filterFlightPlanDepAirport', 'flightPlansTable', 1);
       populateSelectFromColumn('filterFlightPlanArrAirport', 'flightPlansTable', 2);
+
+      Object.keys(tablePagers).forEach(function (tableId) {
+        const table = document.getElementById(tableId);
+        if (!table) return;
+        table.querySelectorAll('tbody tr').forEach(function (row) {
+          if (!row.dataset.hidden) row.dataset.hidden = '0';
+        });
+        tablePagers[tableId].page = 1;
+        refreshPager(tableId);
+      });
     });
   </script>
 

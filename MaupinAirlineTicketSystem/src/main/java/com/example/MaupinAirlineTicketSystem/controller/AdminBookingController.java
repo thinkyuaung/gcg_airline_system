@@ -1,6 +1,7 @@
 package com.example.MaupinAirlineTicketSystem.controller;
 
 import java.util.List;
+import java.util.Comparator;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,10 @@ public class AdminBookingController {
 	public String bookingList(Model model) {
 
 		List<Booking> bookings = adminBookingService.getAllBookings();
+
+		bookings.sort(Comparator.comparing(
+				Booking::getBookingDate,
+				Comparator.nullsLast(Comparator.reverseOrder())));
 
 		model.addAttribute("bookings", bookings);
 		model.addAttribute("activeTab", "bookings");
