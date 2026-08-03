@@ -75,9 +75,14 @@ public class CancellationServiceImpl implements CancellationService{
 
 	    // Restore seat
 	    FlightPlan flightPlan = booking.getFlightPlan();
-	    flightPlan.setAvailableSeats(
-	            flightPlan.getAvailableSeats() + 1
-	    );
+	    if (booking.isSeatsConsumed()) {
+	        flightPlan.restoreSeats(
+	                booking.getSeatClass() != null ? booking.getSeatClass().getClassName() : null,
+	                booking.getPassengers()
+	        );
+	        booking.setSeatsConsumed(false);
+	        bookingRepository.save(booking);
+	    }
 
 	    // Save updated FlightPlan
 	    flightPlanRepository.save(flightPlan);

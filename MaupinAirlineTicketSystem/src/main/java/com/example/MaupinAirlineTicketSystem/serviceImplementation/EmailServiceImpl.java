@@ -5,6 +5,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.format.DateTimeFormatter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -21,6 +23,8 @@ import jakarta.mail.internet.MimeMessage;
 
 @Service
 public class EmailServiceImpl implements EmailService {
+
+	private static final Logger logger = LoggerFactory.getLogger(EmailServiceImpl.class);
 
 	@Autowired
 	private JavaMailSender mailSender;
@@ -95,19 +99,129 @@ public class EmailServiceImpl implements EmailService {
 		try {
 			Path qrPath = Paths.get("uploads", "qrCodeBooking.png");
 			FileSystemResource qrImage = new FileSystemResource(qrPath.toFile());
+			sendMessage(toEmail, subject, htmlBody, qrImage);
+		} catch (RuntimeException e) {
+			logger.error("Failed to send ticket email to {}: {}", toEmail, e.getMessage(), e);
+		}
+	}
 
+	@Override
+	public void sendBookingIssuedEmail(Booking booking,String reason) {
+		User user = freshUser(booking);
+		if (user == null) {
+			return;
+		}
+
+		String toEmail = user.getEmail();
+		String flightNo = booking.getFlightPlan().getFlight().getFlightNumber();
+		String depart = booking.getFlightPlan().getDepartureAirport().getAirportName();
+		String arrive = booking.getFlightPlan().getArrivalAirport().getAirportName();
+		String name = user.getFirstName() + " " + user.getLastName();
+		String subject = "Your Ticket Has Been Issued - " + flightNo;
+
+		String htmlBody = "<div style='font-family:Arial,sans-serif;max-width:600px;margin:auto;border:1px solid #e0e0e0;border-radius:10px;overflow:hidden'>"
+				+ "<div style='background:#3182ce;color:white;padding:20px;text-align:center'>"
+				+ "<h1 style='margin:0;font-size:22px'>Maubin AirLine</h1></div>"
+				+ "<div style='padding:25px'>"
+				+ "<p style='font-size:16px'>Dear <strong>" + name + "</strong>,</p>"
+				+ "<p>We sincerely apologize for the inconvenience, and we would like to inform you that your ticket for flight <strong>" + flightNo + "</strong> ("
+				+ depart + " → " + arrive + ") has now been issued.</p>"
+				+ (reason != null && !reason.isBlank()
+						? "<p><strong>Reason:</strong> " + reason + "</p>"
+						: "")
+				+ "<p style='background:#f8f9fa;padding:12px;border:1px solid #dee2e6;border-radius:6px'>"
+			
+				+ "<p>Thank you for choosing Maubin AirLine. We apologize for any inconvenience caused.</p>"
+				+ "</div>"
+				+ "<div style='background:#f8f9fa;padding:15px;text-align:center;font-size:12px;color:#999'>© 2026 Maubin AirLine. All rights reserved.</div>"
+				+ "</div>";
+
+		sendMessage(toEmail, subject, htmlBody, null);
+	}
+
+	@Override
+	public void sendBookingRejectedEmail(Booking booking, String reason) {
+		User user = freshUser(booking);
+		if (user == null) {
+			return;
+		}
+
+		String toEmail = user.getEmail();
+		String flightNo = booking.getFlightPlan().getFlight().getFlightNumber();
+		String depart = booking.getFlightPlan().getDepartureAirport().getAirportName();
+		String arrive = booking.getFlightPlan().getArrivalAirport().getAirportName();
+		String name = user.getFirstName() + " " + user.getLastName();
+		String subject = "Booking Not Confirmed - " + flightNo;
+
+		String htmlBody = "<div style='font-family:Arial,sans-serif;max-width:600px;margin:auto;border:1px solid #e0e0e0;border-radius:10px;overflow:hidden'>"
+				+ "<div style='background:#dc3545;color:white;padding:20px;text-align:center'>"
+				+ "<h1 style='margin:0;font-size:22px'>Maubin AirLine</h1></div>"
+				+ "<div style='padding:25px'>"
+				+ "<p style='font-size:16px'>Dear <strong>" + name + "</strong>,</p>"
+				+ "<p>We are sorry, but your booking for flight <strong>" + flightNo + "</strong> ("
+				+ depart + " → " + arrive + ") could not be confirmed because "
+				+ (reason != null && !reason.isBlank() ? reason : "there are not enough available seats") + ".</p>"
+				+ "<p>We sincerely apologize for the inconvenience. Please try booking another flight or contact our support team for assistance.</p>"
+				+ "</div>"
+				+ "<div style='background:#f8f9fa;padding:15px;text-align:center;font-size:12px;color:#999'>© 2026 Maubin AirLine. All rights reserved.</div>"
+				+ "</div>";
+
+		sendMessage(toEmail, subject, htmlBody, null);
+	}
+
+	@Override
+	public void sendCancellationRejectedEmail(Booking booking, String reason) {
+		User user = freshUser(booking);
+		if (user == null) {
+			return;
+		}
+
+		String toEmail = user.getEmail();
+		String flightNo = booking.getFlightPlan().getFlight().getFlightNumber();
+		String depart = booking.getFlightPlan().getDepartureAirport().getAirportName();
+		String arrive = booking.getFlightPlan().getArrivalAirport().getAirportName();
+		String name = user.getFirstName() + " " + user.getLastName();
+		String subject = "Cancellation Request Rejected - " + flightNo;
+
+		String htmlBody = "<div style='font-family:Arial,sans-serif;max-width:600px;margin:auto;border:1px solid #e0e0e0;border-radius:10px;overflow:hidden'>"
+				+ "<div style='background:#dc3545;color:white;padding:20px;text-align:center'>"
+				+ "<h1 style='margin:0;font-size:22px'>Maubin AirLine</h1></div>"
+				+ "<div style='padding:25px'>"
+				+ "<p style='font-size:16px'>Dear <strong>" + name + "</strong>,</p>"
+				+ "<p>We are sorry, but your cancellation request for flight <strong>" + flightNo + "</strong> ("
+				+ depart + " → " + arrive + ") has been rejected"
+				+ (reason != null && !reason.isBlank() ? ": " + reason : "") + ".</p>"
+				+ "<p>Your booking remains valid. If you have any questions, please contact our support team.</p>"
+				+ "</div>"
+				+ "<div style='background:#f8f9fa;padding:15px;text-align:center;font-size:12px;color:#999'>© 2026 Maubin AirLine. All rights reserved.</div>"
+				+ "</div>";
+
+		sendMessage(toEmail, subject, htmlBody, null);
+	}
+
+	private User freshUser(Booking booking) {
+		return booking.getUser() != null
+				? userRepository.findById(booking.getUser().getUserId()).orElse(booking.getUser())
+				: null;
+	}
+
+	private void sendMessage(String toEmail, String subject, String htmlBody, FileSystemResource inlineResource) {
+		try {
 			MimeMessage message = mailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(message, true);
-			helper.setFrom("thinkyuaung.tka@gmail.com", "Maubin AirLine");
+			helper.setFrom("waiyanaung1522006@gmail.com", "Maubin AirLine");
 			helper.setTo(toEmail);
 			helper.setSubject(subject);
 			helper.setText(htmlBody, true);
-			helper.addInline("qrCodeImage", qrImage);
+			if (inlineResource != null && inlineResource.exists()) {
+				helper.addInline("qrCodeImage", inlineResource);
+			}
 			mailSender.send(message);
+			logger.info("Email sent to {}", toEmail);
 		} catch (MessagingException e) {
-			e.printStackTrace();
+			logger.error("Failed to send email to {}: {}", toEmail, e.getMessage(), e);
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			logger.error("Failed to build email from address: {}", e.getMessage(), e);
 		}
 	}
 
