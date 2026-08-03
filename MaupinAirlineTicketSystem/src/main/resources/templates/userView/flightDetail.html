@@ -150,7 +150,50 @@ h1,h2,h3,h4,h5,h6{
 }
 
 
+/* Floating Back Button */
 
+.btn-float-back{
+    position:fixed;
+    top:24px;
+    left:24px;
+    z-index:1050;
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    background:#fff;
+    color:#2b6485;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 .25rem .75rem rgba(3,31,65,.15);
+    border:none;
+    transition:.2s ease;
+    text-decoration:none;
+}
+
+.btn-float-back:hover{
+    background:#2b6485;
+    color:#fff;
+    transform:translateY(-2px);
+    box-shadow:0 .5rem 1rem rgba(3,31,65,.25);
+}
+
+.btn-float-back:active{
+    transform:scale(.95);
+}
+
+.btn-float-back .material-symbols-outlined{
+    font-size:24px;
+}
+
+@media (max-width:576px){
+    .btn-float-back{
+        top:16px;
+        left:16px;
+        width:42px;
+        height:42px;
+    }
+}
 /* ==========================
    COLORS (UNCHANGED)
 ========================== */
@@ -365,7 +408,18 @@ h1,h2,h3,h4,h5,h6{
 
 <div class="flight-container">
 
+<button
+    type="button"
+    class="btn-float-back"
+    onclick="history.back()"
+    aria-label="Go back"
+    title="Go back">
 
+    <span class="material-symbols-outlined">
+        arrow_back
+    </span>
+
+</button>
     <!-- ==========================
          Breadcrumb
     =========================== -->
@@ -449,30 +503,17 @@ h1,h2,h3,h4,h5,h6{
             <span class="d-block small" th:text="${globalPromotion.description}"></span>
         </div>
 
-    <!-- PROMOTION -->
-    <div th:if="${flightPlanPromotion != null or globalPromotion != null}"
-         class="mb-4 position-relative">
-
-        <div th:if="${globalPromotion != null}"
-             class="alert alert-info mb-0">
-
-            <i class="bi bi-megaphone-fill me-2"></i>
-
-            Monthly Promo:
-
-
-            <strong th:text="${globalPromotion.percentage + '% OFF'}">
-            </strong>
-
-            <span class="d-block small"
-                  th:text="${globalPromotion.description}">
-            </span>
+            <div th:if="${globalPromotion != null}"
+                 class="alert alert-info mb-0">
+                <i class="bi bi-megaphone-fill me-2"></i>
+                Monthly Promo:
+                <strong th:text="${globalPromotion.percentage + '% OFF'}"></strong>
+                <span class="d-block small" th:text="${globalPromotion.description}"></span>
+            </div>
 
         </div>
 
     </div>
-
-
 
     <!-- FLIGHT INFORMATION -->
     <div class="d-flex align-items-center gap-4 position-relative">
@@ -1133,3 +1174,4 @@ h1,h2,h3,h4,h5,h6{
 
 </body>
 </html>
+
