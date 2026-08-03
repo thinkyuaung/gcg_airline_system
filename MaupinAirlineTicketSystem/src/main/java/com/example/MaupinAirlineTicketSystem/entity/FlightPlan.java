@@ -55,7 +55,6 @@ public class FlightPlan {
 	@ManyToOne
 	@JoinColumn(name = "arrival_airport_id")
 	private Airport arrivalAirport;
-
 	
 
 	public FlightPlan(int flightPlanId, LocalDateTime departureTime, LocalDateTime arrivalTime, Date flight_date,

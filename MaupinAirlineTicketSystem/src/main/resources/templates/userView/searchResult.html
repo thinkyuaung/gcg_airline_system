@@ -124,6 +124,35 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
     align-items:center;
 }
 
+/* =====================================================
+   PROMO BADGE / DISCOUNT PRICE
+===================================================== */
+.promo-ribbon{
+    position:absolute;
+    top:-1px;
+    right:16px;
+    background:linear-gradient(90deg, #ff5252, #d32f2f);
+    color:#fff;
+    font-size:11px;
+    font-weight:700;
+    padding:4px 12px;
+    border-radius:0 0 .5rem .5rem;
+    box-shadow:0 2px 6px rgba(211,47,47,.35);
+    letter-spacing:.02em;
+    z-index:2;
+}
+.flight-card{ position:relative; overflow:hidden; }
+
+.price-original{
+    text-decoration:line-through;
+    color:#94a3b8;
+    font-size:1rem;
+    font-weight:600;
+}
+.price-discounted{
+    color:#d32f2f;
+}
+
 @media(max-width:992px){ .search-fields{ grid-template-columns:repeat(2,1fr); } }
 @media(max-width:576px){ .search-fields{ grid-template-columns:1fr; } .booking-card{ padding:1.25rem; } }
 
@@ -348,7 +377,8 @@ footer a:hover{ color:#fff; }
                         <div class="input-picker">
                             <label><span class="material-symbols-outlined" style="font-size:16px;">calendar_month</span> Departure</label>
                             <input type="date" name="departureDate" id="departureDate"
-                                   th:min="${#temporals.format(#temporals.createNow(),'yyyy-MM-dd')}">
+                                   th:min="${#temporals.format(#temporals.createNow(),'yyyy-MM-dd')}"
+                                   required>
                         </div>
 
                         <div class="input-picker">
@@ -358,7 +388,7 @@ footer a:hover{ color:#fff; }
 
                         <div class="input-picker">
                             <label><span class="material-symbols-outlined" style="font-size:16px;">airline_seat_recline_extra</span> Seat Class</label>
-                            <select name="seatClass" class="form-select">
+                            <select name="seatClass" class="form-select" required>
                                 <option value="">Select Seat Class</option>
                                 <option value="Economy">Economy</option>
                                 <option value="Business">Business</option>
@@ -498,9 +528,19 @@ footer a:hover{ color:#fff; }
 
             <div class="flight-results" id="flightResults">
                 <div class="card flight-card shadow-sm border-0 bg-white"
-                     th:each="flightPlan,iter:${flightPlans}"
-                     th:classappend="${iter.first} ? 'featured' : ''"
-                     th:attr="data-price=${flightPlan.price}, data-hour=${#temporals.format(flightPlan.departureTime,'HH')}">
+     th:each="flightPlan,iter:${flightPlans}"
+     th:classappend="${iter.first} ? 'featured' : ''"
+     th:with="hasPromo=${flightPlan.promotion != null 
+                         and #strings.equalsIgnoreCase(flightPlan.promotion.status,'active')
+                         and !flightPlan.promotion.startDate.isAfter(#temporals.createNow())
+                         and !flightPlan.promotion.endDate.isBefore(#temporals.createNow())},
+              discountedPrice=${hasPromo} ? ${#numbers.formatDecimal(flightPlan.price - (flightPlan.price * flightPlan.promotion.percentage / 100), 1, 2)} : null"
+     th:attr="data-price=${hasPromo} ? ${discountedPrice} : ${flightPlan.price}, data-hour=${#temporals.format(flightPlan.departureTime,'HH')}">
+                    <!-- Promo ribbon -->
+    					<div th:if="${hasPromo}" class="promo-ribbon">
+        					<i class="bi bi-fire"></i> <span th:text="${flightPlan.promotion.percentage}"></span>% OFF
+    					</div>
+                    
                     <div class="card-body p-4">
                         <div class="row align-items-center g-4">
 
@@ -552,21 +592,35 @@ footer a:hover{ color:#fff; }
                             <!-- Price / CTA -->
                             <div class="col-12 col-md-3 text-md-end border-md-start border-light ps-md-4">
 
-                                <div class="mb-3">
-                                    <div class="text-muted small">Starting from</div>
-                                    <div class="h1 fw-bold text-primary mb-0">$<span th:text="${flightPlan.price}"></span></div>
-                                </div>
+                               <div class="mb-3">
+                    <div class="text-muted small" th:text="${hasPromo} ? 'Promo price' : 'Starting from'"></div>
 
-                                <a class="btn btn-primary w-100 fw-bold py-2 rounded-3"
-                                   th:href="@{/airline/flight/{id}(id=${flightPlan.flightPlanId}, passengers=${passengers}, seatClass=${seatClass})}">
-                                    Select
-                                </a>
-                            </div>
+                    <!-- Promo: strikethrough original + discounted price -->
+                    <div th:if="${hasPromo}">
+                        <div class="price-original">$<span th:text="${flightPlan.price}"></span></div>
+                        <div class="h1 fw-bold price-discounted mb-0">$<span th:text="${discountedPrice}"></span></div>
+                    </div>
 
+                    <!-- No promo: normal price -->
+                    <div th:unless="${hasPromo}" class="h1 fw-bold text-primary mb-0">
+                        $<span th:text="${flightPlan.price}"></span>
+                    </div>
+                </div>
+
+                <a class="btn btn-primary w-100 fw-bold py-2 rounded-3"
+                   th:href="@{/airline/flight/{id}(id=${flightPlan.flightPlanId}, passengers=${passengers}, seatClass=${seatClass})}">
+                    Select
+                </a>
+            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+			<!-- Pagination Controls -->
+				<nav aria-label="Flight results pagination" class="mt-4">
+    				<ul class="pagination justify-content-center" id="flightPagination"></ul>
+				</nav>
 
             <!-- Shown when filters hide every result -->
             <div id="noFilterMatches" class="text-center py-5 border rounded-4 empty-state d-none">
@@ -639,9 +693,7 @@ footer a:hover{ color:#fff; }
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
-    /* =====================================================
-       3. Combine search summary + modify search into one area
-    ===================================================== */
+    /* ... your existing "Combine search summary + modify search" block stays unchanged ... */
     const bookingCollapseEl = document.getElementById("bookingFormCollapse");
     const bookingCollapse = new bootstrap.Collapse(bookingCollapseEl, { toggle: false });
     const summaryWrapper = document.getElementById("searchSummaryWrapper");
@@ -668,8 +720,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     /* =====================================================
-       4. Price range + departure time filters
+       4. Price range + departure time filters + PAGINATION
     ===================================================== */
+    const PAGE_SIZE = 2; // cards per page — adjust as you like
+
     const priceRange = document.getElementById("priceRange");
     const priceRangeValue = document.getElementById("priceRangeValue");
     const timeButtons = document.querySelectorAll(".time-filter-btn");
@@ -677,6 +731,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const cards = Array.from(document.querySelectorAll("#flightResults .flight-card"));
     const visibleCountEl = document.getElementById("visibleCount");
     const noMatchesEl = document.getElementById("noFilterMatches");
+    const paginationEl = document.getElementById("flightPagination");
+
+    let currentPage = 1;
 
     function bucketForHour(hour) {
         if (hour >= 5 && hour < 12) return "morning";
@@ -685,36 +742,88 @@ document.addEventListener("DOMContentLoaded", function () {
         return "night";
     }
 
-    function applyFilters() {
+    // Returns cards that pass the current filters (regardless of page)
+    function getFilterMatches() {
         const maxPrice = priceRange ? parseFloat(priceRange.value) : Infinity;
         const activeBuckets = Array.from(timeButtons)
             .filter(b => b.classList.contains("active"))
             .map(b => b.dataset.bucket);
 
-        let visible = 0;
-
-        cards.forEach(card => {
+        return cards.filter(card => {
             const price = parseFloat(card.dataset.price);
             const hour = parseInt(card.dataset.hour, 10);
             const bucket = bucketForHour(hour);
-
             const priceOk = isNaN(price) || price <= maxPrice;
             const timeOk = activeBuckets.length === 0 || activeBuckets.includes(bucket);
+            return priceOk && timeOk;
+        });
+    }
 
-            const show = priceOk && timeOk;
-            card.classList.toggle("d-none", !show);
-            if (show) visible++;
+    function renderPagination(totalPages) {
+        if (!paginationEl) return;
+        paginationEl.innerHTML = "";
+
+        if (totalPages <= 1) return; // no need for controls with 0-1 pages
+
+        const prevDisabled = currentPage === 1 ? "disabled" : "";
+        paginationEl.insertAdjacentHTML("beforeend",
+            `<li class="page-item ${prevDisabled}">
+                <a class="page-link rounded-pill me-1" href="#" data-page="${currentPage - 1}">Previous</a>
+             </li>`);
+
+        for (let p = 1; p <= totalPages; p++) {
+            const active = p === currentPage ? "active" : "";
+            paginationEl.insertAdjacentHTML("beforeend",
+                `<li class="page-item ${active}">
+                    <a class="page-link rounded-pill mx-1" href="#" data-page="${p}">${p}</a>
+                 </li>`);
+        }
+
+        const nextDisabled = currentPage === totalPages ? "disabled" : "";
+        paginationEl.insertAdjacentHTML("beforeend",
+            `<li class="page-item ${nextDisabled}">
+                <a class="page-link rounded-pill ms-1" href="#" data-page="${currentPage + 1}">Next</a>
+             </li>`);
+
+        paginationEl.querySelectorAll(".page-link").forEach(link => {
+            link.addEventListener("click", function (e) {
+                e.preventDefault();
+                const page = parseInt(this.dataset.page, 10);
+                if (page >= 1 && page <= totalPages && page !== currentPage) {
+                    currentPage = page;
+                    applyFilters(false); // false = don't reset page
+                    document.getElementById("flightResults").scrollIntoView({ behavior: "smooth", block: "start" });
+                }
+            });
+        });
+    }
+
+    function applyFilters(resetPage = true) {
+        if (resetPage) currentPage = 1;
+
+        const matches = getFilterMatches();
+        const totalPages = Math.max(1, Math.ceil(matches.length / PAGE_SIZE));
+        if (currentPage > totalPages) currentPage = totalPages;
+
+        const start = (currentPage - 1) * PAGE_SIZE;
+        const end = start + PAGE_SIZE;
+        const pageSlice = matches.slice(start, end);
+
+        cards.forEach(card => {
+            card.classList.toggle("d-none", !pageSlice.includes(card));
         });
 
-        if (visibleCountEl) visibleCountEl.textContent = visible;
-        if (noMatchesEl) noMatchesEl.classList.toggle("d-none", visible !== 0);
+        if (visibleCountEl) visibleCountEl.textContent = matches.length;
+        if (noMatchesEl) noMatchesEl.classList.toggle("d-none", matches.length !== 0);
+
+        renderPagination(totalPages);
     }
 
     if (priceRange) {
         priceRange.addEventListener("input", function () {
             const val = parseInt(priceRange.value, 10);
             priceRangeValue.textContent = val >= 800 ? "$800+" : "$" + val;
-            applyFilters();
+            applyFilters(true);
         });
     }
 
@@ -723,7 +832,7 @@ document.addEventListener("DOMContentLoaded", function () {
             btn.classList.toggle("active");
             btn.classList.toggle("btn-outline-light");
             btn.classList.toggle("text-muted");
-            applyFilters();
+            applyFilters(true);
         });
     });
 
@@ -737,11 +846,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 btn.classList.remove("active");
                 btn.classList.add("btn-outline-light", "text-muted");
             });
-            applyFilters();
+            applyFilters(true);
         });
     }
-
-    applyFilters();
+    applyFilters(true);
 });
 </script>
 </body>
