@@ -44,7 +44,7 @@ public class User {
 	    regexp = "^[A-Za-z0-9]+$",
 	    message = "Passport number must contain only letters and numbers."
 	)
-	@Column(unique = true, nullable = false, length = 20)
+	@Column(nullable = false, length = 20)
 	private String passport;
 	
 	@Past(message = "Date of Birth cannot be in the future.")
@@ -64,7 +64,9 @@ public class User {
 	    regexp = "^[0-9]+$",
 	    message = "Phone number must contain only digits."
 	)
+	@Size(max = 15, message = "Phone number must not exceed 15 characters.")
 	private String phoneNumber;
+	
 	private String role = "USER";
 	private String status = "active";
 

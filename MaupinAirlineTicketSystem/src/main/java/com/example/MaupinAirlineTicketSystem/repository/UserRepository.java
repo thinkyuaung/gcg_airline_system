@@ -20,4 +20,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	User findByPassport(String passport);
 	long countByStatus(String status);
 	long countByRole(String role);
+	User findByEmailAndStatus(String email, String status);
+
+	User findByPassportAndStatus(String passport, String status);
 }

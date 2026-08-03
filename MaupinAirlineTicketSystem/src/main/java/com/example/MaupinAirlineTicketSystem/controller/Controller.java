@@ -145,48 +145,62 @@ public class Controller {
 			return "Login/signup";
 		}
 
-		User existingPassport = userRepository.findByPassport(user.getPassport());
-
-		if (existingPassport != null) {
-			result.rejectValue("passport", "error.user", "Passport number already exists.");
-			return "Login/signup";
-		}
-
 		User existingEmail = userRepository.findByEmail(user.getEmail());
 
 		if (existingEmail != null) {
 
 			if (existingEmail.getStatus().equals("inactive")) {
 
-				existingEmail.setFirstName(user.getFirstName());
-				existingEmail.setLastName(user.getLastName());
-				existingEmail.setPassport(user.getPassport());
-				existingEmail.setDob(user.getDob());
-				existingEmail.setEmail(user.getEmail());
-				existingEmail.setPhoneNumber(user.getPhoneNumber());
+			    // Same email but different passport
+			    if (!existingEmail.getPassport().equals(user.getPassport())) {
 
-				existingEmail.setPassword(passwordEncoder.encode(user.getPassword()));
+			        result.rejectValue("email", "error.user",
+			                "Email already exists.");
 
-				existingEmail.setRole("USER");
-				existingEmail.setStatus("active");
+			        return "Login/signup";
+			    }
 
-				userRepository.save(existingEmail);
 
-				return "redirect:/airline/login";
+			    // Same email + same passport => restore account
+			    existingEmail.setFirstName(user.getFirstName());
+			    existingEmail.setLastName(user.getLastName());
+			    existingEmail.setDob(user.getDob());
+			    existingEmail.setPhoneNumber(user.getPhoneNumber());
+
+			    existingEmail.setPassword(passwordEncoder.encode(user.getPassword()));
+
+			    existingEmail.setRole("USER");
+			    existingEmail.setStatus("active");
+
+			    userRepository.save(existingEmail);
+
+			    return "redirect:/airline/login";
 			}
 
+	
 			result.rejectValue("email", "error.user", "Email already exists.");
 
 			return "Login/signup";
 		}
 
+		User existingPassport = userRepository.findByPassport(user.getPassport());
+
+		if (existingPassport != null) {
+
+			result.rejectValue("passport", "error.user", "Passport number already exists.");
+
+			return "Login/signup";
+		}
+
+
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 
 		user.setRole("USER");
-
 		user.setStatus("active");
 
 		userRepository.save(user);
+
+
 
 		List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getEmail(), null,
@@ -516,7 +530,8 @@ public class Controller {
 		if (result.hasErrors()) {
 			return "Admin/admin-edit-user";
 		}
-		User existingEmail = userRepository.findByEmail(user.getEmail());
+
+		User existingEmail = userRepository.findByEmailAndStatus(user.getEmail(), "active");
 
 		if (existingEmail != null && existingEmail.getUserId() != user.getUserId()) {
 
@@ -524,7 +539,8 @@ public class Controller {
 
 			return "Admin/admin-edit-user";
 		}
-		User existingPassport = userRepository.findByPassport(user.getPassport());
+
+		User existingPassport = userRepository.findByPassportAndStatus(user.getPassport(), "active");
 
 		if (existingPassport != null && existingPassport.getUserId() != user.getUserId()) {
 
@@ -533,7 +549,25 @@ public class Controller {
 			return "Admin/admin-edit-user";
 		}
 
-		userRepository.save(user);
+		User existingUser = userRepository.findById(user.getUserId())
+				.orElseThrow(() -> new RuntimeException("User not found"));
+
+		existingUser.setFirstName(user.getFirstName());
+		existingUser.setLastName(user.getLastName());
+		existingUser.setPassport(user.getPassport());
+
+		if (user.getDob() != null) {
+			existingUser.setDob(user.getDob());
+		}
+
+		existingUser.setEmail(user.getEmail());
+		existingUser.setPhoneNumber(user.getPhoneNumber());
+
+		existingUser.setPassword(existingUser.getPassword());
+		existingUser.setRole(existingUser.getRole());
+		existingUser.setStatus(existingUser.getStatus());
+
+		userRepository.save(existingUser);
 
 		return "redirect:/airline/admin/dashboard";
 	}
