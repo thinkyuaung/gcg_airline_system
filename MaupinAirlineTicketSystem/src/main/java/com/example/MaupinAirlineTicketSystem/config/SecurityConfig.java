@@ -24,56 +24,26 @@ public class SecurityConfig {
 
 		http.authorizeHttpRequests(auth -> auth
 
-				.requestMatchers(
-					"/airline",
-					"/airline/",
-					"/airline/index",
-					"/airline/home",
-					"/airline/login",
-					"/airline/signup",
-					"/airline/manage-booking",
-					"/airline/flights",
-					"/airline/packages",
-					"/airline/support",
-					"/airline/about",
-					"/airline/search",
-					"/airline/flightDetail/**",
-					"/airline/flight/**",
-					"/airline/booking/reserve",
-					"/uploads/**",
-					"/css/**",
-					"/js/**",
-					"/images/**"
-				)
+				.requestMatchers("/airline", "/airline/", "/airline/index", "/airline/home", "/airline/login",
+						"/airline/signup", "/airline/manage-booking", "/airline/flights", "/airline/packages",
+						"/airline/support", "/airline/about", "/airline/search", "/airline/flightDetail/**",
+						"/airline/flight/**", "/airline/booking/reserve", "/uploads/**", "/css/**", "/js/**",
+						"/images/**")
 				.permitAll()
 
 				.requestMatchers("/airline/admin/**").hasAnyRole("ADMIN", "SUPERADMIN")
 
-				.requestMatchers(
-					"/airline/profile/**",
-					"/airline/dashboard",
-					"/airline/history/**",
-					"/airline/booking/**",
-					"/airline/payment/**"
-				)
-				.hasRole("USER")
+				.requestMatchers("/airline/profile/**", "/airline/dashboard", "/airline/history/**").hasRole("USER")
+				.requestMatchers("/airline/booking/**", "/airline/payment/**").hasAnyRole("USER", "ADMIN", "SUPERADMIN")
 
 				.anyRequest().authenticated())
 
-				.formLogin(form -> form
-						.loginPage("/airline/login")
-						.loginProcessingUrl("/airline/login")
-						.successHandler(successHandler)
-						.failureUrl("/airline/login?error")
-						.permitAll())
+		
+				.formLogin(form -> form.loginPage("/airline/login").loginProcessingUrl("/airline/login")
+						.successHandler(successHandler).failureUrl("/airline/login?error").permitAll())
 
-				.logout(logout -> logout
-						.logoutUrl("/airline/logout")
-						.logoutSuccessUrl("/airline/login")
-						.invalidateHttpSession(true)
-						.clearAuthentication(true)
-						.deleteCookies("JSESSIONID")
-						.permitAll())
+				.logout(logout -> logout.logoutUrl("/airline/logout").logoutSuccessUrl("/airline/login")
+						.invalidateHttpSession(true).clearAuthentication(true).deleteCookies("JSESSIONID").permitAll())
 
 				.httpBasic(Customizer.withDefaults());
 
