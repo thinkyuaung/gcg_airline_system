@@ -57,6 +57,15 @@ public class AdminPromotionController {
 		return "Admin/PromotionForm";
 	}
 
+	@GetMapping("/admin/promotion/detail/{id}")
+	public String promotionDetail(@PathVariable("id") int id, Model model) {
+		Promotion promotion = adminPromotionService.getPromotionById(id);
+		if (promotion != null) {
+			model.addAttribute("promotion", promotion);
+		}
+		return "Admin/promotionDetail";
+	}
+
 	@PostMapping("/admin/promotion/update")
 	public String updatePromotion(@Valid @ModelAttribute("promotion") Promotion promotion, BindingResult result) {
 		if (result.hasErrors()) {
