@@ -879,7 +879,7 @@ rgba(
 										<td th:text="${b.totalAmount}"></td>
 										<td>
 											<span class="badge" 
-												th:classappend="${b.status == 'PENDING'} ? 'bg-warning text-dark' : (${b.status == 'Success' or b.status == 'Issued'} ? 'bg-success' : (${b.status == 'Pending Cancel'} ? 'bg-warning text-dark' : (${b.status == 'CANCELLED'} ? 'bg-secondary' : (${b.status == 'Being Booked'} ? 'bg-info text-dark' : 'bg-secondary'))))"
+												th:classappend="${b.status == 'PENDING'} ? 'bg-warning text-dark' : (${b.status == 'Success'} ? 'bg-primary' : (${b.status == 'Issued'} ? 'bg-info text-dark' : (${b.status == 'Pending Cancel'} ? 'bg-warning text-dark' : (${b.status == 'CANCELLED'} ? 'bg-secondary' : (${b.status == 'Being Booked'} ? 'bg-dark' : 'bg-secondary')))))"
 												th:text="${b.status}"></span>
 											<small th:if="${b.status == 'Being Booked' and b.cancelDescription != null}" 
 												class="d-block text-muted mt-1" th:text="${b.cancelDescription}"></small>
@@ -900,7 +900,7 @@ rgba(
 												data-booking-id="${b.bookingId}">
 												<i class="bi bi-qr-code"></i> Issued</button>
 											<button th:if="${b.status == 'Pending Cancel'}" type="button"
-												class="btn btn-sm btn-success rounded-pill px-3 shadow-sm"
+												class="btn btn-sm btn-primary rounded-pill px-3 shadow-sm"
 												data-bs-toggle="modal" data-bs-target="#approveCancelModal"
 												data-booking-id="${b.bookingId}">
 												<i class="bi bi-check-circle"></i> Approve Cancel</button>
@@ -1023,7 +1023,7 @@ rgba(
 										<th>Airline Name</th>
 										<th>Country</th>
 
-										<th class="text-end">Actions</th>
+										<th class="text-center">Actions</th>
 									</tr>
 								</thead>
 
@@ -1218,7 +1218,7 @@ rgba(
 					<button type="button" class="btn btn-light rounded-pill px-4"
 						data-bs-dismiss="modal">Cancel</button>
 					<a id="approveCancelConfirm" href="#"
-						class="btn btn-success rounded-pill px-4"><i class="bi bi-check-circle"></i> Approve Cancel</a>
+						class="btn btn-primary rounded-pill px-4"><i class="bi bi-check-circle"></i> Approve Cancel</a>
 				</div>
 			</div>
 		</div>
@@ -1499,8 +1499,8 @@ rgba(
         if (doughnutCanvas && Array.isArray(statusLabels) && Array.isArray(statusData) && statusLabels.length > 0) {
             const statusColors = {
                 'PENDING': '#ffc107',
-                'Success': '#198754',
-                'Issued': '#0d6efd',
+                'Success': '#0d6efd',
+                'Issued': '#0dcaf0',
                 'CANCELLED': '#dc3545',
                 'Pending Cancel': '#fd7e14',
                 'Being Booked': '#6f42c1'
