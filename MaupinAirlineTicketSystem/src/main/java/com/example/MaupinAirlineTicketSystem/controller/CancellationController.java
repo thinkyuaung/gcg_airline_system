@@ -80,6 +80,7 @@ public String cancel(
         }
 
         booking.setStatus("Pending Cancel");
+        booking.setCancelDescription(reason);
         bookingRepository.save(booking);
 
         return "userview/cancelSuccess";
