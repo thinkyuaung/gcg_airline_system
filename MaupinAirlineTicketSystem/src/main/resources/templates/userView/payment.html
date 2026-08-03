@@ -420,14 +420,6 @@ h1,h2,h3,h4,h5,h6{
             $<span th:text="${originalPrice}"></span>
         </h5>
 
-<!-- Flight Plan Promotion -->
-        <div th:if="${flightPlanPromotion != null}" class="text-success small">
-            <i class="bi bi-tag-fill"></i>
-            Flight Promo:
-            <span th:text="${flightPlanPromotion.percentage}"></span>
-            % OFF
-        </div>
-
 <!-- Global Promotion -->
         <div th:if="${globalPromotion != null}" class="text-info small">
             <i class="bi bi-megaphone-fill"></i>
