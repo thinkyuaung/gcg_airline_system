@@ -348,7 +348,8 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                                 <input type="date"
        								name="departureDate"
        								id="departureDate"
-       								th:min="${#temporals.format(#temporals.createNow(),'yyyy-MM-dd')}">
+       								th:min="${#temporals.format(#temporals.createNow(),'yyyy-MM-dd')}"
+       								 required>
                             </div>
                         </div>
 
@@ -364,7 +365,7 @@ body:has(.top-promo-banner:not(.show)) #mainNav {
                         <div class="col-6 col-md-3">
                             <div class="input-picker">
                                 <label><i class="bi bi-chair"></i> Seat Class</label>
-                                <select name="seatClass" class="form-select">
+                                <select name="seatClass" class="form-select" required>
                                 	 <option value="">Select Seat Class</option>
                                     <option value="Economy">Economy</option>
                                     <option value="Business">Business</option>

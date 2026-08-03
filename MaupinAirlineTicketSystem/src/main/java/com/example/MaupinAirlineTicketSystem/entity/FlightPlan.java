@@ -72,7 +72,6 @@ public class FlightPlan {
 	@JoinColumn(name = "arrival_airport_id")
 	@NotNull(message = "Please select an arrival airport")
 	private Airport arrivalAirport;
-
 	
 
 	
