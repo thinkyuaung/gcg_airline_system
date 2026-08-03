@@ -99,6 +99,15 @@ public class AdminFlightController {
 		return "Admin/AddFlight";
 	}
 
+	@GetMapping("/admin/flight/detail/{id}")
+	public String flightDetail(@PathVariable("id") int id, Model model) {
+		Flight flight = adminFlightService.getFlightById(id);
+		if (flight != null) {
+			model.addAttribute("flight", flight);
+		}
+		return "Admin/flightDetail";
+	}
+
 	@PostMapping("/admin/flight/update")
 	public String updateFlight(@Valid @ModelAttribute("flight") Flight flight, BindingResult result,
 			Model model) {
