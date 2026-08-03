@@ -138,7 +138,7 @@
               <label class="form-label text-uppercase fw-bold">Departure Airport</label>
               <div class="input-group">
                 <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-geo-alt"></i></span>
-                <select th:field="*{departureAirport}" class="form-select border-start-0">
+                <select th:field="*{departureAirport}" class="form-select border-start-0" onchange="onDepartureChange(this)">
                   <option value="">Select Departure Airport</option>
                   <option th:each="a : ${airports}" 
                           th:value="${a.airportId}" 
@@ -245,12 +245,16 @@
               <div class="input-group">
                 <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-tag"></i></span>
                 <select th:field="*{promotion}" class="form-select border-start-0">
-                  <option value="">No Promotion</option>
+                  <option value="">Select Promotion</option>
                   <option th:each="p : ${promotions}" 
                           th:value="${p.promotionId}" 
                           th:text="${p.description} + ' (' + ${p.percentage} + '% off)'"></option>
                 </select>
               </div>
+            </div>
+
+            <div class="mb-4">
+              <span id="flightPlanFormError" class="text-danger small fw-semibold"></span>
             </div>
 
           </div>
@@ -276,6 +280,24 @@
       }
     }
 
+    function onDepartureChange(select) {
+      var depId = select.value;
+      var arrivalSelect = document.getElementById('arrivalAirport');
+      if (!arrivalSelect) return;
+      var selected = arrivalSelect.value;
+      var needClear = false;
+      for (var i = 0; i < arrivalSelect.options.length; i++) {
+        var opt = arrivalSelect.options[i];
+        if (opt.value && opt.value === depId) {
+          opt.style.display = 'none';
+          if (selected === opt.value) needClear = true;
+        } else {
+          opt.style.display = '';
+        }
+      }
+      if (needClear) arrivalSelect.value = '';
+    }
+
     document.querySelectorAll('.seat-input').forEach(function(input) {
       input.addEventListener('input', calculateAvailable);
     });
@@ -294,6 +316,31 @@
       var f = document.getElementById('firseClassSeats');
       if (e && b && f && (e.value || b.value || f.value)) {
         calculateAvailable();
+      }
+
+      // Filter arrival airport options so the departure airport is never offered as arrival
+      var depSelect = document.getElementById('departureAirport');
+      if (depSelect && depSelect.value) {
+        onDepartureChange(depSelect);
+      }
+
+      // Block submit when departure time is after arrival time or airports are identical
+      var form = document.querySelector('form');
+      if (form) {
+        form.addEventListener('submit', function(ev) {
+          var dep = document.getElementById('departureTime');
+          var arr = document.getElementById('arrivalTime');
+          var errEl = document.getElementById('flightPlanFormError');
+          if (errEl) errEl.textContent = '';
+          if (dep && arr && dep.value && arr.value) {
+            var diffMinutes = (new Date(arr.value) - new Date(dep.value)) / 60000;
+            if (diffMinutes <= 15) {
+              ev.preventDefault();
+              if (errEl) errEl.textContent = 'Arrival must be at least 15 minutes after departure.';
+              return false;
+            }
+          }
+        });
       }
     });
   </script>

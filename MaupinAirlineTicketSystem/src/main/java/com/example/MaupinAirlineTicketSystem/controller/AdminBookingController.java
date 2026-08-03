@@ -57,12 +57,16 @@ public class AdminBookingController {
 	public String approveBooking(@PathVariable("id") int id) {
 		Booking booking = adminBookingService.getBookingById(id);
 		if (booking != null) {
-			String serialCode = "MAT-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
-			booking.setBookingCode(serialCode);
-			booking.setStatus("Success");
-			adminBookingService.saveBooking(booking);
+			if (consumeSeats(booking)) {
+				String serialCode = "MAT-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+				booking.setBookingCode(serialCode);
+				booking.setStatus("Success");
+				adminBookingService.saveBooking(booking);
 
-			emailService.sendTicketEmail(booking, serialCode);
+				emailService.sendTicketEmail(booking, serialCode);
+			} else {
+				emailService.sendBookingRejectedEmail(booking, "there are not enough available seats");
+			}
 		}
 		return "redirect:/airline/admin/bookings";
 	}
@@ -90,10 +94,27 @@ public class AdminBookingController {
 			@PathVariable("id") int id,
 			@RequestParam("description") String description) {
 		Booking booking = adminBookingService.getBookingById(id);
+		
 		if (booking != null) {
+//			if (consumeSeats(booking)) {
+////				booking.setStatus("Issued");
+////				booking.setCancelDescription(description);
+////				if (booking.getBookingCode() == null || booking.getBookingCode().isBlank()) {
+////					booking.setBookingCode("CANCEL-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase());
+////				}
+////				adminBookingService.saveBooking(booking);
+////				emailService.sendBookingIssuedEmail(booking, description);
+//			} else {
+//				emailService.sendBookingRejectedEmail(booking, "there are not enough available seats");
+//			}
+			
 			booking.setStatus("Issued");
 			booking.setCancelDescription(description);
+			if (booking.getBookingCode() == null || booking.getBookingCode().isBlank()) {
+				booking.setBookingCode("CANCEL-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase());
+			}
 			adminBookingService.saveBooking(booking);
+			emailService.sendBookingIssuedEmail(booking, description);
 		}
 		return "redirect:/airline/admin/bookings";
 	}
@@ -104,11 +125,18 @@ public class AdminBookingController {
 		Booking booking = bookingRepository.findById(id).orElse(null);
 		if (booking != null && "Pending Cancel".equals(booking.getStatus())) {
 			booking.setStatus("CANCELLED");
-			bookingRepository.save(booking);
 
-			FlightPlan flightPlan = booking.getFlightPlan();
-			flightPlan.setAvailableSeats(flightPlan.getAvailableSeats() + 1);
-			flightPlanRepository.save(flightPlan);
+			if (booking.isSeatsConsumed()) {
+				FlightPlan flightPlan = booking.getFlightPlan();
+				flightPlan.restoreSeats(
+						booking.getSeatClass() != null ? booking.getSeatClass().getClassName() : null,
+						booking.getPassengers()
+				);
+				flightPlanRepository.save(flightPlan);
+				booking.setSeatsConsumed(false);
+			}
+
+			bookingRepository.save(booking);
 
 			Cancellation cancellation = new Cancellation();
 			cancellation.setCancellationDate(java.time.LocalDateTime.now());
@@ -118,6 +146,23 @@ public class AdminBookingController {
 			cancellationRepository.save(cancellation);
 		}
 		return "redirect:/airline/admin/bookings";
+	}
+
+	private boolean consumeSeats(Booking booking) {
+		if (booking.isSeatsConsumed()) {
+			return true;
+		}
+		FlightPlan flightPlan = booking.getFlightPlan();
+		if (booking.getPassengers() > flightPlan.getAvailableSeats()) {
+			return false;
+		}
+		flightPlan.reduceSeats(
+				booking.getSeatClass() != null ? booking.getSeatClass().getClassName() : null,
+				booking.getPassengers()
+		);
+		flightPlanRepository.save(flightPlan);
+		booking.setSeatsConsumed(true);
+		return true;
 	}
 
 	@GetMapping("/admin/booking/issue-cancel/{id}")
@@ -138,6 +183,7 @@ public class AdminBookingController {
 			booking.setStatus("Success");
 			booking.setCancelDescription(description);
 			bookingRepository.save(booking);
+			emailService.sendCancellationRejectedEmail(booking, description);
 		}
 		return "redirect:/airline/admin/bookings";
 	}
