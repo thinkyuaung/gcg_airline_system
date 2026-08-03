@@ -95,6 +95,14 @@ public class BookingServiceImpl implements BookingService{
 	        );
 	    }
 
+	    if (passengers > flightPlan.getSeatsForClass(seatClass)) {
+	        throw new RuntimeException(
+	            "Not enough available seats. Only "
+	            + flightPlan.getSeatsForClass(seatClass)
+	            + " " + seatClass + " class seat(s) left on this flight"
+	        );
+	    }
+
 
 
 	    Booking booking = new Booking();

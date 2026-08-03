@@ -453,6 +453,17 @@ h1,h2,h3,h4,h5,h6{
 
 </nav>
 
+<div th:if="${bookingError}"
+     class="alert alert-danger d-flex align-items-start gap-2 mb-4"
+     style="border-radius:14px;"
+     role="alert">
+    <span class="material-symbols-outlined">error</span>
+    <div>
+        <strong>This booking cannot be completed.</strong>
+        <span th:text="${bookingError}"></span>
+    </div>
+</div>
+
 <div class="row g-4 pb-5">
 
 

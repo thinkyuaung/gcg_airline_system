@@ -759,28 +759,35 @@ body {
 										<td><span th:if="${b.payment != null and b.payment.paymentScreenshot != null}" class="small"><i class="bi bi-image text-info"></i> Uploaded</span> <span th:unless="${b.payment != null and b.payment.paymentScreenshot != null}" class="text-muted small"><i class="bi bi-image"></i> None</span></td>
 										<td th:text="${b.totalAmount}"></td>
 										<td>
-											<span class="badge px-2 py-1 rounded-pill" 
-												th:classappend="${b.status == 'PENDING'} ? 'bg-warning text-dark' : (${b.status == 'Success' or b.status == 'Issued'} ? 'bg-success text-white' : (${b.status == 'Pending Cancel'} ? 'bg-warning text-dark' : (${b.status == 'CANCELLED'} ? 'bg-secondary text-white' : (${b.status == 'Being Booked'} ? 'bg-info text-dark' : 'bg-secondary text-white'))))"
+											<span class="badge" 
+												th:classappend="${b.status == 'PENDING'} ? 'bg-warning text-dark' : (${b.status == 'Success'} ? 'bg-primary' : (${b.status == 'Issued'} ? 'bg-info text-dark' : (${b.status == 'Pending Cancel'} ? 'bg-warning text-dark' : (${b.status == 'CANCELLED'} ? 'bg-secondary' : (${b.status == 'Being Booked'} ? 'bg-dark' : 'bg-secondary')))))"
 												th:text="${b.status}"></span>
 										</td>
-										<td class="text-end">
-											<div class="d-inline-flex gap-1 flex-wrap justify-content-end">
-												<a th:href="@{/airline/admin/booking/detail/{id}(id=${b.bookingId})}" class="btn-action btn-action-view">
-													<i class="bi bi-eye"></i> View
-												</a>
-												<a th:if="${b.status == 'PENDING'}" th:href="@{/airline/admin/booking/approve/{id}(id=${b.bookingId})}" class="btn-action btn-action-approve">
-													<i class="bi bi-check-circle"></i> Approve
-												</a>
-												<a th:if="${b.status == 'PENDING'}" th:href="@{/airline/admin/booking/issue/{id}(id=${b.bookingId})}" class="btn-action btn-action-danger">
-													<i class="bi bi-qr-code"></i> Issue
-												</a>
-												<a th:if="${b.status == 'Pending Cancel'}" th:href="@{/airline/admin/booking/approve-cancel/{id}(id=${b.bookingId})}" class="btn-action btn-action-approve">
-													<i class="bi bi-check-circle"></i> Approve Cancel
-												</a>
-												<a th:if="${b.status == 'Pending Cancel'}" th:href="@{/airline/admin/booking/issue-cancel/{id}(id=${b.bookingId})}" class="btn-action btn-action-danger">
-													<i class="bi bi-x-circle"></i> Reject Cancel
-												</a>
-											</div>
+										<td class="text-nowrap">
+											<a th:href="@{/airline/admin/booking/detail/{id}(id=${b.bookingId})}">
+												<button
+												class="btn btn-sm btn-outline-secondary rounded-pill px-3 shadow-sm"><i class="bi bi-eye"></i> View</button>
+											</a>
+											<button th:if="${b.status == 'PENDING'}" type="button"
+												class="btn btn-sm btn-outline-primary rounded-pill px-3 shadow-sm"
+												data-bs-toggle="modal" data-bs-target="#approveBookingModal"
+												data-booking-id="${b.bookingId}">
+												<i class="bi bi-boxes"></i> Approve</button>
+											<button th:if="${b.status == 'PENDING'}" type="button"
+												class="btn btn-sm btn-primary rounded-pill px-3 shadow-sm"
+												data-bs-toggle="modal" data-bs-target="#issueBookingModal"
+												data-booking-id="${b.bookingId}">
+												<i class="bi bi-qr-code"></i> Issued</button>
+											<button th:if="${b.status == 'Pending Cancel'}" type="button"
+												class="btn btn-sm btn-primary rounded-pill px-3 shadow-sm"
+												data-bs-toggle="modal" data-bs-target="#approveCancelModal"
+												data-booking-id="${b.bookingId}">
+												<i class="bi bi-check-circle"></i> Approve Cancel</button>
+											<button th:if="${b.status == 'Pending Cancel'}" type="button"
+												class="btn btn-sm btn-outline-danger rounded-pill px-3 shadow-sm"
+												data-bs-toggle="modal" data-bs-target="#rejectCancelModal"
+												data-booking-id="${b.bookingId}">
+												<i class="bi bi-x-circle"></i> Reject Cancel</button>
 										</td>
 									</tr>
 								</tbody>
@@ -887,7 +894,8 @@ body {
 										<th>Airline Code</th>
 										<th>Airline Name</th>
 										<th>Country</th>
-										<th class="text-end">Actions</th>
+
+										<th class="text-center">Actions</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -984,8 +992,165 @@ body {
 		</div>
 	</div>
 
-	<!-- Scripts -->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- Approve Booking Modal -->
+	<div class="modal fade" id="approveBookingModal" tabindex="-1"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content rounded-3">
+				<div class="modal-header">
+					<h5 class="modal-title fw-bold"><i class="bi bi-boxes text-primary"></i> Approve Booking</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p class="mb-0">Are you sure you want to approve this booking? The booking will be confirmed and the customer will receive their eTicket.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-light rounded-pill px-4"
+						data-bs-dismiss="modal">Cancel</button>
+					<a id="approveBookingConfirm" href="#"
+						class="btn btn-primary rounded-pill px-4"><i class="bi bi-check-circle"></i> Approve</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Issue Booking Modal -->
+	<div class="modal fade" id="issueBookingModal" tabindex="-1"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content rounded-3">
+				<div class="modal-header">
+					<h5 class="modal-title fw-bold"><i class="bi bi-qr-code text-primary"></i> Issue Booking</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<form id="issueBookingForm" method="post">
+					<div class="modal-body">
+						<label class="form-label small fw-bold">Description / Note</label>
+						<textarea name="description" class="form-control" rows="3"
+							placeholder="Enter description for this booking..." required></textarea>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-light rounded-pill px-4"
+							data-bs-dismiss="modal">Cancel</button>
+						<button type="submit" class="btn btn-primary rounded-pill px-4"><i
+								class="bi bi-qr-code"></i> Issue</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Approve Cancel Modal -->
+	<div class="modal fade" id="approveCancelModal" tabindex="-1"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content rounded-3">
+				<div class="modal-header">
+					<h5 class="modal-title fw-bold"><i class="bi bi-check-circle text-success"></i> Approve Cancellation</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p class="mb-0">Are you sure you want to approve this cancellation? The booking will be cancelled, the seats restored and the customer will receive a confirmation email.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-light rounded-pill px-4"
+						data-bs-dismiss="modal">Cancel</button>
+					<a id="approveCancelConfirm" href="#"
+						class="btn btn-primary rounded-pill px-4"><i class="bi bi-check-circle"></i> Approve Cancel</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Reject Cancel Modal -->
+	<div class="modal fade" id="rejectCancelModal" tabindex="-1"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content rounded-3">
+				<div class="modal-header">
+					<h5 class="modal-title fw-bold"><i class="bi bi-x-circle text-danger"></i> Reject Cancellation</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<form id="rejectCancelForm" method="post">
+					<div class="modal-body">
+						<label class="form-label small fw-bold">Description / Reason</label>
+						<textarea name="description" class="form-control" rows="3"
+							placeholder="Enter reason for rejecting the cancellation..." required></textarea>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-light rounded-pill px-4"
+							data-bs-dismiss="modal">Cancel</button>
+						<button type="submit" class="btn btn-danger rounded-pill px-4"><i
+								class="bi bi-x-circle"></i> Reject Cancel</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Add new Airport Modal -->
+	<div class="modal fade" id="addAirportModal" tabindex="-1"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content rounded-3">
+				<div class="modal-header">
+					<h5 class="modal-title fw-bold">Register New Airport Terminal</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<form action="AddAirportServlet" method="POST">
+					<div class="modal-body">
+						<div class="mb-3">
+							<label class="form-label small fw-bold">Airport Code</label> <input
+								type="text" name="airport_code" class="form-control"
+								placeholder="e.g., RGN" required>
+						</div>
+						<div class="mb-3">
+							<label class="form-label small fw-bold">Airport Name</label> <input
+								type="text" name="airport_name" class="form-control"
+								placeholder="e.g., Yangon International Airport" required>
+						</div>
+						<div class="mb-3">
+							<label class="form-label small fw-bold">City Location</label> <input
+								type="text" name="city" class="form-control"
+								placeholder="e.g., Yangon" required>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-light rounded-pill px-4"
+							data-bs-dismiss="modal">Cancel</button>
+						<button type="submit" class="btn btn-primary rounded-pill px-4">Save
+							Airport</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+	<script>
+    document.querySelectorAll('.modal').forEach(function (m) {
+      m.addEventListener('show.bs.modal', function (e) {
+        var btn = e.relatedTarget;
+        if (!btn || !btn.hasAttribute('data-booking-id')) return;
+        var id = btn.getAttribute('data-booking-id');
+        if (m.id === 'issueBookingModal') {
+          document.getElementById('issueBookingForm').action = '/airline/admin/booking/issue/' + id;
+        } else if (m.id === 'rejectCancelModal') {
+          document.getElementById('rejectCancelForm').action = '/airline/admin/booking/issue-cancel/' + id;
+        } else if (m.id === 'approveBookingModal') {
+          document.getElementById('approveBookingConfirm').href = '/airline/admin/booking/approve/' + id;
+        } else if (m.id === 'approveCancelModal') {
+          document.getElementById('approveCancelConfirm').href = '/airline/admin/booking/approve-cancel/' + id;
+        }
+      });
+    });
+	</script>
 
 	<script>
     function switchTab(tabName) {
@@ -1169,12 +1334,12 @@ body {
         const doughnutCanvas = document.getElementById('bookingStatusChart');
         if (doughnutCanvas && Array.isArray(statusLabels) && Array.isArray(statusData) && statusLabels.length > 0) {
             const statusColors = {
-                'PENDING': '#f59e0b',
-                'Success': '#16a34a',
-                'Issued': '#2563eb',
-                'CANCELLED': '#dc2626',
-                'Pending Cancel': '#ea580c',
-                'Being Booked': '#0284c7'
+                'PENDING': '#ffc107',
+                'Success': '#0d6efd',
+                'Issued': '#0dcaf0',
+                'CANCELLED': '#dc3545',
+                'Pending Cancel': '#fd7e14',
+                'Being Booked': '#6f42c1'
             };
             new Chart(doughnutCanvas.getContext('2d'), {
                 type: 'doughnut',

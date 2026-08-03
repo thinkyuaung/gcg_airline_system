@@ -16,6 +16,8 @@ import com.example.MaupinAirlineTicketSystem.repository.AirportRepository;
 import com.example.MaupinAirlineTicketSystem.repository.SeatClassRepository;
 import com.example.MaupinAirlineTicketSystem.service.FlightSearchService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/airline")
 public class FlightSearchController {
@@ -36,6 +38,7 @@ public class FlightSearchController {
 			@RequestParam(value = "departureDate", required = false) LocalDate departureDate,
 			@RequestParam(value = "passengers", required = false, defaultValue = "1") int passengers,
 			@RequestParam(value = "seatClass", required = false) String seatClass,
+			HttpSession session,
 			Model model) {
 
 		model.addAttribute("airports", airportRepository.findAll());
@@ -44,6 +47,11 @@ public class FlightSearchController {
 		if (departureCity == null || departureCity.isBlank()) {
 			return "userview/searchFlight";
 		}
+
+		session.setAttribute("searchDepartureCity", departureCity);
+		session.setAttribute("searchArrivalCity", arrivalCity);
+		session.setAttribute("searchDepartureDate",
+				departureDate != null ? departureDate.toString() : null);
 
 		List<FlightPlan> flightPlans =
 				flightSearchService.searchFlights(
