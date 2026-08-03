@@ -1,158 +1,202 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Support Center - Maubin International Airline</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support Center - Maubin International Airline</title>
 
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<!-- Bootstrap 5 CSS -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
 
-    <!-- Custom CSS Files -->
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link rel="stylesheet" th:href="@{/css/support.css}">
+<!-- Bootstrap Icons -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<!-- Custom CSS Files -->
+<link rel="stylesheet" th:href="@{/css/style.css}">
+<link rel="stylesheet" th:href="@{/css/support.css}">
 </head>
 <body class="bg-light d-flex flex-column min-vh-100">
 
-<!-- Include Shared Header Fragment -->
-<div th:replace="~{Fragments/header :: navbar}"></div>
+	<!-- Include Shared Header Fragment -->
+	<div th:replace="~{Fragments/header :: navbar}"></div>
 
-<!-- 🚀 Dynamic Hero Banner -->
-<section class="support-hero-banner text-center">
-    <div class="container">
-        <span class="badge bg-white text-primary px-3 py-2 rounded-pill mb-3 fw-bold text-uppercase small shadow-sm">Help & Support</span>
-        <h1 class="fw-bold display-5 mb-2">How Can We Help You Today?</h1>
-        <p class="lead opacity-90">24/7 Dedicated Customer Care & Flight Assistance</p>
-        
-        <!-- Quick Search Bar -->
-       <!--  <div class="support-search-wrapper">
+	<!-- 🚀 Dynamic Hero Banner -->
+	<section class="support-hero-banner text-center">
+		<div class="container">
+			<span
+				class="badge bg-white text-primary px-3 py-2 rounded-pill mb-3 fw-bold text-uppercase small shadow-sm">Help
+				& Support</span>
+			<h1 class="fw-bold display-5 mb-2">How Can We Help You Today?</h1>
+			<p class="lead opacity-90">24/7 Dedicated Customer Care & Flight
+				Assistance</p>
+
+			<!-- Quick Search Bar -->
+			<!--  <div class="support-search-wrapper">
             <i class="bi bi-search support-search-icon"></i>
             <input type="text" class="form-control form-control-lg support-search-input" placeholder="Search for flight status, baggage, refund policy...">
         </div> -->
-    </div>
-</section>
+		</div>
+	</section>
 
-<!-- 🌐 Upgraded Modern Support Cards Container -->
-<main class="container my-5 py-3">
-    <div class="row g-4 justify-content-center text-center mb-5">
-        
-        <!-- 1. 24/7 Call Support -->
-        <div class="col-lg-4 col-md-6">
-            <div class="modern-support-card d-flex flex-column justify-content-between">
-                <div>
-                    <div class="support-icon-box icon-box-call">
-                        <i class="bi bi-headset"></i>
-                    </div>
-                    <h5 class="fw-bold text-dark mb-2">24/7 Phone Support</h5>
-                    <p class="text-muted small mb-4">Direct interaction with our senior flight agents anytime, day or night.</p>
-                </div>
-                <div>
-                    <a href="tel:+95912345678" class="btn btn-outline-primary btn-support-action w-100">
-                        <i class="bi bi-telephone-fill me-1"></i> +95 9 123 456 78
-                    </a>
-                </div>
-            </div>
-        </div>
+	<!-- 🌐 Upgraded Modern Support Cards Container -->
+	<main class="container my-5 py-3">
+		<div class="row g-4 justify-content-center text-center mb-5">
 
-        <!-- 2. Email Helpdesk -->
-        <div class="col-lg-4 col-md-6">
-            <div class="modern-support-card d-flex flex-column justify-content-between">
-                <div>
-                    <div class="support-icon-box icon-box-email">
-                        <i class="bi bi-envelope-at-fill"></i>
-                    </div>
-                    <h5 class="fw-bold text-dark mb-2">Email Helpdesk</h5>
-                    <p class="text-muted small mb-4">Send us detailed inquiries or booking management requests via email.</p>
-                </div>
-                <div>
-                    <a href="mailto:waiyan01011996@gmail.com" class="btn btn-outline-success btn-support-action w-100">
-                        <i class="bi bi-send-fill me-1"></i> waiyan01011996@gmail.com
-                    </a>
-                </div>
-            </div>
-        </div>
+			<!-- 1. 24/7 Call Support -->
+			<div class="col-lg-4 col-md-6">
+				<div
+					class="modern-support-card d-flex flex-column justify-content-between">
+					<div>
+						<div class="support-icon-box icon-box-call">
+							<i class="bi bi-headset"></i>
+						</div>
+						<h5 class="fw-bold text-dark mb-2">24/7 Phone Support</h5>
+						<p class="text-muted small mb-4">Direct interaction with our
+							senior flight agents anytime, day or night.</p>
+					</div>
+					<div>
+						<a href="tel:+95912345678"
+							class="btn btn-outline-primary btn-support-action w-100"> <i
+							class="bi bi-telephone-fill me-1"></i> +95 9 123 456 78
+						</a>
+					</div>
+				</div>
+			</div>
 
-        <!-- 3. Airport Help Desk (Replaced Live Chat) -->
-        <div class="col-lg-4 col-md-6">
-            <div class="modern-support-card d-flex flex-column justify-content-between">
-                <div>
-                    <div class="support-icon-box icon-box-office">
-                        <i class="bi bi-geo-alt-fill"></i>
-                    </div>
-                    <h5 class="fw-bold text-dark mb-2">Airport Counter</h5>
-                    <p class="text-muted small mb-4">Visit our customer service counter at Yangon International Airport.</p>
-                </div>
-                <div>
-                    <a href="https://maps.google.com" target="_blank" class="btn btn-outline-indigo text-indigo border-indigo btn-support-action w-100" style="color: #6366f1; border-color: #6366f1;">
-                        <i class="bi bi-map-fill me-1"></i> Find Location
-                    </a>
-                </div>
-            </div>
-        </div>
+			<!-- 2. Email Helpdesk -->
+			<div class="col-lg-4 col-md-6">
+				<div
+					class="modern-support-card d-flex flex-column justify-content-between">
+					<div>
+						<div class="support-icon-box icon-box-email">
+							<i class="bi bi-envelope-at-fill"></i>
+						</div>
+						<h5 class="fw-bold text-dark mb-2">Email Helpdesk</h5>
+						<p class="text-muted small mb-4">Send us detailed inquiries or
+							booking management requests via email.</p>
+					</div>
+					<div>
+						<a href="mailto:waiyan01011996@gmail.com"
+							class="btn btn-outline-success btn-support-action w-100"> <i
+							class="bi bi-send-fill me-1"></i> waiyan01011996@gmail.com
+						</a>
+					</div>
+				</div>
+			</div>
 
-    </div>
+			<!-- 3. Airport Help Desk (Replaced Live Chat) -->
+			<div class="col-lg-4 col-md-6">
+				<div
+					class="modern-support-card d-flex flex-column justify-content-between">
+					<div>
+						<div class="support-icon-box icon-box-office">
+							<i class="bi bi-geo-alt-fill"></i>
+						</div>
+						<h5 class="fw-bold text-dark mb-2">Airport Counter</h5>
+						<p class="text-muted small mb-4">Visit our customer service
+							counter at Yangon International Airport.</p>
+					</div>
+					<div>
+						<a href="https://maps.google.com" target="_blank"
+							class="btn btn-outline-indigo text-indigo border-indigo btn-support-action w-100"
+							style="color: #6366f1; border-color: #6366f1;"> <i
+							class="bi bi-map-fill me-1"></i> Find Location
+						</a>
+					</div>
+				</div>
+			</div>
 
-    <!-- ❓ Frequently Asked Questions Section -->
-    <div class="row my-5 justify-content-center">
-        <div class="col-lg-10">
-            <div class="text-center mb-4">
-                <h3 class="fw-bold text-dark">Frequently Asked Questions</h3>
-                <p class="text-secondary small">Find quick answers to common queries regarding your flight booking</p>
-            </div>
+		</div>
 
-            <div class="accordion support-accordion" id="faqAccordion">
-                
-                <!-- FAQ 1 -->
-                <div class="accordion-item">    
-                    <h2 class="accordion-header">  
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
-                            <i class="bi bi-luggage text-primary me-2"></i> What is the baggage allowance for international flights?
-                        </button>
-                    </h2>
-                    <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body text-secondary small">
-                            Economy Class passengers are entitled to 7kg of hand baggage and 20kg of checked baggage. Business Class passengers enjoy up to 30kg of checked baggage allowance.
-                        </div>
-                    </div>
-                </div>
+		<!-- ❓ Frequently Asked Questions Section -->
+		<div class="row my-5 justify-content-center">
+			<div class="col-lg-10">
+				<div class="text-center mb-4">
+					<h3 class="fw-bold text-dark">Frequently Asked Questions</h3>
+					<p class="text-secondary small">Find quick answers to common
+						queries regarding your flight booking</p>
+				</div>
 
-                <!-- FAQ 2 -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
-                            <i class="bi bi-arrow-repeat text-primary me-2"></i> How do I change or cancel my flight date?
-                        </button>
-                    </h2>
-                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body text-secondary small">
-                            You can modify or cancel your booking through the "My Bookings" page on our website up to 24 hours prior to departure, subject to fare terms.
-                        </div>
-                    </div>
-                </div>
+				<div class="accordion support-accordion" id="faqAccordion">
 
-                <!-- FAQ 3 -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
-                            <i class="bi bi-credit-card text-primary me-2"></i> How long does it take to process a refund?
-                        </button>
-                    </h2>
-                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body text-secondary small">
-                            Approved refunds are usually processed within 7 to 14 business days, credited back to your original payment method.
-                        </div>
-                    </div>
-                </div>
+					<!-- FAQ 1 -->
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button class="accordion-button" type="button"
+								data-bs-toggle="collapse" data-bs-target="#faq1">
+								<i class="bi bi-luggage text-primary me-2"></i> What is the
+								baggage allowance for international flights?
+							</button>
+						</h2>
+						<div id="faq1" class="accordion-collapse collapse show"
+							data-bs-parent="#faqAccordion">
+							<div class="accordion-body text-secondary small">Economy
+								Class passengers are entitled to 7kg of hand baggage and 20kg of
+								checked baggage. Business Class passengers enjoy up to 30kg of
+								checked baggage allowance.</div>
+						</div>
+					</div>
 
-            </div>
-        </div>
-    </div>
+					<!-- FAQ 2 -->
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button class="accordion-button collapsed" type="button"
+								data-bs-toggle="collapse" data-bs-target="#faq2">
+								<i class="bi bi-arrow-repeat text-primary me-2"></i> How do I
+								change or cancel my flight date?
+							</button>
+						</h2>
+						<div id="faq2" class="accordion-collapse collapse"
+							data-bs-parent="#faqAccordion">
+							<div class="accordion-body text-secondary small">You can
+								modify or cancel your booking through the "My Bookings" page on
+								our website up to 24 hours prior to departure, subject to fare
+								terms.</div>
+						</div>
+					</div>
 
-    <!-- ✉️ Submit a Ticket Form -->
-    <!-- <div class="row justify-content-center mt-5">
+					<!-- FAQ 3 -->
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button class="accordion-button collapsed" type="button"
+								data-bs-toggle="collapse" data-bs-target="#faq3">
+								<i class="bi bi-credit-card text-primary me-2"></i> How long
+								does it take to process a refund?
+							</button>
+						</h2>
+						<div id="faq3" class="accordion-collapse collapse"
+							data-bs-parent="#faqAccordion">
+							<div class="accordion-body text-secondary small">Approved
+								refunds are usually processed within 7 to 14 business days,
+								credited back to your original payment method.</div>
+						</div>
+					</div>
+
+                   <!-- FAQ 4 -->
+                   					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button class="accordion-button collapsed" type="button"
+								data-bs-toggle="collapse" data-bs-target="#faq4">
+								<i class="bi-arrow-repeat text-primary me-2"></i> Can I change the information for my previous booking?
+								
+							</button>
+						</h2>
+						<div id="faq4" class="accordion-collapse collapse"
+							data-bs-parent="#faqAccordion">
+							<div class="accordion-body text-secondary small">
+							Yes. Please contact the administrator via email with your booking ID and the details you want to change.</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+ 
+		<!-- ✉️ Submit a Ticket Form -->
+		<!-- <div class="row justify-content-center mt-5">
         <div class="col-lg-8">
             <div class="support-form-card p-4 p-md-5">
                 <div class="text-center mb-4">
@@ -195,59 +239,12 @@
         </div>
     </div> -->
 
-</main>
+	</main>
 
-<!-- Footer Fragment -->
-<footer class="text-white pt-5 pb-4 mt-auto" style="background-color: #0a0f1d;">
-    <div class="container pt-3">
-        <div class="row g-4">
-            <div class="col-lg-4 col-md-6">
-                <div class="d-flex align-items-center gap-2 mb-3">
-                    <span class="bg-sky text-white p-2 rounded-3 d-inline-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
-                        <i class="bi bi-airplane-fill fs-6"></i>
-                    </span>
-                    <h4 class="m-0 fw-bold text-white">Maubin AirLine</h4>
-                </div>
-                <p class="text-secondary small pe-lg-4" style="color: #94a3b8 !important;">
-                    Crafting extraordinary journeys for extraordinary people. Your dream destination awaits.
-                </p>
-            </div>
+	<!-- Footer Fragment -->
+	<div th:replace="~{fragments/footer :: footer}"></div>
 
-            <div class="col-lg-2 col-md-6 col-6">
-                <h6 class="text-uppercase fw-bold mb-3 small tracking-wider" style="letter-spacing: 1px; color: #cbd5e1;">TRAVEL</h6>
-                <ul class="list-unstyled d-flex flex-column gap-2 small">
-                    <li><a th:href="@{/airline/flights}" class="text-decoration-none" style="color: #94a3b8;">Flights</a></li>
-                    <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Hotels</a></li>
-                    <li><a th:href="@{/airline/packages}" class="text-decoration-none" style="color: #94a3b8;">Packages</a></li>
-                </ul>
-            </div>
-
-            <div class="col-lg-2 col-md-6 col-6">
-                <h6 class="text-uppercase fw-bold mb-3 small tracking-wider" style="letter-spacing: 1px; color: #cbd5e1;">COMPANY</h6>
-                <ul class="list-unstyled d-flex flex-column gap-2 small">
-                    <li><a th:href="@{/airline/about}" class="text-decoration-none" style="color: #94a3b8;">About Us</a></li>
-                    <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Careers</a></li>
-                </ul>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <h6 class="text-uppercase fw-bold mb-3 small tracking-wider" style="letter-spacing: 1px; color: #cbd5e1;">EXTRA LINKS</h6>
-                <ul class="list-unstyled d-flex flex-column gap-2 small">
-                    <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Privacy Policy</a></li>
-                    <li><a th:href="@{/airline/support}" class="text-decoration-none" style="color: #94a3b8;">Support</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <hr class="my-4" style="border-color: #1e293b;">
-
-        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center small" style="color: #64748b;">
-            <p class="m-0">&copy; 2026 Maubin AirLine. All rights reserved.</p>
-            <p class="m-0 fw-semibold italic" style="color: #0ea5e9; font-style: italic;">Fly Far. Pay Less. Travel Better.</p>
-        </div>
-    </div>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
