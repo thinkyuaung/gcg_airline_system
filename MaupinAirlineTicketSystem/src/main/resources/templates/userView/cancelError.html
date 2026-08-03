@@ -1,51 +1,375 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Cancellation Failed</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cancellation Failed</title>
+
+
+<!-- Bootstrap 5 -->
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+rel="stylesheet">
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+rel="stylesheet">
+
+
+<!-- Fonts -->
+
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap"
+rel="stylesheet">
+
+<link rel="stylesheet" th:href="@{/css/style.css}">
+
+
+<style>
+
+
+body{
+
+    background:#faf8ff;
+
+    font-family:'Source Sans 3',sans-serif;
+
+    color:#191b23;
+
+}
+
+
+
+h1,h2,h3,h4{
+
+    font-family:'Manrope',sans-serif;
+
+}
+
+
+
+.failed-container{
+
+    min-height:80vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:48px 15px;
+
+}
+
+
+
+.failed-card{
+
+    max-width:600px;
+
+    width:100%;
+
+    background:white;
+
+    border-radius:16px;
+
+    box-shadow:0 .5rem 1.5rem rgba(0,0,0,.08);
+
+    overflow:hidden;
+
+}
+
+
+
+.failed-header{
+
+    background:#fff4f3;
+
+    padding:40px;
+
+    text-align:center;
+
+    border-bottom:1px solid #ededf9;
+
+}
+
+
+
+.failed-icon{
+
+    width:72px;
+
+    height:72px;
+
+    border-radius:50%;
+
+    background:#ffdad6;
+
+    color:#ba1a1a;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    margin:auto;
+
+    font-size:34px;
+
+}
+
+
+
+.failed-body{
+
+    padding:35px;
+
+    text-align:center;
+
+}
+
+
+
+.error-box{
+
+    background:#fff4f3;
+
+    color:#93000a;
+
+    border-radius:12px;
+
+    padding:18px;
+
+    margin:25px 0;
+
+    text-align:left;
+
+}
+
+
+
+.btn-primary-custom{
+
+    background:#004ac6;
+
+    color:white;
+
+    border:none;
+
+    border-radius:12px;
+
+    padding:14px 25px;
+
+    font-family:'Manrope',sans-serif;
+
+    font-weight:600;
+
+}
+
+
+
+.btn-primary-custom:hover{
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+
+
+.btn-secondary-custom{
+
+    background:#ededf9;
+
+    color:#191b23;
+
+    border:none;
+
+    border-radius:12px;
+
+    padding:14px 25px;
+
+    font-family:'Manrope',sans-serif;
+
+    font-weight:600;
+
+}
+
+
+
+.btn-secondary-custom:hover{
+
+    background:#e1e2ed;
+
+}
+
+
+
+</style>
+
 
 </head>
 
+
+
 <body>
 
-<div class="container mt-5">
-
-    <div class="card shadow p-4 text-center">
-
-        <h2 class="text-danger">
-            Cancellation Failed
-        </h2>
-        
-        <p></p>
-
-        <p class="mt-3"
-           th:text="${error}">
-        </p>
 
 
-        <div class="mt-4">
-
-            <a href="/airline/history"
-               class="btn btn-primary me-2">
-                Back to My Bookings
-            </a>
+<div th:replace="~{Fragments/header :: navbar}"></div>
 
 
-            <a href="/airline/search"
+            <a href="/airline/"
                class="btn btn-secondary">
                 Search More Flights
             </a>
+<main>
 
-        </div>
 
-    </div>
+<div class="failed-container">
+
+
+
+<div class="failed-card">
+
+
+
+<!-- HEADER -->
+
+<div class="failed-header">
+
+
+<div class="failed-icon">
+
+<i class="bi bi-x-circle-fill"></i>
 
 </div>
+
+
+
+<h2 class="mt-4 mb-2">
+
+Cancellation Failed
+
+</h2>
+
+
+
+<p class="mb-0 text-secondary">
+
+We could not process your cancellation request.
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+<!-- BODY -->
+
+
+<div class="failed-body">
+
+
+<p>
+
+Your flight cancellation request could not be completed.
+
+</p>
+
+
+
+<div class="error-box">
+
+
+<div class="fw-bold mb-2">
+
+<i class="bi bi-exclamation-triangle me-2"></i>
+
+Reason
+
+</div>
+
+
+<span th:text="${error}">
+
+</span>
+
+
+</div>
+
+
+
+
+
+
+<div class="d-flex gap-3 justify-content-center flex-wrap">
+
+
+
+<a href="/airline/history"
+
+class="btn-primary-custom text-decoration-none">
+
+
+<i class="bi bi-ticket-perforated me-2"></i>
+
+Back to My Bookings
+
+
+</a>
+
+
+
+
+
+<a href="/airline/"
+
+class="btn-secondary-custom text-decoration-none">
+
+
+<i class="bi bi-search me-2"></i>
+
+Search Flights
+
+
+</a>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+</main>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 
 </body>
 
 </html>
+

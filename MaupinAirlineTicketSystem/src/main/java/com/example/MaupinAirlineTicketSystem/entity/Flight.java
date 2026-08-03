@@ -34,8 +34,6 @@ public class Flight {
 	
     private String status;
     
-   
-
 	private int wifi;
     private int meal;
     private int entertainment;

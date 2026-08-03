@@ -147,6 +147,9 @@
             </div>
             <span class="fw-bold text-dark" th:text="${session.loginUserName}">User</span>
         </div>
+        <a th:if="${session.loginUserRole == 'SUPERADMIN'}" th:href="@{/airline/admin/dashboard}" class="btn btn-outline-primary btn-sm rounded-pill" title="Dashboard">
+            <i class="bi bi-list-ul"></i>
+        </a>
         <a th:if="${session.loginUserRole == 'ADMIN'}" th:href="@{/airline/admin/dashboard}" class="btn btn-outline-primary btn-sm rounded-pill" title="Dashboard">
             <i class="bi bi-list-ul"></i>
         </a>

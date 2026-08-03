@@ -1,344 +1,569 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
-
 <meta charset="UTF-8">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Flight Results</title>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-rel="stylesheet">
+<!-- Fonts / Icons (Material Symbols come from code2's design; Bootstrap Icons kept in case the header fragment relies on them) -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
-rel="stylesheet">
+<!-- Bootstrap 5 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
- <link rel="stylesheet" th:href="@{/css/style.css}">
+<link rel="stylesheet" th:href="@{/css/style.css}">
 
 <style>
 
+/* =====================================================
+   DESIGN TOKENS (from code2)
+===================================================== */
+:root {
+    --bs-primary: #031632;
+    --bs-primary-rgb: 3, 22, 50;
+    --bs-secondary: #0058bc;
+    --bs-secondary-rgb: 0, 88, 188;
+    --bs-body-bg: #f8f9ff;
+    --bs-body-font-family: 'Inter', sans-serif;
+    --bs-border-color: rgba(117, 119, 126, 0.2);
+}
+
+*{ box-sizing: border-box; }
+
+html{ scroll-behavior: smooth; }
+
 body{
-    background:#f4f7fb;
-    font-family:'Segoe UI',sans-serif;
+    background-color: var(--bs-body-bg);
+    color:#0b1c30;
+    font-family:'Inter', sans-serif;
 }
 
-.page-title{
-    font-size:32px;
-    font-weight:700;
-    color:#1d3557;
+.material-symbols-outlined{
+    vertical-align: middle;
+    font-size: 20px;
 }
 
-.flight-card{
-
-    background:#fff;
-    border-radius:18px;
-    padding:25px;
-    box-shadow:0 8px 25px rgba(0,0,0,.08);
-    transition:.3s;
-    margin-bottom:25px;
-
+/* =====================================================
+   NAVBAR SUPPORT
+   DO NOT CHANGE NAVBAR HTML (fragment from code1)
+===================================================== */
+#mainNav{
+    position:sticky;
+    top:0;
+    z-index:1050;
 }
 
-.flight-card:hover{
+/* =====================================================
+   PROMOTION BANNER (kept from code1)
+===================================================== */
+.top-promo-banner{
+    background: linear-gradient(90deg, #ffd54f, #ffb300);
+    border:none;
+    box-shadow: 0 5px 15px rgba(0,0,0,.08);
+}
+.top-promo-banner strong{
+    color:#b91c1c;
+}
+.alert{ margin-bottom:0; }
 
-    transform:translateY(-4px);
-
-    box-shadow:0 15px 35px rgba(0,0,0,.12);
-
+/* =====================================================
+   SEARCH / BOOKING FORM
+   (functionality + Thymeleaf bindings from code1,
+   restyled to match code2's palette)
+===================================================== */
+.booking-card{
+    background:white;
+    border-radius:1.25rem;
+    padding:2rem;
+    margin-top:2rem;
+    border:1px solid var(--bs-border-color);
+    box-shadow: 0 0.5rem 2rem rgba(3,22,50,.06);
 }
 
-.airline-icon{
-
-    width:70px;
-    height:70px;
-    border-radius:50%;
-    background:#eef4ff;
+.input-picker{
+    height:72px;
+    background:#f8f9ff;
+    border-radius:0.9rem;
+    padding:10px 16px;
+    border:1px solid var(--bs-border-color);
+    transition:.2s;
+}
+.input-picker:hover{
+    background:white;
+    border-color:var(--bs-secondary);
+}
+.input-picker label{
     display:flex;
-    justify-content:center;
     align-items:center;
-    font-size:34px;
-    color:#0d6efd;
-
-}
-
-.airline-name{
-
-    font-size:20px;
+    gap:6px;
+    color:#64748b;
+    font-size:11px;
     font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    margin-bottom:4px;
+}
+.input-picker input,
+.input-picker select{
+    width:100%;
+    border:none!important;
+    background:transparent!important;
+    box-shadow:none!important;
+    font-size:15px;
+    font-weight:700;
+    color:var(--bs-primary);
+}
+.input-picker input:focus,
+.input-picker select:focus{ outline:none; }
 
+.search-fields{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:14px;
+    align-items:center;
+}
+@media(max-width:992px){ .search-fields{ grid-template-columns:repeat(2,1fr); } }
+@media(max-width:576px){ .search-fields{ grid-template-columns:1fr; } .booking-card{ padding:1.25rem; } }
+
+.btn-search-flights{
+    height:52px;
+    padding:0 32px;
+    border:none;
+    border-radius:0.9rem;
+    background: var(--bs-primary);
+    color:white;
+    font-weight:700;
+}
+.btn-search-flights:hover{ background:#1a2b48; }
+
+/* =====================================================
+   SEARCH SUMMARY (design lifted from code2)
+===================================================== */
+.search-summary{
+    background-color:#eff4ff;
+    border-radius:1.25rem;
+    padding:1.5rem;
+    margin-top:1.5rem;
 }
 
-.flight-number{
-
-    color:#6c757d;
-    font-size:14px;
-
-}
-
-.time{
-
-    font-size:34px;
-    font-weight:bold;
-    color:#1d3557;
-
-}
-
-.date{
-
-    color:#6c757d;
-    font-size:14px;
-
-}
-
-.route-arrow{
-
-    font-size:28px;
-    color:#0d6efd;
-
-}
-
-.city{
-
+/* =====================================================
+   SIDEBAR FILTERS
+   Frontend-only design from code2 - no backend model
+   supplies filter facets yet, so these are static UI.
+===================================================== */
+.filter-title{
     font-weight:600;
-    font-size:18px;
-
+    font-size:.875rem;
+    color:var(--bs-primary);
+    margin-bottom:1rem;
 }
 
-.price{
-
-    font-size:30px;
-    font-weight:bold;
-    color:#0d6efd;
-
+/* =====================================================
+   FLIGHT CARD (design from code2, data from code1)
+===================================================== */
+.flight-card{
+    transition: transform .2s, box-shadow .2s;
+    border:1px solid var(--bs-border-color);
+    border-radius:1rem;
+}
+.flight-card:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 1rem 3rem rgba(0,0,0,.1)!important;
+}
+.flight-card.featured{
+    border-left:6px solid var(--bs-secondary);
 }
 
-.badge-seat{
-
-    background:#d1f7d6;
-    color:#198754;
-    padding:8px 14px;
-    border-radius:30px;
-    font-weight:600;
-
+.airline-logo-box{
+    width:56px;
+    height:56px;
+    background:#031632;
+    border-radius:.75rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:8px;
+}
+.airline-logo-box img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    filter:invert(1);
 }
 
-.btn-detail{
-
-    border-radius:12px;
-    padding:12px 22px;
-
+.flight-path-line{
+    height:2px;
+    background:#e5eeff;
+    position:relative;
+    flex-grow:1;
+}
+.flight-path-dot{
+    width:8px;
+    height:8px;
+    background:var(--bs-secondary);
+    border-radius:50%;
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
 }
 
-@media(max-width:768px){
-
-.time{
-
-font-size:28px;
-
+/* =====================================================
+   EMPTY / NO RESULTS STATE (styled per code2's empty state)
+===================================================== */
+.empty-state{
+    border-style:dashed!important;
+    background:rgba(255,255,255,.6);
 }
 
-.airline-icon{
-
-margin-bottom:15px;
-
+footer{
+    background-color:var(--bs-primary);
+    color:rgba(255,255,255,.7);
+    padding:4rem 0;
+    margin-top:3rem;
 }
-
+footer h5{
+    color:#fff;
+    text-transform:uppercase;
+    font-size:.75rem;
+    letter-spacing:.1em;
+    margin-bottom:1.5rem;
 }
-
-/* Ensure Top Promotion Banner stays on top */
-.top-promo-banner {
-    background: linear-gradient(90deg, #ffed4a 0%, #ffc107 100%);
-    position: relative;
-    z-index: 1060; 
-}
-
-/* Push the fixed navbar down when the banner is visible */
-body:has(.top-promo-banner.show) #mainNav {
-    top: 40px; /* Adjust according to banner height */
-    transition: top 0.3s ease;
-}
-
-/* Reset navbar position when banner is closed */
-body:has(.top-promo-banner:not(.show)) #mainNav {
-    top: 0;
-    transition: top 0.3s ease;
-}
-
-/* Styling for Top Promotion Banner */
-.top-promo-banner {
-    background: linear-gradient(90deg, #ffed4a 0%, #ffc107 100%);
-}
+footer a{ color:rgba(255,255,255,.7); text-decoration:none; }
+footer a:hover{ color:#fff; }
 
 </style>
-
 </head>
 
 <body>
-<!-- TOP PROMOTION BANNER -->
-    <div th:if="${promotion != null}" class="alert alert-warning alert-dismissible fade show m-0 text-center rounded-0 border-0 py-2 top-promo-banner" role="alert">
-        <div class="container d-flex align-items-center justify-content-center gap-2">
-            <span class="badge bg-danger text-white fw-bold px-2 py-1">
-                <i class="bi bi-fire me-1"></i>PROMOTION
-            </span>
-            <span class="small fw-semibold text-dark" th:text="${promotion.description}"></span>
-        </div>
-        <button type="button" class="btn-close py-2" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
 
+<!-- =====================================================
+     PROMOTION BANNER (unchanged from code1)
+===================================================== -->
+<div class="alert alert-warning alert-dismissible fade show m-0 text-center rounded-0 py-2 top-promo-banner" role="alert">
+    <div class="container d-flex justify-content-center align-items-center gap-2">
+        <span class="badge bg-danger">
+            <i class="bi bi-fire"></i> PROMOTION
+        </span>
+        <span class="fw-semibold small">
+            Special Offer! August Promotion Get 30% OFF. Use Code: <strong>MAUBIN30</strong>
+        </span>
+    </div>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+
+<!-- =====================================================
+     ORIGINAL NAVBAR
+     DO NOT MODIFY (fragment from code1)
+===================================================== -->
 <div th:replace="~{Fragments/header :: navbar}"></div>
 
-<div class="container py-5">
-    
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="container">
 
-<h2 class="page-title">
-Available Flights
-</h2>
-<!-- Hello -->
-<a th:href="@{/airline/search}"
-class="btn btn-outline-primary">
-<i class="bi bi-search"></i>
-New Search
-</a>
+    <!-- =====================================================
+         SEARCH FORM
+         Thymeleaf bindings + endpoint kept from code1,
+         restyled to match code2's palette/typography.
+    ===================================================== -->
+    <section id="booking">
+      <div class="collapse" id="bookingFormCollapse" th:classappend="${#lists.isEmpty(flightPlans)} ? ' show' : ''">
+        <div class="booking-card">
+            <form action="/airline/search" method="get">
+                <div class="search-fields">
+                    <div class="input-picker">
+                        <label><span class="material-symbols-outlined" style="font-size:16px;">flight_takeoff</span> From</label>
+                        <select name="departureCity" class="form-select" required>
+                            <option value="">Select departure</option>
+                            <option th:each="airport:${airports}"
+                                    th:value="${airport.city}"
+                                    th:text="${airport.city + ' (' + airport.airportCode + ')'}"></option>
+                        </select>
+                    </div>
 
+                    <div class="input-picker">
+                        <label><span class="material-symbols-outlined" style="font-size:16px;">flight_land</span> To</label>
+                        <select name="arrivalCity" class="form-select" required>
+                            <option value="">Select destination</option>
+                            <option th:each="airport:${airports}"
+                                    th:value="${airport.city}"
+                                    th:text="${airport.city + ' (' + airport.airportCode + ')'}"></option>
+                        </select>
+                    </div>
+
+                    <div class="input-picker">
+                        <label><span class="material-symbols-outlined" style="font-size:16px;">calendar_month</span> Departure</label>
+                        <input type="date" name="departureDate" id="departureDate"
+                               th:min="${#temporals.format(#temporals.createNow(),'yyyy-MM-dd')}">
+                    </div>
+
+                    <div class="input-picker">
+                        <label><span class="material-symbols-outlined" style="font-size:16px;">person</span> Passengers</label>
+                        <input type="number" name="passengers" value="1" min="1" max="50" required>
+                    </div>
+
+                    <div class="input-picker">
+                        <label><span class="material-symbols-outlined" style="font-size:16px;">airline_seat_recline_extra</span> Seat Class</label>
+                        <select name="seatClass" class="form-select">
+                            <option value="">Select Seat Class</option>
+                            <option value="Economy">Economy</option>
+                            <option value="Business">Business</option>
+                            <option value="First">First Class</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="text-end mt-4">
+                    <button class="btn-search-flights">
+                        <span class="material-symbols-outlined" style="font-size:18px;">search</span> Search Flights
+                    </button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         SEARCH SUMMARY
+         Layout/design from code2, data bound from code1's model
+    ===================================================== -->
+    <div th:if="${!#lists.isEmpty(flightPlans)}" class="search-summary d-flex flex-wrap align-items-center justify-content-between gap-4">
+        <div class="d-flex align-items-center gap-4 gap-md-5">
+            <div class="d-flex align-items-center gap-3">
+                <div>
+                    <div class="h5 mb-0 fw-bold" th:text="${flightPlans[0].departureAirport.city}"></div>
+                    <div class="text-secondary small fw-bold" th:text="${flightPlans[0].departureAirport.airportCode}"></div>
+                </div>
+                <span class="material-symbols-outlined text-secondary fs-2">trending_flat</span>
+                <div>
+                    <div class="h5 mb-0 fw-bold" th:text="${flightPlans[0].arrivalAirport.city}"></div>
+                    <div class="text-secondary small fw-bold" th:text="${flightPlans[0].arrivalAirport.airportCode}"></div>
+                </div>
+            </div>
+            <div class="vr d-none d-md-block" style="height:40px;opacity:.1;"></div>
+            <div>
+                <div class="fw-bold text-primary small"
+                     th:text="${#temporals.format(flightPlans[0].departureTime,'EEE, dd MMM yyyy')}"></div>
+                <div class="text-muted small">
+                    <span th:text="${passengers}"></span> Passenger<span th:if="${passengers > 1}">s</span> &bull;
+                    <span th:text="${seatClass}"></span>
+                </div>
+            </div>
+        </div>
+        <a href="#booking" class="btn btn-primary d-flex align-items-center gap-2 px-4 py-2"
+           data-bs-toggle="collapse" data-bs-target="#bookingFormCollapse"
+           aria-expanded="false" aria-controls="bookingFormCollapse">
+            <span class="material-symbols-outlined fs-6">edit</span> Modify Search
+        </a>
+    </div>
+
+    <!-- =====================================================
+         NO RESULTS (kept from code1, styled with code2's empty state)
+    ===================================================== -->
+    <div th:if="${#lists.isEmpty(flightPlans)}" class="text-center py-5 border rounded-5 mt-4 empty-state">
+        <div class="bg-light rounded-circle d-inline-flex p-4 mb-4">
+            <span class="material-symbols-outlined text-secondary fs-1">flight</span>
+        </div>
+        <h3 class="fw-bold text-primary">No flights found.</h3>
+        <p class="text-muted mx-auto" style="max-width:400px;">Please try another route or date.</p>
+    </div>
+
+    <!-- =====================================================
+         RESULTS AREA
+         Sidebar filters (frontend-only, no backend facets supplied)
+         + flight cards (design from code2, data from code1)
+    ===================================================== -->
+    <div th:if="${!#lists.isEmpty(flightPlans)}" class="row g-4 mt-1 mb-5">
+
+        <!-- Sidebar Filters — static frontend UI, not wired to backend -->
+        <aside class="col-lg-3">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="h5 mb-0 fw-bold text-primary">Filters</h2>
+                <button type="button" class="btn btn-link btn-sm text-secondary p-0 text-decoration-none fw-medium">Reset all</button>
+            </div>
+
+            <div class="card p-3 shadow-none mb-3">
+                <div class="filter-title">Price range</div>
+                <div class="px-2">
+                    <input class="form-range" id="priceRange" type="range" min="150" max="800">
+                    <div class="d-flex justify-content-between small text-muted mt-2">
+                        <span>$150</span>
+                        <span>$800+</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-3 shadow-none mb-3">
+                <div class="filter-title">Stops</div>
+                <div class="form-check mb-2 d-flex justify-content-between align-items-center">
+                    <div>
+                        <input class="form-check-input" type="checkbox" id="nonStop" checked>
+                        <label class="form-check-label" for="nonStop">Non-stop</label>
+                    </div>
+                </div>
+                <div class="form-check d-flex justify-content-between align-items-center">
+                    <div>
+                        <input class="form-check-input" type="checkbox" id="oneStop">
+                        <label class="form-check-label" for="oneStop">1 stop</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-3 shadow-none">
+                <div class="filter-title">Departure Time</div>
+                <div class="row g-2">
+                    <div class="col-6"><button type="button" class="btn btn-outline-light text-muted border w-100 btn-sm py-2">Morning</button></div>
+                    <div class="col-6"><button type="button" class="btn btn-primary w-100 btn-sm py-2">Afternoon</button></div>
+                    <div class="col-6"><button type="button" class="btn btn-outline-light text-muted border w-100 btn-sm py-2">Evening</button></div>
+                    <div class="col-6"><button type="button" class="btn btn-outline-light text-muted border w-100 btn-sm py-2">Night</button></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Results Column -->
+        <div class="col-lg-9">
+
+            <!-- Sort bar — result count is bound to backend, sort buttons are static frontend UI -->
+            <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+                <span class="text-muted small fw-medium">
+                    Showing <span th:text="${#lists.size(flightPlans)}"></span> available flight<span th:if="${#lists.size(flightPlans) > 1}">s</span>
+                </span>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="text-muted small fw-bold text-uppercase">Sort by:</span>
+                    <div class="btn-group btn-group-sm">
+                        <button type="button" class="btn btn-primary px-3 rounded-pill me-2">Cheapest</button>
+                        <button type="button" class="btn btn-light bg-white border px-3 rounded-pill me-2">Fastest</button>
+                        <button type="button" class="btn btn-light bg-white border px-3 rounded-pill">Best</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flight-results">
+                <div class="card flight-card shadow-sm border-0 bg-white"
+                     th:each="flightPlan,iter:${flightPlans}"
+                     th:classappend="${iter.first} ? 'featured' : ''">
+                    <div class="card-body p-4">
+                        <div class="row align-items-center g-4">
+
+                            <!-- Airline -->
+                            <div class="col-12 col-md-3 d-flex align-items-center gap-3">
+                                <div class="airline-logo-box">
+                                    <img th:if="${flightPlan.flight.airline.logo != null}"
+                                         th:src="@{'/photos/' + ${flightPlan.flight.airline.logo}}"
+                                         th:alt="${flightPlan.flight.airline.airlineName}">
+                                    <span th:unless="${flightPlan.flight.airline.logo != null}"
+                                          class="material-symbols-outlined text-white fs-2">flight</span>
+                                </div>
+                                <div>
+                                    <div class="fw-bold text-primary" th:text="${flightPlan.flight.airline.airlineName}"></div>
+                                    <div class="text-muted small">Flight <strong th:text="${flightPlan.flight.flightNumber}"></strong></div>
+                                    <span th:if="${iter.first}" class="badge bg-primary-subtle text-primary fw-bold p-1 px-2" style="font-size:9px;">BEST VALUE</span>
+                                </div>
+                            </div>
+
+                            <!-- Route -->
+                            <div class="col-12 col-md-6">
+                                <div class="d-flex align-items-center text-center">
+                                    <div class="flex-shrink-0">
+                                        <div class="h4 mb-0 fw-bold" th:text="${#temporals.format(flightPlan.departureTime,'HH:mm')}"></div>
+                                        <div class="text-muted small fw-bold" th:text="${flightPlan.departureAirport.airportCode}"></div>
+                                    </div>
+                                    <div class="flex-grow-1 px-4">
+                                        <div class="flight-path-line d-flex align-items-center justify-content-center">
+                                            <div class="flight-path-dot start-0"></div>
+                                            <div class="flight-path-dot end-0"></div>
+                                            <span class="material-symbols-outlined text-secondary bg-white px-2" style="transform:rotate(90deg);">flight_takeoff</span>
+                                        </div>
+                                        <!-- Direct label kept as-is: current backend model exposes no layover data -->
+                                        <div class="text-secondary small mt-2 fw-bold">Direct</div>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <div class="h4 mb-0 fw-bold" th:text="${#temporals.format(flightPlan.arrivalTime,'HH:mm')}"></div>
+                                        <div class="text-muted small fw-bold" th:text="${flightPlan.arrivalAirport.airportCode}"></div>
+                                    </div>
+                                </div>
+                                <div class="text-center text-muted small mt-1">
+                                    <span class="material-symbols-outlined" style="font-size:14px;">event</span>
+                                    <span th:text="${#temporals.format(flightPlan.departureTime,'dd MMM yyyy')}"></span>
+                                    &bull;
+                                    <span th:text="${flightPlan.availableSeats}"></span> seats available
+                                </div>
+                            </div>
+
+                            <!-- Price / CTA -->
+                            <div class="col-12 col-md-3 text-md-end border-md-start border-light ps-md-4">
+                                <div class="text-muted small">Starting from</div>
+                                <div class="h1 fw-bold text-primary mb-3">$<span th:text="${flightPlan.price}"></span></div>
+                                <a class="btn btn-primary w-100 fw-bold py-2 rounded-3"
+                                   th:href="@{/airline/flight/{id}(id=${flightPlan.flightPlanId}, passengers=${passengers}, seatClass=${seatClass})}">
+                                    Select
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div th:if="${#lists.isEmpty(flightPlans)}">
+<!-- =====================================================
+     FOOTER — static frontend UI carried over from code2's design
+===================================================== -->
+ <!-- Footer -->
+    <footer class="text-white pt-5 pb-4 mt-auto" style="background-color: #0a0f1d;">
+        <div class="container pt-3">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <span class="bg-primary text-white p-2 rounded-3 d-inline-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                            <i class="bi bi-airplane-fill fs-6"></i>
+                        </span>
+                        <h4 class="m-0 fw-bold text-white">Maubin AirLine</h4>
+                    </div>
+                    <p class="text-secondary small pe-lg-4" style="color: #94a3b8 !important;">
+                        Crafting extraordinary journeys for extraordinary people. Your dream destination awaits.
+                    </p>
+                </div>
 
-<div class="alert alert-warning">
+                <div class="col-lg-2 col-md-6 col-6">
+                    <h6 class="text-uppercase fw-bold mb-3 small tracking-wider" style="letter-spacing: 1px; color: #cbd5e1;">TRAVEL</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2 small">
+                        <li><a th:href="@{/airline/flights}" class="text-decoration-none" style="color: #94a3b8;">Flights</a></li>
+                        <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Hotels</a></li>
+                        <li><a th:href="@{/airline/packages}" class="text-decoration-none" style="color: #94a3b8;">Packages</a></li>
+                    </ul>
+                </div>
 
-<h5>No flights found.</h5>
+                <div class="col-lg-2 col-md-6 col-6">
+                    <h6 class="text-uppercase fw-bold mb-3 small tracking-wider" style="letter-spacing: 1px; color: #cbd5e1;">COMPANY</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2 small">
+                        <li><a th:href="@{/airline/about}" class="text-decoration-none" style="color: #94a3b8;">About Us</a></li>
+                        <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Careers</a></li>
+                    </ul>
+                </div>
 
-<p>Please try another route or date.</p>
+                <div class="col-lg-4 col-md-6">
+                    <h6 class="text-uppercase fw-bold mb-3 small tracking-wider" style="letter-spacing: 1px; color: #cbd5e1;">EXTRA LINKS</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2 small">
+                        <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Privacy Policy</a></li>
+                        <li><a th:href="@{/airline/support}" class="text-decoration-none" style="color: #94a3b8;">Support</a></li>
+                    </ul>
+                </div>
+            </div>
 
-</div>
+            <hr class="my-4" style="border-color: #1e293b;">
 
-</div>
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center small" style="color: #64748b;">
+                <p class="m-0">&copy; 2026 Maubin AirLine. All rights reserved.</p>
+                <p class="m-0 fw-semibold italic" style="color: #0ea5e9; font-style: italic;">Fly Far. Pay Less. Travel Better.</p>
+            </div>
+        </div>
+    </footer>
 
-<div class="flight-card"
-th:each="flightPlan : ${flightPlans}">
-
-<div class="row align-items-center">
-
-<!-- Airline -->
-
-<div class="col-lg-2 text-center">
-
-<div class="airline-icon mx-auto">
-
-<i class="bi bi-airplane-fill"></i>
-
-</div>
-
-<div class="airline-name mt-3"
-th:text="${flightPlan.flight.airline.airlineName}">
-</div>
-
-<div class="flight-number"
-th:text="${flightPlan.flight.flightNumber}">
-</div>
-
-</div>
-
-<!-- Route -->
-
-<div class="col-lg-5">
-
-<div class="row text-center align-items-center">
-
-<div class="col">
-
-<div class="time"
-th:text="${#temporals.format(flightPlan.departureTime,'HH:mm')}">
-</div>
-
-<div class="date"
-th:text="${#temporals.format(flightPlan.departureTime,'yyyy-MM-dd')}">
-</div>
-
-<div class="city"
-th:text="${flightPlan.departureAirport.city}">
-</div>
-
-</div>
-
-<div class="col-2">
-
-<i class="bi bi-arrow-right route-arrow"></i>
-
-</div>
-
-<div class="col">
-
-<div class="time"
-th:text="${#temporals.format(flightPlan.arrivalTime,'HH:mm')}">
-</div>
-
-<div class="date"
-th:text="${#temporals.format(flightPlan.arrivalTime,'yyyy-MM-dd')}">
-</div>
-
-<div class="city"
-th:text="${flightPlan.arrivalAirport.city}">
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- Price -->
-
-<div class="col-lg-2 text-center">
-
-<div class="price">
-
-$
-
-<span th:text="${flightPlan.price}">
-</span>
-
-</div>
-
-<div class="mt-2">
-
-<span class="badge-seat">
-
-<i class="bi bi-person-check-fill"></i>
-
-<span th:text="${flightPlan.availableSeats}">
-</span>
-
-Seats Left
-
-</span>
-
-</div>
-
-</div>
-
-<!-- Button -->
-
-<div class="col-lg-3 text-center">
-
-<a class="btn btn-primary btn-detail"
-
-th:href="@{/airline/flight/{id}(id=${flightPlan.flightPlanId},passengers=${passengers},
-seatClass=${seatClass})}">
-
-View Details
-
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
-
 </html>

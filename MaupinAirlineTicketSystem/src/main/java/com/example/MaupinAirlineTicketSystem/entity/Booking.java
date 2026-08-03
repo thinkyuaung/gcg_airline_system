@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "booking")
@@ -28,10 +29,21 @@ public class Booking {
 	    private String status;
 
 	    private String cancelDescription;
-
+	    
 	    private String country;
 	    
 	    private int passengers;
+	    
+	    @Transient
+	    public boolean isCanCancel() {
+
+	        if (flightPlan == null || flightPlan.getDepartureTime() == null) {
+	            return false;
+	        }
+
+	        return flightPlan.getDepartureTime()
+	                .isAfter(LocalDateTime.now().plusHours(24));
+	    }
 	    
 	    // Foreign Key -> User
 	    @ManyToOne
@@ -58,21 +70,22 @@ public class Booking {
 	    @OneToOne(mappedBy = "booking")
 	    private Payment payment;
 
-		public Booking(int bookingId, String bookingCode, String seatNumber, LocalDateTime bookingDate,
-				double totalAmount, String status, String country, int passengers, User user, FlightPlan flightPlan,
-				SeatClass seatClass, Payment payment) {
+		public Booking(int bookingId, String bookingCode, LocalDateTime bookingDate, double totalAmount, String status,
+				String cancelDescription, String country, int passengers, User user, FlightPlan flightPlan,
+				SeatClass seatClass, Promotion promotion, Payment payment) {
 			super();
 			this.bookingId = bookingId;
 			this.bookingCode = bookingCode;
-			
 			this.bookingDate = bookingDate;
 			this.totalAmount = totalAmount;
 			this.status = status;
+			this.cancelDescription = cancelDescription;
 			this.country = country;
 			this.passengers = passengers;
 			this.user = user;
 			this.flightPlan = flightPlan;
 			this.seatClass = seatClass;
+			this.promotion = promotion;
 			this.payment = payment;
 		}
 
@@ -177,7 +190,6 @@ public class Booking {
 			this.promotion = promotion;
 		}
 
-	    
 		public Payment getPayment() {
 			return payment;
 		}
@@ -186,5 +198,6 @@ public class Booking {
 			this.payment = payment;
 		}
 
+		
 		
 }
