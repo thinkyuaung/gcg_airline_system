@@ -771,23 +771,21 @@ body {
 											<button th:if="${b.status == 'PENDING'}" type="button"
 												class="btn btn-sm btn-outline-primary rounded-pill px-3 shadow-sm"
 												data-bs-toggle="modal" data-bs-target="#approveBookingModal"
-												data-booking-id="${b.bookingId}">
+												th:attr="data-booking-id=${b.bookingId}">
 												<i class="bi bi-boxes"></i> Approve</button>
-											<button th:if="${b.status == 'PENDING'}" type="button"
-												class="btn btn-sm btn-primary rounded-pill px-3 shadow-sm"
-												data-bs-toggle="modal" data-bs-target="#issueBookingModal"
-												data-booking-id="${b.bookingId}">
-												<i class="bi bi-qr-code"></i> Issued</button>
+											<a th:if="${b.status == 'PENDING'}"
+												th:href="@{/airline/admin/booking/issue/{id}(id=${b.bookingId})}"
+												class="btn btn-sm btn-primary rounded-pill px-3 shadow-sm">
+												<i class="bi bi-qr-code"></i> Issued</a>
 											<button th:if="${b.status == 'Pending Cancel'}" type="button"
 												class="btn btn-sm btn-primary rounded-pill px-3 shadow-sm"
 												data-bs-toggle="modal" data-bs-target="#approveCancelModal"
-												data-booking-id="${b.bookingId}">
+												th:attr="data-booking-id=${b.bookingId}">
 												<i class="bi bi-check-circle"></i> Approve Cancel</button>
-											<button th:if="${b.status == 'Pending Cancel'}" type="button"
-												class="btn btn-sm btn-outline-danger rounded-pill px-3 shadow-sm"
-												data-bs-toggle="modal" data-bs-target="#rejectCancelModal"
-												data-booking-id="${b.bookingId}">
-												<i class="bi bi-x-circle"></i> Reject Cancel</button>
+											<a th:if="${b.status == 'Pending Cancel'}"
+												th:href="@{/airline/admin/booking/issue-cancel/{id}(id=${b.bookingId})}"
+												class="btn btn-sm btn-outline-danger rounded-pill px-3 shadow-sm">
+												<i class="bi bi-x-circle"></i> Reject Cancel</a>
 										</td>
 									</tr>
 								</tbody>
@@ -1015,33 +1013,6 @@ body {
 		</div>
 	</div>
 
-	<!-- Issue Booking Modal -->
-	<div class="modal fade" id="issueBookingModal" tabindex="-1"
-		aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content rounded-3">
-				<div class="modal-header">
-					<h5 class="modal-title fw-bold"><i class="bi bi-qr-code text-primary"></i> Issue Booking</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
-				</div>
-				<form id="issueBookingForm" method="post">
-					<div class="modal-body">
-						<label class="form-label small fw-bold">Description / Note</label>
-						<textarea name="description" class="form-control" rows="3"
-							placeholder="Enter description for this booking..." required></textarea>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-light rounded-pill px-4"
-							data-bs-dismiss="modal">Cancel</button>
-						<button type="submit" class="btn btn-primary rounded-pill px-4"><i
-								class="bi bi-qr-code"></i> Issue</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-
 	<!-- Approve Cancel Modal -->
 	<div class="modal fade" id="approveCancelModal" tabindex="-1"
 		aria-hidden="true">
@@ -1061,33 +1032,6 @@ body {
 					<a id="approveCancelConfirm" href="#"
 						class="btn btn-primary rounded-pill px-4"><i class="bi bi-check-circle"></i> Approve Cancel</a>
 				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- Reject Cancel Modal -->
-	<div class="modal fade" id="rejectCancelModal" tabindex="-1"
-		aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content rounded-3">
-				<div class="modal-header">
-					<h5 class="modal-title fw-bold"><i class="bi bi-x-circle text-danger"></i> Reject Cancellation</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
-				</div>
-				<form id="rejectCancelForm" method="post">
-					<div class="modal-body">
-						<label class="form-label small fw-bold">Description / Reason</label>
-						<textarea name="description" class="form-control" rows="3"
-							placeholder="Enter reason for rejecting the cancellation..." required></textarea>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-light rounded-pill px-4"
-							data-bs-dismiss="modal">Cancel</button>
-						<button type="submit" class="btn btn-danger rounded-pill px-4"><i
-								class="bi bi-x-circle"></i> Reject Cancel</button>
-					</div>
-				</form>
 			</div>
 		</div>
 	</div>
@@ -1139,11 +1083,7 @@ body {
         var btn = e.relatedTarget;
         if (!btn || !btn.hasAttribute('data-booking-id')) return;
         var id = btn.getAttribute('data-booking-id');
-        if (m.id === 'issueBookingModal') {
-          document.getElementById('issueBookingForm').action = '/airline/admin/booking/issue/' + id;
-        } else if (m.id === 'rejectCancelModal') {
-          document.getElementById('rejectCancelForm').action = '/airline/admin/booking/issue-cancel/' + id;
-        } else if (m.id === 'approveBookingModal') {
+        if (m.id === 'approveBookingModal') {
           document.getElementById('approveBookingConfirm').href = '/airline/admin/booking/approve/' + id;
         } else if (m.id === 'approveCancelModal') {
           document.getElementById('approveCancelConfirm').href = '/airline/admin/booking/approve-cancel/' + id;
