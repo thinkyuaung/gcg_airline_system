@@ -145,6 +145,13 @@ public class Controller {
 			return "Login/signup";
 		}
 
+		User existingPassport = userRepository.findByPassport(user.getPassport());
+
+		if (existingPassport != null) {
+			result.rejectValue("passport", "error.user", "Passport number already exists.");
+			return "Login/signup";
+		}
+
 		User existingEmail = userRepository.findByEmail(user.getEmail());
 
 		if (existingEmail != null) {
