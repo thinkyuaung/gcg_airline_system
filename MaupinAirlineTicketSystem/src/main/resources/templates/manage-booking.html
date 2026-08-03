@@ -22,6 +22,9 @@
     .ticket-value { color: #1a202c; font-weight: 500; }
     .serial-code { background: #ebf8ff; color: #2b6cb0; font-size: 22px; font-weight: 700; letter-spacing: 2px; padding: 8px 20px; border-radius: 8px; display: inline-block; margin: 10px 0; }
     .badge-status { font-size: 0.85rem; padding: 6px 14px; border-radius: 20px; }
+    .passenger-card { max-width: 700px; margin: 25px auto; border: none; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); overflow: hidden; }
+    .passenger-card .card-header { background: linear-gradient(135deg, #2b6cb0, #3182ce); color: white; border-radius: 0; padding: 18px 25px; }
+    .passenger-table th { color: #4a5568; font-size: 0.85rem; text-transform: uppercase; }
   </style>
 </head>
 <body>
@@ -145,17 +148,54 @@
                 th:text="${booking.status}"></span>
             </div>
           </div>
-        </div>
-      </div>
-
-      <!-- Search Another -->
-      <div class="text-center mt-4">
-        <a th:href="@{/airline/manage-booking}" class="btn btn-outline-primary rounded-pill px-4">
-          <i class="bi bi-arrow-left me-2"></i>Search Another Booking
-        </a>
       </div>
     </div>
 
+    <!-- Passenger Details (show when booking found) -->
+    <div th:if="${booking != null}">
+      <div class="card passenger-card">
+        <div class="card-header">
+          <h5 class="mb-0 fw-bold"><i class="bi bi-people-fill me-2"></i>Passenger Details</h5>
+        </div>
+        <div class="card-body p-0">
+          <div th:if="${passengerDetails == null or passengerDetails.isEmpty()}">
+            <p class="text-muted text-center py-4 mb-0">
+              <i class="bi bi-info-circle me-2"></i>No passenger details available.
+            </p>
+          </div>
+          <div th:if="${passengerDetails != null and !passengerDetails.isEmpty()}"
+               class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th class="ps-4">#</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Passport</th>
+                  <th class="pe-4">Date of Birth</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="detail, stat : ${passengerDetails}">
+                  <td class="ps-4 text-muted" th:text="${stat.count}"></td>
+                  <td th:text="${detail.passengerFirstName}"></td>
+                  <td th:text="${detail.passengerLastName}"></td>
+                  <td th:text="${detail.passport}"></td>
+                  <td class="pe-4" th:text="${detail.DOB != null ? #temporals.format(detail.DOB, 'dd MMM yyyy') : '-'}"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search Another -->
+    <div class="text-center mt-4">
+      <a th:href="@{/airline/manage-booking}" class="btn btn-outline-primary rounded-pill px-4">
+        <i class="bi bi-arrow-left me-2"></i>Search Another Booking
+      </a>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

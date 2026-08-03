@@ -1,5 +1,7 @@
 package com.example.MaupinAirlineTicketSystem.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.MaupinAirlineTicketSystem.entity.Booking;
+import com.example.MaupinAirlineTicketSystem.entity.BookingDetail;
+import com.example.MaupinAirlineTicketSystem.repository.BookingDetailRepository;
 import com.example.MaupinAirlineTicketSystem.service.AdminBookingService;
 
 @Controller
@@ -17,6 +21,9 @@ public class ManageBookingController {
 
 	@Autowired
 	AdminBookingService adminBookingService;
+
+	@Autowired
+	BookingDetailRepository bookingDetailRepository;
 
 	@GetMapping("/manage-booking")
 	public String showManageBookingPage() {
@@ -34,7 +41,11 @@ public class ManageBookingController {
 			return "manage-booking";
 		}
 
+		List<BookingDetail> passengerDetails =
+				bookingDetailRepository.findByBooking_BookingId(booking.getBookingId());
+
 		model.addAttribute("booking", booking);
+		model.addAttribute("passengerDetails", passengerDetails);
 		return "manage-booking";
 	}
 
