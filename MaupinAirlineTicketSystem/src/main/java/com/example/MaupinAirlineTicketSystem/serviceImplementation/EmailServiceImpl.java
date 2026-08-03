@@ -199,6 +199,40 @@ public class EmailServiceImpl implements EmailService {
 		sendMessage(toEmail, subject, htmlBody, null);
 	}
 
+	@Override
+	public void sendCancellationApprovedEmail(Booking booking, String reason) {
+		User user = freshUser(booking);
+		if (user == null) {
+			return;
+		}
+
+		String toEmail = user.getEmail();
+		String flightNo = booking.getFlightPlan().getFlight().getFlightNumber();
+		String depart = booking.getFlightPlan().getDepartureAirport().getAirportName();
+		String arrive = booking.getFlightPlan().getArrivalAirport().getAirportName();
+		String name = user.getFirstName() + " " + user.getLastName();
+		String subject = "Cancellation Approved - " + flightNo;
+
+		String htmlBody = "<div style='font-family:Arial,sans-serif;max-width:600px;margin:auto;border:1px solid #e0e0e0;border-radius:10px;overflow:hidden'>"
+				+ "<div style='background:#3182ce;color:white;padding:20px;text-align:center'>"
+				+ "<h1 style='margin:0;font-size:22px'>Maubin AirLine</h1></div>"
+				+ "<div style='padding:25px'>"
+				+ "<p style='font-size:16px'>Dear <strong>" + name + "</strong>,</p>"
+				+ "<p>We would like to acknowledge that your cancellation request for flight <strong>" + flightNo + "</strong> ("
+				+ depart + " → " + arrive + ") has been approved.</p>"
+				+ (reason != null && !reason.isBlank()
+						? "<p><strong>Reason:</strong> " + reason + "</p>"
+						: "")
+				+ "<p>Your booking has been cancelled and a refund of <strong style='color:#3182ce'>$"
+				+ String.format("%.2f", booking.getTotalAmount()) + "</strong> will be processed.</p>"
+				+ "<p>We are sorry to see you go and hope to welcome you again soon.</p>"
+				+ "</div>"
+				+ "<div style='background:#f8f9fa;padding:15px;text-align:center;font-size:12px;color:#999'>© 2026 Maubin AirLine. All rights reserved.</div>"
+				+ "</div>";
+
+		sendMessage(toEmail, subject, htmlBody, null);
+	}
+
 	private User freshUser(Booking booking) {
 		return booking.getUser() != null
 				? userRepository.findById(booking.getUser().getUserId()).orElse(booking.getUser())

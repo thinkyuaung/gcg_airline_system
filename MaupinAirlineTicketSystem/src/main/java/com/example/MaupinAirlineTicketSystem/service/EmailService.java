@@ -12,4 +12,6 @@ public interface EmailService {
 
 	public void sendCancellationRejectedEmail(Booking booking, String reason);
 
+	public void sendCancellationApprovedEmail(Booking booking, String reason);
+
 }
