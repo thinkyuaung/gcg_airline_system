@@ -231,4 +231,20 @@ public class FlightPlan {
 		}
 	}
 
+	public int getSeatsForClass(String className) {
+		if (className == null) {
+			return 0;
+		}
+		if (className.equalsIgnoreCase("Economy")) {
+			return this.ecomonySeats;
+		}
+		if (className.equalsIgnoreCase("Business")) {
+			return this.businessSeats;
+		}
+		if (className.equalsIgnoreCase("First Class") || className.equalsIgnoreCase("First")) {
+			return this.firseClassSeats;
+		}
+		return 0;
+	}
+
 }

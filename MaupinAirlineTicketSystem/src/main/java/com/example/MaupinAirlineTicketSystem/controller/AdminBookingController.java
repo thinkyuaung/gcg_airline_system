@@ -155,7 +155,9 @@ public class AdminBookingController {
 			return true;
 		}
 		FlightPlan flightPlan = booking.getFlightPlan();
-		if (booking.getPassengers() > flightPlan.getAvailableSeats()) {
+		String seatClassName = booking.getSeatClass() != null ? booking.getSeatClass().getClassName() : null;
+		if (booking.getPassengers() > flightPlan.getAvailableSeats()
+				|| booking.getPassengers() > flightPlan.getSeatsForClass(seatClassName)) {
 			return false;
 		}
 		flightPlan.reduceSeats(

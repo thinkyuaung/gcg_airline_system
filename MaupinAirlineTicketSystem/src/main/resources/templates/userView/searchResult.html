@@ -544,8 +544,17 @@ footer a:hover{ color:#fff; }
                                 <div class="text-center text-muted small mt-1">
                                     <span class="material-symbols-outlined" style="font-size:14px;">event</span>
                                     <span th:text="${#temporals.format(flightPlan.departureTime,'dd MMM yyyy')}"></span>
-                                    &bull;
-                                    <span th:text="${flightPlan.availableSeats}"></span> seats available
+                                </div>
+                                <div class="d-flex justify-content-center gap-2 mt-2 flex-wrap">
+                                    <span class="badge bg-light text-dark border fw-normal">
+                                        Economy: <strong th:text="${flightPlan.ecomonySeats}"></strong>
+                                    </span>
+                                    <span class="badge bg-light text-dark border fw-normal">
+                                        Business: <strong th:text="${flightPlan.businessSeats}"></strong>
+                                    </span>
+                                    <span class="badge bg-light text-dark border fw-normal">
+                                        First Class: <strong th:text="${flightPlan.firseClassSeats}"></strong>
+                                    </span>
                                 </div>
                             </div>
 
