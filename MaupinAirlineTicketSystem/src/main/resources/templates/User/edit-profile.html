@@ -43,6 +43,10 @@ Edit Profile
 <input type="text"
        class="form-control"
        th:field="*{firstName}"
+       maxlength="30"
+       pattern="[A-Za-z ]+"
+       title="First name must contain only letters."
+       oninput="this.value=this.value.replace(/[^A-Za-z ]/g,'')"
        required>
 
 <div class="text-danger small"
@@ -61,6 +65,10 @@ Edit Profile
 <input type="text"
        class="form-control"
        th:field="*{lastName}"
+       maxlength="30"
+       pattern="[A-Za-z ]+"
+       title="Last name must contain only letters."
+       oninput="this.value=this.value.replace(/[^A-Za-z ]/g,'')"
        required>
 
 <div class="text-danger small"
@@ -72,7 +80,17 @@ Edit Profile
 
 <div class="mb-3">
 <label class="form-label">Passport Number</label>
-<input type="text" class="form-control" th:field="*{passport}" required>
+<input type="text"
+       class="form-control"
+       th:field="*{passport}"
+       maxlength="12"
+       pattern="[A-Za-z0-9]+"
+       required>
+
+<div class="text-danger small"
+     th:if="${#fields.hasErrors('passport')}"
+     th:errors="*{passport}">
+</div>
 </div>
 
 
@@ -100,9 +118,11 @@ Edit Profile
     Phone Number
 </label>
 
-<input type="text"
+<input type="tel"
        class="form-control"
        th:field="*{phoneNumber}"
+       maxlength="15"
+       pattern="[0-9]{7,15}"
        required>
 
 <div class="text-danger small"
@@ -116,9 +136,10 @@ Edit Profile
     Email Address
 </label>
 
-<input type="text"
+<input type="email"
        class="form-control"
        th:field="*{email}"
+       maxlength="100"
        placeholder="example@email.com"
        required>
 
@@ -148,8 +169,8 @@ Back
 </a>
 
 <button type="submit" class="btn btn-primary">
-<i class="bi bi-save"></i> 
-Update Profile
+    <i class="bi bi-person-check-fill"></i>
+    Update Profile
 </button>
 
 

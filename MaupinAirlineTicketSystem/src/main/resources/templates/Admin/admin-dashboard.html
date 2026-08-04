@@ -370,17 +370,7 @@ Add User
 
 
 
-<a th:href="@{/airline/admin}"
-   class="admin-nav-link highlight-dashboard">
 
-    <i class="bi bi-bar-chart-fill"></i>
-
-    <span>
-        Airline Admin Dashboard<br>
-        
-    </span>
-
-</a>
 
 
 
@@ -405,7 +395,17 @@ Add Admin
 <hr class="text-white">
 
 
+<a th:href="@{/airline/admin}"
+   class="admin-nav-link highlight-dashboard">
 
+    <i class="bi bi-bar-chart-fill"></i>
+
+    <span>
+        Airline Admin Dashboard<br>
+        
+    </span>
+
+</a>
 
 
 
@@ -487,161 +487,92 @@ Maubin International Airline Administration
 
 
 
-<div class="col-md-3 col-sm-6">
+<a th:href="@{/airline/admin/users/all}"
+   class="col-md-3 col-sm-6 text-decoration-none text-dark">
 
+    <div class="card dashboard-card shadow-sm">
 
-<div class="card dashboard-card shadow-sm">
+        <div class="card-body">
 
+            <i class="bi bi-people-fill fs-2 text-primary"></i>
 
-<div class="card-body">
+            <h6 class="text-muted mt-3">Total Users</h6>
 
+            <h2 class="fw-bold" th:text="${totalUsers}">0</h2>
 
-<i class="bi bi-people-fill fs-2 text-primary"></i>
+        </div>
 
+    </div>
 
-<h6 class="text-muted mt-3">
+</a>
 
-Total Users
 
-</h6>
 
 
-<h2 class="fw-bold"
+<a th:href="@{/airline/admin/users/active}"
+   class="col-md-3 col-sm-6 text-decoration-none text-dark">
 
-th:text="${totalUsers}">
+    <div class="card dashboard-card shadow-sm">
 
-0
+        <div class="card-body">
 
-</h2>
+            <i class="bi bi-check-circle-fill fs-2 text-success"></i>
 
+            <h6 class="text-muted mt-3">Active Users</h6>
 
-</div>
+            <h2 class="fw-bold" th:text="${activeUsers}">0</h2>
 
+        </div>
 
-</div>
+    </div>
 
+</a>
 
-</div>
 
 
 
 
+<a th:href="@{/airline/admin/users/inactive}"
+   class="col-md-3 col-sm-6 text-decoration-none text-dark">
 
-<div class="col-md-3 col-sm-6">
+    <div class="card dashboard-card shadow-sm">
 
+        <div class="card-body">
 
-<div class="card dashboard-card shadow-sm">
+            <i class="bi bi-x-circle-fill fs-2 text-danger"></i>
 
+            <h6 class="text-muted mt-3">Inactive Users</h6>
 
-<div class="card-body">
+            <h2 class="fw-bold" th:text="${inactiveUsers}">0</h2>
 
+        </div>
 
-<i class="bi bi-check-circle-fill fs-2 text-success"></i>
+    </div>
 
+</a>
 
-<h6 class="text-muted mt-3">
 
-Active Users
 
-</h6>
 
 
-<h2 class="fw-bold"
+<a th:href="@{/airline/admin/users/admin}"
+   class="col-md-3 col-sm-6 text-decoration-none text-dark">
 
-th:text="${activeUsers}">
+    <div class="card dashboard-card shadow-sm">
 
-0
+        <div class="card-body">
 
-</h2>
+            <i class="bi bi-person-workspace fs-2"></i>
 
+            <h6 class="text-muted mt-3">Admins</h6>
 
-</div>
+            <h2 class="fw-bold" th:text="${adminUsers}">0</h2>
 
+        </div>
 
-</div>
+    </div>
 
-
-</div>
-
-
-
-
-
-<div class="col-md-3 col-sm-6">
-
-
-<div class="card dashboard-card shadow-sm">
-
-
-<div class="card-body">
-
-
-<i class="bi bi-x-circle-fill fs-2 text-danger"></i>
-
-
-<h6 class="text-muted mt-3">
-
-Inactive Users
-
-</h6>
-
-
-<h2 class="fw-bold"
-
-th:text="${inactiveUsers}">
-
-0
-
-</h2>
-
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-<div class="col-md-3 col-sm-6">
-
-
-<div class="card dashboard-card shadow-sm">
-
-
-<div class="card-body">
-
-
-<i class="bi bi-person-workspace fs-2"></i>
-
-
-<h6 class="text-muted mt-3">
-
-Admins
-
-</h6>
-
-
-<h2 class="fw-bold"
-
-th:text="${adminUsers}">
-
-0
-
-</h2>
-
-
-</div>
-
-
-</div>
-
-
-</div>
+</a>
 
 
 
