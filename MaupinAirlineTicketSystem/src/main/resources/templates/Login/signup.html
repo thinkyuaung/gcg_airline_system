@@ -80,7 +80,7 @@
 									<label class="form-label small fw-semibold text-secondary">
 										Passport Number </label> <input type="text"
 										class="form-control glass-input" th:field="*{passport}"
-										placeholder="N1234567" required maxlength="20">
+										placeholder="N1234567" required maxlength="12">
 									<div class="text-danger small mt-1"
 										th:if="${#fields.hasErrors('passport')}"
 										th:errors="*{passport}"></div>
