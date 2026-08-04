@@ -216,6 +216,52 @@
 
         /* ---------- Note ---------- */
 
+        .passenger-table-wrap{
+            max-height:150px;
+            overflow-y:auto;
+            margin-top:14px;
+            border:1px solid #e7f1fb;
+            border-radius:10px;
+        }
+
+        .passenger-table{
+            width:100%;
+            border-collapse:collapse;
+            font-size:12px;
+        }
+
+        .passenger-table thead th{
+            position:sticky;
+            top:0;
+            background:#e7f1fb;
+            color:#6b8aa8;
+            text-transform:uppercase;
+            font-size:10px;
+            letter-spacing:.4px;
+            font-weight:700;
+            padding:7px 8px;
+            text-align:left;
+            border-bottom:1px solid #d7e6f5;
+        }
+
+        .passenger-table tbody td{
+            padding:7px 8px;
+            border-bottom:1px solid #f1f6fb;
+            color:#1e3a5f;
+            font-weight:600;
+            white-space:nowrap;
+        }
+
+        .passenger-table tbody tr:last-child td{
+            border-bottom:none;
+        }
+
+        .passenger-table .p-idx{
+            color:#2f7dd1;
+            font-weight:700;
+            width:24px;
+        }
+
         .passenger-note{
             font-size:11.5px;
             color:#6b8aa8;
@@ -395,6 +441,29 @@
                     <div class="info-label">Seat Class</div>
                     <div class="info-value" th:text="${booking.seatClass != null ? booking.seatClass.className : 'N/A'}"></div>
                 </div>
+            </div>
+
+            <div th:if="${passengerDetails != null and !passengerDetails.isEmpty()}" class="passenger-table-wrap">
+                <table class="passenger-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Passport</th>
+                            <th>Date of Birth</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="detail, stat : ${passengerDetails}">
+                            <td class="p-idx" th:text="${stat.count}"></td>
+                            <td th:text="${detail.passengerFirstName}"></td>
+                            <td th:text="${detail.passengerLastName}"></td>
+                            <td th:text="${detail.passport}"></td>
+                            <td th:text="${detail.DOB != null ? #temporals.format(detail.DOB, 'dd MMM yyyy') : '-'}"></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
             <div class="passenger-note">
