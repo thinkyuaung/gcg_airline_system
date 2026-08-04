@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
 
@@ -837,7 +838,7 @@ th:text="${adminUsers}">
 
                             <!-- Delete Active User -->
 
-                            <a th:if="${user.userId != 1 and user.status=='active'}"
+                           <!--  <a th:if="${user.userId != 1 and user.status=='active'}"
 
                             th:href="@{/airline/admin/user/delete/{id}(id=${user.userId})}"
 
@@ -845,7 +846,13 @@ th:text="${adminUsers}">
 
                                 <i class="bi bi-trash"></i>
 
-                            </a>
+                            </a> -->
+                            <a sec:authorize="hasRole('SUPERADMIN')"
+							   th:if="${user.userId != 1 and user.status=='active'}"
+							   th:href="@{/airline/admin/user/delete/{id}(id=${user.userId})}"
+							   class="btn btn-outline-danger btn-sm">
+							    <i class="bi bi-trash"></i>
+							</a>
 
 
 

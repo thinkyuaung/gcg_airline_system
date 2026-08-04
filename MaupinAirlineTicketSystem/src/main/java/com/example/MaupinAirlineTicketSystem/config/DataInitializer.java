@@ -28,7 +28,7 @@ public class DataInitializer {
 
                 superAdmin.setFirstName("Super");
                 superAdmin.setLastName("Admin");
-                superAdmin.setPassport("SUPERADMIN001");
+                superAdmin.setPassport("SUPER001");
                 superAdmin.setDob(LocalDate.of(1985, 1, 1));
 
                 superAdmin.setEmail("superadmin@gmail.com");
