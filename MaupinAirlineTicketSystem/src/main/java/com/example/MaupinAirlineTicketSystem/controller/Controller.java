@@ -33,6 +33,9 @@ import com.example.MaupinAirlineTicketSystem.service.ReviewService;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @org.springframework.stereotype.Controller
 @RequestMapping("/airline")
@@ -151,33 +154,30 @@ public class Controller {
 
 			if (existingEmail.getStatus().equals("inactive")) {
 
-			    // Same email but different passport
-			    if (!existingEmail.getPassport().equals(user.getPassport())) {
+				// Same email but different passport
+				if (!existingEmail.getPassport().equals(user.getPassport())) {
 
-			        result.rejectValue("email", "error.user",
-			                "Email already exists.");
+					result.rejectValue("email", "error.user", "Email already exists.");
 
-			        return "Login/signup";
-			    }
+					return "Login/signup";
+				}
 
+				// Same email + same passport => restore account
+				existingEmail.setFirstName(user.getFirstName());
+				existingEmail.setLastName(user.getLastName());
+				existingEmail.setDob(user.getDob());
+				existingEmail.setPhoneNumber(user.getPhoneNumber());
 
-			    // Same email + same passport => restore account
-			    existingEmail.setFirstName(user.getFirstName());
-			    existingEmail.setLastName(user.getLastName());
-			    existingEmail.setDob(user.getDob());
-			    existingEmail.setPhoneNumber(user.getPhoneNumber());
+				existingEmail.setPassword(passwordEncoder.encode(user.getPassword()));
 
-			    existingEmail.setPassword(passwordEncoder.encode(user.getPassword()));
+				existingEmail.setRole("USER");
+				existingEmail.setStatus("active");
 
-			    existingEmail.setRole("USER");
-			    existingEmail.setStatus("active");
+				userRepository.save(existingEmail);
 
-			    userRepository.save(existingEmail);
-
-			    return "redirect:/airline/login";
+				return "redirect:/airline/login";
 			}
 
-	
 			result.rejectValue("email", "error.user", "Email already exists.");
 
 			return "Login/signup";
@@ -192,15 +192,12 @@ public class Controller {
 			return "Login/signup";
 		}
 
-
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 
 		user.setRole("USER");
 		user.setStatus("active");
 
 		userRepository.save(user);
-
-
 
 		List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getEmail(), null,
@@ -264,7 +261,8 @@ public class Controller {
 
 	@PostMapping("/profile/update")
 	public String updateProfile(@Valid @ModelAttribute User user, BindingResult result,
-			@RequestParam String confirmPassword, Authentication authentication, Model model) {
+			@RequestParam String confirmPassword, Authentication authentication, Model model,
+			HttpServletRequest request, HttpServletResponse response) throws ServletException {
 
 		User loginUser = userRepository.findByEmail(authentication.getName());
 
@@ -272,37 +270,62 @@ public class Controller {
 			return "redirect:/airline/login";
 		}
 
+		if (user.getDob() != null && user.getDob().isAfter(LocalDate.now().minusYears(18))) {
+
+			result.rejectValue("dob", "error.user", "You must be at least 18 years old.");
+		}
+
 		if (result.hasErrors()) {
+			model.addAttribute("user", loginUser);
 			return "User/edit-profile";
 		}
 
 		if (!passwordEncoder.matches(confirmPassword, loginUser.getPassword())) {
 
 			model.addAttribute("error", "Incorrect password.");
-
 			model.addAttribute("user", loginUser);
 
 			return "User/edit-profile";
 		}
 
+		String oldEmail = loginUser.getEmail();
+
 		user.setUserId(loginUser.getUserId());
-
 		user.setPassword(loginUser.getPassword());
-
 		user.setRole(loginUser.getRole());
-
 		user.setStatus(loginUser.getStatus());
 
 		if (user.getDob() == null) {
-
 			user.setDob(loginUser.getDob());
+		}
+
+		User existingEmail = userRepository.findByEmail(user.getEmail());
+
+		if (existingEmail != null && existingEmail.getUserId() != loginUser.getUserId()) {
+			result.rejectValue("email", "error.user", "Email already exists.");
+		}
+
+		User existingPassport = userRepository.findByPassport(user.getPassport());
+
+		if (existingPassport != null && existingPassport.getUserId() != loginUser.getUserId()) {
+			result.rejectValue("passport", "error.user", "Passport number already exists.");
+		}
+
+		if (result.hasErrors()) {
+			model.addAttribute("user", user);
+			return "User/edit-profile";
 		}
 
 		userRepository.save(user);
 
+		if (!oldEmail.equals(user.getEmail())) {
+			request.logout();
+			request.getSession().invalidate();
+			return "redirect:/airline/login?emailChanged";
+		}
+
 		return "redirect:/airline/profile";
 	}
-
 	////////////// Change Password //////////////
 
 	@GetMapping("/profile/change-password")
@@ -409,7 +432,8 @@ public class Controller {
 
 		model.addAttribute("inactiveUsers", userRepository.countByStatus("inactive"));
 
-		model.addAttribute("adminUsers", userRepository.countByRole("ADMIN"));
+		model.addAttribute("adminUsers",
+		        userRepository.countByRoleIn(List.of("ADMIN", "SUPERADMIN")));
 
 		return "Admin/admin-dashboard";
 	}
@@ -424,7 +448,8 @@ public class Controller {
 
 		model.addAttribute("inactiveUsers", userRepository.countByStatus("inactive"));
 
-		model.addAttribute("adminUsers", userRepository.countByRole("ADMIN"));
+		model.addAttribute("adminUsers",
+		        userRepository.countByRoleIn(List.of("ADMIN", "SUPERADMIN")));
 	}
 
 	////////////// All Users //////////////
@@ -468,11 +493,12 @@ public class Controller {
 	@GetMapping("/admin/users/admin")
 	public String adminUsers(Model model) {
 
-		model.addAttribute("users", userRepository.findByRoleAndStatus("ADMIN", "active"));
+	    model.addAttribute("users",
+	            userRepository.findByRoleIn(List.of("ADMIN", "SUPERADMIN")));
 
-		addDashboardCounts(model);
+	    addDashboardCounts(model);
 
-		return "Admin/admin-dashboard";
+	    return "Admin/admin-dashboard";
 	}
 
 	////////////// Delete User //////////////
@@ -701,19 +727,21 @@ public class Controller {
 
 		return "redirect:/airline/";
 	}
-	//footer link///
-	
+	// footer link///
+
 	@GetMapping("/GeneralFAQ")
-    public String generalFAQ() {
-        return "GeneralFAQ";
-    }
+	public String generalFAQ() {
+		return "GeneralFAQ";
+	}
+
 	@GetMapping("/privacy-policy")
-    public String privacyPolicy() {
-        return "PrivacyPolicy";
-    }
+	public String privacyPolicy() {
+		return "PrivacyPolicy";
+	}
+
 	@GetMapping("/terms")
-    public String terms() {
-        return "terms";
-    }
+	public String terms() {
+		return "terms";
+	}
 
 }

@@ -26,32 +26,38 @@ rel="stylesheet">
 
 
 <div class="mb-3">
-<label>First Name</label>
-<input type="text"
-       th:field="*{firstName}"
-       class="form-control"
-       maxlength="30"
-       required>
+    <label>First Name</label>
 
-<div class="text-danger small"
-     th:if="${#fields.hasErrors('firstName')}"
-     th:errors="*{firstName}">
-</div>
+    <input type="text"
+           th:field="*{firstName}"
+           class="form-control"
+           maxlength="30"
+           pattern="[A-Za-z ]+"
+           title="First name must contain letters only and maximum 30 characters"
+           required>
+
+    <div class="text-danger small"
+         th:if="${#fields.hasErrors('firstName')}"
+         th:errors="*{firstName}">
+    </div>
 </div>
 
 
 <div class="mb-3">
-<label>Last Name</label>
-<input type="text"
-       th:field="*{lastName}"
-       class="form-control"
-       maxlength="30"
-       required>
+    <label>Last Name</label>
 
-<div class="text-danger small"
-     th:if="${#fields.hasErrors('lastName')}"
-     th:errors="*{lastName}">
-</div>
+    <input type="text"
+           th:field="*{lastName}"
+           class="form-control"
+           maxlength="30"
+           pattern="[A-Za-z ]+"
+           title="Last name must contain letters only and maximum 30 characters"
+           required>
+
+    <div class="text-danger small"
+         th:if="${#fields.hasErrors('lastName')}"
+         th:errors="*{lastName}">
+    </div>
 </div>
 
 
@@ -61,7 +67,7 @@ rel="stylesheet">
 <input type="text"
        th:field="*{passport}"
        class="form-control"
-       maxlength="20"
+       maxlength="12"
        required>
 
 <div class="text-danger small"
@@ -71,39 +77,47 @@ rel="stylesheet">
 
 </div>
 <div class="mb-3">
-<label>Date of Birth</label>
-<input type="date"
-       class="form-control"
-       th:field="*{dob}"
-       th:attr="max=${#dates.format(#dates.createNow(),'yyyy-MM-dd')}"
-       required>
+    <label>Date of Birth</label>
 
-<div class="text-danger small"
-     th:if="${#fields.hasErrors('dob')}"
-     th:errors="*{dob}">
-</div>
+    <input type="date"
+           class="form-control"
+           th:field="*{dob}"
+           th:attr="max=${#temporals.format(#temporals.createNow().minusYears(18),'yyyy-MM-dd')}"
+           required>
+
+    <div class="text-danger small"
+         th:if="${#fields.hasErrors('dob')}"
+         th:errors="*{dob}">
+    </div>
 </div>
 
 
 <div class="mb-3">
-<label>Email</label>
-<input type="email"
-       class="form-control"
-       th:field="*{email}"
-       required>
+    <label>Email</label>
 
-<div class="text-danger small"
-     th:if="${#fields.hasErrors('email')}"
-     th:errors="*{email}">
-</div>
+    <input type="email"
+           class="form-control"
+           th:field="*{email}"
+           maxlength="50"
+           pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
+           title="Please enter a valid email address"
+           required>
+
+    <div class="text-danger small"
+         th:if="${#fields.hasErrors('email')}"
+         th:errors="*{email}">
+    </div>
 </div>
 
 
 <div class="mb-3">
 <label>Phone Number</label>
-<input class="form-control"
-       th:field="*{phoneNumber}"
-       required>
+ <input class="form-control"
+           type="tel"
+           th:field="*{phoneNumber}"
+           maxlength="15"
+           pattern="[0-9]{1,15}"
+           required>
 
 <div class="text-danger small"
      th:if="${#fields.hasErrors('phoneNumber')}"
