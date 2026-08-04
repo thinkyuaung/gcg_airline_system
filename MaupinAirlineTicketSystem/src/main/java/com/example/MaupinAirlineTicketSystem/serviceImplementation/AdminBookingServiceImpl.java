@@ -32,7 +32,7 @@ public class AdminBookingServiceImpl implements AdminBookingService {
 
 	@Override
 	public Booking findByBookingCodeAndUserLastName(String bookingCode, String lastName) {
-		return adminBookingRepo.findByBookingCodeAndUserLastName(bookingCode, lastName).get();
+		return adminBookingRepo.findByBookingCodeAndUserLastName(bookingCode, lastName).orElse(null);
 	}
 
 }

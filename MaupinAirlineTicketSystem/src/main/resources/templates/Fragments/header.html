@@ -162,7 +162,7 @@
         <a th:if="${session.loginUserRole == 'SUPERADMIN'}" th:href="@{/airline/admin/dashboard}" class="btn btn-outline-primary btn-sm rounded-pill" title="Dashboard">
             <i class="bi bi-list-ul"></i>
         </a>
-        <a th:if="${session.loginUserRole == 'ADMIN'}" th:href="@{/airline/admin/dashboard}" class="btn btn-outline-primary btn-sm rounded-pill" title="Dashboard">
+        <a th:if="${session.loginUserRole == 'ADMIN'}" th:href="@{/airline/admin}" class="btn btn-outline-primary btn-sm rounded-pill" title="Dashboard">
             <i class="bi bi-list-ul"></i>
         </a>
         <a th:if="${session.loginUserRole == 'USER'}" th:href="@{/airline/dashboard}" class="btn btn-outline-primary btn-sm rounded-pill" title="Dashboard">

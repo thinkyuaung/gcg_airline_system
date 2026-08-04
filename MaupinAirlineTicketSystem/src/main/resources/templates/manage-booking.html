@@ -84,47 +84,48 @@
           </div>
 
           <!-- Passenger -->
-          <div class="ticket-row" th:if="${booking.user != null}">
+          <div class="ticket-row">
             <div><span class="ticket-label"><i class="bi bi-person me-2"></i>Passenger</span></div>
-            <div class="ticket-value" th:text="${booking.user.firstName} + ' ' + ${booking.user.lastName}"></div>
+            <div class="ticket-value" th:text="${booking.user != null ? (booking.user.firstName + ' ' + booking.user.lastName) : 'No value present'}"></div>
           </div>
 
           <!-- Flight -->
-          <div class="ticket-row" th:if="${booking.flightPlan != null and booking.flightPlan.flight != null}">
+          <div class="ticket-row">
             <div><span class="ticket-label"><i class="bi bi-airplane me-2"></i>Flight</span></div>
             <div class="ticket-value">
-              <span th:text="${booking.flightPlan.flight.flightNumber}"></span>
-              <span class="text-muted" th:if="${booking.flightPlan.flight.airline != null}"> - </span>
-              <span th:text="${booking.flightPlan.flight.airline?.airlineName}"></span>
+              <span th:if="${booking.flightPlan != null and booking.flightPlan.flight != null}" th:text="${booking.flightPlan.flight.flightNumber}"></span>
+              <span th:if="${booking.flightPlan == null or booking.flightPlan.flight == null}" th:text="'No value present'"></span>
+              <span class="text-muted" th:if="${booking.flightPlan != null and booking.flightPlan.flight != null and booking.flightPlan.flight.airline != null}"> - </span>
+              <span th:if="${booking.flightPlan != null and booking.flightPlan.flight != null and booking.flightPlan.flight.airline != null}" th:text="${booking.flightPlan.flight.airline.airlineName}"></span>
             </div>
           </div>
 
           <!-- From / To -->
-          <div class="ticket-row" th:if="${booking.flightPlan != null and booking.flightPlan.departureAirport != null}">
+          <div class="ticket-row">
             <div><span class="ticket-label"><i class="bi bi-geo-alt me-2"></i>From</span></div>
-            <div class="ticket-value" th:text="${booking.flightPlan.departureAirport.airportName} + ' (' + ${booking.flightPlan.departureAirport.airportCode} + ')'"></div>
+            <div class="ticket-value" th:text="${booking.flightPlan != null and booking.flightPlan.departureAirport != null ? (booking.flightPlan.departureAirport.airportName + ' (' + booking.flightPlan.departureAirport.airportCode + ')') : 'No value present'}"></div>
           </div>
-          <div class="ticket-row" th:if="${booking.flightPlan != null and booking.flightPlan.arrivalAirport != null}">
+          <div class="ticket-row">
             <div><span class="ticket-label"><i class="bi bi-geo-alt-fill me-2"></i>To</span></div>
-            <div class="ticket-value" th:text="${booking.flightPlan.arrivalAirport.airportName} + ' (' + ${booking.flightPlan.arrivalAirport.airportCode} + ')'"></div>
+            <div class="ticket-value" th:text="${booking.flightPlan != null and booking.flightPlan.arrivalAirport != null ? (booking.flightPlan.arrivalAirport.airportName + ' (' + booking.flightPlan.arrivalAirport.airportCode + ')') : 'No value present'}"></div>
           </div>
 
           <!-- Departure -->
-          <div class="ticket-row" th:if="${booking.flightPlan != null and booking.flightPlan.departureTime != null}">
+          <div class="ticket-row">
             <div><span class="ticket-label"><i class="bi bi-calendar-event me-2"></i>Departure</span></div>
-            <div class="ticket-value" th:text="${#temporals.format(booking.flightPlan.departureTime, 'dd MMM yyyy, hh:mm a')}"></div>
+            <div class="ticket-value" th:text="${booking.flightPlan != null and booking.flightPlan.departureTime != null ? #temporals.format(booking.flightPlan.departureTime, 'dd MMM yyyy, hh:mm a') : 'No value present'}"></div>
           </div>
 
           <!-- Arrival -->
-          <div class="ticket-row" th:if="${booking.flightPlan != null and booking.flightPlan.arrivalTime != null}">
+          <div class="ticket-row">
             <div><span class="ticket-label"><i class="bi bi-calendar-check me-2"></i>Arrival</span></div>
-            <div class="ticket-value" th:text="${#temporals.format(booking.flightPlan.arrivalTime, 'dd MMM yyyy, hh:mm a')}"></div>
+            <div class="ticket-value" th:text="${booking.flightPlan != null and booking.flightPlan.arrivalTime != null ? #temporals.format(booking.flightPlan.arrivalTime, 'dd MMM yyyy, hh:mm a') : 'No value present'}"></div>
           </div>
 
           <!-- Class -->
-          <div class="ticket-row" th:if="${booking.seatClass != null}">
+          <div class="ticket-row">
             <div><span class="ticket-label"><i class="bi bi-star me-2"></i>Class</span></div>
-            <div class="ticket-value" th:text="${booking.seatClass.className}"></div>
+            <div class="ticket-value" th:text="${booking.seatClass != null ? booking.seatClass.className : 'No value present'}"></div>
           </div>
 
           <!-- Passengers -->
@@ -181,7 +182,7 @@
                   <td th:text="${detail.passengerFirstName}"></td>
                   <td th:text="${detail.passengerLastName}"></td>
                   <td th:text="${detail.passport}"></td>
-                  <td class="pe-4" th:text="${detail.DOB != null ? #temporals.format(detail.DOB, 'dd MMM yyyy') : '-'}"></td>
+                  <td class="pe-4" th:text="${detail.DOB != null ? #temporals.format(detail.DOB, 'dd MMM yyyy') : 'No value present'}"></td>
                 </tr>
               </tbody>
             </table>
