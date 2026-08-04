@@ -474,54 +474,23 @@ h1,h2,h3,h4,h5,h6{
 
                 <div class="row g-3">
 
-                    <div class="col-md-4">
+                   <div class="col-md-4">
+    <div class="method-card active" onclick="changePayment('KBZPay','09 765 432 100','/images/Kpay.jpg', this)">
+        <span>KBZ Pay</span>
+    </div>
+</div>
 
-                        <div
-    						class="method-card active"
-    						onclick="changePayment(
-        							'KBZPay',
-       								'09 765 432 100',
-        							'/images/Kpay.jpg',
-        							this)">
+<div class="col-md-4">
+    <div class="method-card" onclick="changePayment('AYA Pay','09 888 888 888','/images/AYAPay.jpg', this)">
+        <span>AYA Pay</span>
+    </div>
+</div>
 
-    						<span>KBZ Pay</span>
-
-						</div>
-
-                    </div>
-
-                    <div class="col-md-4">
-
-                        <div
-    						class="method-card active"
-    						onclick="changePayment(
-        							'KBZPay',
-       								'09 765 432 100',
-        							'/images/AYAPay.jpg',
-        							this)">
-
-    						<span>AYA Pay</span>
-
-						</div>
-
-                    </div>
-
-                    <div class="col-md-4">
-
-                        <div
-    						class="method-card active"
-    						onclick="changePayment(
-        							'KBZPay',
-       								'09 765 432 100',
-        							'/images/CBPay.jpg',
-        							this)">
-
-    						<span>CB Pay</span>
-
-						</div>
-
-                    </div>
-
+<div class="col-md-4">
+    <div class="method-card" onclick="changePayment('CB Pay','09 999 999 999','/images/CBPay.jpg', this)">
+        <span>CB Pay</span>
+    </div>
+</div>
                 </div>
 
                                 <!-- Two Column Layout -->
@@ -544,7 +513,7 @@ h1,h2,h3,h4,h5,h6{
                             <!-- Replace this image with your own QR image -->
                             <img
                                     id="qrImage"
-                                    src="src/uploads/payment/kpay.jpg"
+                                    src="images/Kpay.jpg"
                                     class="qr-image"
                                     alt="QR Code">
 
@@ -708,37 +677,31 @@ h1,h2,h3,h4,h5,h6{
 
     <script>
 
-        function changePayment(name, phone, image, element){
+    function changePayment(name, phone, image, element){
+        document.getElementById("walletName").innerHTML = name;
+        document.getElementById("phoneNumber").innerHTML = phone;
 
-            // Update wallet name
-            document.getElementById("walletName").innerHTML = name;
+        const qr = document.getElementById("qrImage");
+        qr.style.opacity = "0";
+        setTimeout(function(){
+            qr.src = image;
+            qr.style.opacity = "1";
+        }, 150);
 
-            // Update phone number
-            document.getElementById("phoneNumber").innerHTML = phone;
+        document.querySelectorAll(".method-card").forEach(function(card){
+            card.classList.remove("active");
+        });
+        element.classList.add("active");
+    }
 
-            // QR image
-            const qr = document.getElementById("qrImage");
-
-            // Small fade animation
-            qr.style.opacity = "0";
-
-            setTimeout(function(){
-
-                qr.src = image;
-                qr.style.opacity = "1";
-
-            },150);
-
-            // Active payment card
-            document.querySelectorAll(".method-card").forEach(function(card){
-
-                card.classList.remove("active");
-
-            });
-
-            element.classList.add("active");
-
+    // Set KBZ Pay as the default on page load
+    document.addEventListener("DOMContentLoaded", function () {
+        const defaultCard = document.querySelector(".method-card.active")
+            || document.querySelector(".method-card");
+        if (defaultCard) {
+            changePayment('KBZPay', '09 765 432 100', '/images/Kpay.jpg', defaultCard);
         }
+    });
 
     </script>
 
