@@ -4,7 +4,7 @@
  */
 (function () {
   var AOS = {
-    duration: 600,
+    duration: 1800,
     easing: 'ease-out-cubic',
     once: true,
     offset: 80,
