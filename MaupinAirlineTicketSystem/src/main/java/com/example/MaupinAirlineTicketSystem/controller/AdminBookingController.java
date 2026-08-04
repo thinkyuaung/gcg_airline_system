@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.MaupinAirlineTicketSystem.entity.Booking;
+import com.example.MaupinAirlineTicketSystem.entity.BookingDetail;
 import com.example.MaupinAirlineTicketSystem.entity.Cancellation;
 import com.example.MaupinAirlineTicketSystem.entity.FlightPlan;
+import com.example.MaupinAirlineTicketSystem.repository.BookingDetailRepository;
 import com.example.MaupinAirlineTicketSystem.repository.BookingRepository;
 import com.example.MaupinAirlineTicketSystem.repository.CancellationRepository;
 import com.example.MaupinAirlineTicketSystem.repository.FlightPlanRepository;
@@ -42,6 +44,9 @@ public class AdminBookingController {
 
 	@Autowired
 	FlightPlanRepository flightPlanRepository;
+
+	@Autowired
+	BookingDetailRepository bookingDetailRepository;
 
 	@GetMapping("/admin/bookings")
 	public String bookingList(Model model) {
@@ -81,6 +86,10 @@ public class AdminBookingController {
 		Booking booking = adminBookingService.getBookingById(id);
 		if (booking != null) {
 			model.addAttribute("booking", booking);
+
+			List<BookingDetail> passengerDetails =
+					bookingDetailRepository.findByBooking_BookingId(booking.getBookingId());
+			model.addAttribute("passengerDetails", passengerDetails);
 		}
 		return "Admin/bookingDetail";
 	}
