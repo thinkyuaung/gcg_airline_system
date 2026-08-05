@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -256,8 +258,6 @@ body{
 
 <form th:action="@{/airline/passenger/save}" method="post">
 
-<input type="hidden" name="bookingId" th:value="${booking.bookingId}">
-
 <div class="page-container">
 
     <div class="row">
@@ -318,7 +318,7 @@ body{
                                 class="form-control"
                                 name="email"
                                 pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
-                                th:value="${booking.user.email}">
+                                th:value="${user.email}">
 
                     </div>
 
@@ -335,7 +335,7 @@ body{
                                 pattern="[0-9+\-\s]{7,15}"
     							maxlength="15"
     							title="Phone number must be 7-15 digits, and may include spaces, + or -"
-                                th:value="${booking.user.phoneNumber}">
+                                th:value="${user.phoneNumber}">
 
                     </div>
 
@@ -352,7 +352,7 @@ body{
     </div>
 
     <div
-        th:each="i : ${#numbers.sequence(1, booking.passengers)}"
+        th:each="i : ${#numbers.sequence(1, passengerCount)}"
         class="custom-card passenger-card">
 
         <!-- Header -->
@@ -400,7 +400,7 @@ body{
                     pattern="[A-Za-z\s\-']+"
     				maxlength="50"
     				title="Only letters, spaces, hyphens, and apostrophes are allowed"
-                    th:value="${i==1 ? booking.user.firstName : ''}">
+                    th:value="${i==1 ? user.firstName : ''}">
 
             </div>
 
@@ -420,7 +420,7 @@ body{
                     pattern="[A-Za-z\s\-']+"
     				maxlength="50"
    					title="Only letters, spaces, hyphens, and apostrophes are allowed"
-                    th:value="${i==1 ? booking.user.lastName : ''}">
+                    th:value="${i==1 ? user.lastName : ''}">
 
             </div>
 
@@ -436,7 +436,7 @@ body{
                     class="form-control"
                     name="dob"
                     required
-                    th:value="${i==1 ? booking.user.dob : ''}">
+                    th:value="${i==1 ? user.dob : ''}">
 
             </div>
 
@@ -456,7 +456,7 @@ body{
                     pattern="[A-Za-z0-9]{6,9}"
     				maxlength="12"
     				title="Passport number must be 6 to 9 letters/digits"
-                    th:value="${i==1 ? booking.user.passport : ''}">
+                    th:value="${i==1 ? user.passport : ''}">
 
             </div>
 
@@ -519,21 +519,11 @@ body{
 
             <tr>
                 <td class="text-muted">
-                    Booking Reference
-                </td>
-
-                <td class="text-end fw-semibold"
-                    th:text="${booking.bookingId}">
-                </td>
-            </tr>
-
-            <tr>
-                <td class="text-muted">
                     Passengers
                 </td>
 
                 <td class="text-end fw-semibold"
-                    th:text="${booking.passengers}">
+                    th:text="${passengerCount}">
                 </td>
             </tr>
 

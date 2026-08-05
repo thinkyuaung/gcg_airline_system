@@ -13,7 +13,7 @@
 	<link rel="stylesheet" th:href="@{/css/style.css}">
 	<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap" rel="stylesheet">
-	
+
     <style>
        *{
     margin:0;
@@ -371,7 +371,7 @@ h1,h2,h3,h4,h5,h6{
 <body>
 
 <!-- Include Shared Header Fragment -->
-<div th:replace="~{Fragments/header :: navbar}"></div> 
+<div th:replace="~{Fragments/header :: navbar}"></div>
 
 <div class="page-content">
 
@@ -391,7 +391,7 @@ h1,h2,h3,h4,h5,h6{
 <div class="payment-wrapper">
 
        <div class="payment-card">
-	
+
         <!-- HEADER -->
         <div class="header-section">
 
@@ -412,7 +412,7 @@ h1,h2,h3,h4,h5,h6{
                <div class="amount-box">
 
     <!-- Promotion exists -->
-    <div th:if="${payment.booking.promotion != null}">
+    <div th:if="${flightPlanPromotion != null or globalPromotion != null or (payment != null and payment.booking != null and payment.booking.promotion != null)}">
 
         <p class="mb-1">Original Price</p>
 
@@ -422,15 +422,7 @@ h1,h2,h3,h4,h5,h6{
 
         <p class="text-success">
 
-            <i class="bi bi-tag-fill"></i>
-
-            Promotion:
-            <span th:text="${payment.booking.promotion.percentage}"></span>
-            % OFF
-
-        </p>
-
-        <h2>
+        <h2 class="mt-2">
             $
             <span th:text="${payment.amount}"></span>
         </h2>
@@ -443,7 +435,7 @@ h1,h2,h3,h4,h5,h6{
 
 
     <!-- No Promotion -->
-    <div th:if="${payment.booking.promotion == null}">
+    <div th:if="${flightPlanPromotion == null and globalPromotion == null and (payment == null or payment.booking == null or payment.booking.promotion == null)}">
 
         <h2>
             $
@@ -455,6 +447,7 @@ h1,h2,h3,h4,h5,h6{
 </div>
 
 </div>
+        </div>
         <!-- CONTENT -->
         <div class="content">
 
@@ -466,7 +459,7 @@ h1,h2,h3,h4,h5,h6{
                 <input
                         type="hidden"
                         name="paymentId"
-                        th:value="${payment.paymentId}">
+                        th:value="${payment != null ? payment.paymentId : ''}">
 
                 <h4 class="section-title">
                     Choose Payment Method
@@ -662,11 +655,54 @@ h1,h2,h3,h4,h5,h6{
 
 </div>
 
+</div>
+
 <!-- =====================================================
      FOOTER
 ===================================================== -->
 
-<footer >
+<footer class="text-white pt-5 pb-4 mt-auto" style="background-color: #0a0f1d;">
+        <div class="container pt-3">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <span class="bg-primary text-white p-2 rounded-3 d-inline-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                            <i class="bi bi-airplane-fill fs-6"></i>
+                        </span>
+                        <h4 class="m-0 fw-bold text-white">Maubin AirLine</h4>
+                    </div>
+                    <p class="text-secondary small pe-lg-4" style="color: #94a3b8 !important;">
+                        Crafting extraordinary journeys for extraordinary people. Your dream destination awaits.
+                    </p>
+                </div>
+
+                <div class="col-lg-2 col-md-6 col-6">
+                    <h6 class="text-uppercase fw-bold mb-3 small tracking-wider" style="letter-spacing: 1px; color: #cbd5e1;">TRAVEL</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2 small">
+                        <li><a th:href="@{/airline/flights}" class="text-decoration-none" style="color: #94a3b8;">Flights</a></li>
+                        <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Hotels</a></li>
+                        <li><a th:href="@{/airline/packages}" class="text-decoration-none" style="color: #94a3b8;">Packages</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-2 col-md-6 col-6">
+                    <h6 class="text-uppercase fw-bold mb-3 small tracking-wider" style="letter-spacing: 1px; color: #cbd5e1;">COMPANY</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2 small">
+                        <li><a th:href="@{/airline/about}" class="text-decoration-none" style="color: #94a3b8;">About Us</a></li>
+                        <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Careers</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <h6 class="text-uppercase fw-bold mb-3 small tracking-wider" style="letter-spacing: 1px; color: #cbd5e1;">EXTRA LINKS</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2 small">
+                        <li><a href="#" class="text-decoration-none" style="color: #94a3b8;">Privacy Policy</a></li>
+                        <li><a th:href="@{/airline/support}" class="text-decoration-none" style="color: #94a3b8;">Support</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <hr class="my-4" style="border-color: #1e293b;">
 
             <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center small" style="color: #64748b;">
                 <p class="m-0">&copy; 2026 Maubin AirLine. All rights reserved.</p>
@@ -674,6 +710,7 @@ h1,h2,h3,h4,h5,h6{
             </div>
         </div>
     </footer>
+
 
     <script>
 

@@ -158,14 +158,9 @@ public class Controller {
 		session.setAttribute("loginUserRole", user.getRole());
 
 		if (pendingFlightPlanId != null) {
-			session.removeAttribute("pendingFlightPlanId");
-			session.removeAttribute("pendingPassengers");
-			session.removeAttribute("pendingSeatClass");
-
-			Booking booking = bookingService.createBooking(pendingFlightPlanId, pendingSeatClass, pendingPassengers,
-					user);
-
-			return "redirect:/airline/payment/" + booking.getPayment().getPaymentId();
+		    // Session already holds pendingFlightPlanId/pendingPassengers/pendingSeatClass
+		    // from the reserve step — keep them, the passenger form and payment step still need them.
+		    return "redirect:/airline/passenger/new";
 		}
 
 		return "redirect:/airline/index";

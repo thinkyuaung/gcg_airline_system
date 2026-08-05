@@ -22,75 +22,50 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/airline")
 public class BookingController {
 
-	@Autowired
-    private BookingService bookingService;
+    @Autowired private UserRepository userRepository;
 
-	@Autowired
-	private UserRepository userRepository;
+    @GetMapping("/booking/reserve")
+    public String reserve(
+            @RequestParam int flightPlanId,
+            @RequestParam int passengers,
+            @RequestParam String seatClass,
+            HttpSession session) {
 
-	@GetMapping("/booking/reserve")
-	public String reserve(
-			@RequestParam int flightPlanId,
-			@RequestParam int passengers,
-			@RequestParam String seatClass,
-			HttpSession session) {
+        session.setAttribute("pendingFlightPlanId", flightPlanId);
+        session.setAttribute("pendingPassengers", passengers);
+        session.setAttribute("pendingSeatClass", seatClass);
 
-		session.setAttribute("pendingFlightPlanId", flightPlanId);
-		session.setAttribute("pendingPassengers", passengers);
-		session.setAttribute("pendingSeatClass", seatClass);
+        if (session.getAttribute("loginUserName") == null) {
+            return "redirect:/airline/login";
+        }
 
-		return "redirect:/airline/login";
-	}
+        return "redirect:/airline/passenger/new";
+    }
 
-	@GetMapping("/booking/complete")
-	public String completeBooking(HttpSession session) {
+    // Resume point after login redirects back here
+    @GetMapping("/booking/complete")
+    public String completeBooking(HttpSession session) {
 
-	    Integer flightPlanId = (Integer) session.getAttribute("pendingFlightPlanId");
-	    Integer passengers = (Integer) session.getAttribute("pendingPassengers");
-	    String seatClass = (String) session.getAttribute("pendingSeatClass");
+        Integer flightPlanId = (Integer) session.getAttribute("pendingFlightPlanId");
 
-	    if (flightPlanId == null) {
-	        return "redirect:/airline/flights";
-	    }
+        if (flightPlanId == null) {
+            return "redirect:/airline/flights";
+        }
 
-	    session.removeAttribute("pendingFlightPlanId");
-	    session.removeAttribute("pendingPassengers");
-	    session.removeAttribute("pendingSeatClass");
-
-	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    User user = userRepository.findByEmail(auth.getName());
-
-	    Booking booking = bookingService.createBooking(
-	            flightPlanId,
-	            seatClass,
-	            passengers,
-	            user
-	    );
-
-	    return "redirect:/airline/passenger/" + booking.getBookingId();
-	}
+        return "redirect:/airline/passenger/new";
+    }
 
     @PostMapping("/booking")
     public String booking(
             @RequestParam int flightPlanId,
             @RequestParam int passengers,
             @RequestParam String seatClass,
-            Principal principal
-           ){
+            HttpSession session) {
 
-    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    	User user = userRepository.findByEmail(auth.getName());
+        session.setAttribute("pendingFlightPlanId", flightPlanId);
+        session.setAttribute("pendingPassengers", passengers);
+        session.setAttribute("pendingSeatClass", seatClass);
 
-        Booking booking =
-                bookingService.createBooking(
-                        flightPlanId,
-                        seatClass,
-                        passengers,
-                        user
-                );
-
-        return "redirect:/airline/passenger/" + booking.getBookingId();
-
+        return "redirect:/airline/passenger/new";
     }
-
 }

@@ -2,6 +2,7 @@ package com.example.MaupinAirlineTicketSystem.controller;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.MaupinAirlineTicketSystem.dto.PendingPassenger;
 import com.example.MaupinAirlineTicketSystem.entity.Booking;
 import com.example.MaupinAirlineTicketSystem.entity.User;
 import com.example.MaupinAirlineTicketSystem.repository.BookingRepository;
 import com.example.MaupinAirlineTicketSystem.repository.PaymentRepository;
 import com.example.MaupinAirlineTicketSystem.repository.UserRepository;
+import com.example.MaupinAirlineTicketSystem.service.BookingService;
+
+import jakarta.servlet.http.HttpSession;
+
 import com.example.MaupinAirlineTicketSystem.entity.BookingDetail;
 import com.example.MaupinAirlineTicketSystem.repository.BookingDetailRepository;
 
@@ -26,89 +33,71 @@ import org.springframework.ui.Model;
 @RequestMapping("/airline")
 public class PassengerController {
 
-	 @Autowired
-	    private BookingRepository bookingRepository;
+    @Autowired private UserRepository userRepository;
+    @Autowired private BookingService bookingService;
 
+    @GetMapping("/passenger/new")
+    public String passengerForm(
+            HttpSession session,
+            Model model,
+            Principal principal,
+            RedirectAttributes redirectAttributes) {
 
-	    @Autowired
-	    private UserRepository userRepository;
+        Integer flightPlanId = (Integer) session.getAttribute("pendingFlightPlanId");
+        Integer passengerCount = (Integer) session.getAttribute("pendingPassengers");
+        String seatClass = (String) session.getAttribute("pendingSeatClass");
 
-	    @Autowired
-	    private BookingDetailRepository bookingDetailRepository;
+        if (flightPlanId == null || passengerCount == null || seatClass == null) {
+            return "redirect:/airline/flights";
+        }
 
-	    @Autowired
-	    private PaymentRepository paymentRepository;
-	    
-	    @GetMapping("/passenger/{bookingId}")
-	    public String passengerForm(
-	            @PathVariable int bookingId,
-	            Model model,
-	            Principal principal){
+        // Early availability check so the user isn't told "no seats" only after
+        // filling out the whole passenger form
+        try {
+            bookingService.validateAvailability(flightPlanId, seatClass, passengerCount);
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("bookingError", e.getMessage());
+            return "redirect:/airline/flight/" + flightPlanId
+                + "?passengers=" + passengerCount + "&seatClass=" + seatClass;
+        }
 
+        User user = userRepository.findByEmail(principal.getName());
 
-	        Booking booking =
-	                bookingRepository.findById(bookingId)
-	                .orElseThrow();
+        model.addAttribute("passengerCount", passengerCount);
+        model.addAttribute("user", user);
 
+        return "userview/passengerForm";
+    }
 
+    @PostMapping("/passenger/save")
+    public String savePassenger(
+            @RequestParam List<String> firstName,
+            @RequestParam List<String> lastName,
+            @RequestParam List<String> passport,
+            @RequestParam List<LocalDate> dob,
+            HttpSession session) {
 
-	        User user =
-	                booking.getUser();
+        Integer flightPlanId = (Integer) session.getAttribute("pendingFlightPlanId");
+        Integer passengerCount = (Integer) session.getAttribute("pendingPassengers");
+        String seatClass = (String) session.getAttribute("pendingSeatClass");
 
+        if (flightPlanId == null || passengerCount == null || seatClass == null) {
+            return "redirect:/airline/flights";
+        }
 
+        List<PendingPassenger> details = new ArrayList<>();
 
-	        model.addAttribute("booking", booking);
+        for (int i = 0; i < firstName.size(); i++) {
+            PendingPassenger p = new PendingPassenger();
+            p.setFirstName(firstName.get(i));
+            p.setLastName(lastName.get(i));
+            p.setPassport(passport.get(i));
+            p.setDob(dob.get(i));
+            details.add(p);
+        }
 
-	        model.addAttribute("user", user);
+        session.setAttribute("pendingPassengerDetails", details);
 
-
-	        return "userview/passengerForm";
-
-	    }
-	    
-	    @PostMapping("/passenger/save")
-	    public String savePassenger(
-	            @RequestParam int bookingId,
-	            @RequestParam List<String> firstName,
-	            @RequestParam List<String> lastName,
-	            @RequestParam List<String> passport,
-	            @RequestParam List<LocalDate> dob
-	    ){
-
-	        Booking booking =
-	                bookingRepository.findById(bookingId)
-	                .orElseThrow();
-
-
-	        for(int i = 0; i < firstName.size(); i++){
-
-	            BookingDetail detail = new BookingDetail();
-
-	            detail.setBooking(booking);
-
-	            detail.setPassengerFirstName(
-	                    firstName.get(i)
-	            );
-
-	            detail.setPassengerLastName(
-	                    lastName.get(i)
-	            );
-
-	            detail.setPassport(
-	                    passport.get(i)
-	            );
-
-	            detail.setDOB(
-	                    dob.get(i)
-	            );
-
-
-	            bookingDetailRepository.save(detail);
-
-	        }
-
-
-	        return "redirect:/airline/payment/"
-	                + booking.getPayment().getPaymentId();
-	    }
+        return "redirect:/airline/payment/new";
+    }
 }
