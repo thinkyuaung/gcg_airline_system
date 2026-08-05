@@ -23,62 +23,38 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/airline")
 public class BookingController {
 
-	@Autowired
-    private BookingService bookingService;
+    @Autowired private UserRepository userRepository;
 
-	@Autowired
-	private UserRepository userRepository;
+    @GetMapping("/booking/reserve")
+    public String reserve(
+            @RequestParam int flightPlanId,
+            @RequestParam int passengers,
+            @RequestParam String seatClass,
+            HttpSession session) {
 
-	@GetMapping("/booking/reserve")
-	public String reserve(
-			@RequestParam int flightPlanId,
-			@RequestParam int passengers,
-			@RequestParam String seatClass,
-			HttpSession session) {
+        session.setAttribute("pendingFlightPlanId", flightPlanId);
+        session.setAttribute("pendingPassengers", passengers);
+        session.setAttribute("pendingSeatClass", seatClass);
 
-		session.setAttribute("pendingFlightPlanId", flightPlanId);
-		session.setAttribute("pendingPassengers", passengers);
-		session.setAttribute("pendingSeatClass", seatClass);
+        if (session.getAttribute("loginUserName") == null) {
+            return "redirect:/airline/login";
+        }
 
-		if (session.getAttribute("loginUserName") == null) {
-			return "redirect:/airline/login";
-		}
+        return "redirect:/airline/passenger/new";
+    }
 
-		return "redirect:/airline/booking/complete";
-	}
+    // Resume point after login redirects back here
+    @GetMapping("/booking/complete")
+    public String completeBooking(HttpSession session) {
 
-	@GetMapping("/booking/complete")
-	public String completeBooking(HttpSession session, RedirectAttributes redirectAttributes) {
+        Integer flightPlanId = (Integer) session.getAttribute("pendingFlightPlanId");
 
-	    Integer flightPlanId = (Integer) session.getAttribute("pendingFlightPlanId");
-	    Integer passengers = (Integer) session.getAttribute("pendingPassengers");
-	    String seatClass = (String) session.getAttribute("pendingSeatClass");
+        if (flightPlanId == null) {
+            return "redirect:/airline/flights";
+        }
 
-	    if (flightPlanId == null) {
-	        return "redirect:/airline/flights";
-	    }
-
-	    session.removeAttribute("pendingFlightPlanId");
-	    session.removeAttribute("pendingPassengers");
-	    session.removeAttribute("pendingSeatClass");
-
-	    try {
-		    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		    User user = userRepository.findByEmail(auth.getName());
-
-		    Booking booking = bookingService.createBooking(
-		            flightPlanId,
-		            seatClass,
-		            passengers,
-		            user
-		    );
-
-		    return "redirect:/airline/passenger/" + booking.getBookingId();
-	    } catch (RuntimeException e) {
-	        redirectAttributes.addFlashAttribute("bookingError", e.getMessage());
-	        return redirectToBookingError(redirectAttributes, flightPlanId, passengers, seatClass);
-	    }
-	}
+        return "redirect:/airline/passenger/new";
+    }
 
     private String redirectToBookingError(RedirectAttributes redirectAttributes,
             int flightPlanId, int passengers, String seatClass) {
@@ -92,28 +68,12 @@ public class BookingController {
             @RequestParam int flightPlanId,
             @RequestParam int passengers,
             @RequestParam String seatClass,
-            Principal principal,
-            RedirectAttributes redirectAttributes
-           ){
+            HttpSession session) {
 
-    	try {
-	    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    	User user = userRepository.findByEmail(auth.getName());
+        session.setAttribute("pendingFlightPlanId", flightPlanId);
+        session.setAttribute("pendingPassengers", passengers);
+        session.setAttribute("pendingSeatClass", seatClass);
 
-	        Booking booking =
-	                bookingService.createBooking(
-	                        flightPlanId,
-	                        seatClass,
-	                        passengers,
-	                        user
-	                );
-
-	        return "redirect:/airline/passenger/" + booking.getBookingId();
-    	} catch (RuntimeException e) {
-    		redirectAttributes.addFlashAttribute("bookingError", e.getMessage());
-    		return redirectToBookingError(redirectAttributes, flightPlanId, passengers, seatClass);
-    	}
-
+        return "redirect:/airline/passenger/new";
     }
-
 }
