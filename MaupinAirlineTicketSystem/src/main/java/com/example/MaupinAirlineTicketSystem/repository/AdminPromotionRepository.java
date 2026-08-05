@@ -1,5 +1,6 @@
 package com.example.MaupinAirlineTicketSystem.repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,6 +17,11 @@ public interface AdminPromotionRepository extends JpaRepository<Promotion, Integ
 
 	List<Promotion> findByStatus(String status);
 	Promotion findTopByStatusOrderByStartDateDesc(String string);
+
+	@Query("SELECT p FROM Promotion p WHERE FUNCTION('date', p.startDate) = :startDate "
+			+ "AND FUNCTION('date', p.endDate) = :endDate AND p.description = :description")
+	List<Promotion> findDuplicateByDatesAndDescription(@Param("startDate") LocalDate startDate,
+			@Param("endDate") LocalDate endDate, @Param("description") String description);
 
 	@Query("SELECT p FROM Promotion p WHERE p.status = :status AND p.startDate <= :now AND p.endDate >= :now ORDER BY p.startDate DESC")
 	List<Promotion> findCurrentActivePromotions(@Param("status") String status, @Param("now") LocalDateTime now);
