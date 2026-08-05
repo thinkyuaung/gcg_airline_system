@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.MaupinAirlineTicketSystem.entity.Airline;
 import com.example.MaupinAirlineTicketSystem.entity.Flight;
+import com.example.MaupinAirlineTicketSystem.repository.AdminFlightRepository;
 import com.example.MaupinAirlineTicketSystem.repository.AdminSeatRepository;
 import com.example.MaupinAirlineTicketSystem.service.AdminAirlineService;
 
@@ -40,6 +41,9 @@ public class AdminFlightController {
 	
 	@Autowired
 	AdminSeatRepository seatRepo;
+
+	@Autowired
+	AdminFlightRepository adminFlightRepository;
 
 	@GetMapping("/admin/flightForm")
 	public String create(Model model) {
@@ -67,6 +71,13 @@ public class AdminFlightController {
 		model.addAttribute("airlines", airlines);
 
 		if (result.hasErrors()) {
+			return "Admin/AddFlight";
+		}
+
+		if (flight.getFlightNumber() != null
+				&& adminFlightRepository.findByFlightNumberIgnoreCase(flight.getFlightNumber().trim()).isPresent()) {
+			result.rejectValue("flightNumber", "error.flightNumber",
+					"A flight with this flight number already exists.");
 			return "Admin/AddFlight";
 		}
 
@@ -117,6 +128,16 @@ public class AdminFlightController {
 
 		if (result.hasErrors()) {
 			return "Admin/AddFlight";
+		}
+
+		if (flight.getFlightNumber() != null) {
+			var existing = adminFlightRepository.findByFlightNumberIgnoreCase(flight.getFlightNumber().trim());
+			if (existing.isPresent() && (flight.getFlightId() == null
+					|| !existing.get().getFlightId().equals(flight.getFlightId()))) {
+				result.rejectValue("flightNumber", "error.flightNumber",
+						"A flight with this flight number already exists.");
+				return "Admin/AddFlight";
+			}
 		}
 
 		adminFlightService.saveFlight(flight);

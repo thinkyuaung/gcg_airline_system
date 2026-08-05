@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.MaupinAirlineTicketSystem.entity.Promotion;
+import com.example.MaupinAirlineTicketSystem.repository.AdminPromotionRepository;
 import com.example.MaupinAirlineTicketSystem.service.AdminPromotionService;
 
 import jakarta.validation.Valid;
@@ -23,6 +24,19 @@ public class AdminPromotionController {
 
 	@Autowired
 	AdminPromotionService adminPromotionService;
+
+	@Autowired
+	AdminPromotionRepository adminPromotionRepository;
+
+	private boolean hasDuplicatePromotion(Promotion promotion) {
+		if (promotion.getStartDate() == null || promotion.getEndDate() == null || promotion.getDescription() == null) {
+			return false;
+		}
+		return adminPromotionRepository
+				.findDuplicateByDatesAndDescription(promotion.getStartDate().toLocalDate(),
+						promotion.getEndDate().toLocalDate(), promotion.getDescription().trim())
+				.stream().anyMatch(p -> p.getPromotionId() != promotion.getPromotionId());
+	}
 
 	@GetMapping("/admin/promotions")
 	public String promotions(Model model) {
@@ -44,6 +58,11 @@ public class AdminPromotionController {
 	@PostMapping("/admin/promotion")
 	public String savePromotion(@Valid @ModelAttribute("promotion") Promotion promotion, BindingResult result) {
 		if (result.hasErrors()) {
+			return "Admin/PromotionForm";
+		}
+		if (hasDuplicatePromotion(promotion)) {
+			result.rejectValue("startDate", "error.startDate",
+					"A promotion with these dates and description already exists.");
 			return "Admin/PromotionForm";
 		}
 		adminPromotionService.savePromotion(promotion);
@@ -69,6 +88,11 @@ public class AdminPromotionController {
 	@PostMapping("/admin/promotion/update")
 	public String updatePromotion(@Valid @ModelAttribute("promotion") Promotion promotion, BindingResult result) {
 		if (result.hasErrors()) {
+			return "Admin/PromotionForm";
+		}
+		if (hasDuplicatePromotion(promotion)) {
+			result.rejectValue("startDate", "error.startDate",
+					"A promotion with these dates and description already exists.");
 			return "Admin/PromotionForm";
 		}
 		adminPromotionService.savePromotion(promotion);
