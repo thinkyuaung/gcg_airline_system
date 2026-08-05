@@ -18,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.MaupinAirlineTicketSystem.entity.Airline;
 import com.example.MaupinAirlineTicketSystem.entity.Airport;
+import com.example.MaupinAirlineTicketSystem.repository.AdminAirlineRepository;
+import com.example.MaupinAirlineTicketSystem.repository.AdminAirportRepository;
 import com.example.MaupinAirlineTicketSystem.service.AdminAirlineService;
 import com.example.MaupinAirlineTicketSystem.service.AdminAirportService;
 
@@ -32,6 +34,48 @@ public class AdminAirlineController {
 
 	@Autowired
 	private AdminAirportService adminAirportService;
+
+	@Autowired
+	private AdminAirlineRepository adminAirlineRepository;
+
+	@Autowired
+	private AdminAirportRepository adminAirportRepository;
+
+	private boolean isDuplicateAirlineName(Airline airline) {
+		if (airline.getAirlineName() == null) {
+			return false;
+		}
+		return adminAirlineRepository.findByAirlineNameIgnoreCase(airline.getAirlineName().trim())
+				.map(a -> airline.getAirlineId() == null || !a.getAirlineId().equals(airline.getAirlineId()))
+				.orElse(false);
+	}
+
+	private boolean isDuplicateAirlineCode(Airline airline) {
+		if (airline.getAirlineCode() == null) {
+			return false;
+		}
+		return adminAirlineRepository.findByAirlineCodeIgnoreCase(airline.getAirlineCode().trim())
+				.map(a -> airline.getAirlineId() == null || !a.getAirlineId().equals(airline.getAirlineId()))
+				.orElse(false);
+	}
+
+	private boolean isDuplicateAirportName(Airport airport) {
+		if (airport.getAirportName() == null) {
+			return false;
+		}
+		return adminAirportRepository.findByAirportNameIgnoreCase(airport.getAirportName().trim())
+				.map(a -> airport.getAirportId() == null || !a.getAirportId().equals(airport.getAirportId()))
+				.orElse(false);
+	}
+
+	private boolean isDuplicateAirportCode(Airport airport) {
+		if (airport.getAirportCode() == null) {
+			return false;
+		}
+		return adminAirportRepository.findByAirportCodeIgnoreCase(airport.getAirportCode().trim())
+				.map(a -> airport.getAirportId() == null || !a.getAirportId().equals(airport.getAirportId()))
+				.orElse(false);
+	}
 
 	// =====  AIRLINE METHODS =====
 	
@@ -48,6 +92,16 @@ public class AdminAirlineController {
 			@RequestParam("photoFile") MultipartFile photoFile, Model model)
 			throws IllegalStateException, IOException {
 
+		if (result.hasErrors()) {
+			return "Admin/AddAirline";
+		}
+
+		if (isDuplicateAirlineName(airline)) {
+			result.rejectValue("airlineName", "error.airlineName", "An airline with this name already exists.");
+		}
+		if (isDuplicateAirlineCode(airline)) {
+			result.rejectValue("airlineCode", "error.airlineCode", "An airline with this code already exists.");
+		}
 		if (result.hasErrors()) {
 			return "Admin/AddAirline";
 		}
@@ -134,6 +188,16 @@ public class AdminAirlineController {
 			@RequestParam("photoFile") MultipartFile photoFile, Model model)
 			throws IllegalStateException, IOException {
 
+		if (result.hasErrors()) {
+			return "Admin/AddAirport";
+		}
+
+		if (isDuplicateAirportName(airport)) {
+			result.rejectValue("airportName", "error.airportName", "An airport with this name already exists.");
+		}
+		if (isDuplicateAirportCode(airport)) {
+			result.rejectValue("airportCode", "error.airportCode", "An airport with this code already exists.");
+		}
 		if (result.hasErrors()) {
 			return "Admin/AddAirport";
 		}
