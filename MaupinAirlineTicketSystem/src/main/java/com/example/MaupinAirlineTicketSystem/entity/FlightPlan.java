@@ -73,35 +73,6 @@ public class FlightPlan {
 	@NotNull(message = "Please select an arrival airport")
 	private Airport arrivalAirport;
 	
-	@ManyToOne
-	@JoinColumn(name = "promotion_id")
-	private Promotion promotion;
-
-	public Promotion getPromotion() {
-	    return promotion;
-	}
-
-	public void setPromotion(Promotion promotion) {
-	    this.promotion = promotion;
-	}
-	
-	public int getSeatsForClass(String seatClassName) {
-	    if (seatClassName == null) {
-	        throw new RuntimeException("Seat class must not be null");
-	    }
-	    switch (seatClassName.trim().toLowerCase()) {
-	        case "economy":
-	            return this.ecomonySeats;
-	        case "business":
-	            return this.businessSeats;
-	        case "first":
-	        case "first class":
-	            return this.firseClassSeats;
-	        default:
-	            throw new RuntimeException("Unknown seat class: " + seatClassName);
-	    }
-	}
-	
 	public FlightPlan(int flightPlanId, LocalDateTime departureTime, LocalDateTime arrivalTime, Date flight_date,
 			int availableSeats, int ecomonySeats, int businessSeats, int firseClassSeats, double price, Flight flight,
 			Airport departureAirport, Airport arrivalAirport) {

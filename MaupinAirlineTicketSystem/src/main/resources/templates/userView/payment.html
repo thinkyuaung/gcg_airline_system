@@ -412,7 +412,6 @@ h1,h2,h3,h4,h5,h6{
                <div class="amount-box">
 
     <!-- Promotion exists -->
-    <div th:if="${flightPlanPromotion != null or globalPromotion != null or payment.booking.promotion != null}">
     <div th:if="${flightPlanPromotion != null or globalPromotion != null or (payment != null and payment.booking != null and payment.booking.promotion != null)}">
 
         <p class="mb-1">Original Price</p>
@@ -429,13 +428,6 @@ h1,h2,h3,h4,h5,h6{
             % OFF
         </div>
 
-        <!-- <div th:if="${payment.booking.promotion != null}" class="text-success small">
-            <i class="bi bi-tag-fill"></i>
-            Booking Promo:
-            <span th:text="${payment.booking.promotion.percentage}"></span>
-            % OFF
-        </div> -->
-
         <h2 class="mt-2">
             $
             <span th:text="${finalPrice}"></span>
@@ -449,7 +441,6 @@ h1,h2,h3,h4,h5,h6{
 
 
     <!-- No Promotion -->
-    <div th:if="${flightPlanPromotion == null and globalPromotion == null and payment.booking.promotion == null}">
     <div th:if="${flightPlanPromotion == null and globalPromotion == null and (payment == null or payment.booking == null or payment.booking.promotion == null)}">
 
         <h2>
@@ -725,7 +716,6 @@ h1,h2,h3,h4,h5,h6{
             </div>
         </div>
     </footer>
-
 
     <script>
 

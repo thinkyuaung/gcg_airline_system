@@ -9,11 +9,13 @@ import org.springframework.stereotype.Service;
 
 import com.example.MaupinAirlineTicketSystem.dto.PendingPassenger;
 import com.example.MaupinAirlineTicketSystem.entity.Booking;
+import com.example.MaupinAirlineTicketSystem.entity.BookingDetail;
 import com.example.MaupinAirlineTicketSystem.entity.FlightPlan;
 import com.example.MaupinAirlineTicketSystem.entity.Payment;
 import com.example.MaupinAirlineTicketSystem.entity.Promotion;
 import com.example.MaupinAirlineTicketSystem.entity.SeatClass;
 import com.example.MaupinAirlineTicketSystem.entity.User;
+import com.example.MaupinAirlineTicketSystem.repository.BookingDetailRepository;
 import com.example.MaupinAirlineTicketSystem.repository.BookingRepository;
 import com.example.MaupinAirlineTicketSystem.repository.FlightPlanRepository;
 import com.example.MaupinAirlineTicketSystem.repository.PaymentRepository;
