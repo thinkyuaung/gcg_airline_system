@@ -154,7 +154,6 @@ public class Controller {
 
 			if (existingEmail.getStatus().equals("inactive")) {
 
-				// Same email but different passport
 				if (!existingEmail.getPassport().equals(user.getPassport())) {
 
 					result.rejectValue("email", "error.user", "Email already exists.");
@@ -162,7 +161,6 @@ public class Controller {
 					return "Login/signup";
 				}
 
-				// Same email + same passport => restore account
 				existingEmail.setFirstName(user.getFirstName());
 				existingEmail.setLastName(user.getLastName());
 				existingEmail.setDob(user.getDob());
@@ -174,8 +172,22 @@ public class Controller {
 				existingEmail.setStatus("active");
 
 				userRepository.save(existingEmail);
+				List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
 
-				return "redirect:/airline/login";
+				UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+						existingEmail.getEmail(), null, authorities);
+
+				SecurityContext context = SecurityContextHolder.createEmptyContext();
+				context.setAuthentication(authToken);
+				SecurityContextHolder.setContext(context);
+
+				session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, context);
+
+				session.setAttribute("loginUserName", existingEmail.getFirstName() + " " + existingEmail.getLastName());
+				session.setAttribute("loginUserId", existingEmail.getUserId());
+				session.setAttribute("loginUserRole", existingEmail.getRole());
+
+				return "redirect:/airline/index";
 			}
 
 			result.rejectValue("email", "error.user", "Email already exists.");
@@ -432,8 +444,7 @@ public class Controller {
 
 		model.addAttribute("inactiveUsers", userRepository.countByStatus("inactive"));
 
-		model.addAttribute("adminUsers",
-		        userRepository.countByRoleIn(List.of("ADMIN", "SUPERADMIN")));
+		model.addAttribute("adminUsers", userRepository.countByRoleIn(List.of("ADMIN", "SUPERADMIN")));
 
 		return "Admin/admin-dashboard";
 	}
@@ -448,8 +459,7 @@ public class Controller {
 
 		model.addAttribute("inactiveUsers", userRepository.countByStatus("inactive"));
 
-		model.addAttribute("adminUsers",
-		        userRepository.countByRoleIn(List.of("ADMIN", "SUPERADMIN")));
+		model.addAttribute("adminUsers", userRepository.countByRoleIn(List.of("ADMIN", "SUPERADMIN")));
 	}
 
 	////////////// All Users //////////////
@@ -493,12 +503,11 @@ public class Controller {
 	@GetMapping("/admin/users/admin")
 	public String adminUsers(Model model) {
 
-	    model.addAttribute("users",
-	            userRepository.findByRoleIn(List.of("ADMIN", "SUPERADMIN")));
+		model.addAttribute("users", userRepository.findByRoleIn(List.of("ADMIN", "SUPERADMIN")));
 
-	    addDashboardCounts(model);
+		addDashboardCounts(model);
 
-	    return "Admin/admin-dashboard";
+		return "Admin/admin-dashboard";
 	}
 
 	////////////// Delete User //////////////
