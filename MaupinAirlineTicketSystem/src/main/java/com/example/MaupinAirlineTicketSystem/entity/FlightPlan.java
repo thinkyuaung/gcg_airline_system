@@ -73,17 +73,38 @@ public class FlightPlan {
 	@NotNull(message = "Please select an arrival airport")
 	private Airport arrivalAirport;
 	
+	@ManyToOne
+	@JoinColumn(name = "promotion_id")
+	private Promotion promotion;
 
+	public Promotion getPromotion() {
+	    return promotion;
+	}
+
+	public void setPromotion(Promotion promotion) {
+	    this.promotion = promotion;
+	}
 	
-
-	public FlightPlan(int flightPlanId, @NotNull(message = "Departure time is required") LocalDateTime departureTime,
-			@NotNull(message = "Arrival time is required") LocalDateTime arrivalTime,
-			@NotNull(message = "Flight date is required") Date flight_date, int availableSeats, int ecomonySeats,
-			int businessSeats, int firseClassSeats, Promotion promotion,
-			@DecimalMin(value = "5.0", message = "Price must be greater than 5 dollars") double price,
-			@NotNull(message = "Please select a flight") Flight flight,
-			@NotNull(message = "Please select a departure airport") Airport departureAirport,
-			@NotNull(message = "Please select an arrival airport") Airport arrivalAirport) {
+	public int getSeatsForClass(String seatClassName) {
+	    if (seatClassName == null) {
+	        throw new RuntimeException("Seat class must not be null");
+	    }
+	    switch (seatClassName.trim().toLowerCase()) {
+	        case "economy":
+	            return this.ecomonySeats;
+	        case "business":
+	            return this.businessSeats;
+	        case "first":
+	        case "first class":
+	            return this.firseClassSeats;
+	        default:
+	            throw new RuntimeException("Unknown seat class: " + seatClassName);
+	    }
+	}
+	
+	public FlightPlan(int flightPlanId, LocalDateTime departureTime, LocalDateTime arrivalTime, Date flight_date,
+			int availableSeats, int ecomonySeats, int businessSeats, int firseClassSeats, double price, Flight flight,
+			Airport departureAirport, Airport arrivalAirport) {
 		super();
 		this.flightPlanId = flightPlanId;
 		this.departureTime = departureTime;

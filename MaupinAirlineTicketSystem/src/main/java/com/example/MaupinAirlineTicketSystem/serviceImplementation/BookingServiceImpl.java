@@ -31,7 +31,7 @@ public class BookingServiceImpl implements BookingService {
     @Autowired private SeatClassRepository seatClassRepository;
     @Autowired private PaymentRepository paymentRepository;
     @Autowired private UserPromotionRepository promotionRepository;
-    @Autowired private BookingDetailRepository bookingDetailRepository;
+    @Autowired private BookingDetailRepository bookingDetailRepository;   // new
 
     @Override
     public double calculateTotalPrice(FlightPlan flightPlan, SeatClass seatClass, int passengers) {
@@ -75,18 +75,6 @@ public class BookingServiceImpl implements BookingService {
 
         validateSeats(flightPlan, seatClass, passengers);
 
-    @Autowired
-    private UserPromotionRepository promotionRepository;
-    
-	@Override
-	public double calculateTotalPrice(FlightPlan flightPlan, SeatClass seatClass, int passengers) {
-		// TODO Auto-generated method stub
-		return flightPlan.getPrice()
-                *
-                seatClass.getPriceMultiplier()
-                *
-                passengers;
-	}
         Booking booking = new Booking();
         booking.setFlightPlan(flightPlan);
         booking.setUser(user);
@@ -144,104 +132,6 @@ public class BookingServiceImpl implements BookingService {
         savedBooking.setPayment(payment);
         bookingRepository.save(savedBooking);
 
-
-	    if(seatClassEntity == null){
-
-	        throw new RuntimeException(
-	            "Seat class not found"
-	        );
-
-	    }
-
-	    if (passengers > flightPlan.getAvailableSeats()) {
-	        throw new RuntimeException(
-	            "Not enough available seats on this flight"
-	        );
-	    }
-
-	    if (passengers > flightPlan.getSeatsForClass(seatClass)) {
-	        throw new RuntimeException(
-	            "Not enough available seats. Only "
-	            + flightPlan.getSeatsForClass(seatClass)
-	            + " " + seatClass + " class seat(s) left on this flight"
-	        );
-	    }
-
-
-
-	    Booking booking = new Booking();
-
-
-	    booking.setFlightPlan(flightPlan);
-
-	    booking.setUser(user);
-
-	    booking.setSeatClass(seatClassEntity);
-
-
-	    booking.setBookingDate(
-	            LocalDateTime.now()
-	    );
-
-
-	    booking.setStatus("PENDING");
-
-
-
-	    double total =
-	            flightPlan.getPrice()
-	            * seatClassEntity.getPriceMultiplier()
-	            * passengers;
-
-	    Promotion flightPlanPromotion = flightPlan.getPromotion();
-
-	    Optional<Promotion> globalPromotion =
-	            promotionRepository
-	            .findFirstByStatusAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
-	                    "Active",
-	                    LocalDateTime.now(),
-	                    LocalDateTime.now());
-
-	    double totalDiscountPercent = 0;
-
-	    if (flightPlanPromotion != null) {
-	    	totalDiscountPercent += flightPlanPromotion.getPercentage();
-	    	booking.setPromotion(flightPlanPromotion);
-	    }
-
-	    if (globalPromotion.isPresent()) {
-	    	Promotion gp = globalPromotion.get();
-	    	totalDiscountPercent += gp.getPercentage();
-	    	if (flightPlanPromotion == null) {
-	    		booking.setPromotion(gp);
-	    	}
-	    }
-
-	    if (totalDiscountPercent > 0) {
-	    	total = total - (total * totalDiscountPercent / 100);
-	    }
-
-
-
-	    booking.setPassengers(passengers);
-	    booking.setTotalAmount(total);
-
-	    Booking savedBooking = bookingRepository.save(booking);
-
-	    Payment payment = new Payment();
-	    payment.setAmount(total);
-	    payment.setPaymentStatus("WAITING");
-	    payment.setBooking(savedBooking);
-
-	    paymentRepository.save(payment);
-
-	    savedBooking.setPayment(payment);
-	    bookingRepository.save(savedBooking);
-
-	    return savedBooking;
-
-	}
-}
         return savedBooking;
     }
 }

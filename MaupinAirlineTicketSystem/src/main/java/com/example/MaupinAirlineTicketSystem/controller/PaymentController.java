@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,16 +25,25 @@ import com.example.MaupinAirlineTicketSystem.repository.UserPromotionRepository;
 import com.example.MaupinAirlineTicketSystem.repository.UserRepository;
 import com.example.MaupinAirlineTicketSystem.dto.PendingPassenger;
 import com.example.MaupinAirlineTicketSystem.entity.Booking;
+import com.example.MaupinAirlineTicketSystem.entity.BookingDetail;
 import com.example.MaupinAirlineTicketSystem.entity.FlightPlan;
 import com.example.MaupinAirlineTicketSystem.entity.Payment;
 import com.example.MaupinAirlineTicketSystem.entity.Promotion;
 import com.example.MaupinAirlineTicketSystem.entity.SeatClass;
 import com.example.MaupinAirlineTicketSystem.entity.User;
+import com.example.MaupinAirlineTicketSystem.repository.BookingDetailRepository;
+import com.example.MaupinAirlineTicketSystem.repository.BookingRepository;
+import com.example.MaupinAirlineTicketSystem.repository.FlightPlanRepository;
+import com.example.MaupinAirlineTicketSystem.repository.PaymentRepository;
+import com.example.MaupinAirlineTicketSystem.repository.SeatClassRepository;
+import com.example.MaupinAirlineTicketSystem.repository.UserPromotionRepository;
+import com.example.MaupinAirlineTicketSystem.repository.UserRepository;
 import com.example.MaupinAirlineTicketSystem.service.BookingService;
 import com.example.MaupinAirlineTicketSystem.service.PaymentService;
 import com.example.MaupinAirlineTicketSystem.service.ReviewService;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 
 @Controller
 @RequestMapping("/airline")
@@ -49,19 +58,6 @@ public class PaymentController {
     @Autowired private ReviewService reviewService;
     @Autowired private UserPromotionRepository promotionRepository;
 
-	@Autowired
-	private BookingRepository bookingRepository;
-
-	@Autowired
-	private ReviewService reviewService;
-
-	@Autowired
-	private UserPromotionRepository promotionRepository;
-
-	@GetMapping("/payment/{id}")
-	public String paymentPage(
-	        @PathVariable int id,
-	        Model model){
     // Existing endpoint — keep for viewing/retrying payment on an
     // ALREADY-created booking (e.g. resuming a Pending booking).
     // Unchanged from before.
@@ -88,59 +84,6 @@ public class PaymentController {
 
         double originalPrice = flightPlan.getPrice() * seatClassEntity.getPriceMultiplier() * passengers;
 
-	    Booking booking = payment.getBooking();
-
-	    double originalPrice =
-	            booking.getFlightPlan().getPrice()
-	            *
-	            booking.getSeatClass().getPriceMultiplier()
-	            *
-	            booking.getPassengers();
-	    
-	    System.out.println("**********Price:"+booking.getFlightPlan().getPrice());
-	    System.out.println("Seat:"+booking.getSeatClass().getPriceMultiplier());
-	    System.out.println("Passengers:"+booking.getPassengers());
-	    System.out.println("Original Price:"+originalPrice);
-
-	    model.addAttribute("originalPrice", originalPrice);
-
-	    Optional<Promotion> globalPromotion =
-	            promotionRepository
-	            .findFirstByStatusAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
-	                    "Active",
-	                    LocalDateTime.now(),
-	                    LocalDateTime.now()
-	            );
-
-	    Promotion flightPlanPromotion = booking.getFlightPlan().getPromotion();
-
-//	    if (flightPlanPromotion != null) {
-//	    	model.addAttribute("flightPlanPromotion", flightPlanPromotion);
-//	    }
-//
-//	    if (globalPromotion.isPresent()) {
-//	    	model.addAttribute("globalPromotion", globalPromotion.get());
-//	    }
-	    
-	    double totalDiscountPercent = 0;
-
-	    if (flightPlanPromotion != null) {
-	    	totalDiscountPercent += flightPlanPromotion.getPercentage();
-	    	model.addAttribute("flightPlanPromotion", flightPlanPromotion);
-	    }
-
-	    if (globalPromotion.isPresent()) {
-	    	Promotion gp = globalPromotion.get();
-	    	totalDiscountPercent += gp.getPercentage();
-	    	model.addAttribute("globalPromotion", gp);
-	    }
-
-	    if (totalDiscountPercent > 0) {
-	    	originalPrice = originalPrice - (originalPrice * totalDiscountPercent / 100);
-	    }
-
-	    model.addAttribute("finalPrice", originalPrice);
-//	    booking.getFlightPlan().setPrice(originalPrice);
         Optional<Promotion> globalPromotion = promotionRepository
             .findFirstByStatusAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
                 "Active", LocalDateTime.now(), LocalDateTime.now());
