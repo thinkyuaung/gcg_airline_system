@@ -16,6 +16,7 @@ import com.example.MaupinAirlineTicketSystem.entity.Airport;
 import com.example.MaupinAirlineTicketSystem.entity.Flight;
 import com.example.MaupinAirlineTicketSystem.entity.FlightPlan;
 import com.example.MaupinAirlineTicketSystem.entity.Promotion;
+import com.example.MaupinAirlineTicketSystem.repository.AdminFlightPlanRepository;
 import com.example.MaupinAirlineTicketSystem.service.AdminAirportService;
 import com.example.MaupinAirlineTicketSystem.service.AdminFlightPlanService;
 import com.example.MaupinAirlineTicketSystem.service.AdminFlightService;
@@ -38,6 +39,23 @@ public class AdminFlightPlanController {
 
 	@Autowired
 	AdminPromotionService adminPromotionService;
+
+	@Autowired
+	AdminFlightPlanRepository adminFlightPlanRepository;
+
+	private boolean hasDuplicateFlightPlan(FlightPlan flightPlan) {
+		if (flightPlan.getFlight() == null || flightPlan.getFlight_date() == null
+				|| flightPlan.getDepartureTime() == null || flightPlan.getArrivalTime() == null) {
+			return false;
+		}
+		return adminFlightPlanRepository
+				.findByFlightIdAndFlightDate(flightPlan.getFlight().getFlightId(), flightPlan.getFlight_date())
+				.stream()
+				.filter(fp -> fp.getFlightPlanId() != flightPlan.getFlightPlanId())
+				.anyMatch(fp -> fp.getDepartureTime() != null && fp.getArrivalTime() != null
+						&& flightPlan.getDepartureTime().isBefore(fp.getArrivalTime())
+						&& flightPlan.getArrivalTime().isAfter(fp.getDepartureTime()));
+	}
 
 	@GetMapping("/admin/flightPlanForm")
 	public String create(Model model) {
@@ -66,6 +84,12 @@ public class AdminFlightPlanController {
 		model.addAttribute("promotions", promotions);
 
 		if (result.hasErrors()) {
+			return "Admin/AddFlightPlan";
+		}
+
+		if (hasDuplicateFlightPlan(flightPlan)) {
+			result.rejectValue("departureTime", "error.departureTime",
+					"A flight plan for this flight already exists at an overlapping time on this date.");
 			return "Admin/AddFlightPlan";
 		}
 
@@ -119,6 +143,12 @@ public class AdminFlightPlanController {
 		model.addAttribute("promotions", promotions);
 
 		if (result.hasErrors()) {
+			return "Admin/AddFlightPlan";
+		}
+
+		if (hasDuplicateFlightPlan(flightPlan)) {
+			result.rejectValue("departureTime", "error.departureTime",
+					"A flight plan for this flight already exists at an overlapping time on this date.");
 			return "Admin/AddFlightPlan";
 		}
 
