@@ -34,6 +34,8 @@ public class BookingDetailController {
             @PathVariable int id,
             Model model) {
 
+        model.addAttribute("activeTab", "/");
+
         Authentication auth =
                 SecurityContextHolder.getContext().getAuthentication();
 

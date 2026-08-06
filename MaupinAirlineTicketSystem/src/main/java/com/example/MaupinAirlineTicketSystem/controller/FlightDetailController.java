@@ -42,6 +42,8 @@ public class FlightDetailController {
 	        @RequestParam String seatClass,
 	        Model model) {
 
+		model.addAttribute("activeTab", "/");
+
 		System.out.println("Passengers = " + passengers);
 		System.out.println("Seat Class = " + seatClass);
 

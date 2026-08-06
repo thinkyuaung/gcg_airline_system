@@ -36,6 +36,7 @@ public class FlightController {
 	    model.addAttribute(
 	            "airlines",
 	            flightSearchService.getAllAirlines());
+	    model.addAttribute("activeTab", "flights");
 
 	    List<FlightPlan> flights;
 
@@ -70,6 +71,7 @@ public class FlightController {
 	            flightSearchService.searchFlight(
 	                    airlineId,
 	                    departDate));
+	    model.addAttribute("activeTab", "flights");
 
 	    return "flights";
 	}

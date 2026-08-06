@@ -991,7 +991,7 @@ h1,h2,h3,h4,h5,h6{
 
                         <div class="price-total">
                             $
-                            <span th:text="${totalPrice}">
+                            <span th:text="${#numbers.formatDecimal(totalPrice, 1, 2)}">
                             </span>
 
                         </div>

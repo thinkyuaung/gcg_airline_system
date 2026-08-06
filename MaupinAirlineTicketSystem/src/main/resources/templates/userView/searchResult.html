@@ -607,13 +607,13 @@ footer a:hover{ color:#fff; }
 
                     <!-- Promo: strikethrough original + discounted price -->
                     <div th:if="${hasPromo}">
-                        <div class="price-original">$<span th:text="${basePrice}"></span></div>
+                        <div class="price-original">$<span th:text="${#numbers.formatDecimal(basePrice, 1, 2)}"></span></div>
                         <div class="h1 fw-bold price-discounted mb-0">$<span th:text="${discountedPrice}"></span></div>
                     </div>
 
                     <!-- No promo: normal price -->
                     <div th:unless="${hasPromo}" class="h1 fw-bold text-primary mb-0">
-                        $<span th:text="${basePrice}"></span>
+                        $<span th:text="${#numbers.formatDecimal(basePrice, 1, 2)}"></span>
                     </div>
                 </div>
 

@@ -64,6 +64,7 @@ public class PaymentController {
     @GetMapping("/payment/{id}")
     public String paymentPage(@PathVariable int id, Model model) {
         // ... unchanged, exactly as you have it today
+        model.addAttribute("activeTab", "/");
         return "userview/payment";
     }
 
@@ -126,6 +127,7 @@ public class PaymentController {
 
         model.addAttribute("originalPrice", originalPrice);
         model.addAttribute("finalPrice", finalPrice);
+        model.addAttribute("activeTab", "/");
 
         return "userview/payment";
     }
@@ -143,6 +145,7 @@ public class PaymentController {
         model.addAttribute("booking", booking);
         model.addAttribute("reviewed", reviewed);
         model.addAttribute("success", isSuccess);
+        model.addAttribute("activeTab", "/");
 
         return "userview/paymentSuccess";
     }

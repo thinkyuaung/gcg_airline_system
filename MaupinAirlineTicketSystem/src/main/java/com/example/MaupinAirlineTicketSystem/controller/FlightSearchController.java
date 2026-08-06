@@ -49,6 +49,7 @@ public class FlightSearchController {
 
 		model.addAttribute("airports", airportRepository.findAll());
 		model.addAttribute("seatClasses", seatClassRepository.findAll());
+		model.addAttribute("activeTab", "/");
 
 		if (departureCity == null || departureCity.isBlank()) {
 			return "userview/searchFlight";

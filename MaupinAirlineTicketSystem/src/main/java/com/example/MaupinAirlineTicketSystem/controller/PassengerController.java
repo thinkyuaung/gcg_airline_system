@@ -65,6 +65,7 @@ public class PassengerController {
 
         model.addAttribute("passengerCount", passengerCount);
         model.addAttribute("user", user);
+        model.addAttribute("activeTab", "/");
 
         return "userview/passengerForm";
     }

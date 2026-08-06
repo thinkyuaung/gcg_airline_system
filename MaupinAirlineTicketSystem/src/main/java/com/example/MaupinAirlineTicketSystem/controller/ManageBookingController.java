@@ -26,7 +26,8 @@ public class ManageBookingController {
 	BookingDetailRepository bookingDetailRepository;
 
 	@GetMapping("/manage-booking")
-	public String showManageBookingPage() {
+	public String showManageBookingPage(Model model) {
+		 model.addAttribute("activeTab", "manage");
 		return "manage-booking";
 	}
 
@@ -38,6 +39,7 @@ public class ManageBookingController {
 
 		if (booking == null) {
 			model.addAttribute("error", "No booking found. Please check your Serial Code and Last Name.");
+			model.addAttribute("activeTab", "manage");
 			return "manage-booking";
 		}
 
@@ -46,6 +48,7 @@ public class ManageBookingController {
 
 		model.addAttribute("booking", booking);
 		model.addAttribute("passengerDetails", passengerDetails);
+		model.addAttribute("activeTab", "manage");
 		return "manage-booking";
 	}
 
