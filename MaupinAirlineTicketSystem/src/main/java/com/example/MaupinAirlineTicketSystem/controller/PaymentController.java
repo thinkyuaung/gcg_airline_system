@@ -69,7 +69,7 @@ public class PaymentController {
 
     // NEW: pre-booking payment page, driven entirely by session data
     @GetMapping("/payment/new")
-    public String newPaymentPage(HttpSession session, Model model) {
+    public String newPaymentPage(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
 
         Integer flightPlanId = (Integer) session.getAttribute("pendingFlightPlanId");
         Integer passengers = (Integer) session.getAttribute("pendingPassengers");
@@ -80,6 +80,23 @@ public class PaymentController {
         }
 
         FlightPlan flightPlan = flightPlanRepository.findById(flightPlanId).orElseThrow();
+
+        if (passengers > flightPlan.getAvailableSeats()) {
+            redirectAttributes.addFlashAttribute("bookingError",
+                    "Not enough available seats on this flight");
+            return "redirect:/airline/flight/" + flightPlanId
+                    + "?passengers=" + passengers + "&seatClass=" + seatClass;
+        }
+
+        if (passengers > flightPlan.getSeatsForClass(seatClass)) {
+            redirectAttributes.addFlashAttribute("bookingError",
+                    "Not enough available seats. Only "
+                            + flightPlan.getSeatsForClass(seatClass)
+                            + " " + seatClass + " class seat(s) left on this flight");
+            return "redirect:/airline/flight/" + flightPlanId
+                    + "?passengers=" + passengers + "&seatClass=" + seatClass;
+        }
+
         SeatClass seatClassEntity = seatClassRepository.findByClassNameIgnoreCase(seatClass);
 
         double originalPrice = flightPlan.getPrice() * seatClassEntity.getPriceMultiplier() * passengers;

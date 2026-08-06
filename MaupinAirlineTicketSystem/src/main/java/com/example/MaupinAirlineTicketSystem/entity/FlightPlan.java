@@ -73,9 +73,16 @@ public class FlightPlan {
 	@NotNull(message = "Please select an arrival airport")
 	private Airport arrivalAirport;
 	
-	public FlightPlan(int flightPlanId, LocalDateTime departureTime, LocalDateTime arrivalTime, Date flight_date,
-			int availableSeats, int ecomonySeats, int businessSeats, int firseClassSeats, double price, Flight flight,
-			Airport departureAirport, Airport arrivalAirport) {
+	
+
+	public FlightPlan(int flightPlanId, @NotNull(message = "Departure time is required") LocalDateTime departureTime,
+			@NotNull(message = "Arrival time is required") LocalDateTime arrivalTime,
+			@NotNull(message = "Flight date is required") Date flight_date, int availableSeats, int ecomonySeats,
+			int businessSeats, int firseClassSeats, Promotion promotion,
+			@DecimalMin(value = "5.0", message = "Price must be greater than 5 dollars") double price,
+			@NotNull(message = "Please select a flight") Flight flight,
+			@NotNull(message = "Please select a departure airport") Airport departureAirport,
+			@NotNull(message = "Please select an arrival airport") Airport arrivalAirport) {
 		super();
 		this.flightPlanId = flightPlanId;
 		this.departureTime = departureTime;
