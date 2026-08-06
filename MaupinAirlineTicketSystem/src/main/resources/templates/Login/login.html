@@ -11,10 +11,10 @@
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 <link rel="stylesheet" th:href="@{/css/style.css}">
-<link rel="stylesheet" th:href="@{/css/login.css}">
+ <link rel="stylesheet" th:href="@{/css/login.css}"> 
 </head>
 <body>
-
+   
 	<!-- Shared Sticky Navbar Fragment -->
 	<nav th:replace="~{Fragments/header :: navbar}"></nav>
 
@@ -51,7 +51,7 @@
 					th:text="${error}"></span>
 			</div>
 
-			<!-- Login Form (Backend binding preserved) -->
+			<!-- Login Form -->
 			<form th:action="@{/airline/login}" method="post">
 
 				<!-- Email Input -->

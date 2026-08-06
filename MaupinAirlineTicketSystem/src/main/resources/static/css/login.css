@@ -1,8 +1,5 @@
-/* =========================================================
-   AIRLINE AUTHENTICATION - GLASS & CLOUD THEME
-   ========================================================= */
 
-/* Main Outer Wrapper (Sky Gradient + Subtle Pattern) */
+/* Main Outer Wrapper */
 .auth-wrapper {
     min-height: calc(100vh - 75px);
     width: 100%;
@@ -11,13 +8,25 @@
     justify-content: center;
     padding: 2.5rem 1rem;
     
-    /* Cloud Gradient Base */
+/*     /* Cloud Gradient Base
     background-color: #f0f9ff;
     background-image: 
         radial-gradient(#0284c7 1.2px, transparent 1.2px),
-        linear-gradient(135deg, rgba(224, 242, 254, 0.85) 0%, rgba(186, 230, 253, 0.65) 50%, rgba(240, 249, 255, 0.95) 100%);
+        linear-gradient(135deg, rgba(224, 242, 254, 0.85) 0%, rgba(186, 230, 253, 0.65) 50%, rgba(240, 249, 255, 0.95) 100%); 
     background-size: 24px 24px, 100% 100%;
-    background-position: 0 0, 0 0;
+    background-position: 0 0, 0 0; */
+ }
+ /* Sky & Cloud Background */
+body {
+    background-color: #e0f2fe; /* Fallback color for older browsers */
+    
+    background-image: 
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.8) 0%, transparent 40%),
+        linear-gradient(180deg, #38bdf8 0%, #bae6fd 45%, #f0f9ff 85%, #ffffff 100%);
+        
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+    min-height: 100vh;
 }
 
 /* Glassmorphism Centered Card */
@@ -103,9 +112,9 @@
     transform: translateY(-2px);
 }
 
-/* =========================================================
-   AIRLINE SIGNUP & LOGIN - GLASS + CLOUD THEME
-   ========================================================= */
+
+  /*  AIRLINE SIGNUP & LOGIN - GLASS + CLOUD THEME */
+  
 
 /* Main Outer Cloud Wrapper */
 .auth-container {
@@ -114,14 +123,28 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    
-    /* Cloud Sky Blue Background Gradient */
+   /*  
+    Cloud Sky Blue Background Gradient
     background-color: #f0f9ff;
-    background-image: 
+     background-image: 
         radial-gradient(#0284c7 1.2px, transparent 1.2px),
-        linear-gradient(135deg, rgba(224, 242, 254, 0.85) 0%, rgba(186, 230, 253, 0.65) 50%, rgba(240, 249, 255, 0.95) 100%);
-    background-size: 24px 24px, 100% 100%;
-    background-position: 0 0, 0 0;
+         linear-gradient(135deg, rgba(224, 242, 254, 0.85) 0%, rgba(186, 230, 253, 0.65) 50%, rgba(240, 249, 255, 0.95) 100%);
+       background-size: 24px 24px, 100% 100%;
+    background-position: 0 0, 0 0;   */
+}
+/* Sky & Cloud Background */
+body {
+    background-color: #e0f2fe; /* Fallback color for older browsers */
+    
+    background-image: 
+        /* Layer 1: Soft Sunlight / Cloud Glow at top right */
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.8) 0%, transparent 40%),
+        /* Layer 2: Natural Sky Blue to Soft Atmosphere Gradient */
+        linear-gradient(180deg, #38bdf8 0%, #bae6fd 45%, #f0f9ff 85%, #ffffff 100%);
+        
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
 }
 
 /* Glassmorphism Form Card */
