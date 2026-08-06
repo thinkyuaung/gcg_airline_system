@@ -223,6 +223,94 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
 }
 
 /* =====================================================
+   FLEXIBLE DATE STRIP (new)
+===================================================== */
+.date-filter-strip{
+    background:white;
+    border-radius:1.25rem;
+    padding:1.25rem 1.5rem;
+    margin-top:1rem;
+    border:1px solid var(--bs-border-color);
+    box-shadow: 0 0.5rem 2rem rgba(3,22,50,.06);
+}
+.date-filter-label{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:11px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    color:#64748b;
+    margin-bottom:.75rem;
+}
+.date-scroll{
+    display:grid;
+    grid-template-columns:repeat(7, minmax(0,1fr));
+    gap:10px;
+}
+
+.date-pill{
+    padding:10px 6px;
+    border-radius:.9rem;
+    border:1px solid var(--bs-border-color);
+    background:#f8f9ff;
+    text-align:center;
+    cursor:pointer;
+    transition:.2s;
+}
+.date-pill:hover{
+    border-color:var(--bs-primary);
+    background:#eff4ff;
+    transform:translateY(-2px);
+}
+.date-pill.active{
+    background:var(--bs-primary);
+    border-color:var(--bs-primary);
+    color:#fff;
+    box-shadow:0 .4rem 1rem rgba(0,74,198,.25);
+}
+.date-pill.disabled{
+    opacity:.4;
+    cursor:not-allowed;
+    pointer-events:none;
+}
+.date-pill .dow{
+    font-size:11px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.03em;
+    opacity:.65;
+}
+.date-pill .dnum{
+    font-size:20px;
+    font-weight:800;
+    font-family:'Manrope', sans-serif;
+    line-height:1.25;
+}
+.date-pill .dmonth{
+    font-size:11px;
+    font-weight:600;
+    opacity:.7;
+}
+.date-pill.active .dow,
+.date-pill.active .dmonth{ opacity:.9; }
+
+@media(max-width:576px){
+    .date-filter-strip{ padding:1rem; }
+    .date-pill{ padding:8px 4px; }
+    .date-scroll{
+        grid-auto-flow:column;
+        grid-auto-columns:minmax(60px,1fr);
+        grid-template-columns:none;
+        overflow-x:auto;
+        padding-bottom:4px;
+    }
+    .date-scroll::-webkit-scrollbar{ height:6px; }
+    .date-scroll::-webkit-scrollbar-thumb{ background:#e2e8f0; border-radius:10px; }
+}
+
+/* =====================================================
    FLIGHT CARD
 ===================================================== */
 .flight-card{
@@ -350,7 +438,7 @@ footer a:hover{ color:#fff; }
     <section id="booking">
 
         <!-- Editable search form (hidden by default when there are results) -->
-        <div class="collapse" id="bookingFormCollapse" th:classappend="${#lists.isEmpty(flightPlans)} ? ' show' : ''">
+        <div class="collapse" id="bookingFormCollapse" th:classappend="${param.departureCity == null} ? ' show' : ''">
             <div class="booking-card">
                 <form action="/airline/search" method="get">
                     <div class="search-fields">
@@ -399,7 +487,7 @@ footer a:hover{ color:#fff; }
 
                     <div class="d-flex justify-content-end gap-2 mt-4">
                         <button type="button"
-                                th:if="${!#lists.isEmpty(flightPlans)}"
+                                th:if="${param.departureCity != null}"
                                 class="btn btn-outline-secondary"
                                 data-bs-toggle="collapse"
                                 data-bs-target="#bookingFormCollapse">
@@ -413,27 +501,32 @@ footer a:hover{ color:#fff; }
             </div>
         </div>
 
-        <!-- Summary card (shown by default when there are results; hidden while the form above is open) -->
-        <div th:if="${!#lists.isEmpty(flightPlans)}" id="searchSummaryWrapper" class="search-summary d-flex flex-wrap align-items-center justify-content-between gap-4">
+        <!-- Summary card (shown whenever a search has been submitted — even with 0 results —
+             hidden only while the form above is open). Reads the searched-for values straight
+             from the query params rather than flightPlans[0], so it doesn't disappear on a
+             no-results search. Shows plain city names (no airport-code lookup) to keep the
+             expression simple. -->
+        <div th:if="${param.departureCity != null}"
+             id="searchSummaryWrapper"
+             class="search-summary d-flex flex-wrap align-items-center justify-content-between gap-4">
             <div class="d-flex align-items-center gap-4 gap-md-5">
                 <div class="d-flex align-items-center gap-3">
                     <div>
-                        <div class="h5 mb-0 fw-bold" th:text="${flightPlans[0].departureAirport.city}"></div>
-                        <div class="text-secondary small fw-bold" th:text="${flightPlans[0].departureAirport.airportCode}"></div>
+                        <div class="h5 mb-0 fw-bold" th:text="${param.departureCity[0]}"></div>
                     </div>
                     <span class="material-symbols-outlined text-secondary fs-2">trending_flat</span>
                     <div>
-                        <div class="h5 mb-0 fw-bold" th:text="${flightPlans[0].arrivalAirport.city}"></div>
-                        <div class="text-secondary small fw-bold" th:text="${flightPlans[0].arrivalAirport.airportCode}"></div>
+                        <div class="h5 mb-0 fw-bold" th:text="${param.arrivalCity[0]}"></div>
                     </div>
                 </div>
                 <div class="vr d-none d-md-block" style="height:40px;opacity:.1;"></div>
                 <div>
                     <div class="fw-bold text-primary small"
-                         th:text="${#temporals.format(flightPlans[0].departureTime,'EEE, dd MMM yyyy')}"></div>
+                         id="summaryDateText"
+                         th:text="${param.departureDate[0]}"></div>
                     <div class="text-muted small">
-                        <span th:text="${passengers}"></span> Passenger<span th:if="${passengers > 1}">s</span> &bull;
-                        <span th:text="${seatClass}"></span>
+                        <span th:text="${param.passengers[0]}"></span> Passenger<span th:if="${param.passengers[0] != '1'}">s</span> &bull;
+                        <span th:text="${param.seatClass[0]}"></span>
                     </div>
                 </div>
             </div>
@@ -442,17 +535,41 @@ footer a:hover{ color:#fff; }
             </button>
         </div>
 
+        <!-- =====================================================
+             FLEXIBLE DATE STRIP (new)
+             Shows the searched date plus 3 days before / 3 days
+             after so customers can hop to nearby dates in one tap.
+        ===================================================== -->
+        <div th:if="${param.departureCity != null}"
+             class="date-filter-strip"
+             id="dateFilterStrip">
+            <div class="date-filter-label">
+                <span class="material-symbols-outlined" style="font-size:16px;">event_repeat</span>
+                Nearby dates
+            </div>
+            <span id="dateStripCurrentDate" class="d-none" th:text="${param.departureDate[0]}"></span>
+            <div class="date-scroll" id="dateScroll">
+                <!-- Pills are generated client-side in the script below,
+                     based on #dateStripCurrentDate's text, so no backend change is required. -->
+            </div>
+        </div>
+
     </section>
 
     <!-- =====================================================
          NO RESULTS
+         Only shown once a search has actually been submitted and
+         came back empty — sits in the same spot the results row
+         would occupy, right below the summary + nearby-dates strip
+         (both of which stay visible, since they no longer depend
+         on flightPlans being non-empty).
     ===================================================== -->
-    <div th:if="${#lists.isEmpty(flightPlans)}" class="text-center py-5 border rounded-5 mt-4 empty-state">
+    <div th:if="${param.departureCity != null and #lists.isEmpty(flightPlans)}" class="text-center py-5 border rounded-5 mt-4 empty-state">
         <div class="bg-light rounded-circle d-inline-flex p-4 mb-4">
             <span class="material-symbols-outlined text-secondary fs-1">flight</span>
         </div>
         <h3 class="fw-bold text-primary">No flights found.</h3>
-        <p class="text-muted mx-auto" style="max-width:400px;">Please try another route or date.</p>
+        <p class="text-muted mx-auto" style="max-width:400px;">Please try another route, date, or check the nearby dates above.</p>
     </div>
 
     <!-- =====================================================
@@ -707,16 +824,19 @@ document.addEventListener("DOMContentLoaded", function () {
     const bookingCollapse = new bootstrap.Collapse(bookingCollapseEl, { toggle: false });
     const summaryWrapper = document.getElementById("searchSummaryWrapper");
     const modifyBtn = document.getElementById("modifySearchBtn");
+    const dateStripEl = document.getElementById("dateFilterStrip");
 
     if (modifyBtn) {
         modifyBtn.addEventListener("click", function () {
             if (summaryWrapper) summaryWrapper.classList.add("d-none");
+            if (dateStripEl) dateStripEl.classList.add("d-none");
             bookingCollapse.show();
         });
     }
 
     bookingCollapseEl.addEventListener("shown.bs.collapse", function () {
         if (summaryWrapper) summaryWrapper.classList.add("d-none");
+        if (dateStripEl) dateStripEl.classList.add("d-none");
         const header = document.getElementById("stickyHeader");
         const headerHeight = header ? header.offsetHeight : 90;
         const target = document.getElementById("booking");
@@ -726,7 +846,99 @@ document.addEventListener("DOMContentLoaded", function () {
 
     bookingCollapseEl.addEventListener("hidden.bs.collapse", function () {
         if (summaryWrapper) summaryWrapper.classList.remove("d-none");
+        if (dateStripEl) dateStripEl.classList.remove("d-none");
     });
+
+    /* =====================================================
+       Summary card date — format the raw yyyy-MM-dd value
+       (rendered as plain text server-side, since th:attr with
+       request params is restricted in this Thymeleaf setup)
+       into "EEE, dd MMM yyyy" client-side.
+    ===================================================== */
+    const summaryDateEl = document.getElementById("summaryDateText");
+    if (summaryDateEl && summaryDateEl.textContent.trim()) {
+        const sd = new Date(summaryDateEl.textContent.trim() + "T00:00:00");
+        if (!isNaN(sd)) {
+            const summaryFmt = new Intl.DateTimeFormat("en-US", { weekday: "short", day: "2-digit", month: "short", year: "numeric" });
+            summaryDateEl.textContent = summaryFmt.format(sd);
+        }
+    }
+
+    /* =====================================================
+       Flexible date strip (±3 days around the searched date)
+       Reads the searched date from a hidden span's text content
+       (not a data attribute — th:attr with request params is
+       restricted in this Thymeleaf setup) and renders 7 selectable
+       date pills — no backend change required. Clicking a pill
+       re-submits the search with that date while keeping
+       departureCity / arrivalCity / passengers / seatClass.
+
+       FIX: previously used d.toISOString().slice(0,10) to build the
+       outgoing "departureDate" query param. toISOString() converts
+       to UTC, but the Date objects here are built in local time —
+       in timezones ahead of UTC that silently shifts the date sent
+       to the server by -1 day vs. the date shown on the pill, which
+       is why some pills looked like they "skipped" a day or did
+       nothing when clicked. Now we build the date at local noon and
+       format the ISO string from local y/m/d parts directly.
+    ===================================================== */
+    const dateStripCurrentDateEl = document.getElementById("dateStripCurrentDate");
+    if (dateStripEl && dateStripCurrentDateEl) {
+        const dateScroll = document.getElementById("dateScroll");
+        const currentDateStr = dateStripCurrentDateEl.textContent.trim(); // yyyy-MM-dd
+
+        const [baseY, baseM, baseD] = currentDateStr.split("-").map(Number);
+        // Local noon avoids any chance of DST edge cases when we later setDate().
+        const baseDate = new Date(baseY, baseM - 1, baseD, 12, 0, 0);
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const dowFmt = new Intl.DateTimeFormat("en-US", { weekday: "short" });
+        const monFmt = new Intl.DateTimeFormat("en-US", { month: "short" });
+
+        function toLocalISODate(d) {
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, "0");
+            const day = String(d.getDate()).padStart(2, "0");
+            return `${y}-${m}-${day}`;
+        }
+
+        for (let offset = -3; offset <= 3; offset++) {
+            const d = new Date(baseDate);
+            d.setDate(d.getDate() + offset);
+
+            const dAtMidnight = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+            const isPast = dAtMidnight < today;
+            const isoDate = toLocalISODate(d);
+            const isActive = offset === 0;
+
+            const pill = document.createElement("div");
+            pill.className = "date-pill" + (isActive ? " active" : "") + (isPast ? " disabled" : "");
+            pill.setAttribute("role", "button");
+            pill.setAttribute("aria-label", dowFmt.format(d) + " " + d.getDate() + " " + monFmt.format(d));
+            pill.innerHTML =
+                '<div class="dow">' + dowFmt.format(d) + '</div>' +
+                '<div class="dnum">' + d.getDate() + '</div>' +
+                '<div class="dmonth">' + monFmt.format(d) + '</div>';
+
+            if (!isPast) {
+                pill.addEventListener("click", function () {
+                    if (isActive) return;
+                    const params = new URLSearchParams(window.location.search);
+                    params.set("departureDate", isoDate);
+                    window.location.href = window.location.pathname + "?" + params.toString();
+                });
+            }
+
+            dateScroll.appendChild(pill);
+        }
+
+        const activePill = dateScroll.querySelector(".date-pill.active");
+        if (activePill) {
+            activePill.scrollIntoView({ inline: "center", block: "nearest" });
+        }
+    }
 
     /* =====================================================
        4. Price range + departure time filters + PAGINATION
@@ -751,7 +963,6 @@ document.addEventListener("DOMContentLoaded", function () {
         return "night";
     }
 
-    // Returns cards that pass the current filters (regardless of page)
     function getFilterMatches() {
         const maxPrice = priceRange ? parseFloat(priceRange.value) : Infinity;
         const activeBuckets = Array.from(timeButtons)
@@ -772,7 +983,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!paginationEl) return;
         paginationEl.innerHTML = "";
 
-        if (totalPages <= 1) return; // no need for controls with 0-1 pages
+        if (totalPages <= 1) return;
 
         const prevDisabled = currentPage === 1 ? "disabled" : "";
         paginationEl.insertAdjacentHTML("beforeend",
@@ -800,7 +1011,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const page = parseInt(this.dataset.page, 10);
                 if (page >= 1 && page <= totalPages && page !== currentPage) {
                     currentPage = page;
-                    applyFilters(false); // false = don't reset page
+                    applyFilters(false);
                     document.getElementById("flightResults").scrollIntoView({ behavior: "smooth", block: "start" });
                 }
             });
