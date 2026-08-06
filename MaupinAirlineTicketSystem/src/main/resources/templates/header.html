@@ -82,27 +82,27 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
             <ul class="navbar-nav mx-auto gap-lg-4 gap-2 mt-3 mt-lg-0 fw-semibold">
                 <li class="nav-item">
                     <a class="nav-link" 
-                       th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI == '/airline/'} ? 'active' : ''" 
+                       th:classappend="${activeTab == '/'} ? 'active' : ''" 
                        th:href="@{/airline/}">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" 
-                       th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI.startsWith('/airline/flights')} ? 'active' : ''" 
+                       th:classappend="${activeTab == 'flights'} ? 'active' : ''" 
                        th:href="@{/airline/flights}">Flights</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link"
-                       th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI.startsWith('/airline/manage-booking')} ? 'active' : ''"
+                       th:classappend="${activeTab == 'manage'} ? 'active' : ''"
                        th:href="@{/airline/manage-booking}">Manage Booking</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" 
-                       th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI.startsWith('/airline/about')} ? 'active' : ''" 
+                       th:classappend="${activeTab == 'about'} ? 'active' : ''" 
                        th:href="@{/airline/about}">About</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" 
-                       th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI.startsWith('/airline/support')} ? 'active' : ''" 
+                       th:classappend="${activeTab == 'support'} ? 'active' : ''" 
                        th:href="@{/airline/support}">Support</a>
                 </li>
             </ul>

@@ -417,7 +417,7 @@ h1,h2,h3,h4,h5,h6{
         <p class="mb-1">Original Price</p>
 
         <h5 class="text-decoration-line-through" style="color:#737686; font-weight:600;">
-            $<span th:text="${originalPrice}"></span>
+            $<span th:text="${#numbers.formatDecimal(originalPrice, 1, 2)}"></span>
         </h5>
 
 <!-- Global Promotion -->
@@ -430,7 +430,7 @@ h1,h2,h3,h4,h5,h6{
 
         <h2 class="mt-2">
             $
-            <span th:text="${finalPrice}"></span>
+            <span th:text="${#numbers.formatDecimal(finalPrice, 1, 2)}"></span>
         </h2>
 
         <p class="mb-0" style="color:#737686;">
@@ -445,7 +445,7 @@ h1,h2,h3,h4,h5,h6{
 
         <h2>
             $
-            <span th:text="${finalPrice}"></span>
+            <span th:text="${#numbers.formatDecimal(finalPrice, 1, 2)}"></span>
         </h2>
 
     </div>

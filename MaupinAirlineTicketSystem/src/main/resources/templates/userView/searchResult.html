@@ -651,8 +651,9 @@ footer a:hover{ color:#fff; }
                          and #strings.equalsIgnoreCase(flightPlan.promotion.status,'active')
                          and !flightPlan.promotion.startDate.isAfter(#temporals.createNow())
                          and !flightPlan.promotion.endDate.isBefore(#temporals.createNow())},
-              discountedPrice=${hasPromo} ? ${#numbers.formatDecimal(flightPlan.price - (flightPlan.price * flightPlan.promotion.percentage / 100), 1, 2)} : null"
-     th:attr="data-price=${hasPromo} ? ${discountedPrice} : ${flightPlan.price}, data-hour=${#temporals.format(flightPlan.departureTime,'HH')}">
+              basePrice=${flightPlan.price * priceMultipliers[flightPlan.flightPlanId]},
+              discountedPrice=${hasPromo} ? ${#numbers.formatDecimal(basePrice - (basePrice * flightPlan.promotion.percentage / 100), 1, 2)} : null"
+     th:attr="data-price=${hasPromo} ? ${discountedPrice} : ${basePrice}, data-hour=${#temporals.format(flightPlan.departureTime,'HH')}">
                     <!-- Promo ribbon -->
     					<div th:if="${hasPromo}" class="promo-ribbon">
         					<i class="bi bi-fire"></i> <span th:text="${flightPlan.promotion.percentage}"></span>% OFF
@@ -723,13 +724,13 @@ footer a:hover{ color:#fff; }
 
                     <!-- Promo: strikethrough original + discounted price -->
                     <div th:if="${hasPromo}">
-                        <div class="price-original">$<span th:text="${flightPlan.price}"></span></div>
+                        <div class="price-original">$<span th:text="${#numbers.formatDecimal(basePrice, 1, 2)}"></span></div>
                         <div class="h1 fw-bold price-discounted mb-0">$<span th:text="${discountedPrice}"></span></div>
                     </div>
 
                     <!-- No promo: normal price -->
                     <div th:unless="${hasPromo}" class="h1 fw-bold text-primary mb-0">
-                        $<span th:text="${flightPlan.price}"></span>
+                        $<span th:text="${#numbers.formatDecimal(basePrice, 1, 2)}"></span>
                     </div>
                 </div>
 

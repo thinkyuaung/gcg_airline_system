@@ -154,7 +154,7 @@ body {
   pointer-events: none;
 }
  
-/* Colour blobs */
+/* Colour blobs */  
 .hero-blob {
   position: absolute;
   border-radius: 50%;
@@ -1137,9 +1137,9 @@ body {
  * ================================================== */
 .small-promo-track {
     display: flex;
-    gap: 16px; /* Header Box တစ်ခုနှင့် တစ်ခုကြား အကွာအဝေး */
+    gap: 16px; 
     width: max-content;
-    animation: scrollHeaderBoxes 20s linear infinite; /* 20s သည် အမြန်နှုန်းဖြစ်သည် */
+    animation: scrollHeaderBoxes 20s linear infinite; 
 }
 
 /* Pause Scrolling on Mouse Hover */
@@ -1156,7 +1156,7 @@ body {
 }
 
 .small-card-header:hover {
-    transform: translateY(-4px) scale(1.02); /* Hover လုပ်ပါက အနည်းငယ် ကြွလာမည် */
+    transform: translateY(-4px) scale(1.02); 
     box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15) !important;
 }
 

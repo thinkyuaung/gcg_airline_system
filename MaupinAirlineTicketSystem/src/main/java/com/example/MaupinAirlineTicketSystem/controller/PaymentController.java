@@ -64,12 +64,13 @@ public class PaymentController {
     @GetMapping("/payment/{id}")
     public String paymentPage(@PathVariable int id, Model model) {
         // ... unchanged, exactly as you have it today
+        model.addAttribute("activeTab", "/");
         return "userview/payment";
     }
 
     // NEW: pre-booking payment page, driven entirely by session data
     @GetMapping("/payment/new")
-    public String newPaymentPage(HttpSession session, Model model) {
+    public String newPaymentPage(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
 
         Integer flightPlanId = (Integer) session.getAttribute("pendingFlightPlanId");
         Integer passengers = (Integer) session.getAttribute("pendingPassengers");
@@ -80,9 +81,27 @@ public class PaymentController {
         }
 
         FlightPlan flightPlan = flightPlanRepository.findById(flightPlanId).orElseThrow();
+
+        if (passengers > flightPlan.getAvailableSeats()) {
+            redirectAttributes.addFlashAttribute("bookingError",
+                    "Not enough available seats on this flight");
+            return "redirect:/airline/flight/" + flightPlanId
+                    + "?passengers=" + passengers + "&seatClass=" + seatClass;
+        }
+
+        if (passengers > flightPlan.getSeatsForClass(seatClass)) {
+            redirectAttributes.addFlashAttribute("bookingError",
+                    "Not enough available seats. Only "
+                            + flightPlan.getSeatsForClass(seatClass)
+                            + " " + seatClass + " class seat(s) left on this flight");
+            return "redirect:/airline/flight/" + flightPlanId
+                    + "?passengers=" + passengers + "&seatClass=" + seatClass;
+        }
+
         SeatClass seatClassEntity = seatClassRepository.findByClassNameIgnoreCase(seatClass);
 
-        double originalPrice = flightPlan.getPrice() * seatClassEntity.getPriceMultiplier() * passengers;
+        double originalPrice = flightPlan.getPrice() * seatClassEntity.getPriceMultiplier() * passengers
+                * bookingService.getTimeBasedMultiplier(flightPlan.getDepartureTime());
 
         Optional<Promotion> globalPromotion = promotionRepository
             .findFirstByStatusAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
@@ -108,6 +127,7 @@ public class PaymentController {
 
         model.addAttribute("originalPrice", originalPrice);
         model.addAttribute("finalPrice", finalPrice);
+        model.addAttribute("activeTab", "/");
 
         return "userview/payment";
     }
@@ -125,6 +145,7 @@ public class PaymentController {
         model.addAttribute("booking", booking);
         model.addAttribute("reviewed", reviewed);
         model.addAttribute("success", isSuccess);
+        model.addAttribute("activeTab", "/");
 
         return "userview/paymentSuccess";
     }

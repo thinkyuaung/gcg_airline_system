@@ -73,6 +73,7 @@ public class Controller {
 		model.addAttribute("seatClasses", seatClassRepository.findAll());
 		model.addAttribute("currentPage", "home");
 		model.addAttribute("promotion", getCurrentPromotion());
+		model.addAttribute("activeTab", "/");
 
 		return "index";
 	}
@@ -91,6 +92,7 @@ public class Controller {
 		model.addAttribute("promotion", getCurrentPromotion());
 
 		model.addAttribute("currentPage", "home");
+		model.addAttribute("activeTab", "/");
 		return "index";
 	}
 
@@ -98,12 +100,14 @@ public class Controller {
 	public String about(Model model) {
 
 		model.addAttribute("reviews", reviewService.getLatestReviews());
+		model.addAttribute("activeTab", "about");
 
 		return "about";
 	}
 
 	@GetMapping("/support")
-	public String support() {
+	public String support(Model model) {
+		model.addAttribute("activeTab", "support");
 		return "support";
 	}
 	////////////// Login //////////////

@@ -1,6 +1,7 @@
 package com.example.MaupinAirlineTicketSystem.serviceImplementation;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +38,32 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public double calculateTotalPrice(FlightPlan flightPlan, SeatClass seatClass, int passengers) {
-        return flightPlan.getPrice() * seatClass.getPriceMultiplier() * passengers;
+        double base = flightPlan.getPrice() * seatClass.getPriceMultiplier() * passengers;
+        return base * getTimeBasedMultiplier(flightPlan.getDepartureTime());
+    }
+
+    @Override
+    public double getTimeBasedMultiplier(LocalDateTime departureTime) {
+        if (departureTime == null) {
+            return 1.0;
+        }
+        long days = ChronoUnit.DAYS.between(LocalDateTime.now(), departureTime);
+        if (days > 30) {
+            return 1.0;
+        }
+        if (days > 21) {
+            return 1.1;
+        }
+        if (days > 14) {
+            return 1.2;
+        }
+        if (days > 7) {
+            return 1.3;
+        }
+        if (days > 3) {
+            return 1.5;
+        }
+        return 2;
     }
 
     private void validateSeats(FlightPlan flightPlan, String seatClass, int passengers) {
@@ -84,7 +110,8 @@ public class BookingServiceImpl implements BookingService {
         booking.setBookingDate(LocalDateTime.now());
         booking.setStatus("PENDING");
 
-        double total = flightPlan.getPrice() * seatClassEntity.getPriceMultiplier() * passengers;
+        double total = flightPlan.getPrice() * seatClassEntity.getPriceMultiplier() * passengers
+                * getTimeBasedMultiplier(flightPlan.getDepartureTime());
 
         Promotion flightPlanPromotion = flightPlan.getPromotion();
         Optional<Promotion> globalPromotion = promotionRepository
