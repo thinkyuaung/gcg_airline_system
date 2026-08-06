@@ -1,5 +1,6 @@
 package com.example.MaupinAirlineTicketSystem.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.example.MaupinAirlineTicketSystem.dto.PendingPassenger;
@@ -11,6 +12,8 @@ import com.example.MaupinAirlineTicketSystem.entity.User;
 public interface BookingService {
 
     double calculateTotalPrice(FlightPlan flightPlan, SeatClass seatClass, int passengers);
+
+    double getTimeBasedMultiplier(LocalDateTime departureTime);
 
     void validateAvailability(int flightPlanId, String seatClass, int passengers);
 

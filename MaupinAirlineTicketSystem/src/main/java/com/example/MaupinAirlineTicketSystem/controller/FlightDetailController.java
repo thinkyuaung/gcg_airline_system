@@ -17,6 +17,7 @@ import com.example.MaupinAirlineTicketSystem.entity.Promotion;
 import com.example.MaupinAirlineTicketSystem.entity.SeatClass;
 import com.example.MaupinAirlineTicketSystem.repository.SeatClassRepository;
 import com.example.MaupinAirlineTicketSystem.repository.UserPromotionRepository;
+import com.example.MaupinAirlineTicketSystem.service.BookingService;
 import com.example.MaupinAirlineTicketSystem.service.FlightDetailService;
 
 @Controller
@@ -25,6 +26,9 @@ public class FlightDetailController {
 
 	@Autowired
     private FlightDetailService flightDetailService;
+
+	@Autowired
+	private BookingService bookingService;
 
 	@Autowired
 	private UserPromotionRepository promotionRepository;
@@ -66,7 +70,8 @@ public class FlightDetailController {
 	    double totalPrice =
 	            flightPlan.getPrice()
 	            * multiplier
-	            * passengers;
+	            * passengers
+	            * bookingService.getTimeBasedMultiplier(flightPlan.getDepartureTime());
 
 	    Optional<Promotion> globalPromotion =
 	            promotionRepository

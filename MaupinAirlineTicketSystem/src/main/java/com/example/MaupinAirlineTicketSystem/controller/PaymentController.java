@@ -99,7 +99,8 @@ public class PaymentController {
 
         SeatClass seatClassEntity = seatClassRepository.findByClassNameIgnoreCase(seatClass);
 
-        double originalPrice = flightPlan.getPrice() * seatClassEntity.getPriceMultiplier() * passengers;
+        double originalPrice = flightPlan.getPrice() * seatClassEntity.getPriceMultiplier() * passengers
+                * bookingService.getTimeBasedMultiplier(flightPlan.getDepartureTime());
 
         Optional<Promotion> globalPromotion = promotionRepository
             .findFirstByStatusAndStartDateLessThanEqualAndEndDateGreaterThanEqual(

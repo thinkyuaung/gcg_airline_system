@@ -2,7 +2,9 @@ package com.example.MaupinAirlineTicketSystem.controller;
 
 import java.time.LocalDate;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.MaupinAirlineTicketSystem.entity.FlightPlan;
 import com.example.MaupinAirlineTicketSystem.repository.AirportRepository;
 import com.example.MaupinAirlineTicketSystem.repository.SeatClassRepository;
+import com.example.MaupinAirlineTicketSystem.service.BookingService;
 import com.example.MaupinAirlineTicketSystem.service.FlightSearchService;
 
 import jakarta.servlet.http.HttpSession;
@@ -30,6 +33,9 @@ public class FlightSearchController {
 	
 	@Autowired
 	private SeatClassRepository seatClassRepository;
+
+	@Autowired
+	private BookingService bookingService;
 
 	@GetMapping("/search")
 	public String searchFlights(
@@ -61,6 +67,12 @@ public class FlightSearchController {
 				);
 
 		model.addAttribute("flightPlans", flightPlans);
+
+		Map<Integer, Double> priceMultipliers = new HashMap<>();
+		for (FlightPlan fp : flightPlans) {
+			priceMultipliers.put(fp.getFlightPlanId(), bookingService.getTimeBasedMultiplier(fp.getDepartureTime()));
+		}
+		model.addAttribute("priceMultipliers", priceMultipliers);
 
 		model.addAttribute("departureCity", departureCity);
 		model.addAttribute("arrivalCity", arrivalCity);
