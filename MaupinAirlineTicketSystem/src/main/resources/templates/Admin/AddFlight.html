@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Airline Administration</title>
+  <!-- Bootstrap 5 CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons CDN for modern visual accents -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  
+  <style>
+    body {
+      background-color: #f4f7f6;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Modal Custom Styling */
+    .modal-content {
+      border: none;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      background-color: #ffffff;
+    }
+
+    .modal-header {
+      border-bottom: 1px solid #edf2f7;
+      background-color: #fafbfc;
+      padding: 1.5rem;
+    }
+
+    .modal-title {
+      color: #1a202c;
+      font-size: 1.25rem;
+    }
+
+    .modal-body {
+      padding: 2rem 1.5rem;
+    }
+
+    /* Form Design Details */
+    .form-label {
+      color: #4a5568;
+      margin-bottom: 0.5rem;
+      font-size: 0.85rem;
+      letter-spacing: 0.3px;
+    }
+
+    .form-control {
+      border: 1.5px solid #e2e8f0;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      color: #2d3748;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .form-control:focus {
+      border-color: #3182ce;
+      box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.15);
+      background-color: #fff;
+    }
+
+    .form-control::placeholder {
+      color: #a0aec0;
+      font-size: 0.9rem;
+    }
+
+    /* File upload field specific styling */
+    .form-control[type="file"] {
+      padding: 0.6rem 0.75rem;
+    }
+
+    /* Custom Button Styles */
+    .btn-primary {
+      background-color: #3182ce;
+      border: none;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: #2b6cb0;
+      transform: translateY(-1px);
+    }
+
+    .btn-light {
+      background-color: #edf2f7;
+      color: #4a5568;
+      border: none;
+      font-weight: 500;
+    }
+
+    .btn-light:hover {
+      background-color: #e2e8f0;
+      color: #2d3748;
+    }
+
+    .modal-footer {
+      border-top: 1px solid #edf2f7;
+      background-color: #fafbfc;
+      padding: 1.25rem 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Center Action Button to Trigger Modal -->
+
+  <!-- Styled Modal -->
+  <div>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4">
+        <div class="modal-header d-flex align-items-center">
+          <h5 class="modal-title fw-bold">
+            <i class="bi bi-airplane-fill text-primary me-2"></i>
+            <span th:text="${flight.flightId != null} ? 'Edit Flight' : 'Add New Flight'">Flight</span>
+          </h5>
+          <a th:href="@{/airline/admin/flights}" class="btn-close" aria-label="Close"></a>
+        </div>
+        
+        <form th:action="${flight.flightId != null} ? @{/airline/admin/flight/update} : @{/airline/admin/flight}" 
+			th:object="${flight}" 
+			method="post">
+          
+          <input type="hidden" th:if="${flight.flightId != null}" th:field="*{flightId}" />
+          
+          <div class="modal-body">
+            <!-- Flight Number -->
+            <div class="mb-4">
+              <label class="form-label text-uppercase fw-bold">Flight Number</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-hash"></i></span>
+                <input type="text" name="flightNumber" class="form-control border-start-0" placeholder="e.g., SN-101" th:field="*{flightNumber}">
+                
+              </div>
+              <span class="text-danger" th:if="${#fields.hasErrors('flightNumber')}"
+					th:errors="*{flightNumber}"></span>
+            </div>
+
+            <!-- Economy Seats -->
+            <div class="mb-4">
+              <label class="form-label text-uppercase fw-bold">Economy Seats</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-person"></i></span>
+                <input type="number" name="ecomonySeats" class="form-control border-start-0 seat-input" placeholder="e.g., 120" th:field="*{ecomonySeats}" min="0">
+              </div>
+            </div>
+
+            <!-- Business Seats -->
+            <div class="mb-4">
+              <label class="form-label text-uppercase fw-bold">Business Seats</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-person-fill"></i></span>
+                <input type="number" name="businessSeats" class="form-control border-start-0 seat-input" placeholder="e.g., 40" th:field="*{businessSeats}" min="0">
+              </div>
+            </div>
+
+            <!-- First Class Seats -->
+            <div class="mb-4">
+              <label class="form-label text-uppercase fw-bold">First Class Seats</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-person-workspace"></i></span>
+                <input type="number" name="firseClassSeats" class="form-control border-start-0 seat-input" placeholder="e.g., 20" th:field="*{firseClassSeats}" min="0">
+              </div>
+            </div>
+
+            <!-- Total Seats (Auto-calculated) -->
+            <div class="mb-4">
+              <label class="form-label text-uppercase fw-bold">Total Seats</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-tag"></i></span>
+                <input type="number" id="totalSeats" name="totalSeats" class="form-control border-start-0 bg-light" placeholder="Auto-calculated" th:field="*{totalSeats}" readonly>
+              </div>
+              <span class="text-danger" th:if="${#fields.hasErrors('totalSeats')}"
+					th:errors="*{totalSeats}"></span>
+            </div>
+            
+             <!-- Airline -->
+             <div class="mb-4">
+              <label class="form-label text-uppercase fw-bold">Airline</label>
+              <div class="input-group">
+						<select th:field="*{airline}" class="form-select mt-4">
+							<option value="">Select Airline</option>
+							<option th:each="a : ${airlines}" 
+									th:value="${a.airlineId}" 
+									th:text="${a.airlineName}"></option>
+						</select>
+              </div>
+              <span class="text-danger small" th:if="${#fields.hasErrors('airline')}" th:errors="*{airline}"></span>
+            </div>
+            
+             <!-- Features -->
+            <div class="mb-4">
+			    <label class="form-label text-uppercase fw-bold">Flight Features</label>
+			
+			    <div class="form-check">
+				    <input class="form-check-input"
+				           type="checkbox"
+				           id="wifi"
+				           name="wifi"
+				           value="1"
+				           th:checked="${flight.wifi == 1}">
+				    <input type="hidden" name="wifi" value="0">
+				    <label class="form-check-label" for="wifi">WiFi</label>
+				</div>
+			
+			    <div class="form-check">
+				    <input class="form-check-input"
+				           type="checkbox"
+				           id="meal"
+				           name="meal"
+				           value="1"
+				           th:checked="${flight.meal == 1}">
+				    <input type="hidden" name="meal" value="0">
+				    <label class="form-check-label" for="meal">Meal</label>
+				</div>
+			
+			    <div class="form-check">
+				    <input class="form-check-input"
+				           type="checkbox"
+				           id="entertainment"
+				           name="entertainment"
+				           value="1"
+				           th:checked="${flight.entertainment == 1}">
+				    <input type="hidden" name="entertainment" value="0">
+				    <label class="form-check-label" for="entertainment">Entertainment</label>
+				</div>
+			
+			    <div class="form-check">
+				    <input class="form-check-input"
+				           type="checkbox"
+				           id="charging"
+				           name="charging"
+				           value="1"
+				           th:checked="${flight.charging == 1}">
+				    <input type="hidden" name="charging" value="0">
+				    <label class="form-check-label" for="charging">Charging Port</label>
+				</div>
+			</div>
+            
+           
+          <!--   <div class="mb-4">
+              <label class="form-label text-uppercase fw-bold">Flight Features</label>
+              <div class="input-group">
+						<select name="airlineId" class="form-select mt-4" required>
+							<option value="">Select Features</option>
+							<option th:each="airline : ${features}" 
+									th:value="${airline.featureId}" 
+									th:text="${airline.featureName}"
+									></option>
+						</select>
+              </div>
+            </div> -->
+            
+              <!-- Features -->
+            
+            </div>
+
+
+          <div class="modal-footer">
+            <a th:href="@{/airline/admin/flights}" class="btn btn-light rounded-pill px-4">Cancel</a>
+            <button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm">
+              <span th:text="${flight.flightId != null} ? 'Update Flight' : 'Save Flight'">Save</span>
+            </button>
+          </div>
+           <input type="hidden" name="status" class="form-control border-start-0" placeholder="e.g., 180" th:field="*{status}" value="${flight.status}">
+        </form>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.querySelectorAll('.seat-input').forEach(function(input) {
+      input.addEventListener('input', calculateTotal);
+    });
+    function calculateTotal() {
+      var economy = parseInt(document.querySelector('input[name="ecomonySeats"]').value) || 0;
+      var business = parseInt(document.querySelector('input[name="businessSeats"]').value) || 0;
+      var firstClass = parseInt(document.querySelector('input[name="firseClassSeats"]').value) || 0;
+      document.getElementById('totalSeats').value = economy + business + firstClass;
+    }
+  </script>
+</body>
+</html>
