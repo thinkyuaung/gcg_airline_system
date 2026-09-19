@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Booking Detail</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <style>
+        body{
+            background:#eef6fc;
+            font-family:'Segoe UI',sans-serif;
+            color:#2d2a26;
+        }
+
+        .page-wrap{
+            max-width:640px;
+            margin:0 auto;
+            padding:26px 16px 30px;
+        }
+
+        /* ---------- Top bar ---------- */
+
+        .top-bar{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            flex-wrap:wrap;
+            gap:10px;
+            margin-bottom:16px;
+        }
+
+        .booking-code-chip{
+            font-size:12px;
+            color:#6b8aa8;
+            font-weight:700;
+            letter-spacing:.4px;
+        }
+
+        .top-bar h4{
+            font-size:19px;
+            margin:2px 0 0;
+            color:#1e3a5f;
+        }
+
+        .status-pill{
+            padding:6px 16px;
+            border-radius:30px;
+            font-weight:700;
+            font-size:12px;
+            letter-spacing:.4px;
+            text-transform:uppercase;
+        }
+
+        .status-pending{ background:#fff1cc; color:#8a5c00; }
+        .status-success{ background:#dcf6e3; color:#188a4c; }
+        .status-pendingcancel{ background:#ffe1cf; color:#c0530f; }
+        .status-issued{ background:#dceafd; color:#1560c9; }
+        .status-cancelled{ background:#ececec; color:#6b6b6b; }
+
+        /* ---------- Card ---------- */
+
+        .main-card{
+            background:#fff;
+            border-radius:22px;
+            box-shadow:0 10px 28px rgba(74,59,47,.10);
+            padding:22px;
+        }
+
+        /* ---------- Friendly icon avatar ---------- */
+
+        .avatar-icon{
+            width:46px;
+            height:46px;
+            border-radius:50%;
+            background:#dbeafe;
+            color:#2f7dd1;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:20px;
+            flex-shrink:0;
+        }
+
+        .avatar-row{
+            display:flex;
+            align-items:center;
+            gap:12px;
+            margin-bottom:18px;
+        }
+
+        .avatar-row h5{
+            margin:0;
+            font-size:16px;
+            font-weight:700;
+            color:#1e3a5f;
+        }
+
+        .avatar-row small{
+            color:#6b8aa8;
+        }
+
+        /* ---------- Tabs ---------- */
+
+        .friendly-tabs{
+            display:flex;
+            gap:6px;
+            background:#e7f1fb;
+            border-radius:14px;
+            padding:5px;
+            margin-bottom:18px;
+        }
+
+        .friendly-tabs button{
+            flex:1;
+            border:none;
+            background:transparent;
+            padding:9px 6px;
+            border-radius:10px;
+            font-weight:700;
+            font-size:12.5px;
+            color:#6b8aa8;
+            transition:.15s;
+        }
+
+        .friendly-tabs button.active{
+            background:#fff;
+            color:#2f7dd1;
+            box-shadow:0 3px 10px rgba(74,59,47,.10);
+        }
+
+        .friendly-tabs button i{
+            margin-right:5px;
+        }
+
+        /* ---------- Tab panes ---------- */
+
+        .tab-pane-friendly{
+            display:none;
+            min-height:230px;
+        }
+
+        .tab-pane-friendly.active{
+            display:block;
+        }
+
+        .info-label{
+            font-size:10.5px;
+            color:#6b8aa8;
+            text-transform:uppercase;
+            font-weight:700;
+            letter-spacing:.5px;
+        }
+
+        .info-value{
+            font-size:14px;
+            font-weight:600;
+            color:#1e3a5f;
+        }
+
+        .info-grid{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:14px 16px;
+        }
+
+        /* ---------- Flight mini timeline ---------- */
+
+        .flight-strip{
+            background:#eef6fc;
+            border-radius:14px;
+            padding:16px;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:8px;
+            margin-bottom:16px;
+        }
+
+        .flight-point{ text-align:center; }
+
+        .flight-city{
+            font-size:15px;
+            font-weight:700;
+            color:#1e3a5f;
+        }
+
+        .flight-time{
+            font-size:12.5px;
+            font-weight:700;
+            color:#2f7dd1;
+        }
+
+        .flight-date{
+            font-size:10px;
+            color:#6b8aa8;
+        }
+
+        .flight-mid{
+            display:flex;
+            align-items:center;
+            gap:4px;
+        }
+
+        .flight-mid .line{
+            width:24px;
+            height:2px;
+            background:#bcd9f5;
+        }
+
+        .flight-mid i{
+            font-size:16px;
+            color:#2f7dd1;
+            transform:rotate(90deg);
+        }
+
+        /* ---------- Note ---------- */
+
+        .passenger-table-wrap{
+            max-height:150px;
+            overflow-y:auto;
+            margin-top:14px;
+            border:1px solid #e7f1fb;
+            border-radius:10px;
+        }
+
+        .passenger-table{
+            width:100%;
+            border-collapse:collapse;
+            font-size:12px;
+        }
+
+        .passenger-table thead th{
+            position:sticky;
+            top:0;
+            background:#e7f1fb;
+            color:#6b8aa8;
+            text-transform:uppercase;
+            font-size:10px;
+            letter-spacing:.4px;
+            font-weight:700;
+            padding:7px 8px;
+            text-align:left;
+            border-bottom:1px solid #d7e6f5;
+        }
+
+        .passenger-table tbody td{
+            padding:7px 8px;
+            border-bottom:1px solid #f1f6fb;
+            color:#1e3a5f;
+            font-weight:600;
+            white-space:nowrap;
+        }
+
+        .passenger-table tbody tr:last-child td{
+            border-bottom:none;
+        }
+
+        .passenger-table .p-idx{
+            color:#2f7dd1;
+            font-weight:700;
+            width:24px;
+        }
+
+        .passenger-note{
+            font-size:11.5px;
+            color:#6b8aa8;
+            background:#eef6fc;
+            border-radius:10px;
+            padding:10px 12px;
+            margin-top:14px;
+        }
+
+        .passenger-note a{
+            color:#2f7dd1;
+            font-weight:700;
+            text-decoration:none;
+        }
+
+        .passenger-note a:hover{ text-decoration:underline; }
+
+        /* ---------- Reason box ---------- */
+
+        .reason-box{
+            background:#fff1cc;
+            border-left:4px solid #e8a500;
+            padding:10px 14px;
+            border-radius:10px;
+            font-size:13px;
+            margin-bottom:14px;
+        }
+
+        /* ---------- Payment screenshot ---------- */
+
+        .screenshot-thumb{
+            width:54px;
+            height:54px;
+            object-fit:cover;
+            border-radius:10px;
+            border:1px solid #d7e6f5;
+            cursor:pointer;
+            transition:.2s;
+        }
+
+        .screenshot-thumb:hover{
+            transform:scale(1.06);
+            box-shadow:0 4px 12px rgba(0,0,0,.15);
+        }
+
+        .screenshot-row{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            margin-top:14px;
+        }
+
+        /* ---------- Actions ---------- */
+
+        .action-bar{
+            display:flex;
+            gap:8px;
+            flex-wrap:wrap;
+            margin-top:18px;
+            border-top:1px solid #e7f1fb;
+            padding-top:16px;
+        }
+
+        .btn-back-clean{
+            background:#fff;
+            border:1px solid #cfe0f2;
+            color:#1e3a5f;
+            font-weight:700;
+            border-radius:10px;
+            padding:8px 14px;
+            font-size:13px;
+        }
+
+        .btn-back-clean:hover{ background:#e7f1fb; }
+
+        .btn-approve{
+            background:#188a4c;
+            border:none;
+            color:#fff;
+            font-weight:700;
+            border-radius:10px;
+            padding:8px 14px;
+            font-size:13px;
+        }
+
+        .btn-approve:hover{ background:#137a41; color:#fff; }
+
+        .btn-reject{
+            background:#c0530f;
+            border:none;
+            color:#fff;
+            font-weight:700;
+            border-radius:10px;
+            padding:8px 14px;
+            font-size:13px;
+        }
+
+        .btn-reject:hover{ background:#a4460c; color:#fff; }
+    </style>
+</head>
+<body>
+
+<div th:replace="~{Fragments/header :: navbar}"></div>
+
+<div class="page-wrap">
+
+    <!-- Top bar -->
+    <div class="top-bar">
+        <div>
+            <div class="booking-code-chip">
+                BOOKING CODE ·
+                <span th:text="${booking.bookingCode != null ? booking.bookingCode : 'N/A'}"></span>
+            </div>
+            <h4 class="fw-bold mb-0">
+                <i class="bi bi-receipt me-1"></i>Booking Detail
+            </h4>
+        </div>
+
+        <span class="status-pill"
+              th:classappend="${
+                  booking.status == 'PENDING' ? 'status-pending' :
+                  (booking.status == 'Success' ? 'status-success' :
+                  (booking.status == 'Pending Cancel' ? 'status-pendingcancel' :
+                  (booking.status == 'Issued' ? 'status-issued' : 'status-cancelled')))
+              }"
+              th:text="${booking.status}">
+        </span>
+    </div>
+
+    <div class="main-card">
+
+        <!-- Cancellation Request -->
+        <div th:if="${booking.status == 'Pending Cancel' and booking.cancelDescription != null}"
+             class="reason-box">
+            <strong><i class="bi bi-hourglass-split me-1"></i>Cancellation Requested:</strong>
+            <span th:text="${booking.cancelDescription}"></span>
+        </div>
+
+        <div class="avatar-row">
+            <div class="avatar-icon"><i class="bi bi-person-check"></i></div>
+            <div>
+                <h5 th:text="${booking.user != null ? (booking.user.firstName + ' ' + booking.user.lastName) : 'N/A'}"></h5>
+                <small th:text="${booking.flightPlan != null and booking.flightPlan.flight != null ? booking.flightPlan.flight.flightNumber : ''}"></small>
+            </div>
+        </div>
+
+        <!-- Friendly tabs -->
+        <div class="friendly-tabs">
+            <button type="button" class="active" onclick="showTab('passenger', this)">
+                <i class="bi bi-person"></i>Passenger
+            </button>
+            <button type="button" onclick="showTab('flight', this)">
+                <i class="bi bi-airplane"></i>Flight
+            </button>
+            <button type="button" onclick="showTab('payment', this)">
+                <i class="bi bi-ticket-perforated"></i>Payment
+            </button>
+        </div>
+
+        <!-- Passenger tab -->
+        <div id="tab-passenger" class="tab-pane-friendly active">
+
+            <div class="info-grid">
+                <div>
+                    <div class="info-label">Email</div>
+                    <div class="info-value" th:text="${booking.user != null ? booking.user.email : 'N/A'}"></div>
+                </div>
+                <div>
+                    <div class="info-label">Phone</div>
+                    <div class="info-value" th:text="${booking.user != null ? booking.user.phoneNumber : 'N/A'}"></div>
+                </div>
+                <div>
+                    <div class="info-label">Passengers</div>
+                    <div class="info-value" th:text="${booking.passengers}"></div>
+                </div>
+                <div>
+                    <div class="info-label">Seat Class</div>
+                    <div class="info-value" th:text="${booking.seatClass != null ? booking.seatClass.className : 'N/A'}"></div>
+                </div>
+            </div>
+
+            <div th:if="${passengerDetails != null and !passengerDetails.isEmpty()}" class="passenger-table-wrap">
+                <table class="passenger-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Passport</th>
+                            <th>Date of Birth</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="detail, stat : ${passengerDetails}">
+                            <td class="p-idx" th:text="${stat.count}"></td>
+                            <td th:text="${detail.passengerFirstName}"></td>
+                            <td th:text="${detail.passengerLastName}"></td>
+                            <td th:text="${detail.passport}"></td>
+                            <td th:text="${detail.DOB != null ? #temporals.format(detail.DOB, 'dd MMM yyyy') : '-'}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="passenger-note">
+                <i class="bi bi-info-circle me-1"></i>
+                To change this info, direct the passenger to
+                <a href="mailto:thirisan662003@gmail.com">support@maubinairline.com</a>.
+            </div>
+
+        </div>
+
+        <!-- Flight tab -->
+        <div id="tab-flight" class="tab-pane-friendly">
+
+            <div class="flight-strip">
+                <div class="flight-point">
+                    <div class="flight-city"
+                         th:text="${booking.flightPlan != null and booking.flightPlan.departureAirport != null ? booking.flightPlan.departureAirport.city : 'N/A'}"></div>
+                    <div class="flight-time"
+                         th:text="${booking.flightPlan != null and booking.flightPlan.departureTime != null ? #temporals.format(booking.flightPlan.departureTime, 'HH:mm') : ''}"></div>
+                    <div class="flight-date"
+                         th:text="${booking.flightPlan != null and booking.flightPlan.departureTime != null ? #temporals.format(booking.flightPlan.departureTime, 'dd MMM yyyy') : ''}"></div>
+                </div>
+
+                <div class="flight-mid">
+                    <div class="line"></div>
+                    <i class="bi bi-airplane"></i>
+                    <div class="line"></div>
+                </div>
+
+                <div class="flight-point">
+                    <div class="flight-city"
+                         th:text="${booking.flightPlan != null and booking.flightPlan.arrivalAirport != null ? booking.flightPlan.arrivalAirport.city : 'N/A'}"></div>
+                    <div class="flight-time"
+                         th:text="${booking.flightPlan != null and booking.flightPlan.arrivalTime != null ? #temporals.format(booking.flightPlan.arrivalTime, 'HH:mm') : ''}"></div>
+                    <div class="flight-date"
+                         th:text="${booking.flightPlan != null and booking.flightPlan.arrivalTime != null ? #temporals.format(booking.flightPlan.arrivalTime, 'dd MMM yyyy') : ''}"></div>
+                </div>
+            </div>
+
+            <div class="info-grid">
+                <div>
+                    <div class="info-label">Airline</div>
+                    <div class="info-value"
+                         th:text="${booking.flightPlan != null and booking.flightPlan.flight != null and booking.flightPlan.flight.airline != null ? booking.flightPlan.flight.airline.airlineName : 'N/A'}"></div>
+                </div>
+                <div>
+                    <div class="info-label">Flight Number</div>
+                    <div class="info-value"
+                         th:text="${booking.flightPlan != null and booking.flightPlan.flight != null ? booking.flightPlan.flight.flightNumber : 'N/A'}"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Payment tab -->
+        <div id="tab-payment" class="tab-pane-friendly">
+
+            <div class="info-grid">
+                <div>
+                    <div class="info-label">Total Amount</div>
+                    <div class="info-value">$<span th:text="${#numbers.formatDecimal(booking.totalAmount, 1, 2)}"></span></div>
+                </div>
+                <div>
+                    <div class="info-label">Booking Date</div>
+                    <div class="info-value" th:text="${booking.bookingDate != null ? #temporals.format(booking.bookingDate, 'dd MMM yyyy, HH:mm') : 'N/A'}"></div>
+                </div>
+                <div>
+                    <div class="info-label">Payment Status</div>
+                    <div class="info-value" th:text="${booking.payment != null ? booking.payment.paymentStatus : 'N/A'}"></div>
+                </div>
+                <div>
+                    <div class="info-label">Payment Method</div>
+                    <div class="info-value" th:text="${booking.payment != null and booking.payment.paymentMethod != null ? booking.payment.paymentMethod : 'N/A'}"></div>
+                </div>
+            </div>
+
+            <div th:if="${booking.payment != null and booking.payment.paymentScreenshot != null}"
+                 class="screenshot-row">
+                <img th:src="@{'/photos/payment/' + ${booking.payment.paymentScreenshot}}"
+                     alt="Payment Screenshot"
+                     class="screenshot-thumb"
+                     data-bs-toggle="modal"
+                     data-bs-target="#screenshotModal">
+                <div class="info-label">Screenshot<br>(tap to enlarge)</div>
+            </div>
+
+        </div>
+
+        <!-- Actions -->
+        <div class="action-bar">
+            <a th:href="@{/airline/history}" class="btn btn-back-clean">
+                <i class="bi bi-arrow-left me-1"></i>Back
+            </a>
+            <a th:if="${booking.status == 'Pending Cancel'}"
+               th:href="@{/airline/admin/booking/approve-cancel/{id}(id=${booking.bookingId})}"
+               class="btn btn-approve">
+                <i class="bi bi-check-circle me-1"></i>Approve Cancel
+            </a>
+            <a th:if="${booking.status == 'Pending Cancel'}"
+               th:href="@{/airline/admin/booking/issue-cancel/{id}(id=${booking.bookingId})}"
+               class="btn btn-reject">
+                <i class="bi bi-x-circle me-1"></i>Reject Cancel
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Screenshot lightbox modal -->
+<div class="modal fade" id="screenshotModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0 py-2">
+                <h6 class="modal-title fw-bold mb-0">Payment Screenshot</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center pt-0">
+                <img th:if="${booking.payment != null and booking.payment.paymentScreenshot != null}"
+                     th:src="@{'/photos/payment/' + ${booking.payment.paymentScreenshot}}"
+                     alt="Payment Screenshot"
+                     class="img-fluid rounded">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function showTab(name, btn) {
+        document.querySelectorAll('.tab-pane-friendly').forEach(function (el) {
+            el.classList.remove('active');
+        });
+        document.querySelectorAll('.friendly-tabs button').forEach(function (el) {
+            el.classList.remove('active');
+        });
+        document.getElementById('tab-' + name).classList.add('active');
+        btn.classList.add('active');
+    }
+</script>
+
+</body>
+</html>

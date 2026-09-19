@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Search Flights</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
+rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" 
+rel="stylesheet">
+
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#f4f7fb;
+    font-family:'Segoe UI',sans-serif;
+    color:#333;
+}
+
+/* ===========================
+   Search Section
+=========================== */
+
+.booking-section{
+    padding:70px 0;
+}
+
+.booking-card{
+    background:#fff;
+    border-radius:18px;
+    padding:35px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+/* ===========================
+   Top Pills
+=========================== */
+
+.widget-pill{
+    border:none;
+    background:#eef4ff;
+    color:#0d6efd;
+    border-radius:30px;
+    padding:10px 18px;
+    font-size:15px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.widget-pill:hover{
+    background:#0d6efd;
+    color:#fff;
+}
+
+/* ===========================
+   Trip Type
+=========================== */
+
+.trip-type label{
+    margin-right:20px;
+    font-weight:500;
+    cursor:pointer;
+}
+
+.trip-type input{
+    margin-right:5px;
+}
+
+/* ===========================
+   Search Boxes
+=========================== */
+
+.input-picker{
+
+    height:95px;
+
+    background:#f8f9fa;
+
+    border:1px solid #dee2e6;
+
+    border-radius:12px;
+
+    padding:12px 15px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    transition:.3s;
+}
+
+.input-picker:hover{
+    border-color:#0d6efd;
+}
+
+.input-picker label{
+
+    font-size:13px;
+
+    color:#6c757d;
+
+    margin-bottom:8px;
+
+    font-weight:600;
+
+}
+
+.input-picker input,
+.input-picker select{
+
+    width:100%;
+
+    border:none;
+
+    background:transparent;
+
+    font-size:16px;
+
+    font-weight:500;
+
+    outline:none;
+
+    box-shadow:none;
+
+}
+
+.input-picker input:focus,
+.input-picker select:focus{
+    outline:none;
+    box-shadow:none;
+}
+
+/* ===========================
+   Passenger Selector
+=========================== */
+
+.passenger-box{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    width:100%;
+
+}
+
+.passenger-btn{
+
+    width:34px;
+
+    height:34px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#0d6efd;
+
+    color:white;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    transition:.3s;
+
+}
+
+.passenger-btn:hover{
+
+    background:#0b5ed7;
+
+}
+
+#passengers{
+
+    width:45px;
+
+    text-align:center;
+
+    border:none;
+
+    background:transparent;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+}
+
+/* ===========================
+   Search Button
+=========================== */
+
+.btn-search{
+
+    width:100%;
+    height:58px;
+
+    border:none;
+    border-radius:12px;
+
+    background:#0d6efd;
+    color:white;
+
+    font-size:16px;
+    font-weight:600;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+
+    transition:all .3s ease;
+
+}
+
+.btn-search:hover{
+
+    background:#0b5ed7;
+    transform:translateY(-2px);
+    box-shadow:0 6px 15px rgba(13,110,253,.25);
+
+}
+
+.btn-search:active{
+
+    transform:translateY(0);
+
+}
+/* ===========================
+   Responsive
+=========================== */
+
+@media (max-width:992px){
+
+    .booking-card{
+
+        padding:25px;
+
+    }
+
+    .widget-pill{
+
+        margin-bottom:10px;
+
+    }
+
+    .trip-type{
+
+        margin-top:15px;
+
+        width:100%;
+
+    }
+
+}
+
+@media (max-width:768px){
+
+    .booking-section{
+
+        padding:40px 0;
+
+    }
+
+    .booking-card{
+
+        padding:20px;
+
+    }
+
+    .input-picker{
+
+        height:auto;
+
+        min-height:85px;
+
+    }
+
+    .btn-search{
+
+        height:60px;
+
+        margin-top:10px;
+
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<section class="booking-section">
+
+
+<div class="container">
+
+
+<div class="booking-card">
+
+
+<form action="/airline/search" method="get">
+
+
+
+<!-- Header Options -->
+
+<div class="d-flex flex-wrap align-items-center gap-3 mb-4 pb-3 border-bottom">
+
+
+<button type="button" class="widget-pill">
+
+<i class="bi bi-airplane"></i>
+
+Flights
+
+</button>
+
+
+
+<button type="button" class="widget-pill">
+
+<i class="bi bi-people"></i>
+
+Travelers
+
+</button>
+
+
+
+<button type="button" class="widget-pill">
+
+<i class="bi bi-seat"></i>
+
+Seat Class
+
+</button>
+
+
+
+<div class="ms-auto">
+
+
+<label class="me-3">
+
+<input type="radio"
+       name="tripType"
+       value="round"
+       checked>
+
+Round Trip
+
+</label>
+
+
+<label>
+
+<input type="radio"
+       name="tripType"
+       value="one">
+
+One Way
+
+</label>
+
+
+</div>
+
+
+</div>
+
+
+<!-- Search Inputs One Row -->
+
+<div class="row g-3 align-items-end">
+
+
+    <!-- From -->
+
+    <div class="col-lg-2 col-md-6">
+
+        <div class="input-picker">
+
+            <label>
+                <i class="bi bi-geo-alt-fill"></i>
+                From
+            </label>
+
+            <select name="departureCity"
+        class="form-select"
+        required>
+
+
+<option value="">
+Select Departure
+</option>
+
+
+<option th:each="airport : ${airports}"
+        th:value="${airport.city}"
+        th:text="${airport.city + ' (' + airport.airportCode + ')'}">
+
+</option>
+
+
+</select>
+
+        </div>
+
+    </div>
+
+
+
+
+    <!-- To -->
+
+    <div class="col-lg-2 col-md-6">
+
+        <div class="input-picker">
+
+            <label>
+                <i class="bi bi-geo-alt-fill"></i>
+                To
+            </label>
+
+            <select name="arrivalCity"
+        class="form-select"
+        required>
+
+
+<option value="">
+Select Arrival
+</option>
+
+
+<option th:each="airport : ${airports}"
+        th:value="${airport.city}"
+        th:text="${airport.city + ' (' + airport.airportCode + ')'}">
+
+</option>
+
+
+</select>
+        </div>
+
+    </div>
+
+
+
+
+
+    <!-- Date -->
+
+    <div class="col-lg-2 col-md-6">
+
+        <div class="input-picker">
+
+            <label>
+                <i class="bi bi-calendar-event"></i>
+                Departure
+            </label>
+
+            <input type="date"
+                   name="departureDate"
+                   th:min="${#temporals.format(#temporals.createNow(),'yyyy-MM-dd')}"
+                   required>
+
+        </div>
+
+    </div>
+
+
+
+
+
+    <!-- Passenger -->
+
+    <div class="col-lg-2 col-md-6">
+
+        <div class="input-picker">
+
+            <label>
+                <i class="bi bi-people"></i>
+                Travelers
+            </label>
+
+
+            <div class="passenger-box">
+
+    <button type="button"
+            class="passenger-btn"
+            onclick="decreasePassenger()">
+        -
+    </button>
+
+
+    <input id="passengers"
+           name="passengers"
+           value="1"
+           readonly>
+
+
+    <button type="button"
+            class="passenger-btn"
+            onclick="increasePassenger()">
+        +
+    </button>
+
+</div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+    <!-- Seat Class -->
+
+    <div class="col-lg-2 col-md-6">
+
+        <div class="input-picker">
+
+
+            <label>
+
+                <i class="bi bi-chair"></i>
+                Class
+
+            </label>
+
+
+            <select name="seatClass">
+
+
+                <option value="Economy">
+                    Economy
+                </option>
+
+
+                <option value="Business">
+                    Business
+                </option>
+
+
+                <option value="First">
+                    First Class
+                </option>
+
+
+            </select>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+    <!-- Search Button -->
+
+    <div class="col-lg-2 col-md-6">
+
+
+        <button type="submit"
+                class="btn-search w-100">
+
+
+            <i class="bi bi-search"></i>
+
+            Search
+
+
+        </button>
+
+
+    </div>
+
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</form>
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+<script>
+
+
+function increasePassenger(){
+
+
+let input=document.getElementById("passengers");
+
+
+let value=parseInt(input.value);
+
+
+
+if(value < 50){
+
+input.value=value+1;
+
+}
+
+
+}
+
+
+
+
+
+function decreasePassenger(){
+
+
+let input=document.getElementById("passengers");
+
+
+let value=parseInt(input.value);
+
+
+
+if(value > 1){
+
+input.value=value-1;
+
+}
+
+
+}
+
+
+</script>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maubin International AirLine</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <!-- Custom Main CSS File -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/flight.css}">
+</head>
+<body class="d-flex flex-column min-vh-100 bg-light">
+
+    <!-- Shared Header Fragment -->
+    <div th:replace="~{Fragments/header :: navbar}"></div>
+
+    <!-- 🚀 Hero Banner Section -->
+    <div class="hero-banner text-center">
+        <div class="container py-3">
+            <h1 class="fw-bold display-5 mb-2">Explore Available Flights</h1>
+            <p class="lead opacity-90">
+                Search flights by airline and departure date to discover your next journey
+            </p>
+        </div>
+    </div>
+
+    <!-- 🔍 Interactive Search Widget Container -->
+    <div class="container mb-5">
+        <div class="search-card-glass p-4 p-md-4">
+            <form th:action="@{/airline/flights}" method="get">
+                <div class="row g-3 align-items-end">
+                    <!-- Airline -->
+                    <div class="col-md-4">
+                        <label class="form-label">Airline</label>
+                        <select class="form-select rounded-pill" name="airlineId">
+                            <option value="">All Airlines</option>
+                            <option th:each="airline : ${airlines}"
+                                    th:value="${airline.airlineId}"
+                                    th:text="${airline.airlineName}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- Departure Date -->
+                    <div class="col-md-4">
+                        <label class="form-label">Departure Date</label>
+                        <input type="date" name="departDate" class="form-control rounded-pill">
+                    </div>
+
+                    <!-- Search -->
+                    <div class="col-md-4">
+                        <button class="btn btn-primary rounded-pill w-100">
+                            <i class="bi bi-search"></i> Find Flights
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ✈️ Available Flights Section (paginated) -->
+    <div class="container my-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h3 class="fw-bold m-0 text-dark">Flight Schedule</h3>
+                <p class="text-secondary small m-0">Browse available routes and choose your preferred flight</p>
+            </div>
+        </div>
+
+        <div class="row g-4" id="flightGrid">
+            <div class="col-md-6 col-lg-4 flight-item"
+                 th:each="flight, iterStat : ${flights}"
+                 th:attr="data-page=${(iterStat.index / 6) + 1}">
+                <div class="card flight-card p-3">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="badge bg-primary-subtle text-primary rounded-pill">
+                            <span th:text="${flight.departureAirport.city}"></span>
+                            →
+                            <span th:text="${flight.arrivalAirport.city}"></span>
+                        </span>
+                        <span class="fw-bold fs-5 text-success">
+                            $<span th:text="${flight.price}"></span>
+                        </span>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h5 th:text="${#temporals.format(flight.departureTime,'HH:mm')}"></h5>
+                            <small th:text="${flight.departureAirport.airportCode}"></small>
+                        </div>
+                        <div class="text-center">
+                            <i class="bi bi-airplane"></i>
+                        </div>
+                        <div class="text-end">
+                            <h5 th:text="${#temporals.format(flight.arrivalTime,'HH:mm')}"></h5>
+                            <small th:text="${flight.arrivalAirport.airportCode}"></small>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between">
+                        <small>
+                            <i class="bi bi-building"></i>
+                            <span th:text="${flight.flight.airline.airlineName}"></span>
+                        </small>
+                        <!-- <a class="btn btn-outline-primary btn-sm rounded-pill"
+                            th:href="@{/airline/flight/{id}(id=${flight.flightPlanId})}">
+                            View Flight
+                        </a> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div class="text-center py-5" th:if="${#lists.isEmpty(flights)}">
+            <i class="bi bi-search fs-1 text-secondary"></i>
+            <h4>No Flights Available</h4>
+            <p>
+                We couldn't find flights matching your search.
+                Please try another airline or departure date.
+            </p>
+        </div>
+
+        <!-- Pagination Controls -->
+        <nav aria-label="Flight schedule pagination" class="mt-4" th:unless="${#lists.isEmpty(flights)}">
+            <ul class="pagination justify-content-center" id="flightPagination"></ul>
+        </nav>
+    </div>
+
+    <!-- 🌟 Why Choose Us Section -->
+    <div class="bg-white py-5 my-5 border-top border-bottom">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h3 class="fw-bold">Why Fly With Maubin AirLine?</h3>
+                <p class="text-secondary small">Experience comfort, safety, and reliability on every journey</p>
+            </div>
+            <div class="row g-4 text-center">
+                <div class="col-md-4">
+                    <div class="p-3">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-primary-subtle text-primary rounded-circle mb-3" style="width: 64px; height: 64px;">
+                            <i class="bi bi-shield-check fs-2"></i>
+                        </div>
+                        <h5 class="fw-bold">Safe & Certified</h5>
+                        <p class="text-secondary small">Top safety standards and modern aircraft for worry-free travel.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-primary-subtle text-primary rounded-circle mb-3" style="width: 64px; height: 64px;">
+                            <i class="bi bi-tags-fill fs-2"></i>
+                        </div>
+                        <h5 class="fw-bold">Best Fares Guaranteed</h5>
+                        <p class="text-secondary small">Competitive prices with zero hidden fees on all ticket bookings.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-primary-subtle text-primary rounded-circle mb-3" style="width: 64px; height: 64px;">
+                            <i class="bi bi-headset fs-2"></i>
+                        </div>
+                        <h5 class="fw-bold">24/7 Support</h5>
+                        <p class="text-secondary small">Our customer experience team is always ready to assist you anytime.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--  Footer Section -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const items = Array.from(document.querySelectorAll('#flightGrid .flight-item'));
+            const paginationEl = document.getElementById('flightPagination');
+            if (!items.length || !paginationEl) return;
+
+            const pageCount = Math.max(...items.map(i => parseInt(i.dataset.page, 10)));
+            let currentPage = 1;
+
+            function showPage(page) {
+                currentPage = page;
+                items.forEach(item => {
+                    const itemPage = parseInt(item.dataset.page, 10);
+                    item.style.display = (itemPage === page) ? '' : 'none';
+                });
+                renderPagination();
+                document.getElementById('flightGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            function renderPagination() {
+                paginationEl.innerHTML = '';
+
+                const prevDisabled = currentPage === 1 ? 'disabled' : '';
+                paginationEl.insertAdjacentHTML('beforeend',
+                    `<li class="page-item ${prevDisabled}">
+                        <a class="page-link rounded-pill me-1" href="#" data-page="${currentPage - 1}">Previous</a>
+                     </li>`);
+
+                for (let p = 1; p <= pageCount; p++) {
+                    const active = p === currentPage ? 'active' : '';
+                    paginationEl.insertAdjacentHTML('beforeend',
+                        `<li class="page-item ${active}">
+                            <a class="page-link rounded-pill mx-1" href="#" data-page="${p}">${p}</a>
+                         </li>`);
+                }
+
+                const nextDisabled = currentPage === pageCount ? 'disabled' : '';
+                paginationEl.insertAdjacentHTML('beforeend',
+                    `<li class="page-item ${nextDisabled}">
+                        <a class="page-link rounded-pill ms-1" href="#" data-page="${currentPage + 1}">Next</a>
+                     </li>`);
+
+                paginationEl.querySelectorAll('.page-link').forEach(link => {
+                    link.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const page = parseInt(this.dataset.page, 10);
+                        if (page >= 1 && page <= pageCount && page !== currentPage) {
+                            showPage(page);
+                        }
+                    });
+                });
+            }
+
+            showPage(1);
+        });
+    </script>
+
+</body>
+</html>
